@@ -18,4 +18,12 @@ public interface IBrandService {
     BrandEntity findById(int id);
 
     int update(BrandEntity brandEntity);
+
+    List<Map<String, Object>> findList(BrandEntity brandEntity);
+
+    List<Map<String, Object>> findAllbyPage(int page, int size);
+
+    int countAll();
+
+    List<Map<String, Object>> findListAndPage(BrandEntity brandEntity, int page, int size);
 }
