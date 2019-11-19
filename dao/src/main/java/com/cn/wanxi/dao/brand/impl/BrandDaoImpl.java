@@ -5,7 +5,9 @@ import com.cn.wanxi.entity.brand.BrandEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCountCallbackHandler;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -88,6 +90,94 @@ public class BrandDaoImpl implements BrandDao {
     public int deleteById(int id) {
         String exeSQL = "DELETE FROM wx_tab_brand WHERE id=?";
         return jdbcTemplate.update(exeSQL, id);
+    }
+
+    /**
+     * 【条件查询】
+     *
+     * @return
+     */
+    @Override
+    public List<Map<String, Object>> findList(BrandEntity brandEntity) {
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT id,NAME,image,letter,seq FROM wx_tab_brand WHERE 1=1");
+        if (!StringUtils.isEmpty(brandEntity.getId())) {
+            sql.append("    AND id=" + brandEntity.getId());
+        }
+        if (!StringUtils.isEmpty(brandEntity.getName())) {
+            sql.append("    AND name='" + brandEntity.getName() + "'");
+        }
+        if (!StringUtils.isEmpty(brandEntity.getImage())) {
+            sql.append("    AND image='" + brandEntity.getImage() + "'");
+        }
+        if (!StringUtils.isEmpty(brandEntity.getLetter())) {
+            sql.append("    AND letter='" + brandEntity.getLetter() + "'");
+        }
+        if (!StringUtils.isEmpty(brandEntity.getSeq()) && brandEntity.getSeq() != 0) {
+            sql.append("    AND seq=" + brandEntity.getSeq());
+        }
+        String exeSQL = sql.toString();
+        List<Map<String, Object>> maps = jdbcTemplate.queryForList(exeSQL);
+        return maps;
+    }
+
+    /**
+     * 【分页查询】
+     *
+     * @param page
+     * @param size
+     * @return
+     */
+
+    @Override
+    public List<Map<String, Object>> findAllbyPage(int page, int size) {
+        int starter = (page - 1) * size;
+        String sql = "SELECT id,NAME,image,letter,seq FROM wx_tab_brand ORDER BY id ASC LIMIT  " + starter + " , " + size;
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
+        return list;
+    }
+
+    /**
+     * 【统计查询数据库所有数据】
+     *
+     * @return
+     */
+    @Override
+    public int countAll() {
+        String sql = "select * from wx_tab_brand";
+        RowCountCallbackHandler countCallback = new RowCountCallbackHandler();
+        jdbcTemplate.query(sql, countCallback);
+        int count = countCallback.getRowCount();
+        System.out.println("目前的条数是" + count);
+        return count;
+    }
+
+    /**
+     * 【条件+分页】
+     */
+    @Override
+    public List<Map<String, Object>> findListAndPage(BrandEntity brandEntity, int page, int size) {
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT id,NAME,image,letter,seq FROM wx_tab_brand WHERE 1=1");
+        if (!StringUtils.isEmpty(brandEntity.getId())) {
+            sql.append("    AND id=" + brandEntity.getId());
+        }
+        if (!StringUtils.isEmpty(brandEntity.getName())) {
+            sql.append("    AND name='" + brandEntity.getName() + "'");
+        }
+        if (!StringUtils.isEmpty(brandEntity.getImage())) {
+            sql.append("    AND image='" + brandEntity.getImage() + "'");
+        }
+        if (!StringUtils.isEmpty(brandEntity.getLetter())) {
+            sql.append("    AND letter='" + brandEntity.getLetter() + "'");
+        }
+        if (!StringUtils.isEmpty(brandEntity.getSeq()) && brandEntity.getSeq() != 0) {
+            sql.append("    AND seq=" + brandEntity.getSeq());
+        }
+        sql.append("    ORDER BY id ASC LIMIT  " + page + " , " + size);
+        String exeSQL = sql.toString();
+        List<Map<String, Object>> con = jdbcTemplate.queryForList(exeSQL);
+        return con;
     }
 
 }
