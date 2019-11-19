@@ -16,7 +16,6 @@ public class Msg {
      * 提示信息
      */
     private String msg;
-
     /**
      * 用户要返回给浏览器的数据
      */
@@ -73,7 +72,7 @@ public class Msg {
         this.msg = msg;
     }
 
-    public Map<String, Object> getExtend() {
+    private Map<String, Object> getExtend() {
         return extend;
     }
 

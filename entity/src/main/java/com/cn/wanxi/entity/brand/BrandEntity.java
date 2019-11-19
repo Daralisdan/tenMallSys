@@ -54,4 +54,15 @@ public class BrandEntity {
     public void setSeq(int seq) {
         this.seq = seq;
     }
+
+    @Override
+    public String toString() {
+        return "BrandEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", image='" + image + '\'' +
+                ", letter='" + letter + '\'' +
+                ", seq=" + seq +
+                '}';
+    }
 }
