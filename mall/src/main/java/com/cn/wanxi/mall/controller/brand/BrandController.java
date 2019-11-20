@@ -40,7 +40,7 @@ public class BrandController {
         Msg m;
         int result = iBrandService.add(brandEntity);
         if (!isEmpty(result)) {
-            m = Msg.success().messageData("brand", brandEntity);
+            m = Msg.success().messageData(brandEntity);
         } else {
             m = Msg.fail();
         }
@@ -54,13 +54,15 @@ public class BrandController {
      */
     @PostMapping("/findAll.do")
     public Msg findAll() {
+        //跨域 *表示所有人都可以访问，也可以设置固定ip
+//        response.setHeader("Access-Control-Allow-Origin", "*");//所有人都可以访问
         Msg msg = null;
         List<Map<String, Object>> list = iBrandService.findAll();
         //判断集合是否有数据，如果没有数据返回失败
         if (list.isEmpty()) {
             msg = Msg.fail();
         } else {
-            msg = Msg.success().messageData("brand", list);
+            msg = Msg.success().messageData(list);
         }
         return msg;
     }
@@ -76,7 +78,7 @@ public class BrandController {
         Msg msg = null;
         BrandEntity byId = iBrandService.findById(id);
         if (byId != null) {
-            msg = Msg.success().messageData("brand", byId);
+            msg = Msg.success().messageData(byId);
         } else {
             msg = Msg.fail();
         }
@@ -94,7 +96,7 @@ public class BrandController {
         Msg msg = null;
         int up = iBrandService.update(brandEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("brand", brandEntity);
+            msg = Msg.success().messageData(brandEntity);
         } else {
             msg = Msg.fail();
         }
@@ -131,7 +133,7 @@ public class BrandController {
         if (list.isEmpty()) {
             msg = Msg.fail();
         } else {
-            msg = Msg.success().messageData("brand", list);
+            msg = Msg.success().messageData(list);
         }
         return msg;
     }
@@ -178,7 +180,7 @@ public class BrandController {
         //总页数
         pageList.setPages(pages);
 
-        return Msg.success().messageData("brand", pageList);
+        return Msg.success().messageData(pageList);
     }
 
     /**
@@ -213,7 +215,7 @@ public class BrandController {
             System.out.println("目前分页的总页数是" + pages);
             //总页数
             pageList.setPages(pages);
-            m = Msg.success().messageData("brand", pageList);
+            m = Msg.success().messageData(pageList);
         }
         return m;
     }
