@@ -54,7 +54,7 @@ public class BrandController {
      */
     @PostMapping("/findAll.do")
     public Msg findAll() {
-        Msg msg = null;
+        Msg msg;
         List<Map<String, Object>> list = iBrandService.findAll();
         //判断集合是否有数据，如果没有数据返回失败
         if (list.isEmpty()) {
