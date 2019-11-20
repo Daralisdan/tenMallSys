@@ -1,44 +1,42 @@
 package com.cn.wanxi.mall.controller.template;
 
-import com.cn.wanxi.entity.template.TemplateEntity;
+import com.cn.wanxi.entity.template.ParaEntity;
 import com.cn.wanxi.entity.utils.Msg;
-import com.cn.wanxi.service.template.ITemplateService;
+import com.cn.wanxi.service.template.IParaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 /**
- * 【模板管理】
- * 数据表： wx_tab_template （模板表）
- * 2019/11/18,Create by ssj
+ * 数据表： wx_tab_para
+ *
+ * @Author: SSJ
+ * @Date: 11月19日 16:21
  */
 
 @RestController
-@RequestMapping("/template")
-public class TemplateController {
-
+@RequestMapping("/para")
+public class ParaController {
     @Autowired
-    private ITemplateService iTemplateService;
+    private IParaService iParaService;
 
     /**
-     * 【添加品牌信息】
+     * 【添加参数信息】
      *
      * @return
      */
     @PostMapping("/add.do")
-    public Msg add(TemplateEntity templateEntity) {
+    public Msg add(ParaEntity paraEntity) {
         Msg m;
-        int result = iTemplateService.add(templateEntity);
+        int result = iParaService.add(paraEntity);
         if (!isEmpty(result)) {
-            m = Msg.success().messageData("templateEntity", templateEntity);
+            m = Msg.success().messageData("para", paraEntity);
         } else {
             m = Msg.fail();
         }
@@ -46,36 +44,35 @@ public class TemplateController {
     }
 
     /**
-     * 【展示所有品牌信息】
+     * 【展示所有参数信息】
      *
      * @return
      */
     @PostMapping("/findAll.do")
-    public List<Map<String, Object>> findAll(HttpServletResponse response, HttpServletRequest request) {
-
-        List<Map<String, Object>> list = iTemplateService.findAll();
+    public List<Map<String, Object>> findAll() {
+        List<Map<String, Object>> list = iParaService.findAll();
         return list;
     }
 
 
     @PostMapping("/find.do")
-    public Map<String, Object> find(TemplateEntity templateEntity, Integer page, Integer size) {
-        Map<String, Object> map = iTemplateService.find(templateEntity, page, size);
+    public Map<String, Object> find(ParaEntity paraEntity, Integer page, Integer size) {
+        Map<String, Object> map = iParaService.find(paraEntity, page, size);
         return map;
     }
 
     /**
-     * 【修改品牌信息】
+     * 【修改参数信息】
      *
-     * @param templateEntity
+     * @param paraEntity
      * @return
      */
     @PostMapping("/update.do ")
-    public Msg update(TemplateEntity templateEntity) {
+    public Msg update(ParaEntity paraEntity) {
         Msg msg;
-        int up = iTemplateService.update(templateEntity);
+        int up = iParaService.update(paraEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("templateEntity", templateEntity);
+            msg = Msg.success().messageData("para", paraEntity);
         } else {
             msg = Msg.fail();
         }
@@ -91,7 +88,7 @@ public class TemplateController {
     @PostMapping("/delete.do")
     public Msg delete(int id) {
         Msg msg;
-        int i = iTemplateService.deleteById(id);
+        int i = iParaService.deleteById(id);
         if (i > 0) {
             msg = Msg.success();
         } else {
