@@ -29,11 +29,11 @@ public class Msg {
      */
     public static Msg success() {
         Msg result = new Msg();
-        //设置状态码
+    //设置状态码
         result.setCode(0);
         result.setMsg("处理成功！");
         return result;
-    }
+}
 
     /**
      * 返回成功状态的信息
