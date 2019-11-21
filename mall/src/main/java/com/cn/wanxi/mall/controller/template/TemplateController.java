@@ -33,7 +33,7 @@ public class TemplateController {
      *
      * @return
      */
-    @PostMapping("/add.do")
+    @PostMapping("/add")
     public Msg add(TemplateEntity templateEntity) {
         Msg m;
         int result = iTemplateService.add(templateEntity);
@@ -50,7 +50,7 @@ public class TemplateController {
      *
      * @return
      */
-    @PostMapping("/findAll.do")
+    @PostMapping("/findAll")
     public List<Map<String, Object>> findAll(HttpServletResponse response, HttpServletRequest request) {
 
         List<Map<String, Object>> list = iTemplateService.findAll();
@@ -58,7 +58,7 @@ public class TemplateController {
     }
 
 
-    @PostMapping("/find.do")
+    @PostMapping("/find")
     public Map<String, Object> find(TemplateEntity templateEntity, Integer page, Integer size) {
         Map<String, Object> map = iTemplateService.find(templateEntity, page, size);
         return map;
@@ -70,7 +70,7 @@ public class TemplateController {
      * @param templateEntity
      * @return
      */
-    @PostMapping("/update.do ")
+    @PostMapping("/update")
     public Msg update(TemplateEntity templateEntity) {
         Msg msg;
         int up = iTemplateService.update(templateEntity);
@@ -88,7 +88,7 @@ public class TemplateController {
      * @param id
      * @return
      */
-    @PostMapping("/delete.do")
+    @PostMapping("/delete")
     public Msg delete(int id) {
         Msg msg;
         int i = iTemplateService.deleteById(id);

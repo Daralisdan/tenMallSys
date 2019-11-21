@@ -2,6 +2,7 @@ package com.cn.wanxi.entity.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -17,7 +18,7 @@ public class UtilsHelper {
 //        TimeZone timeZone = TimeZone.getTimeZone("GMT+8");
 //        TimeZone.setDefault(timeZone);
         FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
-        FORMATX = new SimpleDateFormat("EEE MMM dd yyyy HH:mm:ss", Locale.ENGLISH);
+        FORMATX = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy", Locale.ENGLISH);
     }
 
     public static String formatDateTimer(String before) {
@@ -27,6 +28,10 @@ public class UtilsHelper {
             System.err.println("请检查输入格式与配置信息");
         }
         return DEFAULT_DATE_TIME;
+    }
+
+    public static String formatDateTimer(Date date){
+        return FORMAT.format(date);
     }
 
 }

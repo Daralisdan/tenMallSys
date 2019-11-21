@@ -79,7 +79,7 @@ public class BrandServiceImpl implements IBrandService {
             }
         }
         return result;
-    }
+}
 
 
     /**

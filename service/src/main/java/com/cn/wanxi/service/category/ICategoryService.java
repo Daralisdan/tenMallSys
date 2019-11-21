@@ -19,6 +19,8 @@ public interface ICategoryService {
 
     List<Map<String, Object>> findAll();
 
+    List<Map<String, Object>> findByParentId(int parent_id);
+
     CategoryEntity findById(int id);
 
     int update(CategoryEntity categoryEntity);

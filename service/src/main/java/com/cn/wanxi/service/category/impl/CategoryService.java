@@ -1,6 +1,5 @@
 package com.cn.wanxi.service.category.impl;
 
-import com.cn.wanxi.dao.category.ICategoryDao;
 import com.cn.wanxi.entity.category.CategoryEntity;
 import com.cn.wanxi.service.category.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ import java.util.Map;
 public class CategoryService implements ICategoryService {
 
     @Autowired
-    private ICategoryDao ICategoryDao;
+    private com.cn.wanxi.dao.category.ICategoryDao ICategoryDao;
 
     @Override
     public int deleteById(int id) {
@@ -35,6 +34,11 @@ public class CategoryService implements ICategoryService {
     @Override
     public List<Map<String, Object>> findAll() {
         return ICategoryDao.queryAll();
+    }
+
+    @Override
+    public List<Map<String, Object>> findByParentId(int parent_id) {
+        return ICategoryDao.findByParentId(parent_id);
     }
 
     @Override
