@@ -21,8 +21,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/refund")
 public class RefundController {
-    @RequestMapping(value = "/list.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
     public List<RefundCauseEntity> selectrefund(HttpServletRequest request, HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
         RefundCauseEntity entity = null;
         List<RefundCauseEntity> list = new ArrayList();
         Integer.parseInt(request.getParameter("page"));
@@ -62,8 +63,9 @@ public class RefundController {
         return list;
     }
 
-    @RequestMapping(value = "/approval.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/approval", method = RequestMethod.POST)
     public String update(HttpServletRequest request, HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
         request.getParameter("id");
         request.getParameter("status");
 
@@ -86,9 +88,10 @@ public class RefundController {
         }
     }
 
-    @RequestMapping(value = "/casue.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/casue", method = RequestMethod.POST)
     public String updatecause(HttpServletRequest request, HttpServletResponse response) {
 //        ReturnCauseEntity entity=new ReturnCauseEntity();
+        response.setHeader("Access-Control-Allow-Origin", "*");
         request.getParameter("id");
         String sql = "update wx_tab_return_cause set status='1',seq='1',cause='已经购买' where id=" + Integer.parseInt(request.getParameter("id")) + "";
         JDBC.update(sql);
