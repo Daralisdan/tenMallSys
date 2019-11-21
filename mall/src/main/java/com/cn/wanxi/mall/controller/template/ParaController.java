@@ -31,7 +31,7 @@ public class ParaController {
      *
      * @return
      */
-    @PostMapping("/add.do")
+    @PostMapping("/add")
     public Msg add(ParaEntity paraEntity) {
         Msg m;
         int result = iParaService.add(paraEntity);
@@ -48,14 +48,14 @@ public class ParaController {
      *
      * @return
      */
-    @PostMapping("/findAll.do")
+    @PostMapping("/findAll")
     public List<Map<String, Object>> findAll() {
         List<Map<String, Object>> list = iParaService.findAll();
         return list;
     }
 
 
-    @PostMapping("/find.do")
+    @PostMapping("/find")
     public Map<String, Object> find(ParaEntity paraEntity, Integer page, Integer size) {
         Map<String, Object> map = iParaService.find(paraEntity, page, size);
         return map;
@@ -67,7 +67,7 @@ public class ParaController {
      * @param paraEntity
      * @return
      */
-    @PostMapping("/update.do ")
+    @PostMapping("/update ")
     public Msg update(ParaEntity paraEntity) {
         Msg msg;
         int up = iParaService.update(paraEntity);
@@ -85,7 +85,7 @@ public class ParaController {
      * @param id
      * @return
      */
-    @PostMapping("/delete.do")
+    @PostMapping("/delete")
     public Msg delete(int id) {
         Msg msg;
         int i = iParaService.deleteById(id);

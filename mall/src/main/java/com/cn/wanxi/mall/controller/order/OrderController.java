@@ -102,7 +102,7 @@ public class OrderController {
 ////        return aa;
 //    return "1";
 //    }
-    @RequestMapping(value = "/list.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
     public List<OrderEntity> select(HttpServletRequest request, HttpServletResponse response) {
         OrderEntity entity = null;
         OrderItemEntity entityitem = null;
@@ -182,7 +182,7 @@ public class OrderController {
 
 
 
-    @RequestMapping(value = "/batchlist.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/batchlist", method = RequestMethod.POST)
     public List<OrderEntity> selectbatchlist(HttpServletRequest request, HttpServletResponse response) {
         OrderEntity entity = null;
         OrderItemEntity entityitem = null;
@@ -266,7 +266,7 @@ public class OrderController {
         return list;
     }
 
-    @RequestMapping(value = "/batchSendSubmit.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/batchSendSubmit", method = RequestMethod.POST)
     public String submitbatchsend(HttpServletRequest request, HttpServletResponse response) {
         String orderIdss = request.getParameter("orderId");
         String shippingNamess = request.getParameter("shippingName");

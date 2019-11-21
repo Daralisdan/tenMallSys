@@ -35,7 +35,7 @@ public class BrandController {
      *
      * @return
      */
-    @PostMapping("/add.do")
+    @PostMapping("/add")
     public Msg add(BrandEntity brandEntity) {
         Msg m;
         int result = iBrandService.add(brandEntity);
@@ -52,7 +52,7 @@ public class BrandController {
      *
      * @return
      */
-    @PostMapping("/findAll.do")
+    @PostMapping("/findAll")
     public Msg findAll() {
         Msg msg;
         List<Map<String, Object>> list = iBrandService.findAll();
@@ -71,7 +71,7 @@ public class BrandController {
      * @param id
      * @return
      */
-    @PostMapping(value = "/findById.do")
+    @PostMapping(value = "/findById")
     public Msg findById(int id) {
         Msg msg = null;
         BrandEntity byId = iBrandService.findById(id);
@@ -89,7 +89,7 @@ public class BrandController {
      * @param brandEntity
      * @return
      */
-    @PostMapping("/update.do ")
+    @PostMapping("/update")
     public Msg updateInfo(BrandEntity brandEntity) {
         Msg msg = null;
 
@@ -108,7 +108,7 @@ public class BrandController {
      * @param id
      * @return
      */
-    @PostMapping("/delete.do")
+    @PostMapping("/delete")
     public Msg deleteById(int id) {
         Msg msg = null;
         int i = iBrandService.deleteById(id);
@@ -125,7 +125,7 @@ public class BrandController {
      *
      * @return
      */
-    @PostMapping(value = "/findList.do")
+    @PostMapping(value = "/findList")
     public Msg findList(BrandEntity brandEntity) {
         Msg msg;
         List<Map<String, Object>> list = iBrandService.findList(brandEntity);
@@ -144,7 +144,7 @@ public class BrandController {
      * @param size 每页记录数
      * @return
      */
-    @PostMapping("/findAllbyPager.do")
+    @PostMapping("/findAllbyPager")
     public Msg findAllbyPager(int page, int size) {
         //实例化 分页实体类
         PageList pageList = new PageList();

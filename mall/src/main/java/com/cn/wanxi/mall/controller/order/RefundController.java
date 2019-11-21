@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/refund")
 public class RefundController {
-    @RequestMapping(value = "/list.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
     public List<RefundCauseEntity> selectrefund(HttpServletRequest request, HttpServletResponse response) {
         RefundCauseEntity entity = null;
         List<RefundCauseEntity> list = new ArrayList();
@@ -59,7 +59,7 @@ public class RefundController {
         return list;
     }
 
-    @RequestMapping(value = "/approval.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/approval", method = RequestMethod.POST)
     public String update(HttpServletRequest request, HttpServletResponse response) {
         request.getParameter("id");
         request.getParameter("status");
@@ -83,7 +83,7 @@ public class RefundController {
         }
     }
 
-    @RequestMapping(value = "/casue.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/casue", method = RequestMethod.POST)
     public String updatecause(HttpServletRequest request, HttpServletResponse response) {
 //        ReturnCauseEntity entity=new ReturnCauseEntity();
         request.getParameter("id");

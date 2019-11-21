@@ -33,7 +33,7 @@ public class SepcController {
      *
      * @return
      */
-    @PostMapping("/add.do")
+    @PostMapping("/add")
     public Msg add(SepcEntity sepcEntity) {
         Msg msg;
         int result = iSepcService.add(sepcEntity);
@@ -50,14 +50,14 @@ public class SepcController {
      *
      * @return
      */
-    @PostMapping("/findAll.do")
+    @PostMapping("/findAll")
     public List<Map<String, Object>> findAll() {
         List<Map<String, Object>> list = iSepcService.findAll();
         return list;
     }
 
 
-    @PostMapping("/find.do")
+    @PostMapping("/find")
     public Map<String, Object> find(SepcEntity sepcEntity, Integer page, Integer size) {
         Map<String, Object> map = iSepcService.find(sepcEntity, page, size);
         return map;
@@ -69,7 +69,7 @@ public class SepcController {
      * @param sepcEntity
      * @return
      */
-    @PostMapping("/update.do ")
+    @PostMapping("/update")
     public Msg update(SepcEntity sepcEntity) {
         Msg msg;
         int up = iSepcService.update(sepcEntity);
@@ -87,7 +87,7 @@ public class SepcController {
      * @param id
      * @return
      */
-    @PostMapping("/delete.do")
+    @PostMapping("/delete")
     public Msg delete(int id) {
         Msg msg;
         int i = iSepcService.deleteById(id);
