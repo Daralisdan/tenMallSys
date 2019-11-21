@@ -174,7 +174,7 @@ public class BrandDaoImpl implements BrandDao {
         if (!StringUtils.isEmpty(brandEntity.getSeq()) && brandEntity.getSeq() != 0) {
             sql.append("    AND seq=" + brandEntity.getSeq());
         }
-        sql.append("    ORDER BY id ASC LIMIT  " + page + " , " + size);
+//        sql.append("    ORDER BY id ASC LIMIT  " + page + " , " + size);
         String exeSQL = sql.toString();
         List<Map<String, Object>> con = jdbcTemplate.queryForList(exeSQL);
         return con;
