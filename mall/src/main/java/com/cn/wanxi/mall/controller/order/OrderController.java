@@ -2,6 +2,7 @@ package com.cn.wanxi.mall.controller.order;
 
 import com.cn.wanxi.entity.order.OrderEntity;
 import com.cn.wanxi.entity.order.OrderItemEntity;
+import com.cn.wanxi.entity.order.OrderLogEntity;
 import com.cn.wanxi.entity.utils.UtilsHelper;
 import com.cn.wanxi.utils.JDBC;
 
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -273,11 +275,13 @@ public class OrderController {
         String shippingNamess = request.getParameter("shippingName");
         String shippingCodess = request.getParameter("shippingCode");
         OrderEntity entity = null;
+        OrderLogEntity orderLogEntity=new OrderLogEntity();
         entity = new OrderEntity();
         System.out.println(orderIdss);
         String[] orderIds = orderIdss.split(",");
         String[] shippingNames = shippingNamess.split(",");
         String[] shippingCodes = shippingCodess.split(",");
+
         System.out.println(orderIds);
         int bb = 0;
         for (int i = 0; i < orderIds.length; i++) {
@@ -286,9 +290,12 @@ public class OrderController {
             String shippingCode = shippingCodes[i];
             entity.setShipping_name(shippingName);
             entity.setShipping_code(shippingCode);
-            String sql1 = "update wx_tab_order set order_status='2' where id =" + id + " ";
-            String sql2 = "update wx_tab_order set shipping_name='" + entity.getShipping_name() + "' , shipping_code='" + entity.getShipping_code() + "',order_status='2' where id =" + id + "";
-            int aa = JDBC.update(sql2);
+            orderLogEntity.setOrder_id(id);
+            String sql1 = "insert into wx_tab_order_log (operate,operate_time,order_id,order_status,pay_status,consign_status,remarks) values ('1','"+UtilsHelper.formatDateTimer(new Date())+"',"+orderLogEntity.getOrder_id()+",'1','1','1','aaa')  ";
+//            String sql2 = "update wx_tab_order set shipping_name='" + entity.getShipping_name() + "' , shipping_code='" + entity.getShipping_code() + "',order_status='2' where id =" + id + "";
+
+
+            int aa = JDBC.update(sql1);
             System.out.println(aa);
             bb = aa;
         }

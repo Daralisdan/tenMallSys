@@ -1,9 +1,9 @@
-package com.cn.wanxi.entity.utils;
+package com.cn.wanxi.utils.simpSQL.Helper;
+
+import com.cn.wanxi.utils.simpSQL.config.Config;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * @author LeesonWong
@@ -15,23 +15,17 @@ public class UtilsHelper {
     private static final String DEFAULT_DATE_TIME = "00000000000000";
 
     static {
-//        TimeZone timeZone = TimeZone.getTimeZone("GMT+8");
-//        TimeZone.setDefault(timeZone);
-        FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
-        FORMATX = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy", Locale.ENGLISH);
+        FORMAT = new SimpleDateFormat(Config.getFormatConfigPath("date_time"));
+        FORMATX = new SimpleDateFormat(Config.getFormatConfigPath("FORMATX"), java.util.Locale.ENGLISH);
     }
 
     public static String formatDateTimer(String before) {
         try {
             return FORMAT.format(FORMATX.parse(before));
         } catch (ParseException e) {
-            System.err.println("请检查输入格式与配置信息");
+            System.err.println(Marker.getTimer() + "请检查输入格式与配置信息");
         }
         return DEFAULT_DATE_TIME;
-    }
-
-    public static String formatDateTimer(Date date){
-        return FORMAT.format(date);
     }
 
 }

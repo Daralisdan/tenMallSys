@@ -66,6 +66,7 @@ public class RefundController {
 
     @RequestMapping(value = "/approval", method = RequestMethod.POST)
     public String update(HttpServletRequest request, HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
         request.getParameter("id");
         request.getParameter("status");
         response.setHeader("Access-Control-Allow-Origin", "*");
@@ -92,9 +93,8 @@ public class RefundController {
     @RequestMapping(value = "/casue", method = RequestMethod.POST)
     public String updatecause(HttpServletRequest request, HttpServletResponse response) {
 //        ReturnCauseEntity entity=new ReturnCauseEntity();
-        request.getParameter("id");
         response.setHeader("Access-Control-Allow-Origin", "*");
-
+        request.getParameter("id");
         String sql = "update wx_tab_return_cause set status='1',seq='1',cause='已经购买' where id=" + Integer.parseInt(request.getParameter("id")) + "";
         JDBC.update(sql);
         int id = 0;
