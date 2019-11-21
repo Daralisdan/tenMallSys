@@ -25,10 +25,10 @@ public class CategoryDaoImpl implements ICategoryDao {
 
     @Override
     public int insert(CategoryEntity entity) {
-        String exeSQL = "INSERT INTO wx_tab_category(name,products_num,is_show,is_menu,seq,parent_id,template_id) VALUES(?,?,?,?,?,?,?)";
+        String exeSQL = "INSERT INTO wx_tab_category(name,goods_num,is_show,is_menu,seq,parent_id,template_id) VALUES(?,?,?,?,?,?,?)";
         Object args[] = {entity.getName(),entity.getGoods_num(),entity.getIs_show(),entity.getIs_menu(),entity.getSeq(),entity.getParent_id(),entity.getTemplate_id()};
-        int temp = jdbcTemplate.update(exeSQL, args);
-        return temp;
+        int counter = jdbcTemplate.update(exeSQL, args);
+        return counter;
     }
 
     @Override
@@ -49,9 +49,15 @@ public class CategoryDaoImpl implements ICategoryDao {
         return categoryEntity;
     }
 
+    public List<Map<String, Object>> findByParentId(int parent_id){
+        String exeSQL = "select * from wx_tab_category where parent_id = ?";
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL,parent_id);
+        return list;
+    }
+
     @Override
     public int update(CategoryEntity entity) {
-        String exeSQL = "update wx_tab_category set name=?,products_num=?,is_show=?,is_menu=?,seq=?,parent_id=?,template_id=?  WHERE id=?";
+        String exeSQL = "update wx_tab_category set name=?,goods_num=?,is_show=?,is_menu=?,seq=?,parent_id=?,template_id=?  WHERE id=?";
         Object args[] = {entity.getName(),entity.getGoods_num(),entity.getIs_show(),entity.getIs_menu(),entity.getSeq(),entity.getParent_id(),entity.getTemplate_id(),entity.getId()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;

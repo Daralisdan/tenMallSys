@@ -37,6 +37,14 @@ public interface ICategoryDao {
     CategoryEntity findById(int id);
 
     /**
+     * 【根据parent_id查询商品分类信息】
+     *
+     * @param parent_id
+     * @return
+     */
+    List<Map<String, Object>> findByParentId(int parent_id);
+
+    /**
      * 【修改商品分类信息】
      *
      * @param entity

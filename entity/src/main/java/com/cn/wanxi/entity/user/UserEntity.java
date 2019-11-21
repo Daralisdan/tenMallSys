@@ -1,44 +1,28 @@
-/**
- * Copyright (C), 2015-2019, XXX有限公司
- * FileName: UserEntity
- * Author:   Administrator
- * Date:     2019/11/19 10:08
- * Description:
- * History:
- * <author>          <time>          <version>          <desc>
- * 作者姓名           修改时间           版本号              描述
- */
 package com.cn.wanxi.entity.user;
 
 /**
- * 〈一句话功能简述〉<br> 
- * 〈〉
- *
- * @author Administrator
- * @create 2019/11/19
- * @since 1.0.0
+ * @author LeesonWong
+ * @date 2019/11/19 19:03
  */
 public class UserEntity {
-    Integer id;
-    String username;
-    String password;
-    String validcode;
+    private int id;
+    private String username;
+    private String password;
 
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", validcode='" + validcode + '\'' +
-                '}';
+    public UserEntity() {
     }
 
-    public Integer getId() {
+    public UserEntity(int id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -58,11 +42,12 @@ public class UserEntity {
         this.password = password;
     }
 
-    public String getValidcode() {
-        return validcode;
-    }
-
-    public void setValidcode(String validcode) {
-        this.validcode = validcode;
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

@@ -7,26 +7,26 @@ package com.cn.wanxi.entity.admin;
  * 2019/11/18,Create by yaodan
  */
 public class AdminEntity {
-    Integer id;
-    String login_name;
-    String password;
-    String status;
+    private int id;
+    private String login_name;
+    private String password;
+    private String status;
 
-    @Override
-    public String toString() {
-        return "AdminEntity{" +
-                "id=" + id +
-                ", login_name='" + login_name + '\'' +
-                ", password='" + password + '\'' +
-                ", status='" + status + '\'' +
-                '}';
+    public AdminEntity() {
     }
 
-    public Integer getId() {
+    public AdminEntity(int id, String login_name, String password, String status) {
+        this.id = id;
+        this.login_name = login_name;
+        this.password = password;
+        this.status = status;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -54,5 +54,13 @@ public class AdminEntity {
         this.status = status;
     }
 
-
+    @Override
+    public String toString() {
+        return "AdminEntity{" +
+                "id=" + id +
+                ", login_name='" + login_name + '\'' +
+                ", password='" + password + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

@@ -26,16 +26,16 @@ public class CategoryController {
     private ICategoryService iCategoryService;
 
     /**
-     * 【添加品牌信息】
+     * 【添加商品分类信息】
      *
      * @return
      */
-    @PostMapping("/add.do")
+    @PostMapping("/add")
     public Msg add(CategoryEntity categoryEntity) {
         Msg m;
         int result = iCategoryService.add(categoryEntity);
         if (!isEmpty(result)) {
-            m = Msg.success().messageData("category", categoryEntity);
+            m = Msg.success();
         } else {
             m = Msg.fail();
         }
@@ -43,35 +43,53 @@ public class CategoryController {
     }
 
     /**
-     * 【展示所有品牌信息】
+     * 【展示所有商品分类信息】
      *
      * @return
      */
-    @PostMapping("/findAll.do")
+    @PostMapping("/list")
     public Msg findAll() {
         Msg msg = null;
         List<Map<String, Object>> list = iCategoryService.findAll();
         //判断集合是否有数据，如果没有数据返回失败
-        if (list.isEmpty()) {
-            msg = Msg.fail();
+        if (!list.isEmpty()) {
+            msg = Msg.success().messageData("category",list);
         } else {
-            msg = Msg.success().messageData("category", list);
+            msg = Msg.fail();
         }
         return msg;
     }
 
     /**
-     * 【根据品牌id查询信息】
+     * 【查询指定父类id所有商品分类信息】
+     *
+     * @return
+     */
+    @PostMapping("/listSub")
+    public Msg findAll(int parent_id) {
+        Msg msg = null;
+        List<Map<String, Object>> list = iCategoryService.findByParentId(parent_id);
+        //判断集合是否有数据，如果没有数据返回失败
+        if (list.isEmpty()) {
+            msg = Msg.fail();
+        } else {
+            msg = Msg.success().messageData("category",list);
+        }
+        return msg;
+    }
+
+    /**
+     * 【根据商品分类id查询信息】
      *
      * @param id
      * @return
      */
-    @PostMapping(value = "/findById.do")
+    @PostMapping(value = "/findById")
     public Msg findById(int id) {
-        Msg msg = null;
+        Msg msg;
         CategoryEntity byId = iCategoryService.findById(id);
-        if (byId != null) {
-            msg = Msg.success().messageData("category", byId);
+        if (!isEmpty(byId)) {
+            msg = Msg.success().messageData("category",byId);
         } else {
             msg = Msg.fail();
         }
@@ -79,17 +97,17 @@ public class CategoryController {
     }
 
     /**
-     * 【修改品牌信息】
+     * 【修改商品分类信息】
      *
      * @param categoryEntity
      * @return
      */
-    @PostMapping("/update.do ")
+    @PostMapping("/update")
     public Msg updateInfo(CategoryEntity categoryEntity) {
         Msg msg = null;
         int up = iCategoryService.update(categoryEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("category", categoryEntity);
+            msg = Msg.success();
         } else {
             msg = Msg.fail();
         }
@@ -102,7 +120,7 @@ public class CategoryController {
      * @param id
      * @return
      */
-    @PostMapping("/delete.do")
+    @PostMapping("/delete")
     public Msg deleteById(int id) {
         Msg msg = null;
         int i = iCategoryService.deleteById(id);
