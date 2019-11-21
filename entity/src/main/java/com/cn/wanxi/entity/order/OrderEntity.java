@@ -257,6 +257,40 @@ public class OrderEntity {
         this.sublist = sublist;
     }
 
+    public OrderEntity() {
+    }
+
+    public OrderEntity(Integer id, Integer total_num, Integer total_money, Integer pre_money, Integer post_fee, Integer pay_money, String pay_type, String create_time, String update_time, String pay_time, String consign_time, String end_time, String close_time, String shipping_name, String shipping_code, String username, String buyer_message, String buyer_rate, String receiver_contact, String receiver_mobile, String receiver_address, String source_type, Integer transaction_id, String order_status, String pay_status, String consign_status, String is_delete, OrderItemEntity sublist) {
+        this.id = id;
+        this.total_num = total_num;
+        this.total_money = total_money;
+        this.pre_money = pre_money;
+        this.post_fee = post_fee;
+        this.pay_money = pay_money;
+        this.pay_type = pay_type;
+        this.create_time = create_time;
+        this.update_time = update_time;
+        this.pay_time = pay_time;
+        this.consign_time = consign_time;
+        this.end_time = end_time;
+        this.close_time = close_time;
+        this.shipping_name = shipping_name;
+        this.shipping_code = shipping_code;
+        this.username = username;
+        this.buyer_message = buyer_message;
+        this.buyer_rate = buyer_rate;
+        this.receiver_contact = receiver_contact;
+        this.receiver_mobile = receiver_mobile;
+        this.receiver_address = receiver_address;
+        this.source_type = source_type;
+        this.transaction_id = transaction_id;
+        this.order_status = order_status;
+        this.pay_status = pay_status;
+        this.consign_status = consign_status;
+        this.is_delete = is_delete;
+        this.sublist = sublist;
+    }
+
     @Override
     public String toString() {
         return "OrderEntity{" +
