@@ -1,11 +1,12 @@
 package com.cn.wanxi.entity.utils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 2019/11/16,Create by yaodan
  */
+//@Data
 public class Msg {
 
     /**
@@ -19,7 +20,7 @@ public class Msg {
     /**
      * 用户要返回给浏览器的数据
      */
-    private List<Object> list = new ArrayList<Object>();
+    private Map<String, Object> extend = new HashMap<>();
 
     /**
      * 返回成功状态的信息
@@ -47,12 +48,11 @@ public class Msg {
         return result;
     }
 
-
     /**
      * 状态信息跟数据一起返回给用户
      */
-    public Msg messageData( Object value) {
-        this.getList().add(value);
+    public Msg messageData(String key, Object value) {
+        this.getExtend().put(key, value);
         return this;
     }
 
@@ -72,11 +72,12 @@ public class Msg {
         this.msg = msg;
     }
 
-    public List<Object> getList() {
-        return list;
+    public Map<String, Object> getExtend() {
+        return extend;
     }
 
-    public void setList(List<Object> list) {
-        this.list = list;
+    public void setExtend(Map<String, Object> extend) {
+        this.extend = extend;
     }
+
 }
