@@ -92,6 +92,7 @@ public class BrandController {
     @PostMapping("/update.do ")
     public Msg updateInfo(BrandEntity brandEntity) {
         Msg msg = null;
+
         int up = iBrandService.update(brandEntity);
         if (up > 0) {
             msg = Msg.success().messageData("brand", brandEntity);
