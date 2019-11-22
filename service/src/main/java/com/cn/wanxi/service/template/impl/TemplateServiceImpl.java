@@ -40,6 +40,6 @@ public class TemplateServiceImpl implements ITemplateService {
 
     @Override
     public int update(TemplateEntity templateEntity) {
-        return templateDao.add(templateEntity);
+        return templateDao.update(templateEntity);
     }
 }

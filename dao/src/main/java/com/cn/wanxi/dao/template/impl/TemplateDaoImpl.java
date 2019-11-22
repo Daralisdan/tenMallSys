@@ -65,9 +65,9 @@ public class TemplateDaoImpl implements TemplateDao {
      */
     @Override
     public int update(TemplateEntity templateEntity) {
-        String exeSQL = "INSERT INTO wx_tab_template (name) VALUES (?) where name = ?";
-        Object arg = templateEntity.getName();
-        int temp = jdbcTemplate.update(exeSQL, arg);
+        String exeSQL = "update wx_tab_template set name=? WHERE id =?";
+        Object[] args = {templateEntity.getName(),templateEntity.getId()};
+        int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
     }
 
