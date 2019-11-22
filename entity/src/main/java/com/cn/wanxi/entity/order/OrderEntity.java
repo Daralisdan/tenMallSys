@@ -31,6 +31,7 @@ public class OrderEntity {
     private String pay_status;
     private String consign_status;
     private String is_delete;
+    //这里改成list集合
     private OrderItemEntity sublist;
 
     public Integer getId() {
