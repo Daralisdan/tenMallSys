@@ -1,6 +1,5 @@
 package com.cn.wanxi.mall;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -8,7 +7,6 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import javax.servlet.http.HttpServletResponse;
 
 @EnableSwagger2
 @SpringBootApplication
@@ -22,6 +20,11 @@ public class MallApplication extends WebMvcConfigurationSupport {
         System.out.println("master");
     }
 
+    /**
+     * 处理访问的方法路径是否加后缀
+     *
+     * @param configurer
+     */
     @Override
     protected void configurePathMatch(PathMatchConfigurer configurer) {
         super.configurePathMatch(configurer);
