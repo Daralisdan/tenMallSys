@@ -14,9 +14,9 @@ public class WxWebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowCredentials(true)
                 .allowedOrigins("*")
                 .allowedHeaders("*")
+                .maxAge(1800)
                 .allowedMethods("*");
     }
 }
