@@ -12,13 +12,13 @@ import java.sql.*;
 public class JDBC {
 
     //sql路径
-    private static final String URL = "jdbc:mysql://localhost/tenmall?serverTimezone=UTC";
+    private static final String URL ="jdbc:mysql://121.199.55.96:3306/tenmalldb?serverTimezone=PRC";
     //驱动
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     //sql 用户名
-    private static final String USER = "root";
+    private static final String USER = "wxmall";
     //密码
-    private static final String PASSWORD = "123456";
+    private static final String PASSWORD = "wxmall";
 
     //连接数据库的一个对象
     private static Connection conn = null;

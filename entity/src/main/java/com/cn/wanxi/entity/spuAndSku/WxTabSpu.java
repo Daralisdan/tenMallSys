@@ -4,6 +4,7 @@ public class WxTabSpu {
     private Integer id;
     private String sn;
     private String name;
+    private String caption;
     private Integer brand_id;
     private Integer category1_id;
     private Integer category2_id;
@@ -30,6 +31,14 @@ public class WxTabSpu {
 
     public void setSkuList(WxTabSku skuList) {
         SkuList = skuList;
+    }
+
+    public String getCaption() {
+        return caption;
+    }
+
+    public void setCaption(String caption) {
+        this.caption = caption;
     }
 
     public Integer getId() {
@@ -206,6 +215,7 @@ public class WxTabSpu {
                 "id=" + id +
                 ", sn='" + sn + '\'' +
                 ", name='" + name + '\'' +
+                ", caption='" + caption + '\'' +
                 ", brand_id=" + brand_id +
                 ", category1_id=" + category1_id +
                 ", category2_id=" + category2_id +
