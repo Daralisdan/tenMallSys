@@ -18,9 +18,6 @@ public class JDBC {
     private static final String USER = "wxmall";
     //密码
     private static final String PASSWORD = "wxmall";
-    private static final String USER = "wxmall";
-    //密码
-    private static final String PASSWORD = "wxmall";
 
     //连接数据库的一个对象
     private static Connection conn = null;
