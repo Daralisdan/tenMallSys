@@ -13,7 +13,6 @@ public class MallApplication {
     public static void main(String[] args) {
         SpringApplication.run(MallApplication.class, args);
         System.out.println("Springboot项目启动入口");
-        System.out.println("master");
     }
 
 }
