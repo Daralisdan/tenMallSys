@@ -15,7 +15,7 @@ public class JDBC {
     //sql路径
 //    private static final String URL = "jdbc:mysql://192.168.0.194:3306/tenmall?serverTimezone=PRC";
     //sql路径 本地测试
-    private static final String URL = "jdbc:mysql://192.168.0.194:3306/tenmall?serverTimezone=PRC";
+    private static final String URL = "jdbc:mysql://localhost:3306/tenmall?serverTimezone=PRC";
     //驱动
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 //    //sql 用户名
@@ -24,9 +24,9 @@ public class JDBC {
 //    private static final String PASSWORD = "sss123456";
 
     //sql 用户名 本地测试
-    private static final String USER = "zsl";
+    private static final String USER = "root";
     //密码 本地测试
-    private static final String PASSWORD = "sss123456";
+    private static final String PASSWORD = "zsl970211";
 
     //连接数据库的一个对象
     private static Connection conn = null;
