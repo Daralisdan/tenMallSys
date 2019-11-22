@@ -1,4 +1,6 @@
-package com.cn.wanxi.service.spuAndSku;
+package com.cn.wanxi.dao.spuAndSku.impl;
+
+import com.cn.wanxi.dao.spuAndSku.ISpuAndSkuDao;
 
 /**
  * 【商品信息管理】
@@ -11,5 +13,5 @@ package com.cn.wanxi.service.spuAndSku;
  *
  * 2019/11/18,Create by yaodan
  */
-public interface ISpuAndSkuService {
+public class SpuAndSkuDaoImpl implements ISpuAndSkuDao {
 }

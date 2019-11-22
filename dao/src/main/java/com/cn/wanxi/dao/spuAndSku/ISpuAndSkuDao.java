@@ -1,4 +1,4 @@
-package com.cn.wanxi.service.spuAndSku;
+package com.cn.wanxi.dao.spuAndSku;
 
 /**
  * 【商品信息管理】
@@ -11,5 +11,5 @@ package com.cn.wanxi.service.spuAndSku;
  *
  * 2019/11/18,Create by yaodan
  */
-public interface ISpuAndSkuService {
+public interface ISpuAndSkuDao{
 }
