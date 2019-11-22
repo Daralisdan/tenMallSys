@@ -20,7 +20,7 @@ public class JDBC {
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     //sql 用户名
     private static final String USER = "wxmall";
-//    //密码
+    //    //密码
     private static final String PASSWORD = "wxmall";
 //
     //sql 用户名 本地测试
@@ -120,16 +120,20 @@ public class JDBC {
             }
         }
         //3.2关闭接口的连接
-        try {
-            pstmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (pstmt != null) {
+            try {
+                pstmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         //3.3关闭数据库的连接
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
