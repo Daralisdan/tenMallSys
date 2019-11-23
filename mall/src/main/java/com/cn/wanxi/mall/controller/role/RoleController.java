@@ -67,7 +67,7 @@ public class RoleController {
         return msg;
     }
 
-    @PostMapping(value = "/list")
+    @PostMapping(value = "/listById")
     public Msg findById(int id,HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         Msg msg = null;

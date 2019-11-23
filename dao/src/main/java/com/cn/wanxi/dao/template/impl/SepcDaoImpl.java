@@ -42,7 +42,7 @@ public class SepcDaoImpl implements SepcDao {
      */
     @Override
     public List<Map<String, Object>> findAll() {
-        String exeSQL = "select * from wx_tab_sepc";
+        String exeSQL = "select id,name,options,seq,template_id as templateId from wx_tab_sepc";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
         return list;
     }
@@ -77,7 +77,7 @@ public class SepcDaoImpl implements SepcDao {
 
     @Override
     public Map<String, Object> find(SepcEntity sepcEntity, Integer page, Integer size) {
-        String exeSQL = "select * from wx_tab_sepc where name = ? and options = ? limit " + ((page - 1) * size) + " , " + (page * size);
+        String exeSQL = "select id,name,options,seq,template_id as templateId from wx_tab_sepc where name = ? and options = ? limit " + ((page - 1) * size) + " , " + (page * size);
         Object[] args = {sepcEntity.getName(), sepcEntity.getOptions()};
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, args);
         Map<String, Object> map = new TreeMap();

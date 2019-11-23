@@ -22,7 +22,7 @@ public class TemplateDaoImpl implements TemplateDao {
 
     @Override
     public Map<String, Object> find(TemplateEntity templateEntity, Integer page, Integer size) {
-        String exeSQL = "select * from wx_tab_template where name = ? limit " + ((page - 1) * size) + " , " + (page * size);
+        String exeSQL = "select id , name , spec_num as specNum , para_num as paraNum from wx_tab_template where name = ? limit " + ((page - 1) * size) + " , " + (page * size);
         Object arg = templateEntity.getName();
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, arg);
         Map<String, Object> map = new TreeMap();
@@ -39,7 +39,7 @@ public class TemplateDaoImpl implements TemplateDao {
      */
     @Override
     public int add(TemplateEntity templateEntity) {
-        String exeSQL = "INSERT INTO wx_tab_template(name) VALUES (?)";
+        String exeSQL = "INSERT INTO wx_tab_template (name) VALUES (?)";
         Object arg = templateEntity.getName();
         int temp = jdbcTemplate.update(exeSQL, arg);
         return temp;
@@ -52,7 +52,7 @@ public class TemplateDaoImpl implements TemplateDao {
      */
     @Override
     public List<Map<String, Object>> findAll() {
-        String exeSQL = "select * from wx_tab_template";
+        String exeSQL = "select id , name , spec_num as specNum , para_num as paraNum from wx_tab_template";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
         return list;
     }
@@ -65,7 +65,7 @@ public class TemplateDaoImpl implements TemplateDao {
      */
     @Override
     public int update(TemplateEntity templateEntity) {
-        String exeSQL = "update wx_tab_template set name=? WHERE id =?";
+        String exeSQL = "update wx_tab_template  set name=? WHERE id =?";
         Object[] args = {templateEntity.getName(),templateEntity.getId()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
