@@ -30,7 +30,7 @@ public class SpuAndSkuController {
      * @param
      * @return
      */
-    @RequestMapping(value ="/queryAllSpu",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
+    @RequestMapping(value ="/queryAllSpu",method = RequestMethod.POST)
     public List<Map<String, Object>>  queryAllSpu(){
         List<Map<String, Object>> list = iSpuService.queryAll();
         return list;
@@ -41,7 +41,7 @@ public class SpuAndSkuController {
      * @param name
      * @return
      */
-    @RequestMapping(value ="/findBySpuName",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
+    @RequestMapping(value ="/findBySpuName",method = RequestMethod.POST)
     public WxTabSpu  findBySpuName(String name ){
         WxTabSpu wxTabSpu = iSpuService.findByName(name);
         return wxTabSpu;
@@ -52,7 +52,7 @@ public class SpuAndSkuController {
      * @param name
      * @return
      */
-    @RequestMapping(value ="/findBySkuName",method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
+    @RequestMapping(value ="/findBySkuName",method = RequestMethod.POST)
     public WxTabSku  findBySkuName(String name){
         WxTabSku wxTabSku = iSkuService.findByName(name);
         return wxTabSku;
@@ -62,7 +62,7 @@ public class SpuAndSkuController {
      * @param
      * @return
      */
-    @RequestMapping(value ="/queryAllSku",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
+    @RequestMapping(value ="/queryAllSku",method = RequestMethod.POST)
     public List<Map<String, Object>>  queryAllSku(){
         List<Map<String, Object>> list = iSkuService.queryAll();
         return list;
@@ -153,7 +153,7 @@ public class SpuAndSkuController {
      * @param id
      * @return
      */
-    @RequestMapping(value ="/findById",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
+    @RequestMapping(value ="/findById",method = RequestMethod.POST)
     public WxTabSpu findid(int id){
         String N="DDD";
         WxTabSpu wxTabSpu = iSpuService.findById(id);
@@ -171,7 +171,7 @@ public class SpuAndSkuController {
 //    }
 
 
-    @RequestMapping(value ="/findSearch",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
+    @RequestMapping(value ="/findSearch",method = RequestMethod.POST)
     public List<Map<String, Object>> findSearch(){
         List<Map<String, Object>> list = iSpuService.queryAll();
         List<Map<String, Object>> cc = iSkuService.queryAll();
