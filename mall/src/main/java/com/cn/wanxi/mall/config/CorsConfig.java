@@ -45,10 +45,11 @@ public class CorsConfig extends OncePerRequestFilter implements WebMvcConfigurer
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "content-type, authorization");
 
-        if (request.getMethod().equals("OPTIONS"))
+        if (request.getMethod().equals("OPTIONS")) {
             response.setStatus(HttpServletResponse.SC_OK);
-        else
+        } else {
             filterChain.doFilter(request, response);
+        }
 
     }
 }

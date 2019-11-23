@@ -99,23 +99,7 @@ public class BrandDaoImpl implements BrandDao {
      */
     @Override
     public List<Map<String, Object>> findList(BrandEntity brandEntity) {
-        StringBuffer sql = new StringBuffer();
-        sql.append("SELECT id,NAME,image,letter,seq FROM wx_tab_brand WHERE 1=1");
-        if (!StringUtils.isEmpty(brandEntity.getId())) {
-            sql.append("    AND id=" + brandEntity.getId());
-        }
-        if (!StringUtils.isEmpty(brandEntity.getName())) {
-            sql.append("    AND name='" + brandEntity.getName() + "'");
-        }
-        if (!StringUtils.isEmpty(brandEntity.getImage())) {
-            sql.append("    AND image='" + brandEntity.getImage() + "'");
-        }
-        if (!StringUtils.isEmpty(brandEntity.getLetter())) {
-            sql.append("    AND letter='" + brandEntity.getLetter() + "'");
-        }
-        if (!StringUtils.isEmpty(brandEntity.getSeq()) && brandEntity.getSeq() != 0) {
-            sql.append("    AND seq=" + brandEntity.getSeq());
-        }
+        StringBuffer sql = getQuerySql(brandEntity);
         String exeSQL = sql.toString();
         List<Map<String, Object>> maps = jdbcTemplate.queryForList(exeSQL);
         return maps;
@@ -148,7 +132,7 @@ public class BrandDaoImpl implements BrandDao {
         RowCountCallbackHandler countCallback = new RowCountCallbackHandler();
         jdbcTemplate.query(sql, countCallback);
         int count = countCallback.getRowCount();
-        System.out.println("目前的条数是" + count);
+        System.out.println("目前的总条数是" + count);
         return count;
     }
 
@@ -157,6 +141,21 @@ public class BrandDaoImpl implements BrandDao {
      */
     @Override
     public List<Map<String, Object>> findListAndPage(BrandEntity brandEntity, int page, int size) {
+        int starter = (page - 1) * size;
+        StringBuffer sql = getQuerySql(brandEntity);
+        sql.append("    ORDER BY id ASC LIMIT  " + starter + " , " + size);
+        String exeSQL = sql.toString();
+        List<Map<String, Object>> con = jdbcTemplate.queryForList(exeSQL);
+        return con;
+    }
+
+    /**
+     * 【提取公共方法】条件查询
+     *
+     * @param brandEntity
+     * @return
+     */
+    private StringBuffer getQuerySql(BrandEntity brandEntity) {
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT id,NAME,image,letter,seq FROM wx_tab_brand WHERE 1=1");
         if (!StringUtils.isEmpty(brandEntity.getId())) {
@@ -174,10 +173,7 @@ public class BrandDaoImpl implements BrandDao {
         if (!StringUtils.isEmpty(brandEntity.getSeq()) && brandEntity.getSeq() != 0) {
             sql.append("    AND seq=" + brandEntity.getSeq());
         }
-//        sql.append("    ORDER BY id ASC LIMIT  " + page + " , " + size);
-        String exeSQL = sql.toString();
-        List<Map<String, Object>> con = jdbcTemplate.queryForList(exeSQL);
-        return con;
+        return sql;
     }
 
 }
