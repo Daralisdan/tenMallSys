@@ -21,6 +21,5 @@ public class PageList {
     //总记录数
     private int totalRows;
 
-
     private List list = new ArrayList();
 }
