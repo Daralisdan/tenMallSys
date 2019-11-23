@@ -1,4 +1,4 @@
-package com.cn.wanxi.entity.utils;
+package com.cn.wanxi.utils.utils;
 
 import java.util.HashMap;
 import java.util.Map;

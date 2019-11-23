@@ -1,7 +1,7 @@
 package com.cn.wanxi.mall.controller.category;
 
 import com.cn.wanxi.entity.category.CategoryEntity;
-import com.cn.wanxi.entity.utils.Msg;
+import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.category.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
