@@ -40,7 +40,7 @@ public class MenuController {
         return m;
     }
 
-    @PostMapping("/findAll")
+    @PostMapping("/list")
     public Msg findAll(HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         Msg msg = null;
