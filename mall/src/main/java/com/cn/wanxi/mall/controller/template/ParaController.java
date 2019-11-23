@@ -1,7 +1,7 @@
 package com.cn.wanxi.mall.controller.template;
 
 import com.cn.wanxi.entity.template.ParaEntity;
-import com.cn.wanxi.entity.utils.Msg;
+import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.template.IParaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
