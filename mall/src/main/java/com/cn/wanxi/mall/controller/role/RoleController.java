@@ -36,81 +36,6 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 @RestController
 @RequestMapping("/role")
 public class RoleController {
-//    @RequestMapping(value = "/add", method = RequestMethod.POST)
-//    public String roleadd(HttpServletRequest request, HttpServletResponse response) {
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        RoleEntity roleEntity = new RoleEntity();
-//        roleEntity.setRole_name(request.getParameter("role_name"));
-//        String aa = "insert into wx_tab_role(role_name) values('" + roleEntity.getRole_name() + "')";
-//        int a = JDBC.update(aa);
-//        System.out.println(a);
-//        if (a == 1) {
-//            int code = 0;
-//            String message = "新增成功";
-//            JSONObject result = new JSONObject();
-//            result.put("code", code);
-//            result.put("message", message);
-//            return result.toJSONString();
-//        } else {
-//            int code = 1;
-//            String message = "新增失败";
-//            JSONObject result = new JSONObject();
-//            result.put("code", code);
-//            result.put("message", message);
-//            return result.toJSONString();
-//        }
-//    }
-//
-//    @RequestMapping(value = "/delete", method = RequestMethod.POST)
-//    public String roledelete(HttpServletRequest request, HttpServletResponse response) {
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        RoleEntity roleEntity = new RoleEntity();
-//        int id = Integer.parseInt(request.getParameter("id"));
-//        roleEntity.setId(id);
-//        String dd = "delete  from wx_tab_role where id=" + roleEntity.getId();
-//        int d = JDBC.update(dd);
-//        System.out.println(d);
-//        if (d == 1) {
-//            int code = 0;
-//            String message = "删除成功";
-//            JSONObject result = new JSONObject();
-//            result.put("code", code);
-//            result.put("message", message);
-//            return result.toJSONString();
-//        } else {
-//            int code = 1;
-//            String message = "删除失败";
-//            JSONObject result = new JSONObject();
-//            result.put("code", code);
-//            result.put("message", message);
-//            return result.toJSONString();
-//        }
-//    }
-//
-//    @RequestMapping(value = "/update", method = RequestMethod.POST)
-//    public String roleupdate(HttpServletRequest request, HttpServletResponse response) {
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        int id = Integer.parseInt(request.getParameter("id"));
-//        RoleEntity roleEntity =new RoleEntity();
-//        roleEntity.setRole_name(request.getParameter("role_name"));
-//        String ee="update wx_tab_role set role_name='"+roleEntity.getRole_name()+"' where id="+id+"";
-//        int e=JDBC.update(ee);
-//        System.out.println(e);
-//        if (e == 1) {
-//            int code = 0;
-//            String message = "更新成功";
-//            JSONObject result = new JSONObject();
-//            result.put("code", code);
-//            result.put("message", message);
-//            return result.toJSONString();
-//        } else {
-//            int code = 1;
-//            String message = "更新失败";
-//            JSONObject result = new JSONObject();
-//            result.put("code", code);
-//            result.put("message", message);
-//            return result.toJSONString();
-//        }
 
     @Autowired
     private IRoleService iRoleService;
@@ -142,7 +67,7 @@ public class RoleController {
         return msg;
     }
 
-    @PostMapping(value = "/findById")
+    @PostMapping(value = "/list")
     public Msg findById(int id,HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         Msg msg = null;
