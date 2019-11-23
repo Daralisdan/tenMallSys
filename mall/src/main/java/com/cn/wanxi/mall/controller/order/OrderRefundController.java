@@ -2,7 +2,7 @@ package com.cn.wanxi.mall.controller.order;
 
 
 import com.cn.wanxi.entity.order.RefundCauseEntity;
-import com.cn.wanxi.entity.utils.Msg;
+import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.order.IOrderService;
 import com.cn.wanxi.service.order.IRefundCauseService;
 import org.springframework.beans.factory.annotation.Autowired;

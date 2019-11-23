@@ -3,7 +3,10 @@ package com.cn.wanxi.mall;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.util.ResourceUtils;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -12,8 +15,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.cn.wanxi"})
 public class MallApplication extends WebMvcConfigurationSupport {
-
-
     public static void main(String[] args) {
         SpringApplication.run(MallApplication.class, args);
         System.out.println("Springboot项目启动入口");
@@ -21,21 +22,55 @@ public class MallApplication extends WebMvcConfigurationSupport {
     }
 
     /**
-     * 处理访问的方法路径是否加后缀
-     *
-     * @param configurer
+     * create by yaodan
+     * <p>
+     * 1、 extends WebMvcConfigurationSupport
+     * 2、重写下面方法;
+     * setUseSuffixPatternMatch : 设置是否是后缀模式匹配，如“/user”是否匹配/user.*，默认真即匹配；
+     * setUseTrailingSlashMatch : 设置是否自动后缀路径模式匹配，如“/user”是否匹配“/user/”，默认真即匹配；
      */
     @Override
-    protected void configurePathMatch(PathMatchConfigurer configurer) {
-        super.configurePathMatch(configurer);
-        // 常用的两种
-        // 匹配结尾 / :会识别 url 的最后一个字符是否为 /
-        // localhost:8080/test 与 localhost:8080/test/ 等价
-        configurer.setUseTrailingSlashMatch(false);
-        // 匹配后缀名：会识别 xx.* 后缀的内容
-        // localhost:8080/test 与 localhost:8080/test.jsp 等价
-        configurer.setUseSuffixPatternMatch(true);
+    public void configurePathMatch(PathMatchConfigurer configurer) {
+        configurer.setUseSuffixPatternMatch(false).setUseTrailingSlashMatch(true);
+    }
 
-        // TODO PathMatchConfigurer 还提供其他的一些 api 以供使用
+    /**
+     * create by yaodan
+     * <p>
+     * [映射swagger2 静态资源文件]
+     *
+     * @param registry
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+        //将所有/static/** 访问都映射到classpath:/static/ 目录下
+        registry.addResourceHandler("/static/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/static/");
+    }
+
+
+    /**
+     * create by yaodan
+     * <p>
+     * 跨域问题
+     *
+     * @param registry
+     */
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        // 设置允许跨域的路径
+        registry.addMapping("/**")
+                // 设置允许跨域请求的域名
+                .allowedOrigins("*")
+                // 是否允许证书 不再默认开启
+                .allowCredentials(true)
+                // 设置允许的方法
+                .allowedMethods("*")
+                // 跨域允许时间
+                .maxAge(3600);
     }
 }

@@ -10,20 +10,14 @@
  */
 package com.cn.wanxi.mall.controller.role;
 
-import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.role.RoleEntity;
-import com.cn.wanxi.entity.utils.Msg;
-import com.cn.wanxi.service.brand.IBrandService;
+import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.role.IRoleService;
-import com.cn.wanxi.utils.JDBC;
-import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.util.List;

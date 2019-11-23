@@ -2,10 +2,9 @@ package com.cn.wanxi.dao.order.impl;
 
 import com.cn.wanxi.dao.order.IOrderDao;
 import com.cn.wanxi.entity.order.OrderEntity;
-import com.cn.wanxi.entity.order.OrderItemEntity;
 import com.cn.wanxi.entity.order.OrderLogEntity;
 import com.cn.wanxi.entity.order.RefundCauseEntity;
-import com.cn.wanxi.entity.utils.UtilsHelper;
+import com.cn.wanxi.utils.utils.UtilsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
