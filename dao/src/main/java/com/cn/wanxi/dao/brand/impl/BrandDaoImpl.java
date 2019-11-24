@@ -116,7 +116,7 @@ public class BrandDaoImpl implements BrandDao {
     @Override
     public List<Map<String, Object>> findAllbyPage(int page, int size) {
         int starter = (page - 1) * size;
-        String sql = "SELECT id,NAME,image,letter,seq FROM wx_tab_brand ORDER BY id ASC LIMIT  " + starter + " , " + size;
+        String sql = "SELECT 'id','name','image','letter','seq' FROM wx_tab_brand ORDER BY id ASC LIMIT  " + starter + " , " + size;
         List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
         return list;
     }

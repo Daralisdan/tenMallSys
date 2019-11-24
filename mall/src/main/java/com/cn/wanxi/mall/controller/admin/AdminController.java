@@ -1,10 +1,11 @@
 package com.cn.wanxi.mall.controller.admin;
 
 import com.cn.wanxi.entity.admin.AdminEntity;
+import com.cn.wanxi.service.admin.IAdminService;
 import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.utils.utils.MsgX;
-import com.cn.wanxi.service.admin.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin
 public class AdminController {
 
     @Autowired
