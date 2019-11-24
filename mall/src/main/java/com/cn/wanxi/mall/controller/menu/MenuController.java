@@ -33,7 +33,7 @@ public class MenuController {
         Msg m;
         int result = iMenuService.add(menuEntity);
         if (!isEmpty(result)) {
-            m = Msg.success().messageData("menu", menuEntity);
+            m = Msg.success().messageData(menuEntity);
         } else {
             m = Msg.fail();
         }
@@ -49,7 +49,7 @@ public class MenuController {
         if (list.isEmpty()) {
             msg = Msg.fail();
         } else {
-            msg = Msg.success().messageData("menu", list);
+            msg = Msg.success().messageData(list);
         }
         return msg;
     }
@@ -60,7 +60,7 @@ public class MenuController {
         Msg msg = null;
         MenuEntity byId = iMenuService.findById(id);
         if (byId != null) {
-            msg = Msg.success().messageData("menu", byId);
+            msg = Msg.success().messageData(byId);
         } else {
             msg = Msg.fail();
         }
@@ -73,7 +73,7 @@ public class MenuController {
         Msg msg = null;
         int up = iMenuService.update(menuEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("menu", menuEntity);
+            msg = Msg.success().messageData(menuEntity);
         } else {
             msg = Msg.fail();
         }

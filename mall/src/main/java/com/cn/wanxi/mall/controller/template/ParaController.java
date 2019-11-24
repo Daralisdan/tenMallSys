@@ -36,7 +36,7 @@ public class ParaController {
         Msg m;
         int result = iParaService.add(paraEntity);
         if (!isEmpty(result)) {
-            m = Msg.success().messageData("para", paraEntity);
+            m = Msg.success().messageData(paraEntity);
         } else {
             m = Msg.fail();
         }
@@ -72,7 +72,7 @@ public class ParaController {
         Msg msg;
         int up = iParaService.update(paraEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("para", paraEntity);
+            msg = Msg.success().messageData(paraEntity);
         } else {
             msg = Msg.fail();
         }

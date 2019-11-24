@@ -38,7 +38,7 @@ public class TemplateController {
         Msg m;
         int result = iTemplateService.add(templateEntity);
         if (!isEmpty(result)) {
-            m = Msg.success().messageData("templateEntity", templateEntity);
+            m = Msg.success().messageData(templateEntity);
         } else {
             m = Msg.fail();
         }
@@ -75,7 +75,7 @@ public class TemplateController {
         Msg msg;
         int up = iTemplateService.update(templateEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("templateEntity", templateEntity);
+            msg = Msg.success().messageData(templateEntity);
         } else {
             msg = Msg.fail();
         }
