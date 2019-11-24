@@ -3,6 +3,7 @@ package com.cn.wanxi.entity.brand;
 import lombok.Data;
 
 /**
+ * 【品牌模块的实体类】
  * 2019/11/15,Create by yaodan
  */
 @Data
