@@ -130,4 +130,11 @@ public class BrandServiceImpl implements IBrandService {
     public List<Map<String, Object>> findListAndPage(BrandEntity brandEntity, int page, int size) {
         return brandDao.findListAndPage(brandEntity, page, size);
     }
+
+    @Override
+    public int adds(Map<String, BrandEntity> brandEntity) {
+        return brandDao.adds(brandEntity);
+    }
+
+
 }

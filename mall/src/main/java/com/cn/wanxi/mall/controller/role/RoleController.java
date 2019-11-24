@@ -46,7 +46,7 @@ public class RoleController {
         Msg m;
         int result = iRoleService.add(roleEntity);
         if (!isEmpty(result)) {
-            m = Msg.success().messageData("role", roleEntity);
+            m = Msg.success().messageData(roleEntity);
         } else {
             m = Msg.fail();
         }
@@ -62,7 +62,7 @@ public class RoleController {
         if (list.isEmpty()) {
             msg = Msg.fail();
         } else {
-            msg = Msg.success().messageData("role", list);
+            msg = Msg.success().messageData(list);
         }
         return msg;
     }
@@ -73,7 +73,7 @@ public class RoleController {
         Msg msg = null;
         RoleEntity byId = iRoleService.findById(id);
         if (byId != null) {
-            msg = Msg.success().messageData("role", byId);
+            msg = Msg.success().messageData(byId);
         } else {
             msg = Msg.fail();
         }
@@ -86,7 +86,7 @@ public class RoleController {
         Msg msg = null;
         int up = iRoleService.update(roleEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("role", roleEntity);
+            msg = Msg.success().messageData(roleEntity);
         } else {
             msg = Msg.fail();
         }

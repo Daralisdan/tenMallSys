@@ -38,7 +38,7 @@ public class SepcController {
         Msg msg;
         int result = iSepcService.add(sepcEntity);
         if (!isEmpty(result)) {
-            msg = Msg.success().messageData("sepc", sepcEntity);
+            msg = Msg.success().messageData(sepcEntity);
         } else {
             msg = Msg.fail();
         }
@@ -74,7 +74,7 @@ public class SepcController {
         Msg msg;
         int up = iSepcService.update(sepcEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("sepc", sepcEntity);
+            msg = Msg.success().messageData(sepcEntity);
         } else {
             msg = Msg.fail();
         }
