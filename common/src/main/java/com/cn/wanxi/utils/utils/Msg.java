@@ -1,12 +1,11 @@
 package com.cn.wanxi.utils.utils;
 
-import java.util.HashMap;
-import java.util.Map;
+import lombok.Data;
 
 /**
  * 2019/11/16,Create by yaodan
  */
-//@Data
+@Data
 public class Msg {
 
     /**
@@ -20,7 +19,7 @@ public class Msg {
     /**
      * 用户要返回给浏览器的数据
      */
-    private Map<String, Object> extend = new HashMap<>();
+    private Object data;
 
     /**
      * 返回成功状态的信息
@@ -29,11 +28,11 @@ public class Msg {
      */
     public static Msg success() {
         Msg result = new Msg();
-    //设置状态码
+        //设置状态码
         result.setCode(0);
         result.setMsg("处理成功！");
         return result;
-}
+    }
 
     /**
      * 返回成功状态的信息
@@ -51,33 +50,9 @@ public class Msg {
     /**
      * 状态信息跟数据一起返回给用户
      */
-    public Msg messageData(String key, Object value) {
-        this.getExtend().put(key, value);
+    public Msg messageData(Object data) {
+        this.data=data;
         return this;
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public Map<String, Object> getExtend() {
-        return extend;
-    }
-
-    public void setExtend(Map<String, Object> extend) {
-        this.extend = extend;
     }
 
 }

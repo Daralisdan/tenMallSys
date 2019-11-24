@@ -1,6 +1,7 @@
 package com.cn.wanxi.mall.controller.brand;
 
 import com.cn.wanxi.entity.brand.BrandEntity;
+import com.cn.wanxi.entity.brand.ByPage;
 import com.cn.wanxi.entity.brand.PageList;
 import com.cn.wanxi.service.brand.IBrandService;
 import com.cn.wanxi.utils.utils.Msg;
@@ -8,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,28 +23,35 @@ import java.util.Map;
  *
  * @author 2019/11/16,Create by yaodan
  */
-@Api(value = "xx接口")
+
+/**
+ * @CrossOrigin 解决跨域问题
+ */
+@CrossOrigin
+@Api(value = "品牌管理模块的接口")
 @RestController
 @RequestMapping("/brand")
-@CrossOrigin
 public class BrandController {
 
     @Autowired
     private IBrandService iBrandService;
+
 
     /**
      * 【添加品牌信息】
      *
      * @return
      */
-    @PostMapping("/add")
-    public Msg add(BrandEntity brandEntity) {
-        Msg msg;
-        int result = iBrandService.add(brandEntity);
-        if (0 != result) {
-            msg = Msg.success().messageData("brand", brandEntity);
+    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
+    public Msg add(@RequestBody BrandEntity brandEntity) {
+        Msg msg = null;
+        if (null != brandEntity.getName() && brandEntity.getName().trim() != "") {
+            int result = iBrandService.add(brandEntity);
+            if (0 != result) {
+                msg = Msg.success().messageData(brandEntity);
+            }
         } else {
-            msg = Msg.fail().messageData("info", "名字不能为空");
+            msg = Msg.fail().messageData("名字不能为空");
         }
         return msg;
     }
@@ -58,30 +67,35 @@ public class BrandController {
         List<Map<String, Object>> list = iBrandService.findAll();
         //判断集合是否有数据，如果没有数据返回失败
         if (list.isEmpty()) {
-            msg = Msg.fail().messageData("info", "数据库中没有数据");
+            msg = Msg.fail().messageData("数据库中没有数据");
         } else {
-            msg = Msg.success().messageData("brand", list);
+            msg = Msg.success().messageData(list);
         }
         return msg;
     }
 
     /**
      * 【根据品牌id查询信息】
+     * 前端传的json数据可以用 map或者对象接收
+     * 该方法用map接收json对象数据
      *
-     * @param id
+     * @param
      * @return
      * @RequestParam(required = true) int id  提示必须输入id
      */
     @ApiOperation(value = "根据id查询数据")
-    @PostMapping(value = "/findById")
-    public Msg findById(@RequestParam(required = true) int id) {
-        Msg msg;
-        BrandEntity byId = iBrandService.findById(id);
-        //判断是否有返回的数据
-        if (!ObjectUtils.isEmpty(byId)) {
-            msg = Msg.success().messageData("brand", byId);
-        } else {
-            msg = Msg.fail().messageData("info", "该品牌不存在");
+    @RequestMapping(value = "/findById", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public Msg findById(@RequestBody Map<String, Integer> param) {
+        Msg msg = null;
+        int id = param.get("id");
+        if (!StringUtils.isEmpty(id) && id > 0) {
+            BrandEntity byId = iBrandService.findById(id);
+            //判断是否有返回的数据
+            if (!ObjectUtils.isEmpty(byId)) {
+                msg = Msg.success().messageData(byId);
+            } else {
+                msg = Msg.fail().messageData("该品牌不存在");
+            }
         }
         return msg;
     }
@@ -92,8 +106,8 @@ public class BrandController {
      * @param brandEntity
      * @return
      */
-    @PostMapping("/update")
-    public Msg update(BrandEntity brandEntity) {
+    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public Msg update(@RequestBody BrandEntity brandEntity) {
         Msg msg = null;
         //先获取id
         int id = brandEntity.getId();
@@ -104,32 +118,40 @@ public class BrandController {
             if (!ObjectUtils.isEmpty(byId)) {
                 int result = iBrandService.update(brandEntity);
                 if (result > 0) {
-                    msg = Msg.success().messageData("brand", brandEntity);
+                    msg = Msg.success().messageData(brandEntity);
                 }
             } else {
-                msg = Msg.fail().messageData("info", "该品牌不存在");
+                msg = Msg.fail().messageData("该品牌不存在");
             }
         } else {
-            msg = Msg.fail().messageData("info", "请输入id");
+            msg = Msg.fail().messageData("请输入id");
         }
         return msg;
     }
 
     /**
      * 【根据id删除】
+     * 前端传的json数据可以用 map或者对象接收
+     * 该方法用对象接收json对象数据
      *
-     * @param id
+     * @param
      * @return
+     * @RequestParam(required = true) int id  提示必须输入id
      */
+    @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
     @ApiOperation(value = "根据id删除数据")
-    @PostMapping("/delete")
-    public Msg deleteById(@RequestParam(required = true) int id) {
+    public Msg deleteById(@RequestBody BrandEntity brandEntity) {
         Msg msg = null;
-        int i = iBrandService.deleteById(id);
-        if (i > 0) {
-            msg = Msg.success().messageData("info", "删除成功");
+        int id = brandEntity.getId();
+        if (id > 0) {
+            int i = iBrandService.deleteById(id);
+            if (i > 0) {
+                msg = Msg.success().messageData("删除成功");
+            } else {
+                msg = Msg.fail().messageData("删除失败,该用户不存在");
+            }
         } else {
-            msg = Msg.fail().messageData("info", "删除失败,该用户不存在");
+            msg = Msg.fail().messageData("请输入id");
         }
         return msg;
     }
@@ -139,29 +161,30 @@ public class BrandController {
      *
      * @return
      */
-    @PostMapping(value = "/findList")
-    public Msg findList(BrandEntity brandEntity) {
+    @RequestMapping(value = "/findList", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public Msg findList(@RequestBody BrandEntity brandEntity) {
         Msg msg;
         List<Map<String, Object>> list = iBrandService.findList(brandEntity);
         if (list.isEmpty()) {
-            msg = Msg.fail().messageData("info", "该品牌不存在");
+            msg = Msg.fail().messageData("该品牌不存在");
         } else {
-            msg = Msg.success().messageData("brand", list);
+            msg = Msg.success().messageData(list);
         }
         return msg;
     }
 
     /**
-     * 分页查询
+     * 【分页查询】
      *
-     * @param page 当前页码
-     * @param size 每页记录数
+     * @param param page 当前页码 size 当前页记录数
      * @return
      */
-    @PostMapping("/findAllbyPager")
-    public Msg findAllbyPager(int page, int size) {
+    @RequestMapping(value = "/findPage", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public Msg findAllbyPager(@RequestBody Map<String, Integer> param) {
         Msg msg;
         //实例化 分页实体类
+        int page = param.get("page");
+        int size = param.get("size");
         PageList pageList = new PageList();
 
         //处理int类型的变量为空时
@@ -176,7 +199,7 @@ public class BrandController {
         //把查询出来的对象封装在分页实体类中
         pageList.setList(list);
         if (null == list && list.isEmpty()) {
-            msg = Msg.fail().messageData("info", "品牌信息不存在");
+            msg = Msg.fail().messageData("品牌信息不存在");
         } else {
 
             //统计所有数据的总行数
@@ -197,9 +220,21 @@ public class BrandController {
      *
      * @return
      */
-    @PostMapping("/findByConditionPage")
-    public Msg findByConditionPage(BrandEntity brandEntity, int page, int size) {
+    @RequestMapping(value = "/findPageCon", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public Msg findByConditionPage(@RequestBody ByPage byPage) {
         Msg msg;
+        int page = byPage.getPage();
+        int size = byPage.getSize();
+        BrandEntity brandEntity = new BrandEntity();
+        Object name = byPage.getSearchMap().get("name");
+        if (name != null) {
+            brandEntity.setName(name.toString());
+        }
+        Object letter = byPage.getSearchMap().get("letter");
+        if (letter != null) {
+            brandEntity.setLetter(letter.toString());
+        }
+
         //实例化 分页实体类
         PageList pageList = new PageList();
         //根据页数，每页记录数查询
@@ -214,7 +249,7 @@ public class BrandController {
         //查询出来的总行数封装在分页实体类中
         pageList.setTotalRows(TotalRows);
         if (list.isEmpty()) {
-            msg = Msg.fail().messageData("info", "品牌信息不存在");
+            msg = Msg.fail().messageData("品牌信息不存在");
         } else {
             msg = getPages(size, pageList, TotalRows);
         }
@@ -223,6 +258,7 @@ public class BrandController {
 
     /**
      * 提取公共方法
+     *
      * @param size
      * @param pageList
      * @param totalRows 总记录数
@@ -239,7 +275,7 @@ public class BrandController {
         System.out.println("目前分页的总页数是" + pages);
         //总页数
         pageList.setPages(pages);
-        msg = Msg.success().messageData("brand", pageList);
+        msg = Msg.success().messageData(pageList);
         return msg;
     }
 }

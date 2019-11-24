@@ -18,7 +18,7 @@ public class OrderReturnCauseController {
         Msg msg = null;
         int up = iReturnCauseService.update(returnCauseEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("refund", returnCauseEntity);
+            msg = Msg.success().messageData(returnCauseEntity);
         } else {
             msg = Msg.fail();
         }

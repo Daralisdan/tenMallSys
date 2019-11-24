@@ -102,7 +102,7 @@ public class UserController {
         Msg m;
         UserEntity entity = iUserService.findUserById(id);
         if (null != entity) {
-            m = Msg.success().messageData("user",entity);
+            m = Msg.success().messageData(entity);
         } else {
             m = Msg.fail();
         }
@@ -119,7 +119,7 @@ public class UserController {
         Msg m;
         List<Map<String,Object>>list =  iUserService.findAll();
         if (null != list && !list.isEmpty()) {
-            m = Msg.success().messageData("user",list);
+            m = Msg.success().messageData(list);
         } else {
             m = Msg.fail();
         }

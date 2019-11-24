@@ -26,4 +26,6 @@ public interface IBrandService {
     int countAll();
 
     List<Map<String, Object>> findListAndPage(BrandEntity brandEntity, int page, int size);
+
+    int adds(Map<String, BrandEntity> brandEntity);
 }
