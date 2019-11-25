@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface ISkuService {
 
-    List<Map<String, Object>>  testQueryForList(String ids);
+    List<Map<String, Object>>  testQueryForList(String ids );
 
     int insert(WxTabSku wxTabSku);
 
@@ -19,7 +19,7 @@ public interface ISkuService {
 
     int deleteById(int id);
 
-    int xiajia(WxTabSku wxTabSku);
+    int xiajia( WxTabSku wxTabSku);
 
     int piliangxiajia(String id);
 
@@ -28,4 +28,5 @@ public interface ISkuService {
     int shangjia(int id);
 
     WxTabSku findByName(String name);
+
 }

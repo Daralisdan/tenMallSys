@@ -104,15 +104,32 @@ public class SpuAndSkuController {
 
         i = iSpuService.deleteById(id);
         b = iSkuService.deleteById(id);
-
-        if(i==1&&b==1) {
+        if(i>=1&&b>=1) {
             int code = 0;
-            String message = "删除成功";
+            String message = "删除spu和sku成功";
             JSONObject result = new JSONObject();
             result.put("code",code);
             result.put("message",message);
             return  result.toJSONString();
-        }else {
+
+        }
+        if(i>=1){
+            int code = 0;
+            String message = "删除spu成功";
+            JSONObject result = new JSONObject();
+            result.put("code",code);
+            result.put("message",message);
+            return  result.toJSONString();
+        }
+        if(b>=1){
+            int code = 0;
+            String message = "删除sku成功";
+            JSONObject result = new JSONObject();
+            result.put("code",code);
+            result.put("message",message);
+            return  result.toJSONString();
+        }
+        else {
             int code = 1;
             String message = "删除失败";
             JSONObject result = new JSONObject();
@@ -132,7 +149,7 @@ public class SpuAndSkuController {
     public String update(WxTabSpu wxTabSpu, WxTabSku wxTabSku ){
         i = iSpuService.update(wxTabSpu);
         b = iSkuService.update(wxTabSku);
-        if(i==1&&b==1) {
+        if(i>=1&&b>=1) {
             int code = 0;
             String message = "更新成功";
             JSONObject result = new JSONObject();
@@ -155,10 +172,11 @@ public class SpuAndSkuController {
      */
     @RequestMapping(value ="/findById",method = RequestMethod.POST)
     public WxTabSpu findid(int id){
-        String N="DDD";
+
         WxTabSpu wxTabSpu = iSpuService.findById(id);
         WxTabSku wxTabSku = iSkuService.findById(id);
         wxTabSpu.setSkuList(wxTabSku);
+
         return wxTabSpu;
     }
 
@@ -178,7 +196,24 @@ public class SpuAndSkuController {
 
         return  list;
     }
-
+    @RequestMapping(value ="/findSpuPage",method = RequestMethod.POST)
+    public List<Map<String, Object>> spufenye(int page,int size){
+        List<Map<String, Object>> list = iSpuService.fenye(page,size);
+        int count = iSpuService.zong();
+        JSONObject result = new JSONObject();
+        result.put("list",list);
+        result.put("total",count);
+        return  list;
+    }
+    /**
+     * 待审核列表
+     * @return
+     */
+    @RequestMapping(value ="/findAuditALL",method = RequestMethod.POST)
+    public List<Map<String, Object>> daishenghebiao(){
+        List<Map<String, Object>> list = iSpuService.daishenheliebiao();
+        return  list;
+    }
     /**
      * 根据商品的id 然后查到spu表然后判断其状态是否为已审核，然后更改商品的状态
      * @param id
@@ -189,7 +224,6 @@ public class SpuAndSkuController {
         if(" ".equals(id)){
             return cuo;
         }
-
         WxTabSku wxTabSku = iSkuService.findByIdzj(id);
         Integer spu_id = wxTabSku.getSpuId();
         WxTabSpu wxTabSpu = iSpuService.findById(spu_id);
@@ -306,7 +340,6 @@ public class SpuAndSkuController {
             return  result.toJSONString();
         }
     }
-
     /**
      * 根据商品的 id 更改状态为下架
      * @param wxTabSku

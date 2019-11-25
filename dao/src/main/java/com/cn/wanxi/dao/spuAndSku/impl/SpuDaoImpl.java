@@ -30,10 +30,10 @@ public class SpuDaoImpl implements ISpuDao {
     @Override
     public int insert(WxTabSpu wxTabSpu) {
         String exeSQL = "INSERT INTO wx_tab_spu(sn,name,caption,brand_id,category1_id,category2_id,category3_id,template_id,freight_id," +
-        "image,images,sale_service,introduction,spec_items,para_items,sale_num,comment_num,is_marketable,is_enable_pec,is_delete,status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                "image,images,sale_service,introduction,spec_items,para_items,sale_num,comment_num,is_marketable,is_enable_pec,is_delete,status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         Object args[] = {wxTabSpu.getSn(),wxTabSpu.getName(),wxTabSpu.getCaption(),wxTabSpu.getBrandId(),wxTabSpu.getCategory1Id(),wxTabSpu.getCategory2Id(),wxTabSpu.getCategory3Id(),
-        wxTabSpu.getTemplateId(),wxTabSpu.getFreightId(),wxTabSpu.getImage(),wxTabSpu.getImages(),wxTabSpu.getSaleService(),wxTabSpu.getIntroduction(),wxTabSpu.getSpecItems(),wxTabSpu.getParaItems(),wxTabSpu.getSaleNum(),
-        wxTabSpu.getCommentNum(),wxTabSpu.getIsMarkeTable(),wxTabSpu.getIsEnablePec(),wxTabSpu.getIsDelete(),wxTabSpu.getStatus()};
+                wxTabSpu.getTemplateId(),wxTabSpu.getFreightId(),wxTabSpu.getImage(),wxTabSpu.getImages(),wxTabSpu.getSaleService(),wxTabSpu.getIntroduction(),wxTabSpu.getSpecItems(),wxTabSpu.getParaItems(),wxTabSpu.getSaleNum(),
+                wxTabSpu.getCommentNum(),wxTabSpu.getIsMarkeTable(),wxTabSpu.getIsEnablePec(),wxTabSpu.getIsDelete(),wxTabSpu.getStatus()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
     }
@@ -59,6 +59,13 @@ public class SpuDaoImpl implements ISpuDao {
     }
 
     @Override
+    public List<Map<String, Object>> daishenheliebiao() {
+        String exeSQL = "select id, sn, name, caption, brand_id as brandId, category1_id as category1Id, category2_id as category2Id, category3_id as category3Id, template_id as templateId, freight_id as freightId, image, images, sale_service as saleService, introduction, spec_items as specItems, para_items as paraItms, sale_num as saleNum, comment_num as commentNum, is_marketable as isMakeTable, is_enable_pec as isEnablePec, is_delete as isDelete, status from wx_tab_spu where status='0'";
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
+        return list;
+    }
+
+    @Override
     public WxTabSpu findByName(String name) {
         WxTabSpu wxTabSpu = null;
         String exeSQL = "select id, sn, name, caption, brand_id as brandId, category1_id as category1Id, category2_id as category2Id, category3_id as category3Id, template_id as templateId, freight_id as freightId, image, images, sale_service as saleService, introduction, spec_items as specItems, para_items as paraItms, sale_num as saleNum, comment_num as commentNum, is_marketable as isMakeTable, is_enable_pec as isEnablePec, is_delete as isDelete, status from wx_tab_spu where name=?";
@@ -73,7 +80,7 @@ public class SpuDaoImpl implements ISpuDao {
     public int update(WxTabSpu wxTabSpu) {
         String exeSQL = "update wx_tab_spu set sn=?,name=?,caption=?,brand_id=?,category1_id=?,category2_id=?,category3_id=?,template_id=?,freight_id=?,image=?,images=?,sale_service=?,introduction=?,spec_items=?,para_items=?,sale_num=?,comment_num=?,is_marketable=?,is_enable_pec=?,is_delete=?,status=? WHERE id=?";
         Object args[] = {wxTabSpu.getSn(),wxTabSpu.getName(),wxTabSpu.getCaption(),wxTabSpu.getBrandId(),wxTabSpu.getCategory1Id(),wxTabSpu.getCategory2Id(),wxTabSpu.getCategory3Id(),
-        wxTabSpu.getTemplateId(),wxTabSpu.getFreightId(),wxTabSpu.getImage(),wxTabSpu.getImages(),wxTabSpu.getSaleService(),wxTabSpu.getIntroduction(),wxTabSpu.getSpecItems(),wxTabSpu.getParaItems(),wxTabSpu.getSaleNum(),  wxTabSpu.getCommentNum(),wxTabSpu.getIsMarkeTable(),wxTabSpu.getIsEnablePec(),wxTabSpu.getIsDelete(),wxTabSpu.getStatus()};
+                wxTabSpu.getTemplateId(),wxTabSpu.getFreightId(),wxTabSpu.getImage(),wxTabSpu.getImages(),wxTabSpu.getSaleService(),wxTabSpu.getIntroduction(),wxTabSpu.getSpecItems(),wxTabSpu.getParaItems(),wxTabSpu.getSaleNum(),  wxTabSpu.getCommentNum(),wxTabSpu.getIsMarkeTable(),wxTabSpu.getIsEnablePec(),wxTabSpu.getIsDelete(),wxTabSpu.getStatus()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
     }
@@ -81,7 +88,8 @@ public class SpuDaoImpl implements ISpuDao {
     @Override
     public int deleteById(int id) {
         String exeSQL = "DELETE FROM wx_tab_spu WHERE id=?";
-        return jdbcTemplate.update(exeSQL, id);
+        int temp = jdbcTemplate.update(exeSQL, id);
+        return temp;
     }
 
 
@@ -100,5 +108,18 @@ public class SpuDaoImpl implements ISpuDao {
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
     }
-}
 
+    @Override
+    public List<Map<String, Object>> fenye(int page, int size) {
+        String exeSQL = "select id, sn, name, caption, brand_id as brandId, category1_id as category1Id, category2_id as category2Id, category3_id as category3Id, template_id as templateId, freight_id as freightId, image, images, sale_service as saleService, introduction, spec_items as specItems, para_items as paraItms, sale_num as saleNum, comment_num as commentNum, is_marketable as isMakeTable, is_enable_pec as isEnablePec, is_delete as isDelete, status from wx_tab_spu limit "+(page-1)*size+","+size;
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
+        return list;
+    }
+
+    @Override
+    public int zong() {
+        String exeSQL = "select count(*) from wx_tab_spu";
+        int conut = jdbcTemplate.queryForObject(exeSQL, Integer.class);
+        return conut;
+    }
+}
