@@ -2,6 +2,7 @@ package com.cn.wanxi.mall.controller.menu;
 
 import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.menu.MenuEntity;
+import com.cn.wanxi.entity.menu.PageList;
 import com.cn.wanxi.entity.utils.Msg;
 import com.cn.wanxi.service.menu.IMenuService;
 import com.cn.wanxi.utils.JDBC;
@@ -26,145 +27,16 @@ import static org.springframework.util.ObjectUtils.isEmpty;
  * 【菜单管理】 菜单为三级菜单
  * 数据表： wx_tab_menu （菜单表）
  *
- * 2019/11/18,Create by yaodan
+ * 2019/11/18,Create by zhoushiling
  */
+@RestController
+@RequestMapping("/menu")
 public class MenuController {
-    //    @RequestMapping(value = "/add", method = RequestMethod.POST)
-//    public String menuadd(HttpServletRequest request, HttpServletResponse response) {
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        MenuEntity menuEntity = new MenuEntity();
-//        menuEntity.setName(request.getParameter("name"));
-//        menuEntity.setIcon(request.getParameter("icon"));
-//        menuEntity.setParent_id(request.getParameter("parent_id"));
-//        menuEntity.setUrl(request.getParameter("url"));
-//        String cc = "insert into wx_tab_menu(name,icon,parent_id,url) values('" + menuEntity.getName() + "','" + menuEntity.getIcon() + "','" + menuEntity.getParent_id() + "','" + menuEntity.getUrl() + "')";
-//        int c = JDBC.update(cc);
-//        System.out.println(c);
-//        if (c == 1) {
-//            int code = 0;
-//            String message = "添加成功";
-//            JSONObject result = new JSONObject();
-//            result.put("code", code);
-//            result.put("message", message);
-//            return result.toJSONString();
-//        } else {
-//            int code = 1;
-//            String message = "添加失败";
-//            JSONObject result = new JSONObject();
-//            result.put("code", code);
-//            result.put("message", message);
-//            return result.toJSONString();
-//        }
-//    }
-//    @RequestMapping(value = "/delete", method = RequestMethod.POST)
-//    public String menudelete(HttpServletRequest request, HttpServletResponse response) {
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        MenuEntity menuEntity = new MenuEntity();
-//        int id=Integer.parseInt(request.getParameter("id"));
-//        menuEntity.setId(id);
-//        String dd="delete  from wx_tab_menu where id=" + menuEntity.getId();
-//        int d=JDBC.update(dd);
-//        System.out.println(d);
-//        if (d == 1) {
-//            int code = 0;
-//            String message = "删除成功";
-//            JSONObject result = new JSONObject();
-//            result.put("code", code);
-//            result.put("message", message);
-//            return result.toJSONString();
-//        } else {
-//            int code = 1;
-//            String message = "删除失败";
-//            JSONObject result = new JSONObject();
-//            result.put("code", code);
-//            result.put("message", message);
-//            return result.toJSONString();
-//        }
-//}
-//    @RequestMapping(value = "/update", method = RequestMethod.POST)
-//    public String menuupdate(HttpServletRequest request, HttpServletResponse response) {
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        int id = Integer.parseInt(request.getParameter("id"));
-//        MenuEntity menuEntity =new MenuEntity();
-//        menuEntity.setName(request.getParameter("name"));
-//        menuEntity.setIcon(request.getParameter("icon"));
-//        menuEntity.setParent_id(request.getParameter("parent_id"));
-//        menuEntity.setUrl(request.getParameter("url"));
-//        String ee="update wx_tab_menu set name='"+menuEntity.getName()+"',icon='"+menuEntity.getIcon()+"',parent_id='"+menuEntity.getParent_id()+"',url='"+menuEntity.getUrl()+"' where id="+id+"";
-//        int e=JDBC.update(ee);
-//        System.out.println(e);
-//        if (e == 1) {
-//            int code = 0;
-//            String message = "更新成功";
-//            JSONObject result = new JSONObject();
-//            result.put("code", code);
-//            result.put("message", message);
-//            return result.toJSONString();
-//        } else {
-//            int code = 1;
-//            String message = "更新失败";
-//            JSONObject result = new JSONObject();
-//            result.put("code", code);
-//            result.put("message", message);
-//            return result.toJSONString();
-//        }
-//
-//}
-//    @RequestMapping(value = "/findAll", method = RequestMethod.POST)
-//    public List<MenuEntity> menufindAll(HttpServletRequest request, HttpServletResponse response) {
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        String aa="select * from wx_tab_menu ";
-//        ResultSet resultSet=JDBC.query(aa);
-//        List<MenuEntity> list=new ArrayList<>();
-//        try {
-//            while (resultSet.next()) {
-//                MenuEntity menuEntity=new MenuEntity();
-//                menuEntity.setId(resultSet.getInt("id"));
-//                menuEntity.setName(resultSet.getString("name"));
-//                menuEntity.setIcon(resultSet.getString("icon"));
-//                menuEntity.setParent_id(resultSet.getString("parent_id"));
-//                menuEntity.setUrl(resultSet.getString("url"));
-//                list.add(menuEntity);
-//            }
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return list;
-//    }
-//
-//    @RequestMapping(value = "/findCondMenu", method = RequestMethod.POST)
-//    public List<MenuEntity> menufindCondMenu(HttpServletRequest request, HttpServletResponse response) {
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//            List<MenuEntity> list = new ArrayList();
-//            Integer.parseInt(request.getParameter("page"));
-//            Integer.parseInt(request.getParameter("size"));
-//            Integer Total=0;
-//            String sql = "select * from wx_tab_menu  limit " + (Integer.parseInt(request.getParameter("page")) - 1) * Integer.parseInt(request.getParameter("size")) + "," + Integer.parseInt(request.getParameter("size")) + "";
-//
-//            ResultSet query = JDBC.query(sql);
-//            try {
-//                while (query.next()) {
-//                    MenuEntity menuEntity=new MenuEntity();
-//                    menuEntity.setId(query.getInt("id"));
-//                    menuEntity.setName(query.getString("name"));
-//                    menuEntity.setIcon(query.getString("icon"));
-//                    menuEntity.setParent_id(query.getString("parent_id"));
-//                    menuEntity.setUrl(query.getString("url"));
-//                    list.add(menuEntity);
-//                }
-//
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//            return list;
-//        }
-//
     @Autowired
     private IMenuService iMenuService;
 
     /**
-     * 【添加品牌信息】
+     * 【添加菜品信息】
      *
      * @return
      */
@@ -181,6 +53,12 @@ public class MenuController {
         return m;
     }
 
+    /**
+     * 【查询所有菜品信息】
+     *
+     * @return
+     */
+
     @PostMapping("/findAll")
     public Msg findAll(HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
@@ -194,8 +72,13 @@ public class MenuController {
         }
         return msg;
     }
+    /**
+     * 【通过id查询菜品信息】
+     *
+     * @return
+     */
 
-    @PostMapping(value = "/findByid")
+    @PostMapping(value = "/findById")
     public Msg findById(int id,HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         Msg msg = null;
@@ -208,6 +91,11 @@ public class MenuController {
         return msg;
     }
 
+    /**
+     * 【修改菜品信息】
+     *
+     * @return
+     */
     @PostMapping("/update")
     public Msg updateInfo(MenuEntity menuEntity,HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
@@ -220,6 +108,12 @@ public class MenuController {
         }
         return msg;
     }
+
+    /**
+     * 【删除菜品信息】
+     *
+     * @return
+     */
 
     @PostMapping("/delete")
     public Msg deleteById(int id,HttpServletResponse response) {
@@ -234,30 +128,40 @@ public class MenuController {
         return msg;
     }
 
-    @RequestMapping(value = "/findCondMenu", method = RequestMethod.POST)
-    public List<MenuEntity> menufindCondMenu(HttpServletRequest request, HttpServletResponse response) {
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        List<MenuEntity> list = new ArrayList();
-        Integer.parseInt(request.getParameter("page"));
-        Integer.parseInt(request.getParameter("size"));
-        Integer Total=0;
-        String sql = "select * from wx_tab_menu  limit " + (Integer.parseInt(request.getParameter("page")) - 1) * Integer.parseInt(request.getParameter("size")) + "," + Integer.parseInt(request.getParameter("size")) + "";
-
-        ResultSet query = JDBC.query(sql);
-        try {
-            while (query.next()) {
-                MenuEntity menuEntity=new MenuEntity();
-                menuEntity.setId(query.getInt("id"));
-                menuEntity.setName(query.getString("name"));
-                menuEntity.setIcon(query.getString("icon"));
-                menuEntity.setParentid(query.getString("parent_id"));
-                menuEntity.setUrl(query.getString("url"));
-                list.add(menuEntity);
+    /**
+     * 【获取条件查询菜品信息】
+     *
+     * @return
+     */
+    @PostMapping("/findCondMenu")
+    public Msg findByConditionPage(MenuEntity menuEntity, int page, int size) {
+        Msg m;
+        //实例化 分页实体类
+        PageList pageList = new PageList();
+        //根据页数，每页记录数查询
+        List<Map<String, Object>> list = iMenuService.findListAndPage(menuEntity, page, size);
+        //把查询出来的对象封装在分页实体类中
+        pageList.setList(list);
+        //统计所有数据的总行数
+        int TotalRows = iMenuService.countAll();
+        //把页数封装在分页实体类中
+        pageList.setPage(page);
+        //查询出来的总行数封装在分页实体类中
+        pageList.setTotalRows(TotalRows);
+        if (list.isEmpty()) {
+            m = Msg.fail();
+        } else {
+            int pages = 0;
+            if (TotalRows % size == 0) {
+                pages = TotalRows / size;
+            } else {
+                pages = TotalRows / size + 1;
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("目前分页的总页数是" + pages);
+            //总页数
+            pageList.setPages(pages);
+            m = Msg.success().messageData("menu", pageList);
         }
-        return list;
+        return m;
     }
 }

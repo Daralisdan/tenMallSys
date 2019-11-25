@@ -37,7 +37,7 @@ public class RoleDaoImpl implements RoleDao {
     private JdbcTemplate jdbcTemplate;
 
     /**
-     * 添加品牌信息
+     * 添加角色信息
      *
      * @param role
      * @return
@@ -45,32 +45,32 @@ public class RoleDaoImpl implements RoleDao {
     @Override
     public int insert(RoleEntity role) {
         String exeSQL = "INSERT INTO wx_tab_role(role_name) VALUES(?)";
-        Object args[] = {role.getRolename()};
+        Object args[] = {role.getRoleName()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
     }
 
     /**
-     * 【展示所有品牌信息】
+     * 【展示所有角色信息】
      *
      * @return
      */
     @Override
     public List<Map<String, Object>> queryAll() {
-        String exeSQL = "select id, role_name from wx_tab_role";
+        String exeSQL = "select id, role_name as roleName from wx_tab_role";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
         return list;
     }
 
     /**
-     * 【根据id查询品牌信息】
+     * 【根据id查询角色信息】
      *
      * @param
      */
     @Override
     public RoleEntity findById(int id) {
         RoleEntity roleEntity = null;
-        String exeSQL = "select id, role_name from wx_tab_role where id=?";
+        String exeSQL = "select id, role_name as roleName from wx_tab_role where id=?";
         List<RoleEntity> roleEntities = jdbcTemplate.query(exeSQL, new Object[]{id}, new BeanPropertyRowMapper<RoleEntity>(RoleEntity.class));
         if (null != roleEntities && roleEntities.size() > 0) {
             roleEntity = roleEntities.get(0);
@@ -80,7 +80,7 @@ public class RoleDaoImpl implements RoleDao {
 
 
     /**
-     * 【修改品牌信息】
+     * 【修改角色信息】
      *
      * @param roleEntity
      * @return
@@ -88,7 +88,7 @@ public class RoleDaoImpl implements RoleDao {
     @Override
     public int update(RoleEntity roleEntity) {
         String exeSQL = "update wx_tab_role set role_name=?  WHERE id=?";
-        Object args[] = {roleEntity.getRolename(), roleEntity.getId()};
+        Object args[] = {roleEntity.getRoleName(), roleEntity.getId()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
     }

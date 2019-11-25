@@ -22,4 +22,6 @@ public interface IMenuService {
     MenuEntity findById(int id);
 
     int update(MenuEntity menuEntity);
+    List<Map<String, Object>> findListAndPage(MenuEntity menuEntity, int page, int size);
+    int countAll();
 }

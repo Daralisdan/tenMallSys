@@ -50,4 +50,7 @@ public interface IMenuDao {
      * @return
      */
     int deleteById(int id);
+    int countAll();
+
+    List<Map<String, Object>> findListAndPage(MenuEntity menuEntity, int page, int size);
 }
