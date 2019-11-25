@@ -1,7 +1,10 @@
 //package com.cn.wanxi.utils;
 //
 //import java.sql.*;
+<<<<<<< Updated upstream
 //
+=======
+>>>>>>> Stashed changes
 ///**
 // * java应用程序与数据库的连接步骤
 // * 1.连接数据库
@@ -13,6 +16,7 @@
 //public class JDBC {
 //
 //    //sql路径
+<<<<<<< Updated upstream
 ////    private static final String URL = "jdbc:mysql://192.168.0.194:3306/tenmall?serverTimezone=PRC";
 //    //sql路径 本地测试
 //    private static final String URL = "jdbc:mysql://localhost:3306/tenmall?serverTimezone=PRC";
@@ -27,6 +31,15 @@
 //    private static final String USER = "root";
 //    //密码 本地测试
 //    private static final String PASSWORD = "123456";
+=======
+//    private static final String URL ="jdbc:mysql://121.199.55.96:3306/tenmalldb?serverTimezone=PRC";
+//    //驱动
+//    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+//    //sql 用户名
+//    private static final String USER = "wxmall";
+//    //密码
+//    private static final String PASSWORD = "wxmall";
+>>>>>>> Stashed changes
 //
 //    //连接数据库的一个对象
 //    private static Connection conn = null;
@@ -50,15 +63,22 @@
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
+<<<<<<< Updated upstream
 //
 //    }
 //
+=======
+//    }
+>>>>>>> Stashed changes
 //    //2.输出数据
 //
 //    /**
 //     * 对数据库进行增删改操作，返回操作的条数
 //     */
+<<<<<<< Updated upstream
 //
+=======
+>>>>>>> Stashed changes
 //    public static int update(String sql) {
 //        //1.连接数据库
 //        getConn();
@@ -66,6 +86,7 @@
 //        //2.输出数据
 //        //初始化返回的条数
 //        int i = 0;
+<<<<<<< Updated upstream
 //
 //        try {
 //            //2.1准备输出的数据
@@ -73,6 +94,14 @@
 //            //2.2真正执行输出
 //            i = pstmt.executeUpdate();
 ////            conn.commit();
+=======
+//        try {
+//            //2.1准备输出的数据
+//            pstmt = conn.prepareStatement(sql );
+//            //2.2真正执行输出
+//            i = pstmt.executeUpdate();
+////                conn.commit();
+>>>>>>> Stashed changes
 //            //打印
 //            System.out.println("修改的条数：update:" + i);
 //        } catch (SQLException e) {
@@ -107,6 +136,10 @@
 //        return rs;
 //    }
 //
+<<<<<<< Updated upstream
+=======
+//
+>>>>>>> Stashed changes
 //    /**
 //     * 3关闭连接
 //     */
