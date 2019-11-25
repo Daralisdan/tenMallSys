@@ -2,6 +2,7 @@ package com.cn.wanxi.dao.spuAndSku.impl;
 
 import com.cn.wanxi.dao.spuAndSku.CategoryBrandDao;
 import com.cn.wanxi.entity.spuAndSku.WxTabCategoryBrand;
+import com.cn.wanxi.entity.spuAndSku.WxTabSpu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

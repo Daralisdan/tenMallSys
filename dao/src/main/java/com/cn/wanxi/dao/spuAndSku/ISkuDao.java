@@ -1,13 +1,14 @@
 package com.cn.wanxi.dao.spuAndSku;
 
 import com.cn.wanxi.entity.spuAndSku.WxTabSku;
+import com.cn.wanxi.entity.spuAndSku.WxTabSpu;
 
 import java.util.List;
 import java.util.Map;
 
 public interface ISkuDao {
 
-    List<Map<String, Object>>  testQueryForList(String ids);
+    List<Map<String, Object>>  testQueryForList(String ids );
 
     int insert(WxTabSku wxTabSku);
 
@@ -19,7 +20,7 @@ public interface ISkuDao {
 
     int deleteById(int id);
 
-    int xiajia(WxTabSku wxTabSku);
+    int xiajia( WxTabSku wxTabSku);
 
     int shangjia(int id);
 
