@@ -75,7 +75,7 @@ public class MenuDaoImpl implements IMenuDao {
      */
     @Override
     public int update(MenuEntity menuEntity) {
-        String exeSQL = "update wx_tab_menu set name=?,icon=?,url=?,parent_id=? as parentId  WHERE id=?";
+        String exeSQL = "update wx_tab_menu set name=?,icon=?,url=?,parent_id=?   WHERE id=?";
         Object args[] = {menuEntity.getName(), menuEntity.getIcon(), menuEntity.getUrl(), menuEntity.getParentId(), menuEntity.getId()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
