@@ -19,7 +19,14 @@ public interface ISpuService {
 
     int deleteById(int id);
 
-    int tijiaoshenhe(WxTabSpu wxTabSpu);
+    List<Map<String, Object>> daishenheliebiao();
+
+    int tijiaoshenhe (WxTabSpu wxTabSpu);
 
     int shenhechenggong(WxTabSpu wxTabSpu);
+
+    List<Map<String, Object>> fenye(int page, int size);
+
+    int zong();
+
 }

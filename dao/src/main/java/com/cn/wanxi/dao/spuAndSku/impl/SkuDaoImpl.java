@@ -2,6 +2,7 @@ package com.cn.wanxi.dao.spuAndSku.impl;
 
 import com.cn.wanxi.dao.spuAndSku.ISkuDao;
 import com.cn.wanxi.entity.spuAndSku.WxTabSku;
+import com.cn.wanxi.entity.spuAndSku.WxTabSpu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,13 +28,13 @@ public class SkuDaoImpl implements ISkuDao {
 
     @Override
     public List<Map<String, Object>> testQueryForList(String ids ){
-        String sql = "select id, sn, name, price, num, alert_num as alertNum, image, images, weight, create_time as createTime, update_time as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num as commentNum, status from wx_tab_sku where id in "+"("+ids+")";
+        String sql = "select id, sn, name, price, num, alert_num as alertNum, image, images, weight, create_time as createTime, update_time as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num commentNum, status from wx_tab_sku where id in "+"("+ids+")";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
         return list;
     }
     @Override
     public List<Map<String, Object>> queryAll() {
-        String exeSQL = "select id,sn,name,price,num,alert_num as alertNum, image, images, weight, create_time as createTime, update_time as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num as commentNum, status from wx_tab_sku";
+        String exeSQL = "select id, sn, name, price, num, alert_num as alertNum, image, images, weight, create_time as createTime, update_time as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num commentNum, status from wx_tab_sku";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
         return list;
     }
@@ -42,7 +43,7 @@ public class SkuDaoImpl implements ISkuDao {
     public WxTabSku findById(int id) {
 
         WxTabSku wxTabSku = null;
-        String exeSQL = "select id, sn, name, price, num, alert_num as alertNum, image, images, weight, create_time as createTime, update_time as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num as commentNum, status from wx_tab_sku where spu_id=?";
+        String exeSQL = "select id, sn, name, price, num, alert_num as alertNum, image, images, weight, create_time as createTime, update_time as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num commentNum, status  from wx_tab_sku where spu_id=?";
         List<WxTabSku> wxTabSkuu = jdbcTemplate.query(exeSQL, new Object[]{id}, new BeanPropertyRowMapper<WxTabSku>(WxTabSku.class));
         if (null != wxTabSkuu && wxTabSkuu.size() > 0) {
             wxTabSku = wxTabSkuu.get(0);
@@ -92,7 +93,7 @@ public class SkuDaoImpl implements ISkuDao {
     @Override
     public WxTabSku findByIdzj(int id) {
         WxTabSku wxTabSku = null;
-        String exeSQL = "select id, sn, name, price, num, alert_num as alertNum, image, images, weight, create_time as createTime, update_time as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num commentNum, status from wx_tab_sku where id=?";
+        String exeSQL = "select id, sn, name, price, num, alert_num as alertNum, image, images, weight, create_time as createTime, update_time as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num commentNum, status from wx_tab_sku from wx_tab_sku where id=?";
         List<WxTabSku> wxTabSkuu = jdbcTemplate.query(exeSQL, new Object[]{id}, new BeanPropertyRowMapper<WxTabSku>(WxTabSku.class));
         if (null != wxTabSkuu && wxTabSkuu.size() > 0) {
             wxTabSku = wxTabSkuu.get(0);

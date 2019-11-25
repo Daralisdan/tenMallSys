@@ -58,6 +58,11 @@ public class ISpuServiceImpl implements ISpuService {
     }
 
     @Override
+    public List<Map<String, Object>> daishenheliebiao() {
+        return iSpuDao.daishenheliebiao();
+    }
+
+    @Override
     public int tijiaoshenhe(WxTabSpu wxTabSpu) {
         return iSpuDao.tijiaoshenhe(wxTabSpu);
     }
@@ -65,5 +70,15 @@ public class ISpuServiceImpl implements ISpuService {
     @Override
     public int shenhechenggong(WxTabSpu wxTabSpu) {
         return iSpuDao.shenhechenggong(wxTabSpu);
+    }
+
+    @Override
+    public List<Map<String, Object>> fenye(int page, int size) {
+        return iSpuDao.fenye(page,size);
+    }
+
+    @Override
+    public int zong() {
+        return iSpuDao.zong();
     }
 }
