@@ -20,21 +20,21 @@ package com.cn.wanxi.entity.role;
  */
 public class RoleEntity {
     Integer id;
-    String rolename;
+    String roleName;
 
-    public String getRolename() {
-        return rolename;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRolename(String rolename) {
-        this.rolename = rolename;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     @Override
     public String toString() {
         return "RoleEntity{" +
                 "id=" + id +
-                ", rolename='" + rolename + '\'' +
+                ", roleName='" + roleName + '\'' +
                 '}';
     }
 

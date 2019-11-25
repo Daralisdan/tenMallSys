@@ -10,7 +10,6 @@
  */
 package com.cn.wanxi.dao.role;
 
-import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.role.RoleEntity;
 
 import java.util.List;
@@ -26,7 +25,7 @@ import java.util.Map;
  */
 public interface RoleDao {
     /**
-     * 【添加品牌信息】
+     * 【添加角色信息】
      *
      * @param role
      * @return
@@ -34,14 +33,14 @@ public interface RoleDao {
     int insert(RoleEntity role);
 
     /**
-     * 【查询所有品牌信息】
+     * 【查询所有角色信息】
      *
      * @return
      */
     List<Map<String, Object>> queryAll();
 
     /**
-     * 【根据id查询品牌信息】
+     * 【根据id查询角色信息】
      *
      * @param id
      * @return
@@ -49,7 +48,7 @@ public interface RoleDao {
     RoleEntity findById(int id);
 
     /**
-     * 【修改品牌信息】
+     * 【修改角色信息】
      *
      * @param roleEntity
      * @return
