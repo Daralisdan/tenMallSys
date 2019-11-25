@@ -10,9 +10,7 @@
  */
 package com.cn.wanxi.dao.role.impl;
 
-import com.cn.wanxi.dao.brand.BrandDao;
 import com.cn.wanxi.dao.role.RoleDao;
-import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.role.RoleEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -57,7 +55,7 @@ public class RoleDaoImpl implements RoleDao {
      */
     @Override
     public List<Map<String, Object>> queryAll() {
-        String exeSQL = "select id, role_name as roleName from wx_tab_role";
+        String exeSQL = "select id, role_name from wx_tab_role";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
         return list;
     }

@@ -1,16 +1,86 @@
 package com.cn.wanxi.mall.controller.order;
 
-/**
- * 【订单管理】
- *数据表 ：wx_tab_order 表（订单主表）
- *          wx_tab_order_item 表（订单明细表）
- *          wx_tab_order_log 表（订单日志）
- *          wx_tab_return_cause 表（退货退款原因表）
- *          wx_tab_return_order 表 （退货退款申请表）
- *          wx_tab_return_order_item （退货退款申请明细表）
- *          wx_tab_order_config （订单设置表）
- *
- * 2019/11/18,Create by yaodan
- */
+import com.cn.wanxi.entity.order.OrderEntity;
+import com.cn.wanxi.entity.order.OrderLogEntity;
+import com.cn.wanxi.utils.utils.Msg;
+import com.cn.wanxi.service.order.IOrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
+
+import static org.springframework.util.ObjectUtils.isEmpty;
+
+@RestController
+@RequestMapping("/order")
 public class OrderController {
+    @Autowired
+    private IOrderService iOrderService;
+
+
+    @PostMapping("/list")
+    public Msg  list(int page, int size) {
+        Msg msg = null;
+
+        List<Map<String, Object>>   list = iOrderService.list(page, size);
+        //判断集合是否有数据，如果没有数据返回失败
+        if (list.isEmpty()) {
+            msg = Msg.fail();
+        } else {
+            msg = Msg.success().messageData(list);
+        }
+        return msg;
+    }
+
+    @PostMapping("/batchlist")
+    public List<Map<String, Object>>  list(String ids) {
+        Msg msg = null;
+        List<Map<String, Object>>  list = iOrderService.batchlist(ids);
+        //判断集合是否有数据，如果没有数据返回失败
+        if (list.isEmpty()) {
+            msg = Msg.fail();
+        } else {
+            msg = Msg.success().messageData(list);
+        }
+        return list;
+    }
+
+    @PostMapping("/batchSendSubmit")
+    public Msg batchSendSubmit(int orderId) {
+        Msg m;
+        int result = iOrderService.batchSendSubmit(orderId);
+        if (!isEmpty(result)) {
+            m = Msg.success().messageData(orderId);
+        } else {
+            m = Msg.fail();
+        }
+        return m;
+    }
+    @PostMapping("/findbyorderid")
+    public Msg findByOrderId(int orderId) {
+        Msg msg = null;
+        OrderLogEntity byOrderId = iOrderService.findByOrderId(orderId);
+        if (byOrderId != null) {
+            msg = Msg.success().messageData(byOrderId);
+        } else {
+            msg = Msg.fail();
+        }
+        return msg;
+    }
+
+
+    @PostMapping("/findbyid")
+    public Msg findById(int id) {
+        Msg msg = null;
+        OrderEntity byId = iOrderService.findById(id);
+        if (byId != null) {
+            msg = Msg.success().messageData(byId);
+        } else {
+            msg = Msg.fail();
+        }
+        return msg;
+    }
 }

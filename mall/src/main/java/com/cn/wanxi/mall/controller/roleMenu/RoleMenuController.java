@@ -10,25 +10,14 @@
  */
 package com.cn.wanxi.mall.controller.roleMenu;
 
-import com.cn.wanxi.entity.role.RoleEntity;
-import com.cn.wanxi.entity.roleMenu.RoleMenuEntity;
-import com.cn.wanxi.entity.utils.Msg;
-import com.cn.wanxi.service.role.IRoleService;
+import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.roleMenu.IRoleMenuService;
-import com.cn.wanxi.utils.JDBC;
-import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 

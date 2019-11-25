@@ -10,20 +10,14 @@
  */
 package com.cn.wanxi.mall.controller.role;
 
-import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.role.RoleEntity;
-import com.cn.wanxi.entity.utils.Msg;
-import com.cn.wanxi.service.brand.IBrandService;
+import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.role.IRoleService;
-import com.cn.wanxi.utils.JDBC;
-import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.util.List;
@@ -51,7 +45,7 @@ public class RoleController {
         Msg m;
         int result = iRoleService.add(roleEntity);
         if (!isEmpty(result)) {
-            m = Msg.success().messageData("role", roleEntity);
+            m = Msg.success().messageData(roleEntity);
         } else {
             m = Msg.fail();
         }
@@ -67,18 +61,18 @@ public class RoleController {
         if (list.isEmpty()) {
             msg = Msg.fail();
         } else {
-            msg = Msg.success().messageData("role", list);
+            msg = Msg.success().messageData(list);
         }
         return msg;
     }
 
-    @PostMapping(value = "/findById")
+    @PostMapping(value = "/listById")
     public Msg findById(int id,HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         Msg msg = null;
         RoleEntity byId = iRoleService.findById(id);
         if (byId != null) {
-            msg = Msg.success().messageData("role", byId);
+            msg = Msg.success().messageData(byId);
         } else {
             msg = Msg.fail();
         }
@@ -91,7 +85,7 @@ public class RoleController {
         Msg msg = null;
         int up = iRoleService.update(roleEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("role", roleEntity);
+            msg = Msg.success().messageData(roleEntity);
         } else {
             msg = Msg.fail();
         }

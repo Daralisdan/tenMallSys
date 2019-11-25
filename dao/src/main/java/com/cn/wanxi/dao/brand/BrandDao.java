@@ -47,4 +47,41 @@ public interface BrandDao {
      * @return
      */
     int deleteById(int id);
+
+    /**
+     * 【条件查询】
+     *
+     * @param brandEntity
+     * @return
+     */
+    List<Map<String, Object>> findList(BrandEntity brandEntity);
+
+    /**
+     * 【分页查询】
+     *
+     * @param page
+     * @param size
+     * @return
+     */
+
+    List<Map<String, Object>> findAllbyPage(int page, int size);
+
+    /**
+     * 【统计查询出所有的记录】
+     *
+     * @return
+     */
+    int countAll();
+
+    /**
+     * 【分页+条件】
+     *
+     * @param brandEntity
+     * @param page
+     * @param size
+     * @return
+     */
+    List<Map<String, Object>> findListAndPage(BrandEntity brandEntity, int page, int size);
+
+    int adds(Map<String, BrandEntity> brandEntity);
 }
