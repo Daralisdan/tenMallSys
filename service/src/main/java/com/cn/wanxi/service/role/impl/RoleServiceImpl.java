@@ -10,11 +10,8 @@
  */
 package com.cn.wanxi.service.role.impl;
 
-import com.cn.wanxi.dao.brand.BrandDao;
 import com.cn.wanxi.dao.role.RoleDao;
-import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.role.RoleEntity;
-import com.cn.wanxi.service.brand.IBrandService;
 import com.cn.wanxi.service.role.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

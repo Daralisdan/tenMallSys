@@ -2,21 +2,14 @@ package com.cn.wanxi.mall.controller.menu;
 
 import com.cn.wanxi.entity.menu.MenuEntity;
 import com.cn.wanxi.entity.menu.PageList;
-import com.cn.wanxi.entity.utils.Msg;
 import com.cn.wanxi.service.menu.IMenuService;
-import com.cn.wanxi.utils.JDBC;
-import net.minidev.json.JSONObject;
+import com.cn.wanxi.utils.utils.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,12 +33,12 @@ public class MenuController {
      * @return
      */
     @PostMapping("/add")
-    public Msg add(MenuEntity menuEntity,HttpServletResponse response) {
+    public Msg add(MenuEntity menuEntity, HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         Msg m;
         int result = iMenuService.add(menuEntity);
         if (!isEmpty(result)) {
-            m = Msg.success().messageData("menu", menuEntity);
+            m = Msg.success().messageData(menuEntity);
         } else {
             m = Msg.fail();
         }
@@ -67,7 +60,7 @@ public class MenuController {
         if (list.isEmpty()) {
             msg = Msg.fail();
         } else {
-            msg = Msg.success().messageData("menu", list);
+            msg = Msg.success().messageData(list);
         }
         return msg;
     }
@@ -83,7 +76,7 @@ public class MenuController {
         Msg msg = null;
         MenuEntity byId = iMenuService.findById(id);
         if (byId != null) {
-            msg = Msg.success().messageData("menu", byId);
+            msg = Msg.success().messageData( byId);
         } else {
             msg = Msg.fail();
         }
@@ -101,7 +94,7 @@ public class MenuController {
         Msg msg = null;
         int up = iMenuService.update(menuEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("menu", menuEntity);
+            msg = Msg.success().messageData(menuEntity);
         } else {
             msg = Msg.fail();
         }
@@ -159,51 +152,8 @@ public class MenuController {
             System.out.println("目前分页的总页数是" + pages);
             //总页数
             pageList.setPages(pages);
-            m = Msg.success().messageData("menu", pageList);
+            m = Msg.success().messageData(pageList);
         }
         return m;
     }
 }
-    /**
-     * 【查询所有菜品信息】
-     *
-     * @return
-     */
-
-    @PostMapping("/findAll")
-    /**
-     * 【获取条件查询菜品信息】
-     *
-     * @return
-     */
-    @PostMapping("/findCondMenu")
-    public Msg findByConditionPage(MenuEntity menuEntity, int page, int size) {
-        Msg m;
-        //实例化 分页实体类
-        PageList pageList = new PageList();
-        //根据页数，每页记录数查询
-        List<Map<String, Object>> list = iMenuService.findListAndPage(menuEntity, page, size);
-        //把查询出来的对象封装在分页实体类中
-        pageList.setList(list);
-        //统计所有数据的总行数
-        int TotalRows = iMenuService.countAll();
-        //把页数封装在分页实体类中
-        pageList.setPage(page);
-        //查询出来的总行数封装在分页实体类中
-        pageList.setTotalRows(TotalRows);
-        if (list.isEmpty()) {
-            m = Msg.fail();
-        } else {
-            int pages = 0;
-            if (TotalRows % size == 0) {
-                pages = TotalRows / size;
-            } else {
-                pages = TotalRows / size + 1;
-            }
-            System.out.println("目前分页的总页数是" + pages);
-            //总页数
-            pageList.setPages(pages);
-            m = Msg.success().messageData("menu", pageList);
-        }
-        return m;
-    }
