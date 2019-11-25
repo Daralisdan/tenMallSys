@@ -89,4 +89,13 @@ public class MenuService implements IMenuService {
     public int deleteById(int id) {
         return iMenuDao.deleteById(id);
     }
+
+    public List<Map<String, Object>> findListAndPage(MenuEntity menuEntity, int page, int size) {
+        return iMenuDao.findListAndPage(menuEntity, page, size);
+    }
+
+    @Override
+    public int countAll() {
+        return iMenuDao.countAll();
+    }
 }

@@ -59,7 +59,7 @@ public class RoleMenuDaoImpl implements RoleMenuDao {
     @Override
     public RoleMenuEntity findByRoleId(int roleid) {
         RoleMenuEntity roleMenuEntity = null;
-        String exeSQL = "select id, role_id, menu_id from wx_tab_rolemenu where role_id=?";
+        String exeSQL = "select id, role_id as roleId, menu_id as menuId from wx_tab_rolemenu where role_id=?";
         List<RoleMenuEntity> roleMenuEntities = jdbcTemplate.query(exeSQL, new Object[]{roleid}, new BeanPropertyRowMapper<RoleMenuEntity>(RoleMenuEntity.class));
         if (null != roleMenuEntities && roleMenuEntities.size() > 0) {
             roleMenuEntity = roleMenuEntities.get(0);

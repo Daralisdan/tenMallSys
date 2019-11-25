@@ -20,24 +20,24 @@ package com.cn.wanxi.entity.roleMenu;
  */
 public class RoleMenuEntity {
     Integer id;
-    Integer roleid;
-    Integer menuid;
+    Integer roleId;
+    Integer menuId;
 
     public RoleMenuEntity() {
     }
 
     public RoleMenuEntity(Integer id, Integer role_id, Integer menu_id) {
         this.id = id;
-        this.roleid = roleid;
-        this.menuid = menuid;
+        this.roleId = roleId;
+        this.menuId = menuId;
     }
 
     @Override
     public String toString() {
         return "RoleMenuEntity{" +
                 "id=" + id +
-                ", roleid=" + roleid +
-                ", menuid=" + menuid +
+                ", roleId=" + roleId +
+                ", menuId=" + menuId +
                 '}';
     }
 
@@ -49,19 +49,19 @@ public class RoleMenuEntity {
         this.id = id;
     }
 
-    public Integer getRoleid() {
-        return roleid;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setRoleid(Integer roleid) {
-        this.roleid = roleid;
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
-    public Integer getMenuid() {
-        return menuid;
+    public Integer getMenuId() {
+        return menuId;
     }
 
-    public void setMenuid(Integer menuid) {
-        this.menuid = menuid;
+    public void setMenuId(Integer menuId) {
+        this.menuId = menuId;
     }
 }
