@@ -1,6 +1,7 @@
 package com.cn.wanxi.utils;
 
 import java.sql.*;
+
 /**
  * java应用程序与数据库的连接步骤
  * 1.连接数据库
@@ -11,7 +12,7 @@ import java.sql.*;
  */
 public class JDBC {
 
-  //sql路径
+    //sql路径
     private static final String URL = "jdbc:mysql://121.199.55.96:3306/tenmalldb?serverTimezone=PRC";
     //sql路径 本地测试
 //    private static final String URL = "jdbc:mysql://localhost:3306/tenmall?serverTimezone=PRC";
@@ -26,7 +27,6 @@ public class JDBC {
 //    private static final String USER = "root";
     //密码 本地测试
 //    private static final String PASSWORD = "123456";
-
 
     //连接数据库的一个对象
     private static Connection conn = null;
@@ -50,12 +50,15 @@ public class JDBC {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
+
     //2.输出数据
 
     /**
      * 对数据库进行增删改操作，返回操作的条数
      */
+
     public static int update(String sql) {
         //1.连接数据库
         getConn();
@@ -63,12 +66,13 @@ public class JDBC {
         //2.输出数据
         //初始化返回的条数
         int i = 0;
+
         try {
             //2.1准备输出的数据
-            pstmt = conn.prepareStatement(sql );
+            pstmt = conn.prepareStatement(sql);
             //2.2真正执行输出
             i = pstmt.executeUpdate();
-//                conn.commit();
+//            conn.commit();
             //打印
             System.out.println("修改的条数：update:" + i);
         } catch (SQLException e) {
@@ -102,7 +106,6 @@ public class JDBC {
         }
         return rs;
     }
-
 
     /**
      * 3关闭连接

@@ -1,15 +1,15 @@
 package com.cn.wanxi.entity.spuAndSku;
 
 public class WxTabCategoryBrand {
-    private Integer Category_Id;
+    private Integer categoryId;
     private Integer brandId;
 
-    public Integer getCategory_Id() {
-        return Category_Id;
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory_Id(Integer category_Id) {
-        Category_Id = category_Id;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
     public Integer getBrandId() {
@@ -23,7 +23,7 @@ public class WxTabCategoryBrand {
     @Override
     public String toString() {
         return "WxTabCategoryBrand{" +
-                "Category_Id=" + Category_Id +
+                "Category_Id=" + categoryId +
                 ", brandId=" + brandId +
                 '}';
     }

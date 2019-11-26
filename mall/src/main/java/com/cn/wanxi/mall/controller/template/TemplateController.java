@@ -29,7 +29,7 @@ public class TemplateController {
     private ITemplateService iTemplateService;
 
     /**
-     * 【添加品牌信息】
+     * 【添加模板信息】
      *
      * @return
      */
@@ -46,7 +46,7 @@ public class TemplateController {
     }
 
     /**
-     * 【展示所有品牌信息】
+     * 【展示所有模板信息】
      *
      * @return
      */
@@ -65,7 +65,7 @@ public class TemplateController {
     }
 
     /**
-     * 【修改品牌信息】
+     * 【修改模板信息】
      *
      * @param templateEntity
      * @return
