@@ -8,19 +8,19 @@ public class WxTabSku {
     private String name;
     private Integer price;
     private Integer num;
-    private Integer alert_num;
+    private Integer alertNum;
     private String image;
     private String images;
     private Integer weight;
-    private Date create_time;
-    private Date update_time;
-    private Integer spu_id;
-    private Integer category_id;
-    private String category_name;
-    private String brand_name;
+    private Date createTime;
+    private Date updateTime;
+    private Integer spuId;
+    private Integer categoryId;
+    private String categoryName;
+    private String brandName;
     private String spec;
-    private Integer sale_num;
-    private Integer comment_num;
+    private Integer saleNum;
+    private Integer commentNum;
     private String status;
 
     public Integer getId() {
@@ -63,12 +63,12 @@ public class WxTabSku {
         this.num = num;
     }
 
-    public Integer getAlert_num() {
-        return alert_num;
+    public Integer getAlertNum() {
+        return alertNum;
     }
 
-    public void setAlert_num(Integer alert_num) {
-        this.alert_num = alert_num;
+    public void setAlertNum(Integer alertNum) {
+        this.alertNum = alertNum;
     }
 
     public String getImage() {
@@ -95,52 +95,52 @@ public class WxTabSku {
         this.weight = weight;
     }
 
-    public Date getCreate_time() {
-        return create_time;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreate_time(Date create_time) {
-        this.create_time = create_time;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
-    public Date getUpdate_time() {
-        return update_time;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUpdate_time(Date update_time) {
-        this.update_time = update_time;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
-    public Integer getSpu_id() {
-        return spu_id;
+    public Integer getSpuId() {
+        return spuId;
     }
 
-    public void setSpu_id(Integer spu_id) {
-        this.spu_id = spu_id;
+    public void setSpuId(Integer spuId) {
+        this.spuId = spuId;
     }
 
-    public Integer getCategory_id() {
-        return category_id;
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory_id(Integer category_id) {
-        this.category_id = category_id;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public String getCategory_name() {
-        return category_name;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategory_name(String category_name) {
-        this.category_name = category_name;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
-    public String getBrand_name() {
-        return brand_name;
+    public String getBrandName() {
+        return brandName;
     }
 
-    public void setBrand_name(String brand_name) {
-        this.brand_name = brand_name;
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
     }
 
     public String getSpec() {
@@ -151,20 +151,20 @@ public class WxTabSku {
         this.spec = spec;
     }
 
-    public Integer getSale_num() {
-        return sale_num;
+    public Integer getSaleNum() {
+        return saleNum;
     }
 
-    public void setSale_num(Integer sale_num) {
-        this.sale_num = sale_num;
+    public void setSaleNum(Integer saleNum) {
+        this.saleNum = saleNum;
     }
 
-    public Integer getComment_num() {
-        return comment_num;
+    public Integer getCommentNum() {
+        return commentNum;
     }
 
-    public void setComment_num(Integer comment_num) {
-        this.comment_num = comment_num;
+    public void setCommentNum(Integer commentNum) {
+        this.commentNum = commentNum;
     }
 
     public String getStatus() {
@@ -183,19 +183,19 @@ public class WxTabSku {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", num=" + num +
-                ", alert_num=" + alert_num +
+                ", alertNum=" + alertNum +
                 ", image='" + image + '\'' +
                 ", images='" + images + '\'' +
                 ", weight=" + weight +
-                ", create_time=" + create_time +
-                ", update_time=" + update_time +
-                ", spu_id=" + spu_id +
-                ", category_id=" + category_id +
-                ", category_name='" + category_name + '\'' +
-                ", brand_name='" + brand_name + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", spuId=" + spuId +
+                ", categoryId=" + categoryId +
+                ", categoryName='" + categoryName + '\'' +
+                ", brandName='" + brandName + '\'' +
                 ", spec='" + spec + '\'' +
-                ", sale_num=" + sale_num +
-                ", comment_num=" + comment_num +
+                ", saleNum=" + saleNum +
+                ", commentNum=" + commentNum +
                 ", status='" + status + '\'' +
                 '}';
     }

@@ -97,7 +97,7 @@ public class AdminController {
         Msg m;
         List<Map<String,Object>> list =  iAdminService.findAll();
         if (null != list && !list.isEmpty()) {
-            m = Msg.success().messageData("admin",list);
+            m = Msg.success().messageData(list);
         } else {
             m = Msg.fail();
         }

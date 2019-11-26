@@ -1,9 +1,8 @@
 package com.cn.wanxi.mall.controller.menu;
 
-import com.cn.wanxi.entity.brand.BrandEntity;
-import com.cn.wanxi.entity.brand.ByPage;
 import com.cn.wanxi.entity.brand.PageList;
 import com.cn.wanxi.entity.menu.MenuEntity;
+import com.cn.wanxi.entity.spuAndSku.ByPage;
 import com.cn.wanxi.service.menu.IMenuService;
 import com.cn.wanxi.utils.utils.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
-
-import static org.springframework.util.ObjectUtils.isEmpty;
 
 /**
  * 【菜单管理】 菜单为三级菜单
@@ -155,7 +152,7 @@ public class MenuController {
 //        }
 
         //实例化 分页实体类
-        com.cn.wanxi.entity.brand.PageList pageList = new PageList();
+      PageList pageList = new PageList();
         //根据页数，每页记录数查询
         List<Map<String, Object>> list = iMenuService.findListAndPage(menuEntity, page, size);
         //把查询出来的对象封装在分页实体类中
@@ -164,7 +161,7 @@ public class MenuController {
         int TotalRows = iMenuService.countAll();
         //把页数封装在分页实体类中
         pageList.setPage(page);
-        pageList.setTotal(list.size());
+        pageList.setPages(list.size());
         //查询出来的总行数封装在分页实体类中
         pageList.setTotalRows(TotalRows);
         if (list.isEmpty()) {

@@ -34,7 +34,7 @@ public class OrderItemController {
         Msg m;
         int result = iOrderItemService.add(brandEntity);
         if (!isEmpty(result)) {
-            m = Msg.success().messageData("orderItem", brandEntity);
+            m = Msg.success().messageData(brandEntity);
         } else {
             m = Msg.fail();
         }
@@ -53,7 +53,7 @@ public class OrderItemController {
         if (list.isEmpty()) {
             msg = Msg.fail();
         } else {
-            msg = Msg.success().messageData("orderItem", list);
+            msg = Msg.success().messageData(list);
         }
         return msg;
     }
@@ -70,7 +70,7 @@ public class OrderItemController {
         int id =param.get("id");
         OrderItemEntity byId = iOrderItemService.findById(id);
         if (byId != null) {
-            msg = Msg.success().messageData("orderItem", byId);
+            msg = Msg.success().messageData( byId);
         } else {
             msg = Msg.fail();
         }
@@ -90,7 +90,7 @@ public class OrderItemController {
 
         int up = iOrderItemService.update(orderItemEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("orderItem", orderItemEntity);
+            msg = Msg.success().messageData(orderItemEntity);
         } else {
             msg = Msg.fail();
         }

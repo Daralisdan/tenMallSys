@@ -23,7 +23,7 @@ public class WxTabCategoryBrand {
     @Override
     public String toString() {
         return "WxTabCategoryBrand{" +
-                "Category_Id=" + categoryId +
+                "categoryId=" + categoryId +
                 ", brandId=" + brandId +
                 '}';
     }

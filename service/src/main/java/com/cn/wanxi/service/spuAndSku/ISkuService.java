@@ -26,4 +26,6 @@ public interface ISkuService {
     WxTabSku findByIdzj(int id);
 
     int shangjia(int id);
+
+    WxTabSku findByName(String name);
 }

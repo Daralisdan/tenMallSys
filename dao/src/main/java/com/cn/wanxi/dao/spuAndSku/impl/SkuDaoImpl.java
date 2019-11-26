@@ -20,20 +20,20 @@ public class SkuDaoImpl implements ISkuDao {
     @Override
     public int insert(WxTabSku wxTabSku) {
         String exeSQL = "INSERT INTO wx_tab_sku(sn,name,price,num,alert_num,image,images,weight,create_time,update_time,spu_id,category_id,category_name,brand_name,spec,sale_num,comment_num,status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        Object args[] = {wxTabSku.getSn(),wxTabSku.getName(),wxTabSku.getPrice(),wxTabSku.getNum(),wxTabSku.getAlert_num(),wxTabSku.getImage(),wxTabSku.getImages(),wxTabSku.getWeight(),wxTabSku.getCreate_time(),wxTabSku.getUpdate_time(),wxTabSku.getSpu_id(),wxTabSku.getCategory_id(),wxTabSku.getCategory_name(),wxTabSku.getBrand_name(),wxTabSku.getSpec(),wxTabSku.getSale_num(),wxTabSku.getComment_num(),wxTabSku.getStatus()};
+        Object args[] = {wxTabSku.getSn(),wxTabSku.getName(),wxTabSku.getPrice(),wxTabSku.getNum(),wxTabSku.getAlertNum(),wxTabSku.getImage(),wxTabSku.getImages(),wxTabSku.getWeight(),wxTabSku.getCreateTime(),wxTabSku.getUpdateTime(),wxTabSku.getSpuId(),wxTabSku.getCategoryId(),wxTabSku.getCategoryName(),wxTabSku.getBrandName(),wxTabSku.getSpec(),wxTabSku.getSaleNum(),wxTabSku.getCommentNum(),wxTabSku.getStatus()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
     }
 
     @Override
     public List<Map<String, Object>> testQueryForList(String ids ){
-        String sql = "select * from wx_tab_sku where id in "+"("+ids+")";
+        String sql = "select id, sn, name, price, num, alert_num as alertNum, image, images, weight, create_time as createTime, update_time as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num commentNum, status from wx_tab_sku where id in "+"("+ids+")";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
         return list;
     }
     @Override
     public List<Map<String, Object>> queryAll() {
-        String exeSQL = "select * from wx_tab_sku";
+        String exeSQL = "select id, sn, name, price, num, alert_num as alertNum, image, images, weight, create_time as createTime, update_time as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num commentNum, status from wx_tab_sku";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
         return list;
     }
@@ -42,7 +42,7 @@ public class SkuDaoImpl implements ISkuDao {
     public WxTabSku findById(int id) {
 
         WxTabSku wxTabSku = null;
-        String exeSQL = "select * from wx_tab_sku where spu_id=?";
+        String exeSQL = "select id, sn, name, price, num, alert_num as alertNum, image, images, weight, create_time as createTime, update_time as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num commentNum, status  from wx_tab_sku where spu_id=?";
         List<WxTabSku> wxTabSkuu = jdbcTemplate.query(exeSQL, new Object[]{id}, new BeanPropertyRowMapper<WxTabSku>(WxTabSku.class));
         if (null != wxTabSkuu && wxTabSkuu.size() > 0) {
             wxTabSku = wxTabSkuu.get(0);
@@ -50,10 +50,11 @@ public class SkuDaoImpl implements ISkuDao {
         return wxTabSku;
     }
 
+
     @Override
     public int update(WxTabSku wxTabSku) {
         String exeSQL = "update wx_tab_sku set sn=?,name=?,price=?,num=?,alert_num=?,image=?,images=?,weight=?,create_time=?,update_time=?,spu_id=?,category_id=?,category_name=?,brand_name=?,spec=?,sale_num=?,comment_num=?,status=? WHERE id=?";
-        Object args[] = {wxTabSku.getSn(),wxTabSku.getName(),wxTabSku.getPrice(),wxTabSku.getNum(),wxTabSku.getAlert_num(),wxTabSku.getImage(),wxTabSku.getImages(),wxTabSku.getWeight(),wxTabSku.getCreate_time(),wxTabSku.getUpdate_time(),wxTabSku.getSpu_id(),wxTabSku.getCategory_id(),wxTabSku.getCategory_name(),wxTabSku.getBrand_name(),wxTabSku.getSpec(),wxTabSku.getSale_num(),wxTabSku.getComment_num(),wxTabSku.getStatus()};
+        Object args[] = {wxTabSku.getSn(),wxTabSku.getName(),wxTabSku.getPrice(),wxTabSku.getNum(),wxTabSku.getAlertNum(),wxTabSku.getImage(),wxTabSku.getImages(),wxTabSku.getWeight(),wxTabSku.getCreateTime(),wxTabSku.getUpdateTime(),wxTabSku.getSpuId(),wxTabSku.getCategoryId(),wxTabSku.getCategoryName(),wxTabSku.getBrandName(),wxTabSku.getSpec(),wxTabSku.getSaleNum(),wxTabSku.getCommentNum(),wxTabSku.getStatus()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
     }
@@ -91,10 +92,21 @@ public class SkuDaoImpl implements ISkuDao {
     @Override
     public WxTabSku findByIdzj(int id) {
         WxTabSku wxTabSku = null;
-        String exeSQL = "select * from wx_tab_sku where id=?";
+        String exeSQL = "select id, sn, name, price, num, alert_num as alertNum, image, images, weight, create_time as createTime, update_time as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num commentNum, status from wx_tab_sku from wx_tab_sku where id=?";
         List<WxTabSku> wxTabSkuu = jdbcTemplate.query(exeSQL, new Object[]{id}, new BeanPropertyRowMapper<WxTabSku>(WxTabSku.class));
         if (null != wxTabSkuu && wxTabSkuu.size() > 0) {
             wxTabSku = wxTabSkuu.get(0);
+        }
+        return wxTabSku;
+    }
+
+    @Override
+    public WxTabSku findByName(String name) {
+        WxTabSku wxTabSku = null;
+        String exeSQL = "select id, sn, name, price, num, alert_num as alertNum, image, images, weight, create_time as createTime, update_time as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num commentNum, status from wx_tab_sku from wx_tab_sku where name=?";
+        List<WxTabSku> wxTabSpuu = jdbcTemplate.query(exeSQL, new Object[]{name}, new BeanPropertyRowMapper<WxTabSku>(WxTabSku.class));
+        if (null != wxTabSpuu && wxTabSpuu.size() > 0) {
+            wxTabSku = wxTabSpuu.get(0);
         }
         return wxTabSku;
     }

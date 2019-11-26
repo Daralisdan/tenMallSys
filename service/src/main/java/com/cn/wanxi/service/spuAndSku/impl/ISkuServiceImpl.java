@@ -84,6 +84,11 @@ public class ISkuServiceImpl implements ISkuService {
         return iSkuDao.shangjia(id);
     }
 
+    @Override
+    public WxTabSku findByName(String name) {
+        return null;
+    }
+
 
 }
 

@@ -25,7 +25,7 @@ public class OrderReturnCauseController {
         Msg msg = null;
         int up = iReturnCauseService.update(returnCauseEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("refund", returnCauseEntity);
+            msg = Msg.success().messageData(returnCauseEntity);
         } else {
             msg = Msg.fail();
         }
@@ -41,7 +41,7 @@ public class OrderReturnCauseController {
         Msg m;
         int result = iReturnCauseService.add(returnCauseEntity);
         if (!isEmpty(result)) {
-            m = Msg.success().messageData("returnItem", returnCauseEntity);
+            m = Msg.success().messageData(returnCauseEntity);
         } else {
             m = Msg.fail();
         }
@@ -60,7 +60,7 @@ public class OrderReturnCauseController {
         if (list.isEmpty()) {
             msg = Msg.fail();
         } else {
-            msg = Msg.success().messageData("returnItem", list);
+            msg = Msg.success().messageData(list);
         }
         return msg;
     }
@@ -77,7 +77,7 @@ public class OrderReturnCauseController {
         int  id = param.get("id");
         ReturnCauseEntity byId = iReturnCauseService.findById(id);
         if (byId != null) {
-            msg = Msg.success().messageData("returnItem", byId);
+            msg = Msg.success().messageData(byId);
         } else {
             msg = Msg.fail();
         }
@@ -96,7 +96,7 @@ public class OrderReturnCauseController {
 
         int up = iReturnCauseService.update(returnCauseEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("returnItem", returnCauseEntity);
+            msg = Msg.success().messageData(returnCauseEntity);
         } else {
             msg = Msg.fail();
         }

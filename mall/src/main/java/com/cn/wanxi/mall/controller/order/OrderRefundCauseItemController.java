@@ -31,7 +31,7 @@ public class OrderRefundCauseItemController {
         Msg m;
         int result = iRefundCauseItemService.add(refundCauseItemEntity);
         if (!isEmpty(result)) {
-            m = Msg.success().messageData("refundItem", refundCauseItemEntity);
+            m = Msg.success().messageData(refundCauseItemEntity);
         } else {
             m = Msg.fail();
         }
@@ -50,7 +50,7 @@ public class OrderRefundCauseItemController {
         if (list.isEmpty()) {
             msg = Msg.fail();
         } else {
-            msg = Msg.success().messageData("refundItem", list);
+            msg = Msg.success().messageData(list);
         }
         return msg;
     }
@@ -67,7 +67,7 @@ public class OrderRefundCauseItemController {
         int id =param.get("id");
         RefundCauseItemEntity byId = iRefundCauseItemService.findById(id);
         if (byId != null) {
-            msg = Msg.success().messageData("refundItem", byId);
+            msg = Msg.success().messageData(byId);
         } else {
             msg = Msg.fail();
         }
@@ -86,7 +86,7 @@ public class OrderRefundCauseItemController {
 
         int up = iRefundCauseItemService.update(refundCauseItemEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("refundItem", refundCauseItemEntity);
+            msg = Msg.success().messageData(refundCauseItemEntity);
         } else {
             msg = Msg.fail();
         }

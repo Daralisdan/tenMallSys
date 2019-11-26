@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface ISkuDao {
 
-    List<Map<String, Object>>  testQueryForList(String ids );
+    List<Map<String, Object>>  testQueryForList(String ids);
 
     int insert(WxTabSku wxTabSku);
 
@@ -19,12 +19,14 @@ public interface ISkuDao {
 
     int deleteById(int id);
 
-    int xiajia( WxTabSku wxTabSku);
+    int xiajia(WxTabSku wxTabSku);
 
     int shangjia(int id);
 
     int piliangxiajia(String id);
 
     WxTabSku findByIdzj(int id);
+
+    WxTabSku findByName(String name);
 
 }

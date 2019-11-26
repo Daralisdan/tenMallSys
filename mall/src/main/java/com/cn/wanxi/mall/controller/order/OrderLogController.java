@@ -32,7 +32,7 @@ public class OrderLogController {
         Msg m;
         int result = iOrderLogService.add(orderLogEntity);
         if (!isEmpty(result)) {
-            m = Msg.success().messageData("orderLog", orderLogEntity);
+            m = Msg.success().messageData(orderLogEntity);
         } else {
             m = Msg.fail();
         }
@@ -50,7 +50,7 @@ public class OrderLogController {
         if (list.isEmpty()) {
             msg = Msg.fail();
         } else {
-            msg = Msg.success().messageData("orderLog", list);
+            msg = Msg.success().messageData(list);
         }
         return msg;
     }
@@ -67,7 +67,7 @@ public class OrderLogController {
         int id =param.get("id");
         OrderLogEntity byId = iOrderLogService.findById(id);
         if (byId != null) {
-            msg = Msg.success().messageData("orderLog", byId);
+            msg = Msg.success().messageData(byId);
         } else {
             msg = Msg.fail();
         }
@@ -85,7 +85,7 @@ public class OrderLogController {
 
         int up = iOrderLogService.update(orderLogEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("orderLog", orderLogEntity);
+            msg = Msg.success().messageData(orderLogEntity);
         } else {
             msg = Msg.fail();
         }

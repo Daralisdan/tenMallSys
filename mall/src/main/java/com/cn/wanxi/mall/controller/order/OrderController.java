@@ -33,7 +33,7 @@ public class OrderController {
         Msg m;
         int result = iOrderService.add(orderEntity);
         if (!isEmpty(result)) {
-            m = Msg.success().messageData("orderItem", orderEntity);
+            m = Msg.success().messageData(orderEntity);
         } else {
             m = Msg.fail();
         }
@@ -51,7 +51,7 @@ public class OrderController {
         if (list.isEmpty()) {
             msg = Msg.fail();
         } else {
-            msg = Msg.success().messageData("order", list);
+            msg = Msg.success().messageData(list);
         }
         return msg;
     }
@@ -65,7 +65,7 @@ public class OrderController {
         if (list.isEmpty()) {
             msg = Msg.fail();
         } else {
-            msg = Msg.success().messageData("order", list);
+            msg = Msg.success().messageData(list);
         }
         return list;
     }
@@ -76,7 +76,7 @@ public class OrderController {
         int orderId = param.get("orderId");
         int result = iOrderService.batchSendSubmit(orderId);
         if (!isEmpty(result)) {
-            m = Msg.success().messageData("order", orderId);
+            m = Msg.success().messageData(orderId);
         } else {
             m = Msg.fail();
         }
@@ -101,7 +101,7 @@ public class OrderController {
         int id = param.get("id");
         OrderEntity byId = iOrderService.findById(id);
         if (byId != null) {
-            msg = Msg.success().messageData("order", byId);
+            msg = Msg.success().messageData(byId);
         } else {
             msg = Msg.fail();
         }
@@ -142,7 +142,7 @@ public class OrderController {
         if (list.isEmpty()) {
             msg = Msg.fail();
         } else {
-            msg = Msg.success().messageData("order", list);
+            msg = Msg.success().messageData(list);
         }
         return msg;
     }

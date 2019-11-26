@@ -5,41 +5,25 @@ public class WxTabSpu {
     private String sn;
     private String name;
     private String caption;
-    private Integer brand_id;
-    private Integer category1_id;
-    private Integer category2_id;
-    private Integer category3_id;
-    private Integer template_id;
-    private Integer freight_id;
+    private Integer brandId;
+    private Integer category1Id;
+    private Integer category2Id;
+    private Integer category3Id;
+    private Integer templateId;
+    private Integer freightId;
     private String image;
     private String images;
-    private String sale_service;
+    private String saleService;
     private String introduction;
-    private String spec_items;
-    private String para_items;
-    private Integer sale_num;
-    private Integer comment_num;
-    private String is_marketable;
-    private String is_enable_pec;
-    private String is_delete;
+    private String specItems;
+    private String paraItems;
+    private Integer saleNum;
+    private Integer commentNum;
+    private String isMarkeTable;
+    private String isEnablePec;
+    private String isDelete;
     private String status;
     private WxTabSku SkuList;
-
-    public WxTabSku getSkuList() {
-        return SkuList;
-    }
-
-    public void setSkuList(WxTabSku skuList) {
-        SkuList = skuList;
-    }
-
-    public String getCaption() {
-        return caption;
-    }
-
-    public void setCaption(String caption) {
-        this.caption = caption;
-    }
 
     public Integer getId() {
         return id;
@@ -65,52 +49,60 @@ public class WxTabSpu {
         this.name = name;
     }
 
-    public Integer getBrand_id() {
-        return brand_id;
+    public String getCaption() {
+        return caption;
     }
 
-    public void setBrand_id(Integer brand_id) {
-        this.brand_id = brand_id;
+    public void setCaption(String caption) {
+        this.caption = caption;
     }
 
-    public Integer getCategory1_id() {
-        return category1_id;
+    public Integer getBrandId() {
+        return brandId;
     }
 
-    public void setCategory1_id(Integer category1_id) {
-        this.category1_id = category1_id;
+    public void setBrandId(Integer brandId) {
+        this.brandId = brandId;
     }
 
-    public Integer getCategory2_id() {
-        return category2_id;
+    public Integer getCategory1Id() {
+        return category1Id;
     }
 
-    public void setCategory2_id(Integer category2_id) {
-        this.category2_id = category2_id;
+    public void setCategory1Id(Integer category1Id) {
+        this.category1Id = category1Id;
     }
 
-    public Integer getCategory3_id() {
-        return category3_id;
+    public Integer getCategory2Id() {
+        return category2Id;
     }
 
-    public void setCategory3_id(Integer category3_id) {
-        this.category3_id = category3_id;
+    public void setCategory2Id(Integer category2Id) {
+        this.category2Id = category2Id;
     }
 
-    public Integer getTemplate_id() {
-        return template_id;
+    public Integer getCategory3Id() {
+        return category3Id;
     }
 
-    public void setTemplate_id(Integer template_id) {
-        this.template_id = template_id;
+    public void setCategory3Id(Integer category3Id) {
+        this.category3Id = category3Id;
     }
 
-    public Integer getFreight_id() {
-        return freight_id;
+    public Integer getTemplateId() {
+        return templateId;
     }
 
-    public void setFreight_id(Integer freight_id) {
-        this.freight_id = freight_id;
+    public void setTemplateId(Integer templateId) {
+        this.templateId = templateId;
+    }
+
+    public Integer getFreightId() {
+        return freightId;
+    }
+
+    public void setFreightId(Integer freightId) {
+        this.freightId = freightId;
     }
 
     public String getImage() {
@@ -129,12 +121,12 @@ public class WxTabSpu {
         this.images = images;
     }
 
-    public String getSale_service() {
-        return sale_service;
+    public String getSaleService() {
+        return saleService;
     }
 
-    public void setSale_service(String sale_service) {
-        this.sale_service = sale_service;
+    public void setSaleService(String saleService) {
+        this.saleService = saleService;
     }
 
     public String getIntroduction() {
@@ -145,60 +137,44 @@ public class WxTabSpu {
         this.introduction = introduction;
     }
 
-    public String getSpec_items() {
-        return spec_items;
+    public String getSpecItems() {
+        return specItems;
     }
 
-    public void setSpec_items(String spec_items) {
-        this.spec_items = spec_items;
+    public void setSpecItems(String specItems) {
+        this.specItems = specItems;
     }
 
-    public String getPara_items() {
-        return para_items;
+    public String getParaItems() {
+        return paraItems;
     }
 
-    public void setPara_items(String para_items) {
-        this.para_items = para_items;
+    public void setParaItems(String paraItems) {
+        this.paraItems = paraItems;
     }
 
-    public Integer getSale_num() {
-        return sale_num;
+    public Integer getSaleNum() {
+        return saleNum;
     }
 
-    public void setSale_num(Integer sale_num) {
-        this.sale_num = sale_num;
+    public void setSaleNum(Integer saleNum) {
+        this.saleNum = saleNum;
     }
 
-    public Integer getComment_num() {
-        return comment_num;
+    public Integer getCommentNum() {
+        return commentNum;
     }
 
-    public void setComment_num(Integer comment_num) {
-        this.comment_num = comment_num;
+    public void setCommentNum(Integer commentNum) {
+        this.commentNum = commentNum;
     }
 
-    public String getIs_marketable() {
-        return is_marketable;
+    public String getIsDelete() {
+        return isDelete;
     }
 
-    public void setIs_marketable(String is_marketable) {
-        this.is_marketable = is_marketable;
-    }
-
-    public String getIs_enable_pec() {
-        return is_enable_pec;
-    }
-
-    public void setIs_enable_pec(String is_enable_pec) {
-        this.is_enable_pec = is_enable_pec;
-    }
-
-    public String getIs_delete() {
-        return is_delete;
-    }
-
-    public void setIs_delete(String is_delete) {
-        this.is_delete = is_delete;
+    public void setIsDelete(String isDelete) {
+        this.isDelete = isDelete;
     }
 
     public String getStatus() {
@@ -209,6 +185,30 @@ public class WxTabSpu {
         this.status = status;
     }
 
+    public WxTabSku getSkuList() {
+        return SkuList;
+    }
+
+    public void setSkuList(WxTabSku skuList) {
+        SkuList = skuList;
+    }
+
+    public String getIsMarkeTable() {
+        return isMarkeTable;
+    }
+
+    public void setIsMarkeTable(String isMarkeTable) {
+        this.isMarkeTable = isMarkeTable;
+    }
+
+    public String getIsEnablePec() {
+        return isEnablePec;
+    }
+
+    public void setIsEnablePec(String isEnablePec) {
+        this.isEnablePec = isEnablePec;
+    }
+
     @Override
     public String toString() {
         return "WxTabSpu{" +
@@ -216,23 +216,23 @@ public class WxTabSpu {
                 ", sn='" + sn + '\'' +
                 ", name='" + name + '\'' +
                 ", caption='" + caption + '\'' +
-                ", brand_id=" + brand_id +
-                ", category1_id=" + category1_id +
-                ", category2_id=" + category2_id +
-                ", category3_id=" + category3_id +
-                ", template_id=" + template_id +
-                ", freight_id=" + freight_id +
+                ", brandId=" + brandId +
+                ", category1Id=" + category1Id +
+                ", category2Id=" + category2Id +
+                ", category3Id=" + category3Id +
+                ", templateId=" + templateId +
+                ", freightId=" + freightId +
                 ", image='" + image + '\'' +
                 ", images='" + images + '\'' +
-                ", sale_service='" + sale_service + '\'' +
+                ", saleService='" + saleService + '\'' +
                 ", introduction='" + introduction + '\'' +
-                ", spec_items='" + spec_items + '\'' +
-                ", para_items='" + para_items + '\'' +
-                ", sale_num=" + sale_num +
-                ", comment_num=" + comment_num +
-                ", is_marketable='" + is_marketable + '\'' +
-                ", is_enable_pec='" + is_enable_pec + '\'' +
-                ", is_delete='" + is_delete + '\'' +
+                ", specItems='" + specItems + '\'' +
+                ", paraItems='" + paraItems + '\'' +
+                ", saleNum=" + saleNum +
+                ", commentNum=" + commentNum +
+                ", isMarkeTable='" + isMarkeTable + '\'' +
+                ", isEnablePec='" + isEnablePec + '\'' +
+                ", isDelete='" + isDelete + '\'' +
                 ", status='" + status + '\'' +
                 ", SkuList=" + SkuList +
                 '}';

@@ -1,6 +1,5 @@
 package com.cn.wanxi.dao.spuAndSku;
 
-import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.spuAndSku.WxTabSpu;
 
 import java.util.List;
@@ -23,11 +22,11 @@ public interface ISpuDao{
 
     List<Map<String, Object>> queryAll();
 
-    List<Map<String, Object>> findPage(WxTabSpu wxTabSpu , int page , int size);
+    List<Map<String, Object>> findPage(WxTabSpu wxTabSpu, int page, int size);
 
     WxTabSpu findById(int id);
 
-    List<Map<String, Object>> daishenheliebiao(WxTabSpu wxTabSpu, int page,int size );
+    List<Map<String, Object>> daishenheliebiao(WxTabSpu wxTabSpu, int page, int size);
 
     WxTabSpu findByName(String name);
 
@@ -35,11 +34,11 @@ public interface ISpuDao{
 
     int deleteById(int id);
 
-    int tijiaoshenhe (WxTabSpu wxTabSpu);
+    int tijiaoshenhe(WxTabSpu wxTabSpu);
 
     int shenhechenggong(WxTabSpu wxTabSpu);
 
-    List<Map<String, Object>> fenye(WxTabSpu wxTabSpu,int page, int size);
+    List<Map<String, Object>> fenye(WxTabSpu wxTabSpu, int page, int size);
 
     int zong();
 
