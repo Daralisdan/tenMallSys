@@ -2,40 +2,40 @@ package com.cn.wanxi.entity.order;
 
 public class RefundCauseEntity {
     private Integer id;
-    private Integer order_id;
-    private String apply_time;
-    private Integer user_id;
-    private String user_account;
+    private Integer orderId;
+    private String applyTime;
+    private Integer userId;
+    private String userAccount;
     private String linkman;
-    private String linkman_mobile;
+    private String linkmanMobile;
     private String type;
-    private Integer return_money;
-    private String is_return_freight;
+    private Integer returnMoney;
+    private String isReturnFreight;
     private String status;
-    private String dispose_time;
-    private Integer return_cause;
+    private String disposeTime;
+    private Integer returnCause;
     private String evidence;
     private String description;
     private String remark;
-    private Integer admin_id;
+    private Integer adminId;
 
-    public RefundCauseEntity(Integer order_id, String apply_time, Integer user_id, String user_account, String linkman, String linkman_mobile, String type, Integer return_money, String is_return_freight, String status, String dispose_time, Integer return_cause, String evidence, String description, String remark, Integer admin_id) {
-        this.order_id = order_id;
-        this.apply_time = apply_time;
-        this.user_id = user_id;
-        this.user_account = user_account;
+    public RefundCauseEntity(Integer orderId, String applyTime, Integer userId, String userAccount, String linkman, String linkmanMobile, String type, Integer returnMoney, String isReturnFreight, String status, String disposeTime, Integer returnCause, String evidence, String description, String remark, Integer adminId) {
+        this.orderId = orderId;
+        this.applyTime = applyTime;
+        this.userId = userId;
+        this.userAccount = userAccount;
         this.linkman = linkman;
-        this.linkman_mobile = linkman_mobile;
+        this.linkmanMobile = linkmanMobile;
         this.type = type;
-        this.return_money = return_money;
-        this.is_return_freight = is_return_freight;
+        this.returnMoney = returnMoney;
+        this.isReturnFreight = isReturnFreight;
         this.status = status;
-        this.dispose_time = dispose_time;
-        this.return_cause = return_cause;
+        this.disposeTime = disposeTime;
+        this.returnCause = returnCause;
         this.evidence = evidence;
         this.description = description;
         this.remark = remark;
-        this.admin_id = admin_id;
+        this.adminId = adminId;
     }
     public RefundCauseEntity(){
 
@@ -44,22 +44,22 @@ public class RefundCauseEntity {
     @Override
     public String toString() {
         return "RefundCauseEntity{" +
-                "order_id=" + order_id +
-                ", apply_time='" + apply_time + '\'' +
-                ", user_id=" + user_id +
-                ", user_account='" + user_account + '\'' +
+                "order_id=" + orderId +
+                ", apply_time='" + applyTime + '\'' +
+                ", user_id=" + userId +
+                ", user_account='" + userAccount + '\'' +
                 ", linkman='" + linkman + '\'' +
-                ", linkman_mobile='" + linkman_mobile + '\'' +
+                ", linkman_mobile='" + linkmanMobile + '\'' +
                 ", type='" + type + '\'' +
-                ", return_money=" + return_money +
-                ", is_return_freight='" + is_return_freight + '\'' +
+                ", return_money=" + returnMoney +
+                ", is_return_freight='" + isReturnFreight + '\'' +
                 ", status='" + status + '\'' +
-                ", dispose_time='" + dispose_time + '\'' +
-                ", return_cause=" + return_cause +
+                ", dispose_time='" + disposeTime + '\'' +
+                ", return_cause=" + returnCause +
                 ", evidence='" + evidence + '\'' +
                 ", description='" + description + '\'' +
                 ", remark='" + remark + '\'' +
-                ", admin_id=" + admin_id +
+                ", admin_id=" + adminId +
                 '}';
     }
 
@@ -71,36 +71,36 @@ public class RefundCauseEntity {
         this.id = id;
     }
 
-    public Integer getOrder_id() {
-        return order_id;
+    public Integer getOrderId() {
+        return orderId;
     }
 
-    public void setOrder_id(Integer order_id) {
-        this.order_id = order_id;
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 
-    public String getApply_time() {
-        return apply_time;
+    public String getApplyTime() {
+        return applyTime;
     }
 
-    public void setApply_time(String apply_time) {
-        this.apply_time = apply_time;
+    public void setApplyTime(String applyTime) {
+        this.applyTime = applyTime;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public String getUser_account() {
-        return user_account;
+    public String getUserAccount() {
+        return userAccount;
     }
 
-    public void setUser_account(String user_account) {
-        this.user_account = user_account;
+    public void setUserAccount(String userAccount) {
+        this.userAccount = userAccount;
     }
 
     public String getLinkman() {
@@ -111,12 +111,12 @@ public class RefundCauseEntity {
         this.linkman = linkman;
     }
 
-    public String getLinkman_mobile() {
-        return linkman_mobile;
+    public String getLinkmanMobile() {
+        return linkmanMobile;
     }
 
-    public void setLinkman_mobile(String linkman_mobile) {
-        this.linkman_mobile = linkman_mobile;
+    public void setLinkmanMobile(String linkmanMobile) {
+        this.linkmanMobile = linkmanMobile;
     }
 
     public String getType() {
@@ -127,20 +127,20 @@ public class RefundCauseEntity {
         this.type = type;
     }
 
-    public Integer getReturn_money() {
-        return return_money;
+    public Integer getReturnMoney() {
+        return returnMoney;
     }
 
-    public void setReturn_money(Integer return_money) {
-        this.return_money = return_money;
+    public void setReturnMoney(Integer returnMoney) {
+        this.returnMoney = returnMoney;
     }
 
-    public String getIs_return_freight() {
-        return is_return_freight;
+    public String getIsReturnFreight() {
+        return isReturnFreight;
     }
 
-    public void setIs_return_freight(String is_return_freight) {
-        this.is_return_freight = is_return_freight;
+    public void setIsReturnFreight(String isReturnFreight) {
+        this.isReturnFreight = isReturnFreight;
     }
 
     public String getStatus() {
@@ -151,20 +151,20 @@ public class RefundCauseEntity {
         this.status = status;
     }
 
-    public String getDispose_time() {
-        return dispose_time;
+    public String getDisposeTime() {
+        return disposeTime;
     }
 
-    public void setDispose_time(String dispose_time) {
-        this.dispose_time = dispose_time;
+    public void setDisposeTime(String disposeTime) {
+        this.disposeTime = disposeTime;
     }
 
-    public Integer getReturn_cause() {
-        return return_cause;
+    public Integer getReturnCause() {
+        return returnCause;
     }
 
-    public void setReturn_cause(Integer return_cause) {
-        this.return_cause = return_cause;
+    public void setReturnCause(Integer returnCause) {
+        this.returnCause = returnCause;
     }
 
     public String getEvidence() {
@@ -191,11 +191,11 @@ public class RefundCauseEntity {
         this.remark = remark;
     }
 
-    public Integer getAdmin_id() {
-        return admin_id;
+    public Integer getAdminId() {
+        return adminId;
     }
 
-    public void setAdmin_id(Integer admin_id) {
-        this.admin_id = admin_id;
+    public void setAdminId(Integer adminId) {
+        this.adminId = adminId;
     }
 }

@@ -1,22 +1,22 @@
 package com.cn.wanxi.entity.order;
 
 public class OrderLogEntity {
-    private Integer id;
-    private String operate;
-    private String operate_time;
-    private Integer order_id;
-    private String order_status;
-    private String pay_status;
-    private String consign_status;
+       private Integer id;
+    private String operater;
+    private String operateTime;
+    private Integer orderId;
+    private String orderStatus;
+    private String payStatus;
+    private String consignStatus;
     private String remarks;
 
-    public OrderLogEntity(String operate, String operate_time, Integer order_id, String order_status, String pay_status, String consign_status, String remarks) {
-        this.operate = operate;
-        this.operate_time = operate_time;
-        this.order_id = order_id;
-        this.order_status = order_status;
-        this.pay_status = pay_status;
-        this.consign_status = consign_status;
+    public OrderLogEntity(String operater, String operateTime, Integer orderId, String orderStatus, String payStatus, String consignStatus, String remarks) {
+        this.operater = operater;
+        this.operateTime = operateTime;
+        this.orderId = orderId;
+        this.orderStatus = orderStatus;
+        this.payStatus = payStatus;
+        this.consignStatus = consignStatus;
         this.remarks = remarks;
     }
 
@@ -27,12 +27,12 @@ public class OrderLogEntity {
     public String toString() {
         return "OrderLogEntity{" +
                 "id=" + id +
-                ", operate='" + operate + '\'' +
-                ", operate_time='" + operate_time + '\'' +
-                ", order_id=" + order_id +
-                ", order_status='" + order_status + '\'' +
-                ", pay_status='" + pay_status + '\'' +
-                ", consign_status='" + consign_status + '\'' +
+                ", operate='" + operater + '\'' +
+                ", operate_time='" + operateTime + '\'' +
+                ", order_id=" + orderId +
+                ", order_status='" + orderStatus + '\'' +
+                ", pay_status='" + payStatus + '\'' +
+                ", consign_status='" + consignStatus + '\'' +
                 ", remarks='" + remarks + '\'' +
                 '}';
     }
@@ -45,52 +45,52 @@ public class OrderLogEntity {
         this.id = id;
     }
 
-    public String getOperate() {
-        return operate;
+    public String getOperater() {
+        return operater;
     }
 
-    public void setOperate(String operate) {
-        this.operate = operate;
+    public void setOperater(String operater) {
+        this.operater = operater;
     }
 
-    public String getOperate_time() {
-        return operate_time;
+    public String getOperateTime() {
+        return operateTime;
     }
 
-    public void setOperate_time(String operate_time) {
-        this.operate_time = operate_time;
+    public void setOperateTime(String operateTime) {
+        this.operateTime = operateTime;
     }
 
-    public Integer getOrder_id() {
-        return order_id;
+    public Integer getOrderId() {
+        return orderId;
     }
 
-    public void setOrder_id(Integer order_id) {
-        this.order_id = order_id;
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 
-    public String getOrder_status() {
-        return order_status;
+    public String getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setOrder_status(String order_status) {
-        this.order_status = order_status;
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
-    public String getPay_status() {
-        return pay_status;
+    public String getPayStatus() {
+        return payStatus;
     }
 
-    public void setPay_status(String pay_status) {
-        this.pay_status = pay_status;
+    public void setPayStatus(String payStatus) {
+        this.payStatus = payStatus;
     }
 
-    public String getConsign_status() {
-        return consign_status;
+    public String getConsignStatus() {
+        return consignStatus;
     }
 
-    public void setConsign_status(String consign_status) {
-        this.consign_status = consign_status;
+    public void setConsignStatus(String consignStatus) {
+        this.consignStatus = consignStatus;
     }
 
     public String getRemarks() {
