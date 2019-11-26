@@ -2,7 +2,7 @@ package com.cn.wanxi.mall.controller.brand;
 
 import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.brand.PageList;
-import com.cn.wanxi.entity.utils.Msg;
+import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.brand.IBrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,7 +40,7 @@ public class BrandController {
         Msg m;
         int result = iBrandService.add(brandEntity);
         if (!isEmpty(result)) {
-            m = Msg.success().messageData("brand", brandEntity);
+            m = Msg.success().messageData(brandEntity);
         } else {
             m = Msg.fail();
         }
@@ -60,7 +60,7 @@ public class BrandController {
         if (list.isEmpty()) {
             msg = Msg.fail();
         } else {
-            msg = Msg.success().messageData("brand", list);
+            msg = Msg.success().messageData(list);
         }
         return msg;
     }
@@ -76,7 +76,7 @@ public class BrandController {
         Msg msg = null;
         BrandEntity byId = iBrandService.findById(id);
         if (byId != null) {
-            msg = Msg.success().messageData("brand", byId);
+            msg = Msg.success().messageData(byId);
         } else {
             msg = Msg.fail();
         }
@@ -95,7 +95,7 @@ public class BrandController {
 
         int up = iBrandService.update(brandEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("brand", brandEntity);
+            msg = Msg.success().messageData(brandEntity);
         } else {
             msg = Msg.fail();
         }
@@ -132,7 +132,7 @@ public class BrandController {
         if (list.isEmpty()) {
             msg = Msg.fail();
         } else {
-            msg = Msg.success().messageData("brand", list);
+            msg = Msg.success().messageData(list);
         }
         return msg;
     }
@@ -179,7 +179,7 @@ public class BrandController {
         //总页数
         pageList.setPages(pages);
 
-        return Msg.success().messageData("brand", pageList);
+        return Msg.success().messageData(pageList);
     }
 
     /**
@@ -187,7 +187,7 @@ public class BrandController {
      *
      * @return
      */
-    @PostMapping("/findByConditionPage")
+    @PostMapping("/findByConditionPage" )
     public Msg findByConditionPage(BrandEntity brandEntity, int page, int size) {
         Msg m;
         //实例化 分页实体类
@@ -214,7 +214,7 @@ public class BrandController {
             System.out.println("目前分页的总页数是" + pages);
             //总页数
             pageList.setPages(pages);
-            m = Msg.success().messageData("brand", pageList);
+            m = Msg.success().messageData(pageList);
         }
         return m;
     }

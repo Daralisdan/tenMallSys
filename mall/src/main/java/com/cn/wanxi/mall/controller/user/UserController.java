@@ -1,8 +1,8 @@
 package com.cn.wanxi.mall.controller.user;
 
 import com.cn.wanxi.entity.user.UserEntity;
-import com.cn.wanxi.entity.utils.Msg;
-import com.cn.wanxi.entity.utils.MsgX;
+import com.cn.wanxi.utils.utils.Msg;
+import com.cn.wanxi.utils.utils.MsgX;
 import com.cn.wanxi.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
