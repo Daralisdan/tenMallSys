@@ -57,9 +57,9 @@ public class TemplateController {
 
 
     @PostMapping(value = "/findCondPage", produces = "application/json;charset=UTF-8")
-    public Map<String, Object> find(@RequestBody TemplateEntity templateEntity, Integer page, Integer size) {
+    public Map<String, Object> find(@RequestBody TemplateEntity templateEntity) {
         if (templateEntity.getName() != null && !templateEntity.getName().trim().equals("")) {
-            Map<String, Object> map = iTemplateService.find(templateEntity, page, size);
+            Map<String, Object> map = iTemplateService.find(templateEntity);
             return map;
         } else {
             return null;
