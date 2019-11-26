@@ -1,5 +1,10 @@
 package com.cn.wanxi.dao.album;
 
+import com.cn.wanxi.entity.album.AlbumEntity;
+
+import java.util.List;
+import java.util.Map;
+
 /**【图片库管理】：用于存储商品图片的空间，一个图片库（相册）下有多张图片
  * 数据表： wx_tab_album （相册表）
  *

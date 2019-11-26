@@ -5,6 +5,7 @@ package com.cn.wanxi.entity.album;
  *
  * 2019/11/18,Create by yaodan
  */
+
 public class AlbumEntity {
 
     private  Integer id;

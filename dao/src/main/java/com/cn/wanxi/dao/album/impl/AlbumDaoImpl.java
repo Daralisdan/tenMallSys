@@ -51,8 +51,8 @@ public class AlbumDaoImpl implements IAlbumDao {
 
     @Override
     public int update(AlbumEntity albumEntity) {
-        String exeSQL = "update wx_tab_album set title=?,image=?,image_items=? WHERE id=?";
-        Object args[] = {albumEntity.getTitle(),albumEntity.getImage(),albumEntity.getImageItems()};
+        String exeSQL = "update  wx_tab_album set title=? , image=? ,image_items=? WHERE id=?";
+        Object args[] ={albumEntity.getTitle(),albumEntity.getImage(),albumEntity.getImageItems(),albumEntity.getId()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
     }

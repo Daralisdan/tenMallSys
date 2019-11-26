@@ -23,6 +23,8 @@ public interface ISpuDao{
 
     List<Map<String, Object>> queryAll();
 
+    List<Map<String, Object>> findPage(WxTabSpu wxTabSpu , int page , int size);
+
     WxTabSpu findById(int id);
 
     List<Map<String, Object>> daishenheliebiao(WxTabSpu wxTabSpu, int page,int size );

@@ -47,6 +47,17 @@ public class SpuDaoImpl implements ISpuDao {
         return list;
     }
 
+    @Override
+    public List<Map<String, Object>> findPage(WxTabSpu wxTabSpu , int page , int size) {
+        int starter = (page - 1) * size;
+        StringBuffer sql = getQuerySql(wxTabSpu);
+        sql.append("   ORDER BY id ASC LIMIT  " + starter + " , " + size) ;
+        String exeSQL = sql.toString();
+        System.out.println("执行的SQL:" + exeSQL);
+        List<Map<String, Object>> con = jdbcTemplate.queryForList(exeSQL);
+        return con;
+    }
+
 
     @Override
     public WxTabSpu findById(int id) {
