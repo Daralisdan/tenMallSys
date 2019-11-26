@@ -35,8 +35,8 @@ public class RoleController {
     public String roleadd(HttpServletRequest request, HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         RoleEntity roleEntity = new RoleEntity();
-        roleEntity.setRole_name(request.getParameter("role_name"));
-        String aa = "insert into wx_tab_role(role_name) values('" + roleEntity.getRole_name() + "')";
+        roleEntity.setRoleName(request.getParameter("role_name"));
+        String aa = "insert into wx_tab_role(role_name) values('" + roleEntity.getRoleName() + "')";
         int a = JDBC.update(aa);
         System.out.println(a);
         if (a == 1) {
@@ -87,8 +87,8 @@ public class RoleController {
         response.setHeader("Access-Control-Allow-Origin", "*");
         int id = Integer.parseInt(request.getParameter("id"));
         RoleEntity roleEntity =new RoleEntity();
-        roleEntity.setRole_name(request.getParameter("role_name"));
-        String ee="update wx_tab_role set role_name='"+roleEntity.getRole_name()+"' where id="+id+"";
+        roleEntity.setRoleName(request.getParameter("role_name"));
+        String ee="update wx_tab_role set role_name='"+roleEntity.getRoleName()+"' where id="+id+"";
         int e=JDBC.update(ee);
         System.out.println(e);
         if (e == 1) {

@@ -39,7 +39,7 @@ public class IRefundCauseItemImpl implements IRefundCauseItemDao {
      */
     @Override
     public List<Map<String, Object>> queryAll() {
-        String exeSQL = "select  category_id as categoryId , spu_id as spuId , sku_id as skuId , order_id as orderId ,  order_item_id as orderItemId ,  return_order_id as returnOrderId, title,price,num,money, pay_money as payMoney ,image,weight   from wx_tab_return_order_item";
+        String exeSQL = "select id, category_id as categoryId , spu_id as spuId , sku_id as skuId , order_id as orderId ,  order_item_id as orderItemId ,  return_order_id as returnOrderId, title,price,num,money, pay_money as payMoney ,image,weight   from wx_tab_return_order_item";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
         return list;
     }
@@ -47,7 +47,7 @@ public class IRefundCauseItemImpl implements IRefundCauseItemDao {
     @Override
     public RefundCauseItemEntity findById(int id) {
         RefundCauseItemEntity refundCauseItemEntity = null;
-        String exeSQL = "select category_id as categoryId , spu_id as spuId , sku_id as skuId , order_id as orderId ,  order_item_id as orderItemId ,  return_order_id as returnOrderId, title,price,num,money, pay_money as payMoney ,image,weight from wx_tab_return_order_item where id=?";
+        String exeSQL = "select id, category_id as categoryId , spu_id as spuId , sku_id as skuId , order_id as orderId ,  order_item_id as orderItemId ,  return_order_id as returnOrderId, title,price,num,money, pay_money as payMoney ,image,weight from wx_tab_return_order_item where id=?";
         List<RefundCauseItemEntity> refundCauseItemEntities = jdbcTemplate.query(exeSQL, new Object[]{id}, new BeanPropertyRowMapper<RefundCauseItemEntity>(RefundCauseItemEntity.class));
         if (null != refundCauseItemEntities && refundCauseItemEntities.size() > 0) {
             refundCauseItemEntity = refundCauseItemEntities.get(0);

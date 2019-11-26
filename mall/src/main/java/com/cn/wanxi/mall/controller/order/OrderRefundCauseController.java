@@ -2,9 +2,11 @@ package com.cn.wanxi.mall.controller.order;
 
 
 import com.cn.wanxi.entity.order.RefundCauseEntity;
+import com.cn.wanxi.entity.order.ReturnCauseEntity;
 import com.cn.wanxi.entity.utils.Msg;
 import com.cn.wanxi.service.order.IOrderService;
 import com.cn.wanxi.service.order.IRefundCauseService;
+import com.cn.wanxi.service.order.IReturnCauseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,8 +26,10 @@ import static org.springframework.util.StringUtils.isEmpty;
 public class OrderRefundCauseController {
     @Autowired
     private IRefundCauseService iRefundCauseService;
+    @Autowired
+    private IReturnCauseService iReturnCauseService;
 
-    @PostMapping(value = "/list", produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "/findAll", produces = "application/json;charset=UTF-8")
     public HashMap<String, Object> refundList(@RequestBody Map<String, Integer> param, HttpServletResponse response) {
         int page = param.get("page");
         int size = param.get("size");
@@ -136,6 +140,17 @@ public class OrderRefundCauseController {
         int i = iRefundCauseService.deleteById(id);
         if (i > 0) {
             msg = Msg.success();
+        } else {
+            msg = Msg.fail();
+        }
+        return msg;
+    }
+    @PostMapping (value = "/casue" , produces = "application/json;charset=UTF-8")
+    public Msg casue(@RequestBody ReturnCauseEntity returnCauseEntity) {
+        Msg msg = null;
+        int up = iReturnCauseService.update(returnCauseEntity);
+        if (up > 0) {
+            msg = Msg.success().messageData("refund", returnCauseEntity);
         } else {
             msg = Msg.fail();
         }

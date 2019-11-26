@@ -39,7 +39,7 @@ public class IOrderLogImpl implements IOrderLogDao {
      */
     @Override
     public List<Map<String, Object>> queryAll() {
-        String exeSQL = "select operater , operate_time as operateTime , order_id as orderId  ,   order_status as  orderStatus, pay_status as  payStatus ,  consign_status as consignStatus ,remarks   from wx_tab_order_log";
+        String exeSQL = "select id, operater , operate_time as operateTime , order_id as orderId  ,   order_status as  orderStatus, pay_status as  payStatus ,  consign_status as consignStatus ,remarks   from wx_tab_order_log";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
         return list;
     }
@@ -47,7 +47,7 @@ public class IOrderLogImpl implements IOrderLogDao {
     @Override
     public OrderLogEntity findById(int id) {
         OrderLogEntity orderLogEntity = null;
-        String exeSQL = "select operater , operate_time as operateTime , order_id as orderId  ,   order_status as  orderStatus, pay_status as  payStatus ,  consign_status as consignStatus ,remarks from wx_tab_order_log where id=?";
+        String exeSQL = "select id, operater , operate_time as operateTime , order_id as orderId  ,   order_status as  orderStatus, pay_status as  payStatus ,  consign_status as consignStatus ,remarks from wx_tab_order_log where id=?";
         List<OrderLogEntity> orderLogEntities = jdbcTemplate.query(exeSQL, new Object[]{id}, new BeanPropertyRowMapper<OrderLogEntity>(OrderLogEntity.class));
         if (null != orderLogEntities && orderLogEntities.size() > 0) {
             orderLogEntity = orderLogEntities.get(0);

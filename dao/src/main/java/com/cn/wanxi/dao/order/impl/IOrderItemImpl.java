@@ -41,7 +41,7 @@ public class IOrderItemImpl implements IOrderItemDao {
      */
     @Override
     public List<Map<String, Object>> queryAll() {
-        String exeSQL = "select category_id1 as categoryId1 , category_id2 as categoryId2 , category_id3 as categoryId3 , spu_id as spuId, sku_id as skuId , order_id as orderId , name ,price, num, money, pay_money as payMoney ,image,weight, post_fee as postFee , is_return as  isReturn      from wx_tab_order_item";
+        String exeSQL = "select id, category_id1 as categoryId1 , category_id2 as categoryId2 , category_id3 as categoryId3 , spu_id as spuId, sku_id as skuId , order_id as orderId , name ,price, num, money, pay_money as payMoney ,image,weight, post_fee as postFee , is_return as  isReturn      from wx_tab_order_item";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
         return list;
     }
@@ -49,7 +49,7 @@ public class IOrderItemImpl implements IOrderItemDao {
     @Override
     public OrderItemEntity findById(int id) {
         OrderItemEntity orderItemEntity = null;
-        String exeSQL = "select  category_id1 as categoryId1 , category_id2 as categoryId2 , category_id3 as categoryId3 , spu_id as spuId, sku_id as skuId , order_id as orderId , name ,price, num, money, pay_money as payMoney ,image,weight, post_fee as postFee , is_return as  isReturn from wx_tab_order_item where id=?";
+        String exeSQL = "select  id, category_id1 as categoryId1 , category_id2 as categoryId2 , category_id3 as categoryId3 , spu_id as spuId, sku_id as skuId , order_id as orderId , name ,price, num, money, pay_money as payMoney ,image,weight, post_fee as postFee , is_return as  isReturn from wx_tab_order_item where id=?";
         List<OrderItemEntity> orderItemEntities = jdbcTemplate.query(exeSQL, new Object[]{id}, new BeanPropertyRowMapper<OrderItemEntity>(OrderItemEntity.class));
         if (null != orderItemEntities && orderItemEntities.size() > 0) {
             orderItemEntity = orderItemEntities.get(0);

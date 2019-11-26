@@ -16,7 +16,7 @@ import java.util.Map;
 import static org.springframework.util.StringUtils.isEmpty;
 
 @RestController
-@RequestMapping("/return")
+@RequestMapping("/cause")
 public class OrderReturnCauseController {
     @Autowired
     private IReturnCauseService iReturnCauseService;

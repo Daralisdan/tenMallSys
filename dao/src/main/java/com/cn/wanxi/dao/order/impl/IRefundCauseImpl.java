@@ -57,7 +57,7 @@ public class IRefundCauseImpl implements IRefundCauseDao {
     @Override
     public List<Map<String, Object>> refundList(int page, int size) {
 
-        String exeSQL = "select order_id as orderId , apply_time as applyTime , user_id as userId, user_account as userAccount ,linkman , linkman_mobile as linkmanMobile ,type, return_money as returnMoney , is_return_freight as isReturnFreight,status, dispose_time as disposeTime  ,  return_cause as returnCause ,evidence,description,remark, admin_id as adminId   from wx_tab_return_order limit " + (page - 1) * size + " , " + size;
+        String exeSQL = "select id, order_id as orderId , apply_time as applyTime , user_id as userId, user_account as userAccount ,linkman , linkman_mobile as linkmanMobile ,type, return_money as returnMoney , is_return_freight as isReturnFreight,status, dispose_time as disposeTime  ,  return_cause as returnCause ,evidence,description,remark, admin_id as adminId   from wx_tab_return_order limit " + (page - 1) * size + " , " + size;
 
 //        map=jdbcTemplate.queryForMap(exeSQL,);
 
@@ -88,7 +88,7 @@ public class IRefundCauseImpl implements IRefundCauseDao {
      */
     @Override
     public List<Map<String, Object>> queryAll() {
-        String exeSQL = "select  order_id as orderId , apply_time as applyTime , user_id as userId, user_account as userAccount ,linkman , linkman_mobile as linkmanMobile ,type, return_money as returnMoney , is_return_freight as isReturnFreight,status, dispose_time as disposeTime  ,  return_cause as returnCause ,evidence,description,remark, admin_id as adminId    from wx_tab_return_order";
+        String exeSQL = "select id,  order_id as orderId , apply_time as applyTime , user_id as userId, user_account as userAccount ,linkman , linkman_mobile as linkmanMobile ,type, return_money as returnMoney , is_return_freight as isReturnFreight,status, dispose_time as disposeTime  ,  return_cause as returnCause ,evidence,description,remark, admin_id as adminId    from wx_tab_return_order";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
         return list;
     }
@@ -102,7 +102,7 @@ public class IRefundCauseImpl implements IRefundCauseDao {
     @Override
     public RefundCauseEntity findById(int id) {
         RefundCauseEntity refundCauseEntity = null;
-        String exeSQL = "select order_id as orderId , apply_time as applyTime , user_id as userId, user_account as userAccount ,linkman , linkman_mobile as linkmanMobile ,type, return_money as returnMoney , is_return_freight as isReturnFreight,status, dispose_time as disposeTime  ,  return_cause as returnCause ,evidence,description,remark, admin_id as adminId   from wx_tab_return_order where id=?";
+        String exeSQL = "select id, order_id as orderId , apply_time as applyTime , user_id as userId, user_account as userAccount ,linkman , linkman_mobile as linkmanMobile ,type, return_money as returnMoney , is_return_freight as isReturnFreight,status, dispose_time as disposeTime  ,  return_cause as returnCause ,evidence,description,remark, admin_id as adminId   from wx_tab_return_order where id=?";
         List<RefundCauseEntity> refundCauseEntities = jdbcTemplate.query(exeSQL, new Object[]{id}, new BeanPropertyRowMapper<RefundCauseEntity>(RefundCauseEntity.class));
         if (null != refundCauseEntities && refundCauseEntities.size() > 0) {
             refundCauseEntity = refundCauseEntities.get(0);
