@@ -33,7 +33,6 @@ public class TemplateController {
      */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
     public Msg add(@RequestBody TemplateEntity templateEntity) {
-        System.out.println(111111111);
         Msg m;
         int result = iTemplateService.add(templateEntity);
         if (!isEmpty(result)) {
@@ -73,8 +72,8 @@ public class TemplateController {
      * @param templateEntity
      * @return
      */
-    @PostMapping("/update")
-    public Msg update(TemplateEntity templateEntity) {
+    @PostMapping(value = "/update", produces = "application/json;charset=UTF-8")
+    public Msg update(@RequestBody TemplateEntity templateEntity) {
         Msg msg;
         int up = iTemplateService.update(templateEntity);
         if (up > 0) {
@@ -91,8 +90,8 @@ public class TemplateController {
      * @param templateEntity
      * @return
      */
-    @PostMapping("/delete")
-    public Msg delete(TemplateEntity templateEntity) {
+    @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
+    public Msg delete(@RequestBody TemplateEntity templateEntity) {
         Msg msg;
         int i = iTemplateService.deleteById(templateEntity);
         if (i > 0) {
