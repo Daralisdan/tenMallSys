@@ -1,15 +1,18 @@
 package com.cn.wanxi.mall.controller.spuAndSku;
 
+import com.cn.wanxi.entity.spuAndSku.ByPage;
 import com.cn.wanxi.entity.spuAndSku.WxTabSku;
 import com.cn.wanxi.entity.spuAndSku.WxTabSpu;
 import com.cn.wanxi.service.spuAndSku.ISkuService;
 import com.cn.wanxi.service.spuAndSku.ISpuService;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,7 +72,7 @@ public class SpuAndSkuController {
     }
 
     @RequestMapping(value ="/add",method = RequestMethod.POST ,produces="text/plain;charset=UTF-8")
-    public String insertskuspu(WxTabSpu wxTabSpu, WxTabSku wxTabSku){
+    public String insertskuspu(@RequestBody WxTabSpu wxTabSpu, WxTabSku wxTabSku){
 
         int i = iSpuService.insert(wxTabSpu);
         System.out.println(i);
@@ -167,26 +170,24 @@ public class SpuAndSkuController {
     }
     /**
      * 根据spu的id查询spu表和sku表
-     * @param id
+     * @param
      * @return
      */
     @RequestMapping(value ="/findById",method = RequestMethod.POST)
-    public WxTabSpu findid(int id){
-
+    public WxTabSpu findid(@RequestBody WxTabSpu wxTabSpuu){
+        int id = wxTabSpuu.getId();
         WxTabSpu wxTabSpu = iSpuService.findById(id);
         WxTabSku wxTabSku = iSkuService.findById(id);
         wxTabSpu.setSkuList(wxTabSku);
-
+//        if(wxTabSpu==null){
+//            JSONObject result = new JSONObject();
+//            result.put("code",cuo);
+//            return result;
+//        }
+//        JSONObject resultt = new JSONObject();
+//        resultt.put("spu",wxTabSpu);
         return wxTabSpu;
     }
-
-//    @RequestMapping(value ="/findById",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-//    public WxTabSpu findid(int[] id){
-//        WxTabSpu wxTabSpu = iSpuService.findById(id);
-//        WxTabSku wxTabSku = iSkuService.findById(id);
-//        wxTabSpu.setSkuList(wxTabSku);
-//        return wxTabSpu;
-//    }
 
 
     @RequestMapping(value ="/findSearch",method = RequestMethod.POST)
@@ -196,31 +197,51 @@ public class SpuAndSkuController {
 
         return  list;
     }
+
     @RequestMapping(value ="/findSpuPage",method = RequestMethod.POST)
-    public List<Map<String, Object>> spufenye(int page,int size){
-        List<Map<String, Object>> list = iSpuService.fenye(page,size);
+    public LinkedHashMap spufenye(@RequestBody Map<String, Integer> param){
+        Integer page = param.get("page");
+        Integer size = param.get("size");
+        WxTabSpu wxTabSpu = new WxTabSpu();
+        List<Map<String, Object>> list = iSpuService.fenye(wxTabSpu, page, size);
         int count = iSpuService.zong();
-        JSONObject result = new JSONObject();
-        result.put("list",list);
-        result.put("total",count);
-        return  list;
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        linkedHashMap.put("row",list);
+        linkedHashMap.put("total",count);
+        return linkedHashMap;
     }
     /**
      * 待审核列表
      * @return
      */
-    @RequestMapping(value ="/findAuditALL",method = RequestMethod.POST)
-    public List<Map<String, Object>> daishenghebiao(){
-        List<Map<String, Object>> list = iSpuService.daishenheliebiao();
-        return  list;
+    @RequestMapping(value ="/findAuditALL",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
+    public LinkedHashMap daishenghebiao(@RequestBody  Map<String, Integer> param){
+        Integer page = param.get("page");
+        Integer size = param.get("size");
+        Integer status = param.get("status");
+        WxTabSpu wxTabSpu = new WxTabSpu();
+        if (status != null) {
+            wxTabSpu.setStatus(status.toString());
+        }else {
+            LinkedHashMap linkedHashMap = new LinkedHashMap();
+            linkedHashMap.put("status","状态不存在");
+            return linkedHashMap;
+        }
+        List<Map<String, Object>> list = iSpuService.daishenheliebiao(wxTabSpu, page, size);
+        int count = iSpuService.zong();
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        linkedHashMap.put("row",list);
+        linkedHashMap.put("total",count);
+        return linkedHashMap;
     }
     /**
      * 根据商品的id 然后查到spu表然后判断其状态是否为已审核，然后更改商品的状态
-     * @param id
+     * @param
      * @return
      */
     @RequestMapping(value ="/ShelvesReq",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    public String ShelvesReq(int id){
+    public String ShelvesReq(@RequestBody WxTabSku wxTabSkuu){
+        int id = wxTabSkuu.getId();
         if(" ".equals(id)){
             return cuo;
         }
@@ -233,6 +254,7 @@ public class SpuAndSkuController {
             int code = 0;
             String message = "上架成功";
             JSONObject result = new JSONObject();
+
             result.put("code",code);
             result.put("message",message);
             return  result.toJSONString();
@@ -252,7 +274,7 @@ public class SpuAndSkuController {
      * @return
      */
     @RequestMapping(value ="/batchShelvesReq",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    public String batchShelvesReq(String id){
+    public String batchShelvesReq(@RequestBody  String id){
 
         if(id==null&&id.trim()==""){
             return cuo;
@@ -296,7 +318,7 @@ public class SpuAndSkuController {
      * @return
      */
     @RequestMapping(value ="/submitReq",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    public String submitReq(WxTabSpu wxTabSpu){
+    public String submitReq(@RequestBody WxTabSpu wxTabSpu){
         int i = iSpuService.tijiaoshenhe(wxTabSpu);
         if(i>0) {
 
@@ -322,7 +344,7 @@ public class SpuAndSkuController {
      * @return
      */
     @RequestMapping(value ="/auditReq",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    public String auditReq(WxTabSpu wxTabSpu){
+    public String auditReq(@RequestBody WxTabSpu wxTabSpu){
         int i = iSpuService.shenhechenggong(wxTabSpu);
         if(i>0) {
             int code = 0;
@@ -346,7 +368,7 @@ public class SpuAndSkuController {
      * @return
      */
     @RequestMapping(value ="/pullReq",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    public String pullReq(WxTabSku wxTabSku ){
+    public String pullReq(@RequestBody WxTabSku wxTabSku ){
         int i = iSkuService.xiajia(wxTabSku);
         if(i>0) {
             int code = 0;

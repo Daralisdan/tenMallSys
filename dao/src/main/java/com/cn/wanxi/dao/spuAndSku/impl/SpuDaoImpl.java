@@ -1,11 +1,13 @@
 package com.cn.wanxi.dao.spuAndSku.impl;
 
 import com.cn.wanxi.dao.spuAndSku.ISpuDao;
+import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.spuAndSku.WxTabSpu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -59,10 +61,34 @@ public class SpuDaoImpl implements ISpuDao {
     }
 
     @Override
-    public List<Map<String, Object>> daishenheliebiao() {
-        String exeSQL = "select id, sn, name, caption, brand_id as brandId, category1_id as category1Id, category2_id as category2Id, category3_id as category3Id, template_id as templateId, freight_id as freightId, image, images, sale_service as saleService, introduction, spec_items as specItems, para_items as paraItms, sale_num as saleNum, comment_num as commentNum, is_marketable as isMakeTable, is_enable_pec as isEnablePec, is_delete as isDelete, status from wx_tab_spu where status='0'";
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
-        return list;
+    public List<Map<String, Object>> daishenheliebiao(WxTabSpu wxTabSpu, int page,int size ) {
+        int starter = (page - 1) * size;
+        StringBuffer sql = getQuerySql(wxTabSpu);
+        sql.append("   ORDER BY id ASC LIMIT  " + starter + " , " + size);
+        String exeSQL = sql.toString();
+        System.out.println("执行的SQL:" + exeSQL);
+        List<Map<String, Object>> con = jdbcTemplate.queryForList(exeSQL);
+        return con;
+    }
+    private StringBuffer getQuerySql(WxTabSpu wxTabSpu) {
+        StringBuffer sql = new StringBuffer();
+        sql.append("select id, sn, name, caption, brand_id as brandId, category1_id as category1Id, category2_id as category2Id, category3_id as category3Id, template_id as templateId, freight_id as freightId, image, images, sale_service as saleService, introduction, spec_items as specItems, para_items as paraItms, sale_num as saleNum, comment_num as commentNum, is_marketable as isMakeTable, is_enable_pec as isEnablePec, is_delete as isDelete, status from wx_tab_spu where 1=1");
+        if (!StringUtils.isEmpty(wxTabSpu.getId()) && wxTabSpu.getId() != 0) {
+            sql.append("    AND id=" + wxTabSpu.getId());
+        }
+        if (!StringUtils.isEmpty(wxTabSpu.getStatus())) {
+            sql.append("    AND status='" + wxTabSpu.getStatus() + "'");
+        }
+        if (!StringUtils.isEmpty(wxTabSpu.getName())) {
+            sql.append("    AND name='" + wxTabSpu.getName() + "'");
+        }
+        if (!StringUtils.isEmpty(wxTabSpu.getCaption())) {
+            sql.append("    AND caption='" + wxTabSpu.getCaption() + "'");
+        }
+        if (!StringUtils.isEmpty(wxTabSpu.getBrandId())) {
+            sql.append("    AND brandId='" + wxTabSpu.getBrandId() + "'");
+        }
+        return sql;
     }
 
     @Override
@@ -110,7 +136,18 @@ public class SpuDaoImpl implements ISpuDao {
     }
 
     @Override
-    public List<Map<String, Object>> fenye(int page, int size) {
+    public List<Map<String, Object>> fenye(WxTabSpu wxTabSpu, int page, int size) {
+        int starter = (page - 1) * size;
+        StringBuffer sql = getQuerySql(wxTabSpu);
+        sql.append("   ORDER BY id ASC LIMIT  " + starter + " , " + size);
+        String exeSQL = sql.toString();
+        System.out.println("执行的SQL:" + exeSQL);
+        List<Map<String, Object>> conn = jdbcTemplate.queryForList(exeSQL);
+        return conn;
+    }
+
+
+    public List<Map<String, Object>> fe1nye(int page, int size) {
         String exeSQL = "select id, sn, name, caption, brand_id as brandId, category1_id as category1Id, category2_id as category2Id, category3_id as category3Id, template_id as templateId, freight_id as freightId, image, images, sale_service as saleService, introduction, spec_items as specItems, para_items as paraItms, sale_num as saleNum, comment_num as commentNum, is_marketable as isMakeTable, is_enable_pec as isEnablePec, is_delete as isDelete, status from wx_tab_spu limit "+(page-1)*size+","+size;
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
         return list;
