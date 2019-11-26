@@ -31,6 +31,12 @@ public class ISpuServiceImpl implements ISpuService {
     }
 
     @Override
+    public WxTabSpu findByName(String name) {
+
+        return iSpuDao.findByName(name);
+    }
+
+    @Override
     public int update(WxTabSpu wxTabSpu) {
         int result = 0;
         //先根据id查询，当前数据是否存在
@@ -52,6 +58,11 @@ public class ISpuServiceImpl implements ISpuService {
     }
 
     @Override
+    public List<Map<String, Object>> daishenheliebiao(WxTabSpu wxTabSpu, int page, int size) {
+        return iSpuDao.daishenheliebiao(wxTabSpu,page,size);
+    }
+
+    @Override
     public int tijiaoshenhe(WxTabSpu wxTabSpu) {
         return iSpuDao.tijiaoshenhe(wxTabSpu);
     }
@@ -59,5 +70,17 @@ public class ISpuServiceImpl implements ISpuService {
     @Override
     public int shenhechenggong(WxTabSpu wxTabSpu) {
         return iSpuDao.shenhechenggong(wxTabSpu);
+    }
+
+    @Override
+    public List<Map<String, Object>> fenye(WxTabSpu wxTabSpu, int page, int size) {
+        return iSpuDao.fenye(wxTabSpu,page,size);
+    }
+
+
+
+    @Override
+    public int zong() {
+        return iSpuDao.zong();
     }
 }
