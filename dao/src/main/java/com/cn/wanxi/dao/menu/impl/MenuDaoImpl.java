@@ -1,7 +1,9 @@
 package com.cn.wanxi.dao.menu.impl;
 
 import com.cn.wanxi.dao.menu.IMenuDao;
+import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.menu.MenuEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,6 +20,7 @@ import java.util.Map;
  *
  * 2019/11/18,Create by zhoushiling
  */
+@Slf4j
 @Repository
 public class MenuDaoImpl implements IMenuDao {
     @Autowired
@@ -108,9 +111,26 @@ public class MenuDaoImpl implements IMenuDao {
      */
     @Override
     public List<Map<String, Object>> findListAndPage(MenuEntity menuEntity, int page, int size) {
+        int starter = (page - 1) * size;
+        StringBuffer sql = getQuerySql(menuEntity);
+        sql.append("    ORDER BY id ASC LIMIT  " + starter + " , " + size);
+        String exeSQL = sql.toString();
+        log.debug(exeSQL);
+        System.out.println("执行的SQL:" + exeSQL);
+        List<Map<String, Object>> con = jdbcTemplate.queryForList(exeSQL);
+        return con;
+    }
+
+    @Override
+    public int adds(Map<String, MenuEntity> menuEntity) {
+//        brandEntity.
+        return 0;
+    }
+
+    private StringBuffer getQuerySql(MenuEntity menuEntity) {
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT id,name,icon,url,parent_id as parentId FROM wx_tab_menu WHERE 1=1");
-        if (!StringUtils.isEmpty(menuEntity.getId())&&menuEntity.getId()!=0) {
+        if (!StringUtils.isEmpty(menuEntity.getId()) && menuEntity.getId() != 0) {
             sql.append("    AND id=" + menuEntity.getId());
         }
         if (!StringUtils.isEmpty(menuEntity.getName())) {
@@ -126,10 +146,6 @@ public class MenuDaoImpl implements IMenuDao {
         if (!StringUtils.isEmpty(menuEntity.getParentId())) {
             sql.append("    AND parentId=" + menuEntity.getParentId());
         }
-//        sql.append("    ORDER BY id ASC LIMIT  " + page + " , " + size);
-        String exeSQL = sql.toString();
-        List<Map<String, Object>> con = jdbcTemplate.queryForList(exeSQL);
-        return con;
+        return sql;
     }
-
 }

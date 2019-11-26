@@ -51,6 +51,7 @@ public interface IMenuDao {
      */
     int deleteById(int id);
     int countAll();
+    int adds(Map<String, MenuEntity> menuEntity);
 
     List<Map<String, Object>> findListAndPage(MenuEntity menuEntity, int page, int size);
 }

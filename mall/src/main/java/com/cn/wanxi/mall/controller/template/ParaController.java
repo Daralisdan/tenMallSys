@@ -31,8 +31,8 @@ public class ParaController {
      *
      * @return
      */
-    @PostMapping("/add")
-    public Msg add(ParaEntity paraEntity) {
+    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
+    public Msg add(@RequestBody ParaEntity paraEntity) {
         Msg m;
         int result = iParaService.add(paraEntity);
         if (!isEmpty(result)) {
@@ -67,8 +67,8 @@ public class ParaController {
      * @param paraEntity
      * @return
      */
-    @PostMapping("/update ")
-    public Msg update(ParaEntity paraEntity) {
+    @PostMapping(value = "/update", produces = "application/json;charset=UTF-8")
+    public Msg update(@RequestBody ParaEntity paraEntity) {
         Msg msg;
         int up = iParaService.update(paraEntity);
         if (up > 0) {
@@ -82,11 +82,11 @@ public class ParaController {
     /**
      * 【根据id删除】
      *
-     * @param id
+     * @param paraEntity
      * @return
      */
-    @PostMapping("/delete")
-    public Msg delete(ParaEntity paraEntity) {
+    @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
+    public Msg delete(@RequestBody ParaEntity paraEntity) {
         Msg msg;
         int i = iParaService.deleteById(paraEntity);
         if (i > 0) {
