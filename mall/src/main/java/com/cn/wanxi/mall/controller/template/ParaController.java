@@ -55,7 +55,7 @@ public class ParaController {
     }
 
 
-    @PostMapping("/find")
+    @PostMapping("/findCondPage")
     public Map<String, Object> find(ParaEntity paraEntity, Integer page, Integer size) {
         Map<String, Object> map = iParaService.find(paraEntity, page, size);
         return map;
@@ -86,9 +86,9 @@ public class ParaController {
      * @return
      */
     @PostMapping("/delete")
-    public Msg delete(int id) {
+    public Msg delete(ParaEntity paraEntity) {
         Msg msg;
-        int i = iParaService.deleteById(id);
+        int i = iParaService.deleteById(paraEntity);
         if (i > 0) {
             msg = Msg.success();
         } else {

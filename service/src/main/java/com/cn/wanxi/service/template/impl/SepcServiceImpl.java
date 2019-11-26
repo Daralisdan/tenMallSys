@@ -20,8 +20,8 @@ public class SepcServiceImpl implements ISepcService {
     private SepcDao sepcDao;
 
     @Override
-    public int deleteById(int id) {
-        return sepcDao.delete(id);
+    public int deleteById(SepcEntity sepcEntity) {
+        return sepcDao.delete(sepcEntity);
     }
 
 

@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public interface IParaService {
 
-    int deleteById(int id);
+    int deleteById(ParaEntity paraEntity);
 
     int add(ParaEntity paraEntity);
 

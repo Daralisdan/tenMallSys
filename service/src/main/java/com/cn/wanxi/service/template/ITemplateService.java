@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public interface ITemplateService {
 
-    int deleteById(int id);
+    int deleteById(TemplateEntity templateEntity);
 
     int add(TemplateEntity templateEntity);
 

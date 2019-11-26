@@ -55,7 +55,7 @@ public class SepcDaoImpl implements SepcDao {
      */
     @Override
     public int update(SepcEntity sepcEntity) {
-        String exeSQL = "INSERT INTO wx_tab_sepc(name,seq,options,template_id) VALUES(?,?,?,?)";
+        String exeSQL = "UPDATE wx_tab_para SET name = ?,seq = ?,options = ?,template_id = ?";
         Object args[] = {sepcEntity.getName(), sepcEntity.getOptions(), sepcEntity.getSeq(), sepcEntity.getTemplateId()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
@@ -64,13 +64,13 @@ public class SepcDaoImpl implements SepcDao {
     /**
      * 删除
      *
-     * @param id
+     * @param sepcEntity
      * @return
      */
     @Override
-    public int delete(int id) {
+    public int delete(SepcEntity sepcEntity) {
         String exeSQL = "DELETE FROM wx_tab_sepc WHERE id = ?";
-        Object arg = id;
+        Object arg = sepcEntity.getId();
         int temp = jdbcTemplate.update(exeSQL, arg);
         return temp;
     }

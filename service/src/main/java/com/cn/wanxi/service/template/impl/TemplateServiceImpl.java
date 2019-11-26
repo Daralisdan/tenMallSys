@@ -19,8 +19,8 @@ public class TemplateServiceImpl implements ITemplateService {
     private TemplateDao templateDao;
 
     @Override
-    public int deleteById(int id) {
-        return templateDao.delete(id);
+    public int deleteById(TemplateEntity templateEntity) {
+        return templateDao.delete(templateEntity);
     }
 
     @Override

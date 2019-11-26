@@ -25,5 +25,5 @@ public interface TemplateDao {
     int update(TemplateEntity templateEntity);
 
 
-    int delete(int id);
+    int delete(TemplateEntity templateEntity);
 }

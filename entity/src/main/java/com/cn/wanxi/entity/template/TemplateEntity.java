@@ -5,16 +5,16 @@ package com.cn.wanxi.entity.template;
  */
 public class TemplateEntity {
 
-    private int id;
+    private Integer id;
     private String name;
     private int paraNum;
     private int sepcNum;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

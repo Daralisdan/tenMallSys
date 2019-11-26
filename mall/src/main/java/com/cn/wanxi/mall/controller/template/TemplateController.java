@@ -4,9 +4,7 @@ import com.cn.wanxi.entity.template.TemplateEntity;
 import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.template.ITemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +18,7 @@ import static org.springframework.util.ObjectUtils.isEmpty;
  * 数据表： wx_tab_template （模板表）
  * 2019/11/18,Create by ssj
  */
-
+@CrossOrigin
 @RestController
 @RequestMapping("/template")
 public class TemplateController {
@@ -33,8 +31,9 @@ public class TemplateController {
      *
      * @return
      */
-    @PostMapping("/add")
-    public Msg add(TemplateEntity templateEntity) {
+    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
+    public Msg add(@RequestBody TemplateEntity templateEntity) {
+        System.out.println(111111111);
         Msg m;
         int result = iTemplateService.add(templateEntity);
         if (!isEmpty(result)) {
@@ -58,10 +57,14 @@ public class TemplateController {
     }
 
 
-    @PostMapping("/find")
+    @PostMapping("/findCondPage")
     public Map<String, Object> find(TemplateEntity templateEntity, Integer page, Integer size) {
-        Map<String, Object> map = iTemplateService.find(templateEntity, page, size);
-        return map;
+        if (templateEntity.getName() != null && !templateEntity.getName().trim().equals("")) {
+            Map<String, Object> map = iTemplateService.find(templateEntity, page, size);
+            return map;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -85,13 +88,13 @@ public class TemplateController {
     /**
      * 【根据id删除】
      *
-     * @param id
+     * @param templateEntity
      * @return
      */
     @PostMapping("/delete")
-    public Msg delete(int id) {
+    public Msg delete(TemplateEntity templateEntity) {
         Msg msg;
-        int i = iTemplateService.deleteById(id);
+        int i = iTemplateService.deleteById(templateEntity);
         if (i > 0) {
             msg = Msg.success();
         } else {

@@ -20,8 +20,8 @@ public class ParaServiceImpl implements IParaService {
     private ParaDao paraDao;
 
     @Override
-    public int deleteById(int id) {
-        return paraDao.delete(id);
+    public int deleteById(ParaEntity paraEntity) {
+        return paraDao.delete(paraEntity);
     }
 
     @Override

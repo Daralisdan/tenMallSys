@@ -6,7 +6,7 @@ package com.cn.wanxi.entity.template;
  */
 public class SepcEntity {
 
-    private int id;
+    private Integer id;
     private String name;
     private String options;
     private int seq;
@@ -52,4 +52,7 @@ public class SepcEntity {
         this.templateId = templateId;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

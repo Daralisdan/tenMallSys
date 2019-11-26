@@ -23,5 +23,5 @@ public interface SepcDao {
     int update(SepcEntity sepcEntity);
 
 
-    int delete(int id);
+    int delete(SepcEntity sepcEntity);
 }

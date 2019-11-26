@@ -20,6 +20,13 @@ public class TemplateDaoImpl implements TemplateDao {
     private JdbcTemplate jdbcTemplate;
 
 
+    /**
+     * 模板分页查询
+     * @param templateEntity
+     * @param page
+     * @param size
+     * @return
+     */
     @Override
     public Map<String, Object> find(TemplateEntity templateEntity, Integer page, Integer size) {
         String exeSQL = "select id , name , spec_num as specNum , para_num as paraNum from wx_tab_template where name = ? limit " + ((page - 1) * size) + " , " + (page * size);
@@ -32,7 +39,7 @@ public class TemplateDaoImpl implements TemplateDao {
     }
 
     /**
-     * 新增
+     * 模板新增
      *
      * @param templateEntity
      * @return
@@ -40,8 +47,9 @@ public class TemplateDaoImpl implements TemplateDao {
     @Override
     public int add(TemplateEntity templateEntity) {
         String exeSQL = "INSERT INTO wx_tab_template (name) VALUES (?)";
-        Object arg = templateEntity.getName();
-        int temp = jdbcTemplate.update(exeSQL, arg);
+        Object arg[] = {templateEntity.getName()};
+        System.out.println(arg[0]);
+        int temp = jdbcTemplate.update(exeSQL, arg[0]);
         return temp;
     }
 
@@ -74,13 +82,13 @@ public class TemplateDaoImpl implements TemplateDao {
     /**
      * 删除
      *
-     * @param id
+     * @param templateEntity
      * @return
      */
     @Override
-    public int delete(int id) {
+    public int delete(TemplateEntity templateEntity) {
         String exeSQL = "DELETE FROM wx_tab_template WHERE id = ?";
-        Object arg = id;
+        Object arg = templateEntity.getId();
         int temp = jdbcTemplate.update(exeSQL, arg);
         return temp;
     }

@@ -57,7 +57,7 @@ public class SepcController {
     }
 
 
-    @PostMapping("/find")
+    @PostMapping("/findCondPage")
     public Map<String, Object> find(SepcEntity sepcEntity, Integer page, Integer size) {
         Map<String, Object> map = iSepcService.find(sepcEntity, page, size);
         return map;
@@ -88,9 +88,9 @@ public class SepcController {
      * @return
      */
     @PostMapping("/delete")
-    public Msg delete(int id) {
+    public Msg delete(SepcEntity sepcEntity) {
         Msg msg;
-        int i = iSepcService.deleteById(id);
+        int i = iSepcService.deleteById(sepcEntity);
         if (i > 0) {
             msg = Msg.success();
         } else {
