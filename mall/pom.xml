@@ -75,6 +75,7 @@
             <version>2.3</version>
             <scope>compile</scope>
         </dependency>
+
         <!--<dependency>-->
         <!--<groupId>com.vaadin.external.google</groupId>-->
         <!--<artifactId>android-json</artifactId>-->
