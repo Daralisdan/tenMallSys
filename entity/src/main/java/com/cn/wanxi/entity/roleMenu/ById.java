@@ -25,7 +25,7 @@ import java.util.Map;
 @Data
 public class ById {
     private Map<String, Object> searchMap;
-    private int roleid;
-    private String menuid;
+    private int roleId;
+    private String menuId;
 
 }

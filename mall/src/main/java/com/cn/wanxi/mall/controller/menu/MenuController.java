@@ -72,13 +72,26 @@ public class MenuController {
      */
 
 
-    @RequestMapping(value = "/findAuthMenu", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/findById", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public Msg findById(@RequestBody Map<String, Integer> param) {
         Msg msg = null;
         int id = param.get("id");
         MenuEntity byId = iMenuService.findById(id);
         if (byId != null) {
             msg = Msg.success().messageData(byId);
+        } else {
+            msg = Msg.fail();
+        }
+        return msg;
+    }
+
+    @RequestMapping(value = "/findAuthMenu", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public Msg findByName(@RequestBody Map<String, String> param) {
+        Msg msg = null;
+        String name = param.get("name");
+        MenuEntity byName = iMenuService.findByName(name);
+        if (byName != null) {
+            msg = Msg.success().messageData(byName);
         } else {
             msg = Msg.fail();
         }

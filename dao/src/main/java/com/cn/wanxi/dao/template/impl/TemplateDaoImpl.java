@@ -30,15 +30,12 @@ public class TemplateDaoImpl implements TemplateDao {
     public Map<String, Object> find(TemplateEntity templateEntity) {
         int page = (templateEntity.getPage() - 1) * templateEntity.getSize();
         int size = templateEntity.getSize() * templateEntity.getPage();
-        System.out.println(page);
-        System.out.println(size);
         String exeSQL = "select id , name , spec_num as specNum , para_num as paraNum from wx_tab_template where name = ? limit " + page + "," + size;
         Object arg = templateEntity.getName();
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, arg);
         Map<String, Object> map = new TreeMap();
-        map.put("rows:", list);
+        map.put("rows", list);
         map.put("total", templateEntity.getSize());
-        map.put("rows", templateEntity.getPage());
         return map;
     }
 

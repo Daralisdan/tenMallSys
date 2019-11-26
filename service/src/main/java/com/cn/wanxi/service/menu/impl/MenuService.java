@@ -55,6 +55,10 @@ public class MenuService implements IMenuService {
         return iMenuDao.findById(id);
     }
 
+    public MenuEntity findByName(String name){
+        return iMenuDao.findByName(name);
+    }
+
     /**
      * 【根据id修改】
      *

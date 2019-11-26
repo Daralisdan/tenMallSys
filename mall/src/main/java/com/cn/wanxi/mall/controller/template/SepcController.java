@@ -58,8 +58,8 @@ public class SepcController {
     }
 
 
-    @PostMapping("/findCondPage")
-    public Map<String, Object> find(SepcEntity sepcEntity, Integer page, Integer size) {
+    @PostMapping(value = "/findCondPage" , produces = "application/json;charset=UTF-8")
+    public Map<String, Object> find(@RequestBody SepcEntity sepcEntity, Integer page, Integer size) {
         Map<String, Object> map = iSepcService.find(sepcEntity, page, size);
         return map;
     }

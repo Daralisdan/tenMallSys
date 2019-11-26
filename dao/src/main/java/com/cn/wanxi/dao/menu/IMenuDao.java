@@ -34,6 +34,7 @@ public interface IMenuDao {
      * @return
      */
     MenuEntity findById(int id);
+    MenuEntity findByName(String name);
 
     /**
      * 【修改菜单信息】

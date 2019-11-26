@@ -40,9 +40,9 @@ public class RoleMenuController {
     public Msg add(@RequestBody ById byId, HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         Msg m;
-        int roleid=byId.getRoleid();
-        String menuid=byId.getMenuid();
-        int[] result = iRoleMenuService.batchCarFlowInsert(roleid, menuid);
+        int roleId=byId.getRoleId();
+        String menuId=byId.getMenuId();
+        int[] result = iRoleMenuService.batchCarFlowInsert(roleId, menuId);
         if (!isEmpty(result)) {
             m = Msg.success().messageData(result);
         } else {
@@ -56,9 +56,9 @@ public class RoleMenuController {
     public Msg cancel(@RequestBody ById byId, HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "*");
         Msg m;
-        int roleid=byId.getRoleid();
-        String menuid=byId.getMenuid();
-        int[] result = iRoleMenuService.batchCarFlowDelete(roleid, menuid);
+        int roleId=byId.getRoleId();
+        String menuId=byId.getMenuId();
+        int[] result = iRoleMenuService.batchCarFlowDelete(roleId, menuId);
         if (!isEmpty(result)) {
             m = Msg.success();
         } else {
