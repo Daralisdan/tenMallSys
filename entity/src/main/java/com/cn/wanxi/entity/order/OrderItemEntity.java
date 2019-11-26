@@ -2,38 +2,38 @@ package com.cn.wanxi.entity.order;
 
 public class OrderItemEntity  {
     private  Integer id;
-    private  Integer category_id1;
-    private  Integer category_id2;
-    private  Integer category_id3;
-    private  Integer spu_id;
-    private  Integer sku_id;
-    private  Integer order_id;
+    private  Integer categoryId1;
+    private  Integer categoryId2;
+    private  Integer categoryId3;
+    private  Integer spuId;
+    private  Integer skuId;
+    private  Integer orderId;
     private  String name;
     private Integer price;
     private Integer num;
     private Integer money;
-    private Integer pay_money;
+    private Integer payMoney;
     private String image;
     private Integer weight;
-    private Integer post_fee;
-    private Integer is_return;
+    private Integer postFee;
+    private Integer isReturn;
 
-    public OrderItemEntity(Integer category_id1, Integer category_id2, Integer category_id3, Integer spu_id, Integer sku_id, Integer order_id, String name, Integer price, Integer num, Integer money, Integer pay_money, String image, Integer weight, Integer post_fee, Integer is_return) {
-        this.category_id1 = category_id1;
-        this.category_id2 = category_id2;
-        this.category_id3 = category_id3;
-        this.spu_id = spu_id;
-        this.sku_id = sku_id;
-        this.order_id = order_id;
+    public OrderItemEntity(Integer categoryId1, Integer categoryId2, Integer categoryId3, Integer spuId, Integer skuId, Integer orderId, String name, Integer price, Integer num, Integer money, Integer payMoney, String image, Integer weight, Integer postFee, Integer isReturn) {
+        this.categoryId1 = categoryId1;
+        this.categoryId2 = categoryId2;
+        this.categoryId3 = categoryId3;
+        this.spuId = spuId;
+        this.skuId = skuId;
+        this.orderId = orderId;
         this.name = name;
         this.price = price;
         this.num = num;
         this.money = money;
-        this.pay_money = pay_money;
+        this.payMoney = payMoney;
         this.image = image;
         this.weight = weight;
-        this.post_fee = post_fee;
-        this.is_return = is_return;
+        this.postFee = postFee;
+        this.isReturn = isReturn;
     }
     public OrderItemEntity(){}
 
@@ -45,52 +45,52 @@ public class OrderItemEntity  {
         this.id = id;
     }
 
-    public Integer getCategory_id1() {
-        return category_id1;
+    public Integer getCategoryId1() {
+        return categoryId1;
     }
 
-    public void setCategory_id1(Integer category_id1) {
-        this.category_id1 = category_id1;
+    public void setCategoryId1(Integer categoryId1) {
+        this.categoryId1 = categoryId1;
     }
 
-    public Integer getCategory_id2() {
-        return category_id2;
+    public Integer getCategoryId2() {
+        return categoryId2;
     }
 
-    public void setCategory_id2(Integer category_id2) {
-        this.category_id2 = category_id2;
+    public void setCategoryId2(Integer categoryId2) {
+        this.categoryId2 = categoryId2;
     }
 
-    public Integer getCategory_id3() {
-        return category_id3;
+    public Integer getCategoryId3() {
+        return categoryId3;
     }
 
-    public void setCategory_id3(Integer category_id3) {
-        this.category_id3 = category_id3;
+    public void setCategoryId3(Integer categoryId3) {
+        this.categoryId3 = categoryId3;
     }
 
-    public Integer getSpu_id() {
-        return spu_id;
+    public Integer getSpuId() {
+        return spuId;
     }
 
-    public void setSpu_id(Integer spu_id) {
-        this.spu_id = spu_id;
+    public void setSpuId(Integer spuId) {
+        this.spuId = spuId;
     }
 
-    public Integer getSku_id() {
-        return sku_id;
+    public Integer getSkuId() {
+        return skuId;
     }
 
-    public void setSku_id(Integer sku_id) {
-        this.sku_id = sku_id;
+    public void setSkuId(Integer skuId) {
+        this.skuId = skuId;
     }
 
-    public Integer getOrder_id() {
-        return order_id;
+    public Integer getOrderId() {
+        return orderId;
     }
 
-    public void setOrder_id(Integer order_id) {
-        this.order_id = order_id;
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 
     public String getName() {
@@ -125,12 +125,12 @@ public class OrderItemEntity  {
         this.money = money;
     }
 
-    public Integer getPay_money() {
-        return pay_money;
+    public Integer getPayMoney() {
+        return payMoney;
     }
 
-    public void setPay_money(Integer pay_money) {
-        this.pay_money = pay_money;
+    public void setPayMoney(Integer payMoney) {
+        this.payMoney = payMoney;
     }
 
     public String getImage() {
@@ -149,19 +149,19 @@ public class OrderItemEntity  {
         this.weight = weight;
     }
 
-    public Integer getPost_fee() {
-        return post_fee;
+    public Integer getPostFee() {
+        return postFee;
     }
 
-    public void setPost_fee(Integer post_fee) {
-        this.post_fee = post_fee;
+    public void setPostFee(Integer postFee) {
+        this.postFee = postFee;
     }
 
-    public Integer getIs_return() {
-        return is_return;
+    public Integer getIsReturn() {
+        return isReturn;
     }
 
-    public void setIs_return(Integer is_return) {
-        this.is_return = is_return;
+    public void setIsReturn(Integer isReturn) {
+        this.isReturn = isReturn;
     }
 }
