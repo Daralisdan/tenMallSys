@@ -5,10 +5,12 @@ package com.cn.wanxi.entity.template;
  */
 public class TemplateEntity {
 
-    private Integer id;
+    private int id;
     private String name;
     private int paraNum;
     private int sepcNum;
+    private int page;
+    private int size;
 
     public Integer getId() {
         return id;
@@ -40,5 +42,25 @@ public class TemplateEntity {
 
     public void setSepcNum(int sepcNum) {
         this.sepcNum = sepcNum;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 }

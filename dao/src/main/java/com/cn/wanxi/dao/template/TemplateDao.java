@@ -16,7 +16,7 @@ public interface TemplateDao {
     int add(TemplateEntity templateEntity);
 
 
-    Map<String, Object> find(TemplateEntity templateEntity, Integer page, Integer size);
+    Map<String, Object> find(TemplateEntity templateEntity);
 
 
     List<Map<String, Object>> findAll();

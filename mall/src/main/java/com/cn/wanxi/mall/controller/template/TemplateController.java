@@ -33,7 +33,6 @@ public class TemplateController {
      */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
     public Msg add(@RequestBody TemplateEntity templateEntity) {
-        System.out.println(111111111);
         Msg m;
         int result = iTemplateService.add(templateEntity);
         if (!isEmpty(result)) {
@@ -57,8 +56,8 @@ public class TemplateController {
     }
 
 
-    @PostMapping("/findCondPage")
-    public Map<String, Object> find(TemplateEntity templateEntity, Integer page, Integer size) {
+    @PostMapping(value = "/findCondPage", produces = "application/json;charset=UTF-8")
+    public Map<String, Object> find(@RequestBody TemplateEntity templateEntity, Integer page, Integer size) {
         if (templateEntity.getName() != null && !templateEntity.getName().trim().equals("")) {
             Map<String, Object> map = iTemplateService.find(templateEntity, page, size);
             return map;

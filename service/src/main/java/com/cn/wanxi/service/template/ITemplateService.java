@@ -16,7 +16,7 @@ public interface ITemplateService {
 
     List<Map<String, Object>> findAll();
 
-    Map<String, Object> find(TemplateEntity templateEntity, Integer page, Integer size);
+    Map<String, Object> find(TemplateEntity templateEntity);
 
     int update(TemplateEntity templateEntity);
 

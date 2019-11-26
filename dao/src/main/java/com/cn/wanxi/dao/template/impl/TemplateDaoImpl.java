@@ -22,19 +22,19 @@ public class TemplateDaoImpl implements TemplateDao {
 
     /**
      * 模板分页查询
+     *
      * @param templateEntity
-     * @param page
-     * @param size
      * @return
      */
     @Override
-    public Map<String, Object> find(TemplateEntity templateEntity, Integer page, Integer size) {
-        String exeSQL = "select id , name , spec_num as specNum , para_num as paraNum from wx_tab_template where name = ? limit " + ((page - 1) * size) + " , " + (page * size);
-        Object arg = templateEntity.getName();
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, arg);
+    public Map<String, Object> find(TemplateEntity templateEntity) {
+        String exeSQL = "select id , name , spec_num as specNum , para_num as paraNum from wx_tab_template where name = ? limit ((? - 1) * ?) , (? * ?)";
+        Object[] args = {templateEntity.getName(), templateEntity.getPage(), templateEntity.getSize(), templateEntity.getPage(), templateEntity.getSize()};
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, args);
         Map<String, Object> map = new TreeMap();
-        map.put("total", size);
-        map.put("rows", list);
+        map.put("rows:",list);
+        map.put("total", templateEntity.getSize());
+        map.put("rows", templateEntity.getPage());
         return map;
     }
 
@@ -74,7 +74,7 @@ public class TemplateDaoImpl implements TemplateDao {
     @Override
     public int update(TemplateEntity templateEntity) {
         String exeSQL = "update wx_tab_template  set name=? WHERE id =?";
-        Object[] args = {templateEntity.getName(),templateEntity.getId()};
+        Object[] args = {templateEntity.getName(), templateEntity.getId()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
     }
