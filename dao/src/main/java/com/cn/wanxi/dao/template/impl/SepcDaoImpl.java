@@ -29,7 +29,7 @@ public class SepcDaoImpl implements SepcDao {
      */
     @Override
     public int add(SepcEntity sepcEntity) {
-        String exeSQL = "INSERT INTO wx_tab_sepc VALUES(?,?,?,?)";
+        String exeSQL = "INSERT INTO wx_tab_sepc(name,seq,options,template_id) VALUES(?,?,?,?)";
         Object args[] = {sepcEntity.getName(), sepcEntity.getOptions(), sepcEntity.getSeq(), sepcEntity.getTemplateId()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
@@ -42,7 +42,7 @@ public class SepcDaoImpl implements SepcDao {
      */
     @Override
     public List<Map<String, Object>> findAll() {
-        String exeSQL = "select * from wx_tab_sepc";
+        String exeSQL = "select id,name,options,seq,template_id as templateId from wx_tab_sepc";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
         return list;
     }
@@ -55,7 +55,7 @@ public class SepcDaoImpl implements SepcDao {
      */
     @Override
     public int update(SepcEntity sepcEntity) {
-        String exeSQL = "INSERT INTO wx_tab_sepc(name,seq,options,template_id) VALUES(?,?,?,?)";
+        String exeSQL = "UPDATE wx_tab_para SET name = ?,seq = ?,options = ?,template_id = ?";
         Object args[] = {sepcEntity.getName(), sepcEntity.getOptions(), sepcEntity.getSeq(), sepcEntity.getTemplateId()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
@@ -64,20 +64,20 @@ public class SepcDaoImpl implements SepcDao {
     /**
      * 删除
      *
-     * @param id
+     * @param sepcEntity
      * @return
      */
     @Override
-    public int delete(int id) {
+    public int delete(SepcEntity sepcEntity) {
         String exeSQL = "DELETE FROM wx_tab_sepc WHERE id = ?";
-        Object arg = id;
+        Object arg = sepcEntity.getId();
         int temp = jdbcTemplate.update(exeSQL, arg);
         return temp;
     }
 
     @Override
     public Map<String, Object> find(SepcEntity sepcEntity, Integer page, Integer size) {
-        String exeSQL = "select * from wx_tab_sepc where name = ? and options = ? limit " + ((page - 1) * size) + " , " + (page * size);
+        String exeSQL = "select id,name,options,seq,template_id as templateId from wx_tab_sepc where name = ? and options = ? limit " + ((page - 1) * size) + " , " + (page * size);
         Object[] args = {sepcEntity.getName(), sepcEntity.getOptions()};
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, args);
         Map<String, Object> map = new TreeMap();

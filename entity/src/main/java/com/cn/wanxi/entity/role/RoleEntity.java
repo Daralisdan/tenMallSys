@@ -22,11 +22,19 @@ public class RoleEntity {
     Integer id;
     String roleName;
 
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
     @Override
     public String toString() {
         return "RoleEntity{" +
                 "id=" + id +
-                ", role_name='" + roleName + '\'' +
+                ", roleName='" + roleName + '\'' +
                 '}';
     }
 
@@ -36,13 +44,5 @@ public class RoleEntity {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
     }
 }

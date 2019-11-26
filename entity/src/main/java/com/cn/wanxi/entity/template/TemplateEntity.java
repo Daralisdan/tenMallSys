@@ -9,12 +9,14 @@ public class TemplateEntity {
     private String name;
     private int paraNum;
     private int sepcNum;
+    private int page;
+    private int size;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -40,5 +42,25 @@ public class TemplateEntity {
 
     public void setSepcNum(int sepcNum) {
         this.sepcNum = sepcNum;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 }

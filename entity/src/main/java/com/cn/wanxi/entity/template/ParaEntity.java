@@ -6,7 +6,7 @@ package com.cn.wanxi.entity.template;
  */
 public class ParaEntity {
 
-    private int id;
+    private Integer id;
     private String name;
     private String options;
     private int seq;
@@ -50,5 +50,9 @@ public class ParaEntity {
 
     public void setTemplateId(int templateId) {
         this.templateId = templateId;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

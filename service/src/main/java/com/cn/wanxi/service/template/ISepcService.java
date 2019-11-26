@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public interface ISepcService {
 
-    int deleteById(int id);
+    int deleteById(SepcEntity sepcEntity);
 
     int add(SepcEntity sepcEntity);
 

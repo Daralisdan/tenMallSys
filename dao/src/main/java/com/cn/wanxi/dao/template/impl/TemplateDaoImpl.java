@@ -20,28 +20,37 @@ public class TemplateDaoImpl implements TemplateDao {
     private JdbcTemplate jdbcTemplate;
 
 
+    /**
+     * 模板分页查询
+     *
+     * @param templateEntity
+     * @return
+     */
     @Override
-    public Map<String, Object> find(TemplateEntity templateEntity, Integer page, Integer size) {
-        String exeSQL = "select * from wx_tab_template where name = ? limit " + ((page - 1) * size) + " , " + (page * size);
+    public Map<String, Object> find(TemplateEntity templateEntity) {
+        int page = (templateEntity.getPage() - 1) * templateEntity.getSize();
+        int size = templateEntity.getSize() * templateEntity.getPage();
+        String exeSQL = "select id , name , spec_num as specNum , para_num as paraNum from wx_tab_template where name = ? limit " + page + "," + size;
         Object arg = templateEntity.getName();
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, arg);
         Map<String, Object> map = new TreeMap();
-        map.put("total", size);
         map.put("rows", list);
+        map.put("total", templateEntity.getSize());
         return map;
     }
 
     /**
-     * 新增
+     * 模板新增
      *
      * @param templateEntity
      * @return
      */
     @Override
     public int add(TemplateEntity templateEntity) {
-        String exeSQL = "INSERT INTO wx_tab_template(name) VALUES (?)";
-        Object arg = templateEntity.getName();
-        int temp = jdbcTemplate.update(exeSQL, arg);
+        String exeSQL = "INSERT INTO wx_tab_template (name) VALUES (?)";
+        Object arg[] = {templateEntity.getName()};
+        System.out.println(arg[0]);
+        int temp = jdbcTemplate.update(exeSQL, arg[0]);
         return temp;
     }
 
@@ -52,7 +61,7 @@ public class TemplateDaoImpl implements TemplateDao {
      */
     @Override
     public List<Map<String, Object>> findAll() {
-        String exeSQL = "select * from wx_tab_template";
+        String exeSQL = "select id , name , spec_num as specNum , para_num as paraNum from wx_tab_template";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
         return list;
     }
@@ -65,22 +74,22 @@ public class TemplateDaoImpl implements TemplateDao {
      */
     @Override
     public int update(TemplateEntity templateEntity) {
-        String exeSQL = "INSERT INTO wx_tab_template (name) VALUES (?) where name = ?";
-        Object arg = templateEntity.getName();
-        int temp = jdbcTemplate.update(exeSQL, arg);
+        String exeSQL = "update wx_tab_template  set name=? WHERE id =?";
+        Object[] args = {templateEntity.getName(), templateEntity.getId()};
+        int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
     }
 
     /**
      * 删除
      *
-     * @param id
+     * @param templateEntity
      * @return
      */
     @Override
-    public int delete(int id) {
+    public int delete(TemplateEntity templateEntity) {
         String exeSQL = "DELETE FROM wx_tab_template WHERE id = ?";
-        Object arg = id;
+        Object arg = templateEntity.getId();
         int temp = jdbcTemplate.update(exeSQL, arg);
         return temp;
     }

@@ -1,12 +1,10 @@
 package com.cn.wanxi.mall.controller.template;
 
 import com.cn.wanxi.entity.template.TemplateEntity;
-import com.cn.wanxi.entity.utils.Msg;
+import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.template.ITemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +18,7 @@ import static org.springframework.util.ObjectUtils.isEmpty;
  * 数据表： wx_tab_template （模板表）
  * 2019/11/18,Create by ssj
  */
-
+@CrossOrigin
 @RestController
 @RequestMapping("/template")
 public class TemplateController {
@@ -29,16 +27,16 @@ public class TemplateController {
     private ITemplateService iTemplateService;
 
     /**
-     * 【添加模板信息】
+     * 【添加品牌信息】
      *
      * @return
      */
-    @PostMapping("/add")
-    public Msg add(TemplateEntity templateEntity) {
+    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
+    public Msg add(@RequestBody TemplateEntity templateEntity) {
         Msg m;
         int result = iTemplateService.add(templateEntity);
         if (!isEmpty(result)) {
-            m = Msg.success().messageData("templateEntity", templateEntity);
+            m = Msg.success().messageData(templateEntity);
         } else {
             m = Msg.fail();
         }
@@ -46,7 +44,7 @@ public class TemplateController {
     }
 
     /**
-     * 【展示所有模板信息】
+     * 【展示所有品牌信息】
      *
      * @return
      */
@@ -58,24 +56,28 @@ public class TemplateController {
     }
 
 
-    @PostMapping("/find")
-    public Map<String, Object> find(TemplateEntity templateEntity, Integer page, Integer size) {
-        Map<String, Object> map = iTemplateService.find(templateEntity, page, size);
-        return map;
+    @PostMapping(value = "/findCondPage", produces = "application/json;charset=UTF-8")
+    public Map<String, Object> find(@RequestBody TemplateEntity templateEntity) {
+        if (templateEntity.getName() != null && !templateEntity.getName().trim().equals("")) {
+            Map<String, Object> map = iTemplateService.find(templateEntity);
+            return map;
+        } else {
+            return null;
+        }
     }
 
     /**
-     * 【修改模板信息】
+     * 【修改品牌信息】
      *
      * @param templateEntity
      * @return
      */
-    @PostMapping("/update")
-    public Msg update(TemplateEntity templateEntity) {
+    @PostMapping(value = "/update", produces = "application/json;charset=UTF-8")
+    public Msg update(@RequestBody TemplateEntity templateEntity) {
         Msg msg;
         int up = iTemplateService.update(templateEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("templateEntity", templateEntity);
+            msg = Msg.success().messageData(templateEntity);
         } else {
             msg = Msg.fail();
         }
@@ -85,13 +87,13 @@ public class TemplateController {
     /**
      * 【根据id删除】
      *
-     * @param id
+     * @param templateEntity
      * @return
      */
-    @PostMapping("/delete")
-    public Msg delete(int id) {
+    @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
+    public Msg delete(@RequestBody TemplateEntity templateEntity) {
         Msg msg;
-        int i = iTemplateService.deleteById(id);
+        int i = iTemplateService.deleteById(templateEntity);
         if (i > 0) {
             msg = Msg.success();
         } else {

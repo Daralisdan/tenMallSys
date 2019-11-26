@@ -11,14 +11,17 @@
 package com.cn.wanxi.mall.controller.role;
 
 import com.cn.wanxi.entity.role.RoleEntity;
-import com.cn.wanxi.utils.JDBC;
-import net.minidev.json.JSONObject;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import com.cn.wanxi.utils.utils.Msg;
+import com.cn.wanxi.service.role.IRoleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.util.List;
+import java.util.Map;
+
+import static org.springframework.util.ObjectUtils.isEmpty;
 
 /**
  * 〈一句话功能简述〉<br> 
@@ -31,80 +34,74 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/role")
 public class RoleController {
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String roleadd(HttpServletRequest request, HttpServletResponse response) {
+    @Autowired
+    private IRoleService iRoleService;
+
+    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
+    public Msg add(@RequestBody RoleEntity roleEntity , HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
-        RoleEntity roleEntity = new RoleEntity();
-        roleEntity.setRoleName(request.getParameter("role_name"));
-        String aa = "insert into wx_tab_role(role_name) values('" + roleEntity.getRoleName() + "')";
-        int a = JDBC.update(aa);
-        System.out.println(a);
-        if (a == 1) {
-            int code = 0;
-            String message = "新增成功";
-            JSONObject result = new JSONObject();
-            result.put("code", code);
-            result.put("message", message);
-            return result.toJSONString();
+        Msg m;
+        int result = iRoleService.add(roleEntity);
+        if (!isEmpty(result)) {
+            m = Msg.success().messageData(roleEntity);
         } else {
-            int code = 1;
-            String message = "新增失败";
-            JSONObject result = new JSONObject();
-            result.put("code", code);
-            result.put("message", message);
-            return result.toJSONString();
+            m = Msg.fail();
         }
+        return m;
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String roledelete(HttpServletRequest request, HttpServletResponse response) {
+    @PostMapping("/findAll")
+    public Msg findAll(HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
-        RoleEntity roleEntity = new RoleEntity();
-        int id = Integer.parseInt(request.getParameter("id"));
-        roleEntity.setId(id);
-        String dd = "delete  from wx_tab_role where id=" + roleEntity.getId();
-        int d = JDBC.update(dd);
-        System.out.println(d);
-        if (d == 1) {
-            int code = 0;
-            String message = "删除成功";
-            JSONObject result = new JSONObject();
-            result.put("code", code);
-            result.put("message", message);
-            return result.toJSONString();
+        Msg msg = null;
+        List<Map<String, Object>> list = iRoleService.findAll();
+        //判断集合是否有数据，如果没有数据返回失败
+        if (list.isEmpty()) {
+            msg = Msg.fail();
         } else {
-            int code = 1;
-            String message = "删除失败";
-            JSONObject result = new JSONObject();
-            result.put("code", code);
-            result.put("message", message);
-            return result.toJSONString();
+            msg = Msg.success().messageData(list);
         }
+        return msg;
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String roleupdate(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/findById", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public Msg findById(@RequestBody Map<String, Integer> param,HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
-        int id = Integer.parseInt(request.getParameter("id"));
-        RoleEntity roleEntity =new RoleEntity();
-        roleEntity.setRoleName(request.getParameter("role_name"));
-        String ee="update wx_tab_role set role_name='"+roleEntity.getRoleName()+"' where id="+id+"";
-        int e=JDBC.update(ee);
-        System.out.println(e);
-        if (e == 1) {
-            int code = 0;
-            String message = "更新成功";
-            JSONObject result = new JSONObject();
-            result.put("code", code);
-            result.put("message", message);
-            return result.toJSONString();
+        Msg msg = null;
+        int id = param.get("id");
+        RoleEntity byId = iRoleService.findById(id);
+        if (byId != null) {
+            msg = Msg.success().messageData(byId);
         } else {
-            int code = 1;
-            String message = "更新失败";
-            JSONObject result = new JSONObject();
-            result.put("code", code);
-            result.put("message", message);
-            return result.toJSONString();
+            msg = Msg.fail();
         }
-}
+        return msg;
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public Msg updateInfo(@RequestBody RoleEntity roleEntity,HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        Msg msg = null;
+        int up = iRoleService.update(roleEntity);
+        if (up > 0) {
+            msg = Msg.success().messageData(roleEntity);
+        } else {
+            msg = Msg.fail();
+        }
+        return msg;
+    }
+
+    @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
+    public Msg deleteById(@RequestBody Map<String, Integer> param,HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        Msg msg = null;
+        int id = param.get("id");
+        int i = iRoleService.deleteById(id);
+        if (i > 0) {
+            msg = Msg.success();
+        } else {
+            msg = Msg.fail();
+        }
+        return msg;
+    }
 }
