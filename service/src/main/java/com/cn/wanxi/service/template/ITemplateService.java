@@ -10,13 +10,13 @@ import java.util.Map;
  */
 public interface ITemplateService {
 
-    int deleteById(int id);
+    int deleteById(TemplateEntity templateEntity);
 
     int add(TemplateEntity templateEntity);
 
     List<Map<String, Object>> findAll();
 
-    Map<String, Object> find(TemplateEntity templateEntity, Integer page, Integer size);
+    Map<String, Object> find(TemplateEntity templateEntity);
 
     int update(TemplateEntity templateEntity);
 

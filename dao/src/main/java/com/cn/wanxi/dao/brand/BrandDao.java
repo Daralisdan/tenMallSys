@@ -82,4 +82,6 @@ public interface BrandDao {
      * @return
      */
     List<Map<String, Object>> findListAndPage(BrandEntity brandEntity, int page, int size);
+
+    int adds(Map<String, BrandEntity> brandEntity);
 }

@@ -1,9 +1,7 @@
 package com.cn.wanxi.dao.order;
-
-import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.order.OrderEntity;
 import com.cn.wanxi.entity.order.OrderLogEntity;
-import org.springframework.stereotype.Repository;
+import com.cn.wanxi.entity.order.RefundCauseEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -15,14 +13,16 @@ import java.util.Map;
 public interface IOrderDao {
 
 
-//    Map<String, Object> list(int page, int size);
-//
-//    List<Map<String, Object>> batchlist(String ids);
-//    //    Map<String, Object> batchlist(int page, int size);
-//    OrderEntity findById(int id);
-//
-//    OrderLogEntity findByOrderId(int orderId);
+    List<Map<String, Object>> list(int page, int size);
 
-//    int batchSendSubmit(OrderLogEntity orderLogEntity);
+    List<Map<String, Object>> batchlist(String ids);
+    //    Map<String, Object> batchlist(int page, int size);
+    OrderEntity findById(int id);
 
+    OrderLogEntity findByOrderId(int orderId);
+    int update(RefundCauseEntity refundCauseEntity);
+
+    int batchSendSubmit(int orderId);
+
+    List<Map<String, Object>>  refundList(int page, int size);
 }

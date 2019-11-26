@@ -2,10 +2,11 @@ package com.cn.wanxi.mall.controller.template;
 
 
 import com.cn.wanxi.entity.template.SepcEntity;
-import com.cn.wanxi.entity.utils.Msg;
+import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.template.ISepcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,12 +34,12 @@ public class SepcController {
      *
      * @return
      */
-    @PostMapping("/add")
-    public Msg add(SepcEntity sepcEntity) {
+    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
+    public Msg add(@RequestBody SepcEntity sepcEntity) {
         Msg msg;
         int result = iSepcService.add(sepcEntity);
         if (!isEmpty(result)) {
-            msg = Msg.success().messageData("sepc", sepcEntity);
+            msg = Msg.success().messageData(sepcEntity);
         } else {
             msg = Msg.fail();
         }
@@ -57,7 +58,7 @@ public class SepcController {
     }
 
 
-    @PostMapping("/find")
+    @PostMapping("/findCondPage")
     public Map<String, Object> find(SepcEntity sepcEntity, Integer page, Integer size) {
         Map<String, Object> map = iSepcService.find(sepcEntity, page, size);
         return map;
@@ -69,12 +70,12 @@ public class SepcController {
      * @param sepcEntity
      * @return
      */
-    @PostMapping("/update")
-    public Msg update(SepcEntity sepcEntity) {
+    @PostMapping(value = "/update", produces = "application/json;charset=UTF-8")
+    public Msg update(@RequestBody SepcEntity sepcEntity) {
         Msg msg;
         int up = iSepcService.update(sepcEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("sepc", sepcEntity);
+            msg = Msg.success().messageData(sepcEntity);
         } else {
             msg = Msg.fail();
         }
@@ -84,13 +85,13 @@ public class SepcController {
     /**
      * 【根据id删除】
      *
-     * @param id
+     * @param sepcEntity
      * @return
      */
-    @PostMapping("/delete")
-    public Msg delete(int id) {
+    @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
+    public Msg delete(@RequestBody SepcEntity sepcEntity) {
         Msg msg;
-        int i = iSepcService.deleteById(id);
+        int i = iSepcService.deleteById(sepcEntity);
         if (i > 0) {
             msg = Msg.success();
         } else {

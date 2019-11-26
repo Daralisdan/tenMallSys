@@ -1,10 +1,11 @@
 package com.cn.wanxi.mall.controller.admin;
 
 import com.cn.wanxi.entity.admin.AdminEntity;
-import com.cn.wanxi.entity.utils.Msg;
-import com.cn.wanxi.entity.utils.MsgX;
 import com.cn.wanxi.service.admin.IAdminService;
+import com.cn.wanxi.utils.utils.Msg;
+import com.cn.wanxi.utils.utils.MsgX;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/admin")
+@CrossOrigin
 public class AdminController {
 
     @Autowired
@@ -97,7 +99,7 @@ public class AdminController {
         Msg m;
         List<Map<String,Object>> list =  iAdminService.findAll();
         if (null != list && !list.isEmpty()) {
-            m = Msg.success().messageData("admin",list);
+            m = Msg.success().messageData(list);
         } else {
             m = Msg.fail();
         }

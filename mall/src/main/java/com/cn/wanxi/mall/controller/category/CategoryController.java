@@ -1,7 +1,7 @@
 package com.cn.wanxi.mall.controller.category;
 
 import com.cn.wanxi.entity.category.CategoryEntity;
-import com.cn.wanxi.entity.utils.Msg;
+import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.category.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,7 +53,7 @@ public class CategoryController {
         List<Map<String, Object>> list = iCategoryService.findAll();
         //判断集合是否有数据，如果没有数据返回失败
         if (!list.isEmpty()) {
-            msg = Msg.success().messageData("category",list);
+            msg = Msg.success().messageData(list);
         } else {
             msg = Msg.fail();
         }
@@ -73,7 +73,7 @@ public class CategoryController {
         if (list.isEmpty()) {
             msg = Msg.fail();
         } else {
-            msg = Msg.success().messageData("category",list);
+            msg = Msg.success().messageData(list);
         }
         return msg;
     }
@@ -89,7 +89,7 @@ public class CategoryController {
         Msg msg;
         CategoryEntity byId = iCategoryService.findById(id);
         if (!isEmpty(byId)) {
-            msg = Msg.success().messageData("category",byId);
+            msg = Msg.success().messageData(byId);
         } else {
             msg = Msg.fail();
         }

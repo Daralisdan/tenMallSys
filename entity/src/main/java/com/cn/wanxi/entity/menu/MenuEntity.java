@@ -11,7 +11,7 @@ public class MenuEntity {
     String name;
     String icon;
     String url;
-    String parent_id;
+    String parentId;
 
     @Override
     public String toString() {
@@ -20,7 +20,7 @@ public class MenuEntity {
                 ", name='" + name + '\'' +
                 ", icon='" + icon + '\'' +
                 ", url='" + url + '\'' +
-                ", parent_id='" + parent_id + '\'' +
+                ", parentId='" + parentId + '\'' +
                 '}';
     }
 
@@ -56,11 +56,11 @@ public class MenuEntity {
         this.url = url;
     }
 
-    public String getParent_id() {
-        return parent_id;
+    public String getParentId() {
+        return parentId;
     }
 
-    public void setParent_id(String parent_id) {
-        this.parent_id = parent_id;
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 }

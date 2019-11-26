@@ -23,5 +23,5 @@ public interface ParaDao {
     int update(ParaEntity paraEntity);
 
 
-    int delete(int id);
+    int delete(ParaEntity paraEntity);
 }

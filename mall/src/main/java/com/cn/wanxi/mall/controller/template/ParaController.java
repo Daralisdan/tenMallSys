@@ -1,10 +1,10 @@
 package com.cn.wanxi.mall.controller.template;
 
 import com.cn.wanxi.entity.template.ParaEntity;
-import com.cn.wanxi.entity.utils.Msg;
+import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.template.IParaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,12 +31,12 @@ public class ParaController {
      *
      * @return
      */
-    @PostMapping("/add")
-    public Msg add(ParaEntity paraEntity) {
+    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
+    public Msg add(@RequestBody ParaEntity paraEntity) {
         Msg m;
         int result = iParaService.add(paraEntity);
         if (!isEmpty(result)) {
-            m = Msg.success().messageData("para", paraEntity);
+            m = Msg.success().messageData(paraEntity);
         } else {
             m = Msg.fail();
         }
@@ -55,7 +55,7 @@ public class ParaController {
     }
 
 
-    @PostMapping("/find")
+    @PostMapping("/findCondPage")
     public Map<String, Object> find(ParaEntity paraEntity, Integer page, Integer size) {
         Map<String, Object> map = iParaService.find(paraEntity, page, size);
         return map;
@@ -67,12 +67,12 @@ public class ParaController {
      * @param paraEntity
      * @return
      */
-    @PostMapping("/update ")
-    public Msg update(ParaEntity paraEntity) {
+    @PostMapping(value = "/update", produces = "application/json;charset=UTF-8")
+    public Msg update(@RequestBody ParaEntity paraEntity) {
         Msg msg;
         int up = iParaService.update(paraEntity);
         if (up > 0) {
-            msg = Msg.success().messageData("para", paraEntity);
+            msg = Msg.success().messageData(paraEntity);
         } else {
             msg = Msg.fail();
         }
@@ -82,13 +82,13 @@ public class ParaController {
     /**
      * 【根据id删除】
      *
-     * @param id
+     * @param paraEntity
      * @return
      */
-    @PostMapping("/delete")
-    public Msg delete(int id) {
+    @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
+    public Msg delete(@RequestBody ParaEntity paraEntity) {
         Msg msg;
-        int i = iParaService.deleteById(id);
+        int i = iParaService.deleteById(paraEntity);
         if (i > 0) {
             msg = Msg.success();
         } else {

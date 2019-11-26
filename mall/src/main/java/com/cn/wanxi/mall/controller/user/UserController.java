@@ -1,8 +1,8 @@
 package com.cn.wanxi.mall.controller.user;
 
 import com.cn.wanxi.entity.user.UserEntity;
-import com.cn.wanxi.entity.utils.Msg;
-import com.cn.wanxi.entity.utils.MsgX;
+import com.cn.wanxi.utils.utils.Msg;
+import com.cn.wanxi.utils.utils.MsgX;
 import com.cn.wanxi.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -102,7 +102,7 @@ public class UserController {
         Msg m;
         UserEntity entity = iUserService.findUserById(id);
         if (null != entity) {
-            m = Msg.success().messageData("user",entity);
+            m = Msg.success().messageData(entity);
         } else {
             m = Msg.fail();
         }
@@ -119,7 +119,7 @@ public class UserController {
         Msg m;
         List<Map<String,Object>>list =  iUserService.findAll();
         if (null != list && !list.isEmpty()) {
-            m = Msg.success().messageData("user",list);
+            m = Msg.success().messageData(list);
         } else {
             m = Msg.fail();
         }
