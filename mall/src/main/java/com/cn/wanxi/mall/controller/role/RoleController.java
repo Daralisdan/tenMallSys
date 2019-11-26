@@ -14,9 +14,7 @@ import com.cn.wanxi.entity.role.RoleEntity;
 import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.role.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,8 +37,8 @@ public class RoleController {
     @Autowired
     private IRoleService iRoleService;
 
-    @PostMapping("/add")
-    public Msg add(RoleEntity roleEntity , HttpServletResponse response) {
+    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
+    public Msg add(@RequestBody RoleEntity roleEntity , HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         Msg m;
         int result = iRoleService.add(roleEntity);
@@ -66,10 +64,11 @@ public class RoleController {
         return msg;
     }
 
-    @PostMapping(value = "/listById")
-    public Msg findById(int id,HttpServletResponse response) {
+    @RequestMapping(value = "/findById", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public Msg findById(@RequestBody Map<String, Integer> param,HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         Msg msg = null;
+        int id = param.get("id");
         RoleEntity byId = iRoleService.findById(id);
         if (byId != null) {
             msg = Msg.success().messageData(byId);
@@ -79,8 +78,8 @@ public class RoleController {
         return msg;
     }
 
-    @PostMapping("/update")
-    public Msg updateInfo(RoleEntity roleEntity,HttpServletResponse response) {
+    @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public Msg updateInfo(@RequestBody RoleEntity roleEntity,HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         Msg msg = null;
         int up = iRoleService.update(roleEntity);
@@ -92,10 +91,11 @@ public class RoleController {
         return msg;
     }
 
-    @PostMapping("/delete")
-    public Msg deleteById(int id,HttpServletResponse response) {
+    @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
+    public Msg deleteById(@RequestBody Map<String, Integer> param,HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
         Msg msg = null;
+        int id = param.get("id");
         int i = iRoleService.deleteById(id);
         if (i > 0) {
             msg = Msg.success();
