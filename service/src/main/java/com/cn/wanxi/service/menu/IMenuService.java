@@ -1,6 +1,5 @@
 package com.cn.wanxi.service.menu;
 
-import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.menu.MenuEntity;
 
 import java.util.List;

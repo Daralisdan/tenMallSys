@@ -1,8 +1,6 @@
 package com.cn.wanxi.mall.controller.album;
 
 import com.cn.wanxi.entity.album.AlbumEntity;
-import com.cn.wanxi.entity.brand.BrandEntity;
-
 import com.cn.wanxi.service.album.IAlbumService;
 import com.cn.wanxi.utils.utils.Msg;
 import io.swagger.annotations.ApiOperation;

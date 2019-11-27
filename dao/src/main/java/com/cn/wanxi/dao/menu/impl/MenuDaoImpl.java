@@ -1,7 +1,6 @@
 package com.cn.wanxi.dao.menu.impl;
 
 import com.cn.wanxi.dao.menu.IMenuDao;
-import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.menu.MenuEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

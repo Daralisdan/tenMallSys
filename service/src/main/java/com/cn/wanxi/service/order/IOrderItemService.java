@@ -11,8 +11,12 @@ import java.util.Map;
 
 public interface IOrderItemService {
     int add(OrderItemEntity orderItemEntity);
+
     List<Map<String, Object>> findAll();
+
     OrderItemEntity findById(int id);
+
     int deleteById(int id);
+
     int update(OrderItemEntity orderItemEntity);
 }

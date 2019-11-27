@@ -16,11 +16,8 @@ import com.cn.wanxi.service.roleMenu.IRoleMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * 〈一句话功能简述〉<br> 
+ * 〈一句话功能简述〉<br>
  * 〈〉
  *
  * @author Administrator
@@ -28,22 +25,24 @@ import java.util.Map;
  * @since 1.0.0
  */
 @Service
-public  class RoleMenuServiceImpl implements IRoleMenuService {
+public class RoleMenuServiceImpl implements IRoleMenuService {
     @Autowired
     private RoleMenuDao roleMenuDao;
 
     @Override
-    public int[] batchCarFlowInsert(int  ids , String menid){
+    public int[] batchCarFlowInsert(int ids, String menid) {
 
-        return roleMenuDao.batchCarFlowInsert(ids,menid);
+        return roleMenuDao.batchCarFlowInsert(ids, menid);
 
     }
 
-    public RoleMenuEntity findByRoleId(int roleid){
+    @Override
+    public RoleMenuEntity findByRoleId(int roleid) {
         return roleMenuDao.findByRoleId(roleid);
     }
 
-    public int[] batchCarFlowDelete(int  ids ,String menid){
+    @Override
+    public int[] batchCarFlowDelete(int ids, String menid) {
         return roleMenuDao.batchCarFlowDelete(ids, menid);
     }
 

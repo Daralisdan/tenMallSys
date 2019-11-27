@@ -12,9 +12,6 @@ package com.cn.wanxi.dao.roleMenu;
 
 import com.cn.wanxi.entity.roleMenu.RoleMenuEntity;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * 〈一句话功能简述〉<br>
  * 〈〉

@@ -1,11 +1,8 @@
 package com.cn.wanxi.service.spuAndSku.impl;
 
 import com.cn.wanxi.dao.spuAndSku.ISkuDao;
-import com.cn.wanxi.dao.spuAndSku.ISpuDao;
 import com.cn.wanxi.entity.spuAndSku.WxTabSku;
-import com.cn.wanxi.entity.spuAndSku.WxTabSpu;
 import com.cn.wanxi.service.spuAndSku.ISkuService;
-import com.cn.wanxi.service.spuAndSku.ISpuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +13,6 @@ public class ISkuServiceImpl implements ISkuService {
 
     @Autowired
     private ISkuDao iSkuDao;
-
-    @Override
-    public List<Map<String, Object>>  testQueryForList(String ids) {
-
-        return iSkuDao.testQueryForList(ids);
-    }
 
     @Override
     public int insert(WxTabSku wxTabSku) {
@@ -86,10 +77,9 @@ public class ISkuServiceImpl implements ISkuService {
 
     @Override
     public WxTabSku findByName(String name) {
-        return null;
+
+        return iSkuDao.findByName(name);
     }
-
-
 }
 
 

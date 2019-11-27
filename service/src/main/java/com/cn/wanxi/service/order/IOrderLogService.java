@@ -7,8 +7,12 @@ import java.util.Map;
 
 public interface IOrderLogService {
     int add(OrderLogEntity orderLogEntity);
+
     List<Map<String, Object>> findAll();
+
     OrderLogEntity findById(int id);
+
     int deleteById(int id);
+
     int update(OrderLogEntity orderLogEntity);
 }

@@ -1,8 +1,8 @@
 package com.cn.wanxi.mall.controller.menu;
 
+import com.cn.wanxi.entity.brand.ByPage;
 import com.cn.wanxi.entity.brand.PageList;
 import com.cn.wanxi.entity.menu.MenuEntity;
-import com.cn.wanxi.entity.spuAndSku.ByPage;
 import com.cn.wanxi.service.menu.IMenuService;
 import com.cn.wanxi.utils.utils.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,8 +82,13 @@ public class MenuController {
         return msg;
     }
 
+    /**
+     * 【通过name查询菜品信息】
+     *
+     * @return
+     */
     @RequestMapping(value = "/findAuthMenu", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public Msg findByName(@RequestBody Map<String, String> param) {
+    public Msg findByName(@RequestBody Map<String,String> param) {
         Msg msg = null;
         String name = param.get("name");
         MenuEntity byName = iMenuService.findByName(name);
@@ -152,7 +157,7 @@ public class MenuController {
 //        }
 
         //实例化 分页实体类
-      PageList pageList = new PageList();
+        PageList pageList = new PageList();
         //根据页数，每页记录数查询
         List<Map<String, Object>> list = iMenuService.findListAndPage(menuEntity, page, size);
         //把查询出来的对象封装在分页实体类中
@@ -161,7 +166,7 @@ public class MenuController {
         int TotalRows = iMenuService.countAll();
         //把页数封装在分页实体类中
         pageList.setPage(page);
-        pageList.setPages(list.size());
+        pageList.setTotal(list.size());
         //查询出来的总行数封装在分页实体类中
         pageList.setTotalRows(TotalRows);
         if (list.isEmpty()) {

@@ -48,7 +48,7 @@ public class RoleMenuDaoImpl implements RoleMenuDao {
         int[] c= null;
         for (String i : split){
             int menids = Integer.parseInt(i);
-            sql =" INSERT INTO wx_tab_roleMenu ( role_id, menu_id) VALUES ("+ids+" , "+menids+")";
+            sql =" INSERT INTO wx_tab_roleMenu( role_id, menu_id) VALUES ("+ids+" , "+menids+")";
             c = jdbcTemplate.batchUpdate(sql);
             System.out.println(c.length);
         }

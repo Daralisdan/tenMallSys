@@ -34,7 +34,6 @@ public interface IMenuDao {
      * @return
      */
     MenuEntity findById(int id);
-    MenuEntity findByName(String name);
 
     /**
      * 【修改菜单信息】
@@ -53,6 +52,7 @@ public interface IMenuDao {
     int deleteById(int id);
     int countAll();
     int adds(Map<String, MenuEntity> menuEntity);
+    MenuEntity findByName(String name);
 
     List<Map<String, Object>> findListAndPage(MenuEntity menuEntity, int page, int size);
 }

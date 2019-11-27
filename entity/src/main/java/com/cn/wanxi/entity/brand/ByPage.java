@@ -9,7 +9,7 @@ import java.util.Map;
  */
 @Data
 public class ByPage {
-    private Map<String,Object> searchMap;
+    private Map<String, Object> searchMap;
     private int page;
     private int size;
 }

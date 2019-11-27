@@ -7,7 +7,6 @@ import java.util.Map;
 
 public interface ISkuDao {
 
-    List<Map<String, Object>>  testQueryForList(String ids);
 
     int insert(WxTabSku wxTabSku);
 

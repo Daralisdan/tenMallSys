@@ -102,8 +102,8 @@ public class SpuAndSkuController {
      * @return
      */
     @RequestMapping(value ="/delete",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    public String delete(int id ){
-
+    public String delete(@RequestBody  WxTabSpu wxTabSpu ){
+        Integer id = wxTabSpu.getId();
         i = iSpuService.deleteById(id);
         b = iSkuService.deleteById(id);
         if(i>=1&&b>=1) {
@@ -148,7 +148,7 @@ public class SpuAndSkuController {
      * @return
      */
     @RequestMapping(value ="/update",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    public String update(WxTabSpu wxTabSpu, WxTabSku wxTabSku ){
+    public String update(@RequestBody WxTabSpu wxTabSpu, WxTabSku wxTabSku ){
         i = iSpuService.update(wxTabSpu);
         b = iSkuService.update(wxTabSku);
         if(i>=1&&b>=1) {
@@ -190,11 +190,16 @@ public class SpuAndSkuController {
 
 
     @RequestMapping(value ="/findSearch",method = RequestMethod.POST)
-    public List<Map<String, Object>> findSearch(){
-        List<Map<String, Object>> list = iSpuService.queryAll();
-        List<Map<String, Object>> cc = iSkuService.queryAll();
-
-        return  list;
+    public LinkedHashMap findSearch( @RequestBody Map<String, Integer> param ){
+        Integer page = param.get("page");
+        Integer size = param.get("size");
+        WxTabSpu wxTabSpu = new WxTabSpu();
+        List<Map<String, Object>> list = iSpuService.fenye(wxTabSpu, page, size);
+        int count = iSpuService.zong();
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        linkedHashMap.put("row",list);
+        linkedHashMap.put("total",count);
+        return linkedHashMap;
     }
 
     @RequestMapping(value ="/findSpuPage",method = RequestMethod.POST)
@@ -273,7 +278,7 @@ public class SpuAndSkuController {
      * @return
      */
     @RequestMapping(value ="/batchShelvesReq",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    public String batchShelvesReq(@RequestBody  String id){
+    public String batchShelvesReq(@RequestBody String id){
 
         if(id==null&&id.trim()==""){
             return cuo;

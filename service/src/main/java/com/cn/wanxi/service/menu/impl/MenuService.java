@@ -1,8 +1,6 @@
 package com.cn.wanxi.service.menu.impl;
 
-import com.cn.wanxi.dao.brand.BrandDao;
 import com.cn.wanxi.dao.menu.IMenuDao;
-import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.menu.MenuEntity;
 import com.cn.wanxi.service.menu.IMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +53,7 @@ public class MenuService implements IMenuService {
         return iMenuDao.findById(id);
     }
 
+    @Override
     public MenuEntity findByName(String name){
         return iMenuDao.findByName(name);
     }

@@ -10,7 +10,6 @@
  */
 package com.cn.wanxi.service.role;
 
-import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.role.RoleEntity;
 
 import java.util.List;

@@ -12,11 +12,8 @@ package com.cn.wanxi.service.roleMenu;
 
 import com.cn.wanxi.entity.roleMenu.RoleMenuEntity;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * 〈一句话功能简述〉<br> 
+ * 〈一句话功能简述〉<br>
  * 〈〉
  *
  * @author Administrator
@@ -24,8 +21,10 @@ import java.util.Map;
  * @since 1.0.0
  */
 public interface IRoleMenuService {
-//    int batchCarFlowInsert(List<RoleMenuEntity> list);
-int[] batchCarFlowInsert(int  ids , String menid);
+    //    int batchCarFlowInsert(List<RoleMenuEntity> list);
+    int[] batchCarFlowInsert(int ids, String menid);
+
     RoleMenuEntity findByRoleId(int roleid);
-    int[] batchCarFlowDelete(int  ids ,String menid);
+
+    int[] batchCarFlowDelete(int ids, String menid);
 }

@@ -7,12 +7,12 @@ import java.util.Map;
 
 public interface IReturnCauseService {
     int update(ReturnCauseEntity returnCauseEntity);
+
     ReturnCauseEntity findById(int id);
 
     int add(ReturnCauseEntity returnCauseEntity);
 
     List<Map<String, Object>> findAll();
-
 
 
     int deleteById(int id);
