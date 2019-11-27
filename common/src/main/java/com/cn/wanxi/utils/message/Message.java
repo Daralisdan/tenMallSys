@@ -78,7 +78,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" +
+        return "message{" +
                 "code=" + code +
                 ", message='" + message + '\'' +
                 ", data=" + data +
