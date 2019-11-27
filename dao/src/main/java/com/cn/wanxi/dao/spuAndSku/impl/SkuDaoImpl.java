@@ -2,7 +2,6 @@ package com.cn.wanxi.dao.spuAndSku.impl;
 
 import com.cn.wanxi.dao.spuAndSku.ISkuDao;
 import com.cn.wanxi.entity.spuAndSku.WxTabSku;
-import com.cn.wanxi.entity.spuAndSku.WxTabSpu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -87,7 +86,7 @@ public class SkuDaoImpl implements ISkuDao {
     @Override
     public WxTabSku findByIdzj(int id) {
         WxTabSku wxTabSku = null;
-        String exeSQL = "select id, sn, name, price, num, alert_num as alertNum, image, images, weight, create_time as createTime, update_time as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num commentNum, status from wx_tab_sku from wx_tab_sku where id=?";
+        String exeSQL = "select id, sn, name, price, num, alert_num as alertNum, image, images, weight, create_time as createTime, update_time as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num commentNum, status  from wx_tab_sku where id=?";
         List<WxTabSku> wxTabSkuu = jdbcTemplate.query(exeSQL, new Object[]{id}, new BeanPropertyRowMapper<WxTabSku>(WxTabSku.class));
         if (null != wxTabSkuu && wxTabSkuu.size() > 0) {
             wxTabSku = wxTabSkuu.get(0);
@@ -98,7 +97,7 @@ public class SkuDaoImpl implements ISkuDao {
     @Override
     public WxTabSku findByName(String name) {
         WxTabSku wxTabSku = null;
-        String exeSQL = "select id, sn, name, price, num, alert_num as alertNum, image, images, weight, create_time as createTime, update_time as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num commentNum, status from wx_tab_sku from wx_tab_sku where name=?";
+        String exeSQL = "select id, sn, name, price, num, alert_num as alertNum, image, images, weight, create_time as createTime, update_time as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num commentNum, status from wx_tab_sku where name=?";
         List<WxTabSku> wxTabSpuu = jdbcTemplate.query(exeSQL, new Object[]{name}, new BeanPropertyRowMapper<WxTabSku>(WxTabSku.class));
         if (null != wxTabSpuu && wxTabSpuu.size() > 0) {
             wxTabSku = wxTabSpuu.get(0);
