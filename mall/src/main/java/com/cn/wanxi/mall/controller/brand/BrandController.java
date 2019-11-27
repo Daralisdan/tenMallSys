@@ -8,9 +8,11 @@ import com.cn.wanxi.utils.utils.Msg;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -36,6 +38,11 @@ public class BrandController {
     @Autowired
     private IBrandService iBrandService;
 
+    @Value("${spring.resources.static-locations}")
+    private String path;
+
+    @Value("${spring.mvc.static-path-pattern}")
+    private String imageFileName;
 
     /**
      * 【添加品牌信息】
@@ -43,18 +50,42 @@ public class BrandController {
      * @return
      */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
-    public Msg add(@RequestBody BrandEntity brandEntity) {
+    public Msg add(int id, String letter, String name, int seq, MultipartFile image) {
+        BrandEntity brandEntity = new BrandEntity();
+        brandEntity.setId(id);
+        brandEntity.setName(name);
+        brandEntity.setLetter(letter);
+        brandEntity.setImage(image);
+        brandEntity.setSeq(seq);
+
         Msg msg = null;
-        if (null != brandEntity.getName() && brandEntity.getName().trim() != "") {
-            int result = iBrandService.add(brandEntity);
-            if (0 != result) {
-                msg = Msg.success().messageData(brandEntity);
+        if (null != name && name.trim() != "") {
+            if (0 == iBrandService.add(brandEntity, path, imageFileName).getCode()) {
+                msg = Msg.success().messageData(brandEntity.getImageUrl());
+            } else {
+                msg = Msg.fail().messageData("发生错误！！！");
             }
         } else {
             msg = Msg.fail().messageData("名字不能为空");
         }
         return msg;
     }
+
+
+//    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
+//    public Msg add(@RequestBody BrandEntity brandEntity) {
+//
+//        Msg msg = null;
+//        if (null != brandEntity.getName() && brandEntity.getName().trim() != "") {
+//            int result = iBrandService.add(brandEntity);
+//            if (0 != result) {
+//                msg = Msg.success().messageData(brandEntity);
+//            }
+//        } else {
+//            msg = Msg.fail().messageData("名字不能为空");
+//        }
+//        return msg;
+//    }
 
     /**
      * 【展示所有品牌信息】

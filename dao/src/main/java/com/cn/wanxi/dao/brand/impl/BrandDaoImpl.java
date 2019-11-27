@@ -32,7 +32,7 @@ public class BrandDaoImpl implements BrandDao {
     @Override
     public int insert(BrandEntity brand) {
         String exeSQL = "INSERT INTO wx_tab_brand(name,image,letter,seq) VALUES(?,?,?,?)";
-        Object args[] = {brand.getName(), brand.getImage(), brand.getLetter(), brand.getSeq()};
+        Object args[] = {brand.getName(), brand.getImageUrl(), brand.getLetter(), brand.getSeq()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
     }
@@ -155,6 +155,12 @@ public class BrandDaoImpl implements BrandDao {
     @Override
     public int adds(Map<String, BrandEntity> brandEntity) {
 //        brandEntity.
+        return 0;
+    }
+
+    @Override
+    public int fileUpload(String realName) {
+
         return 0;
     }
 

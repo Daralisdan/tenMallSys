@@ -1,4 +1,4 @@
-package com.cn.wanxi.mall.controller.brand.fileUtils;
+package com.cn.wanxi.utils.fileUtils;
 
 import java.util.UUID;
 

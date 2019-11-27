@@ -1,12 +1,13 @@
 package com.cn.wanxi.mall.controller.brand;
 
-import com.cn.wanxi.mall.controller.brand.fileUtils.FileUploadUtils;
-import com.cn.wanxi.service.brand.IBrandService;
+
+import com.cn.wanxi.utils.fileUtils.FileUploadUtils;
 import com.cn.wanxi.utils.utils.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,19 +23,15 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileUploadController {
 
     private final ResourceLoader resourceLoader;
-
-    @Autowired
-    private IBrandService iBrandService;
+    @Value("${spring.resources.static-locations}")
+    private String path;
+    @Value("${spring.mvc.static-path-pattern}")
+    private String imageFileName;
 
     @Autowired
     public FileUploadController(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
     }
-
-    //获取文件路径
-
-    @Value("${web.upload-path}")
-    private String path;
 
 
     /**
@@ -44,23 +41,8 @@ public class FileUploadController {
 
     @RequestMapping(value = "/fileUpload", method = RequestMethod.POST)
     public Msg fileUpload(MultipartFile file) {
-        if (file == null) {
-            return Msg.success().messageData("空");
-        }
-        Msg msg = null;
-        if (file.isEmpty()) {
-            msg = Msg.fail().messageData("文件不存在");
-        }
-        if (!file.isEmpty()) {
-            String fileName = file.getOriginalFilename();
-            boolean upload = FileUploadUtils.upload(file, path, fileName);
-            if (upload) {
-                msg = Msg.success().messageData("images");
-            }else{
-                msg = Msg.success().messageData("IO错误");
-            }
-        }
-        return msg;
+        FileUploadUtils fileUploadUtils = new FileUploadUtils();
+        return fileUploadUtils.uploadUtil(file, path, imageFileName);
     }
 
     /**
@@ -68,12 +50,12 @@ public class FileUploadController {
      *
      * @return
      */
-    @RequestMapping("show")
+    @PostMapping("show")
     public ResponseEntity showPhotos(String fileName) {
 
         try {
             // 由于是读取本机的文件，file是一定要加上的， path是在application配置文件中的路径
-            return ResponseEntity.ok(resourceLoader.getResource("file:" + path + fileName));
+            return ResponseEntity.ok(resourceLoader.getResource(fileName));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
