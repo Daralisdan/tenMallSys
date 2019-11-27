@@ -41,7 +41,7 @@ public class IOrderDaoImpl implements IOrderDao {
     @Override
     public List<Map<String, Object>> queryAll() {
         String exeSQL = "select id, total_num as totalNum , total_money as totalMoney ,  pre_money as preMoney,  post_fee as postFee, pay_money as payMoney, pay_type as payType," +
-                "                              create_time as createTime,  update_time as updateTime, pay_time as payTime,  consign_time as consignTime, end_time  as endTime  , close_time as closeTime , shipping_name as  shippingName," +
+                "                              create_time as createTime,  DATE_FORMAT(update_time,'%Y-%m-%d %H:%i:%s') as updateTime, pay_time as payTime,  consign_time as consignTime, end_time  as endTime  , close_time as closeTime , shipping_name as  shippingName," +
                 "                                shipping_code as shippingCode ,username, buyer_message as  buyerMessage,  buyer_rate as buyerRate , receiver_contact as  receiverContact," +
                 "                                   receiver_mobile as receiverMobile  ,  receiver_address as receiverAddress ,  source_type as sourceType ,  transaction_id as transactionId ," +
                 "                                order_status as orderStatus ,  pay_status as  payStatus, consign_status as consignStatus , is_delete as isDelete   from wx_tab_order";
