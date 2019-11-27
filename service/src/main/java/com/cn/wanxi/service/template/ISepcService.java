@@ -13,7 +13,7 @@ public interface ISepcService {
 
     int deleteById(SepcEntity sepcEntity);
 
-    int add(SepcEntity sepcEntity);
+    boolean add(SepcEntity sepcEntity);
 
     List<Map<String, Object>> findAll();
 
