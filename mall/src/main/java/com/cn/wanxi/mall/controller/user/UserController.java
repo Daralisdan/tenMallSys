@@ -133,4 +133,39 @@ public class UserController {
         }
         return m;
     }
+
+    @PostMapping(value = "/update",produces = "application/json;charset=UTF-8")
+    public Message update(String username,String password,String odpassword) {
+        Message m;
+        UserEntity oldEntity = new UserEntity();
+        UserEntity newEntity = new UserEntity();
+        oldEntity.setName(username);
+        oldEntity.setPassword(odpassword);
+        newEntity.setName(username);
+        newEntity.setPassword(password);
+        if(0 == daoTemp.findOne(oldEntity).size()){
+            m = MessageProxy.fail(OperationTypeEnum.UPDATE);
+        } else {
+            if(0 < daoTemp.update(newEntity)){
+                m = MessageProxy.success(OperationTypeEnum.UPDATE,"密码");
+            } else {
+                m = MessageProxy.fail(OperationTypeEnum.UPDATE,"密码");
+            }
+        }
+        return m;
+    }
+
+    @PostMapping(value = "/reset",produces = "application/json;charset=UTF-8")
+    public Message reset(String username,String password) {
+        Message m;
+        UserEntity entity = new UserEntity();
+        entity.setName(username);
+        entity.setPassword(password);
+        if(0 < daoTemp.update(entity)){
+            m = MessageProxy.success(OperationTypeEnum.UPDATE,"密码");
+        } else {
+            m = MessageProxy.fail(OperationTypeEnum.UPDATE,"密码");
+        }
+        return m;
+    }
 }

@@ -135,4 +135,16 @@ public class AdminController {
         }
         return m;
     }
+
+    @PostMapping(value = "/update",produces = "application/json;charset=UTF-8")
+    public Message update(@RequestBody AdminEntity entity){
+        Message m;
+        boolean flag = 0 != daoTemp.update(entity);
+        if (flag) {
+            m = MessageProxy.success(OperationTypeEnum.UPDATE);
+        } else {
+            m = MessageProxy.fail(OperationTypeEnum.UPDATE);
+        }
+        return m;
+    }
 }

@@ -32,6 +32,13 @@ public class MessageProxy {
         return msg;
     }
 
+    public static Message success(OperationTypeEnum type, String moduleName){
+        Message msg = new Message();
+        msg.setSuccess();
+        msg.setDetailMessage(0,type,moduleName);
+        return msg;
+    }
+
     public static Message success(OperationTypeEnum type, String moduleName, List<Map<String, Object>> data){
         Message msg = new Message();
         msg.setSuccess();

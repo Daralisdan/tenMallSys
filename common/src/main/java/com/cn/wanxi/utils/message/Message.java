@@ -45,7 +45,7 @@ public class Message {
      * @param moduleName
      */
     public void setDetailMessage(int code ,OperationTypeEnum type,String moduleName) {
-        message = moduleName + CodeEnum.values()[code].getType() + type.getOperation();
+        message = moduleName + type.getOperation() + CodeEnum.values()[code].getType();
     }
 
     /*
