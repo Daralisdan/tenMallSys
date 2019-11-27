@@ -12,6 +12,7 @@ import java.util.Map;
  *
  * 2019/11/18,Create by yaodan
  */
+// TODO: 2019/11/25 返回信息应该有一个状态码来提示是否成功，且是否有成功但不唯一或其他异常
 public interface ICategoryDao {
     /**
      * 【添加商品分类信息】
@@ -22,27 +23,12 @@ public interface ICategoryDao {
     int insert(CategoryEntity entity);
 
     /**
-     * 【查询所有商品分类信息】
+     * 【根据条件删除】
      *
+     * @param entity
      * @return
      */
-    List<Map<String, Object>> queryAll();
-
-    /**
-     * 【根据id查询商品分类信息】
-     *
-     * @param id
-     * @return
-     */
-    CategoryEntity findById(int id);
-
-    /**
-     * 【根据parent_id查询商品分类信息】
-     *
-     * @param parent_id
-     * @return
-     */
-    List<Map<String, Object>> findByParentId(int parent_id);
+    int delete(CategoryEntity entity);
 
     /**
      * 【修改商品分类信息】
@@ -53,10 +39,35 @@ public interface ICategoryDao {
     int update(CategoryEntity entity);
 
     /**
-     * 【根据ID删除】
+     * 【根据entity查询单条商品分类信息】
      *
-     * @param id
+     * @param entity
      * @return
      */
-    int deleteById(int id);
+    List<Map<String, Object>> findOne(CategoryEntity entity);
+
+
+    /**
+     * 查询数量
+     * @param entity
+     * @param page
+     * @param size
+     * @return
+     */
+    int count(CategoryEntity entity,int page,int size);
+
+    /**
+     * 【根据条件查询商品分类信息】
+     *
+     * @param entity
+     * @return
+     */
+    List<Map<String, Object>> findLimit(CategoryEntity entity,int page,int size);
+
+    /**
+     * 【根据条件查询所有商品分类信息】
+     *
+     * @return
+     */
+    List<Map<String, Object>> findAll(CategoryEntity entity);
 }

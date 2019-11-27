@@ -1,11 +1,15 @@
 package com.cn.wanxi.mall.controller.user;
 
+import com.cn.wanxi.dao.universal.IUniversalDao;
+import com.cn.wanxi.dao.universal.impl.UniversalDaoImpl;
 import com.cn.wanxi.entity.user.UserEntity;
-import com.cn.wanxi.utils.utils.Msg;
-import com.cn.wanxi.utils.utils.MsgX;
 import com.cn.wanxi.service.user.IUserService;
+import com.cn.wanxi.utils.message.Message;
+import com.cn.wanxi.utils.message.MessageProxy;
+import com.cn.wanxi.utils.message.enums.OperationTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,22 +25,20 @@ import java.util.Map;
 public class UserController {
 
     @Autowired
-    private IUserService iUserService;
+    private IUniversalDao daoTemp;
 
     /**
      * 【用户登录】
      *
      * @return
      */
-    @PostMapping("/login")
-    public MsgX login(UserEntity entity) {
-        MsgX m;
-        boolean flag = iUserService.checkUserInfo(entity);
-
-        if (flag) {
-            m = MsgX.success(0,"登录");
+    @PostMapping(value = "/login",produces = "application/json;charset=UTF-8")
+    public Message login(@RequestBody UserEntity entity) {
+        Message m;
+        if(0 != daoTemp.findOne(entity).size()){
+            m = MessageProxy.success(OperationTypeEnum.LOGIN);
         } else {
-            m = MsgX.fail(1,"登录");
+            m = MessageProxy.fail(OperationTypeEnum.LOGIN);
         }
         return m;
     }
@@ -46,14 +48,16 @@ public class UserController {
      *
      * @return
      */
-    @PostMapping("/logout")
-    public MsgX logout(String username) {
-        MsgX m;
-        boolean flag = iUserService.findUserByName(username) != null;
-        if (flag) {
-            m = MsgX.success(0,"退出");
+    @PostMapping(value = "/logout",produces = "application/json;charset=UTF-8")
+    public Message logout(String username) {
+        Message m;
+        UserEntity entityTemp = new UserEntity();
+        entityTemp.setName(username);
+
+        if (0 != daoTemp.findOne(entityTemp).size()) {
+            m = MessageProxy.success(OperationTypeEnum.LOGOUT);
         } else {
-            m = MsgX.fail(1,"退出");
+            m = MessageProxy.fail(OperationTypeEnum.LOGOUT);
         }
         return m;
     }
@@ -63,14 +67,14 @@ public class UserController {
      *
      * @return
      */
-    @PostMapping("/add")
-    public Msg add(UserEntity entity) {
-        Msg m;
-        boolean flag = iUserService.addUserByEntity(entity);
+    @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
+    public Message add(@RequestBody UserEntity entity) {
+        Message m;
+        boolean flag = 0 != daoTemp.insert(entity);
         if (flag) {
-            m = Msg.success();
+            m = MessageProxy.success(OperationTypeEnum.ADD);
         } else {
-            m = Msg.fail();
+            m = MessageProxy.fail(OperationTypeEnum.ADD);
         }
         return m;
     }
@@ -80,14 +84,16 @@ public class UserController {
      *
      * @return
      */
-    @PostMapping("/deleteById")
-    public Msg delete(int id) {
-        Msg m;
-        boolean flag = iUserService.deleteUserById(id);
-        if (flag) {
-            m = Msg.success();
+    @PostMapping(value = "/deleteById",produces = "application/json;charset=UTF-8")
+    public Message delete(int id) {
+        Message m;
+        UserEntity entity = new UserEntity();
+        entity.setId(id);
+
+        if (0 != daoTemp.delete(entity)) {
+            m = MessageProxy.success(OperationTypeEnum.DELETE);
         } else {
-            m = Msg.fail();
+            m = MessageProxy.fail(OperationTypeEnum.DELETE);
         }
         return m;
     }
@@ -97,14 +103,16 @@ public class UserController {
      *
      * @return
      */
-    @PostMapping("/findById")
-    public Msg findById(int id) {
-        Msg m;
-        UserEntity entity = iUserService.findUserById(id);
-        if (null != entity) {
-            m = Msg.success().messageData(entity);
+    @PostMapping(value = "/findById",produces = "application/json;charset=UTF-8")
+    public Message findById(int id) {
+        Message m;
+        UserEntity entity = new UserEntity();
+        entity.setId(id);
+        List<Map<String, Object>> one = daoTemp.findOne(entity);
+        if(null != one && 0 != one.size()){
+            m = MessageProxy.success(OperationTypeEnum.FIND,one);
         } else {
-            m = Msg.fail();
+            m = MessageProxy.fail(OperationTypeEnum.FIND);
         }
         return m;
     }
@@ -114,14 +122,14 @@ public class UserController {
      *
      * @return
      */
-    @PostMapping("/findAll")
-    public Msg findAll() {
-        Msg m;
-        List<Map<String,Object>>list =  iUserService.findAll();
+    @PostMapping(value = "/findAll",produces = "application/json;charset=UTF-8")
+    public Message findAll() {
+        Message m;
+        List<Map<String,Object>> list =  daoTemp.findAll(new UserEntity());
         if (null != list && !list.isEmpty()) {
-            m = Msg.success().messageData(list);
+            m = MessageProxy.success(OperationTypeEnum.FIND,list);
         } else {
-            m = Msg.fail();
+            m = MessageProxy.fail(OperationTypeEnum.FIND);
         }
         return m;
     }
