@@ -1,38 +1,29 @@
-package com.cn.wanxi.dao.category.impl;
+package com.cn.wanxi.dao.universal.impl;
 
-import com.cn.wanxi.dao.category.ICategoryDao;
-import com.cn.wanxi.entity.category.CategoryEntity;
+import com.cn.wanxi.dao.universal.IUniversalDao;
+import com.cn.wanxi.entity.Universal;
 import com.cn.wanxi.utils.jdbcTemplateSentence.SQLSentence;
 import com.cn.wanxi.utils.jdbcTemplateSentence.eunms.SQLTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * 【商品分类管理】：商品分类，主要用户对商品进行类别管理。一个分类对应一种模板类型的参数
- * <p>
- * 数据表： wx_tab_category （商品分类表）
- * <p>
- * 2019/11/18,Create by yaodan
+ * @author LeesonWong
+ * @date 2019/11/25 22:24
  */
-@Repository
-public class CategoryDaoImpl implements ICategoryDao {
+public class UniversalDaoImpl implements IUniversalDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     private SQLSentence sqlSentence = SQLSentence.getInstance();
 
-    /**
-     * 添加实体
-     * @param entity
-     * @return
-     */
     @Override
-    public int insert(CategoryEntity entity) {
+    public int insert(Universal entity) {
         int counter = 0;
         Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.INSERT);
         if(null != entry){
@@ -41,13 +32,8 @@ public class CategoryDaoImpl implements ICategoryDao {
         return counter;
     }
 
-    /**
-     * 删除实体
-     * @param entity
-     * @return
-     */
     @Override
-    public int delete(CategoryEntity entity) {
+    public int delete(Universal entity) {
         int counter = 0;
         Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.DELETE);
         if(null != entry){
@@ -56,13 +42,8 @@ public class CategoryDaoImpl implements ICategoryDao {
         return counter;
     }
 
-    /**
-     * 更新实体
-     * @param entity
-     * @return
-     */
     @Override
-    public int update(CategoryEntity entity) {
+    public int update(Universal entity) {
         int counter = 0;
         Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.UPDATE);
         if(null != entry){
@@ -72,16 +53,19 @@ public class CategoryDaoImpl implements ICategoryDao {
     }
 
     @Override
-    public List<Map<String, Object>> findOne(CategoryEntity entity) {
+    public List<Map<String, Object>> findOne(Universal entity) {
         Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.SELECT);
         String sql = entry.getKey() + " limit 0,1";
         Object[] args = entry.getValue();
         List<Map<String, Object>> list = jdbcTemplate.queryForList(sql,args);
+//        if(list.size() > 1){
+            // TODO: 2019/11/26 这里说明输入的条件不满足只找到一个的假设
+//        }
         return list;
     }
 
     @Override
-    public int count(CategoryEntity entity,int page,int size){
+    public int count(Universal entity,int page,int size){
         int result;
         Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.COUNT);
         String sql = entry.getKey();
@@ -100,7 +84,7 @@ public class CategoryDaoImpl implements ICategoryDao {
     }
 
     @Override
-    public List<Map<String, Object>> findLimit(CategoryEntity entity, int page, int size) {
+    public List<Map<String, Object>> findLimit(Universal entity, int page, int size) {
         Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.SELECT);
         String sql = entry.getKey() + " limit " + (page - 1)*size + "," + size;
         Object[] args = entry.getValue();
@@ -108,8 +92,13 @@ public class CategoryDaoImpl implements ICategoryDao {
         return list;
     }
 
+    /**
+     * 查询所有请传入没有任何值的空对象
+     * @param entity
+     * @return
+     */
     @Override
-    public List<Map<String, Object>> findAll(CategoryEntity entity) {
+    public List<Map<String, Object>> findAll(Universal entity) {
         Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.SELECT);
         String sql = entry.getKey();
         Object[] args = entry.getValue();
@@ -117,9 +106,18 @@ public class CategoryDaoImpl implements ICategoryDao {
         return list;
     }
 
-
-
-
-
-
+    /**
+     * 不稳定的批量更新
+     * 查询批量更新
+     * @param entity
+     * @return
+     */
+//    @Override
+    public List<Map<String, Object>> updateBatch(Universal entity) {
+        // TODO: 2019/11/26
+        Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.SELECT);
+        String sql = entry.getKey();
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
+        return list;
+    }
 }

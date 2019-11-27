@@ -1,7 +1,7 @@
 package com.cn.wanxi.utils.simpSQL.config;
 
 
-import com.cn.wanxi.utils.simpSQL.Helper.Marker;
+import com.cn.wanxi.utils.simpSQL.base.TimerMarker;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -41,7 +41,7 @@ public class Config {
                 dbConfig.put((String) iter, (String) properties.get(iter));
             }
         } catch (IOException e) {
-            System.err.println(Marker.getTimer() + "数据库配置信息获取失败");
+            System.err.println(TimerMarker.getTimer() + "数据库配置信息获取失败");
         }
 
         try {
@@ -54,7 +54,7 @@ public class Config {
                 mappingConfig.put((String) iter, (String) properties.get(iter));
             }
         } catch (IOException e) {
-            System.err.println(Marker.getTimer() + "映射关系配置信息获取失败");
+            System.err.println(TimerMarker.getTimer() + "映射关系配置信息获取失败");
         }
 
         try {

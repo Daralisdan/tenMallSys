@@ -1,6 +1,6 @@
 package com.cn.wanxi.utils.simpSQL;
 
-import com.cn.wanxi.utils.simpSQL.Helper.Marker;
+import com.cn.wanxi.utils.simpSQL.base.TimerMarker;
 import com.cn.wanxi.utils.simpSQL.Helper.SQLHelper;
 import com.cn.wanxi.utils.simpSQL.connection.ConnectionPool;
 
@@ -105,7 +105,7 @@ public class SQL {
                 e.printStackTrace();
             }
         } else {
-            System.err.println(Marker.getTimer() + "非查询语句的SQL无结果集");
+            System.err.println(TimerMarker.getTimer() + "非查询语句的SQL无结果集");
         }
 
         return rs;
@@ -125,7 +125,7 @@ public class SQL {
             rs = statement.executeQuery();
             resultMap.put(statement, rs);
         } catch (SQLException e) {
-            System.err.println(Marker.getTimer() + "非查询语句的SQL无结果集");
+            System.err.println(TimerMarker.getTimer() + "非查询语句的SQL无结果集");
         }
         return rs;
     }
@@ -147,9 +147,9 @@ public class SQL {
         ResultSet resultSet = null;
         switch (type) {
             case INVALID:
-                System.err.println(Marker.getTimer() + error.insert(0, "无效SQL"));
+                System.err.println(TimerMarker.getTimer() + error.insert(0, "无效SQL"));
             case UPDATE:
-                System.err.println(Marker.getTimer() + error.insert(0, "修改类型的SQL不返回结果集"));
+                System.err.println(TimerMarker.getTimer() + error.insert(0, "修改类型的SQL不返回结果集"));
             case QUERY:
                 /*
                     注册PreparedStatement与ResultSet
@@ -190,7 +190,7 @@ public class SQL {
     private PreparedStatement sql2Statement(String sql) {
         eSQLType type = getSQLType(sql);
         if (eSQLType.INVALID == type) {
-            System.err.println(Marker.getTimer() + "无效或暂不支持的SQL语句");
+            System.err.println(TimerMarker.getTimer() + "无效或暂不支持的SQL语句");
         }
 
         PreparedStatement statement = null;
@@ -202,7 +202,7 @@ public class SQL {
             sqlMap.put(sql, statement);
             registerMap.put(statement, type);
         } catch (SQLException e) {
-            System.err.println(Marker.getTimer() + "请检查SQL语句");
+            System.err.println(TimerMarker.getTimer() + "请检查SQL语句");
         }
         return statement;
     }
@@ -214,13 +214,13 @@ public class SQL {
      */
     private ResultSet statement2ResultSet(PreparedStatement statement) {
         if (!registerMap.containsKey(statement)) {
-            System.err.println(Marker.getTimer() + "未注册的PreparedStatement对象");
+            System.err.println(TimerMarker.getTimer() + "未注册的PreparedStatement对象");
             return null;
         }
 
         eSQLType type = registerMap.get(statement);
         if (eSQLType.QUERY != type) {
-            System.err.println(Marker.getTimer() + "当前版本仅有QUERY类型可以得到结果集");
+            System.err.println(TimerMarker.getTimer() + "当前版本仅有QUERY类型可以得到结果集");
             return null;
         }
 
@@ -228,7 +228,7 @@ public class SQL {
         try {
             rs = statement.executeQuery();
         } catch (SQLException e) {
-            System.err.println(Marker.getTimer() + "结果集获取失败,请检查查询条件与配置信息");
+            System.err.println(TimerMarker.getTimer() + "结果集获取失败,请检查查询条件与配置信息");
         }
         if (null != rs) {
             resultMap.put(statement, rs);
@@ -330,7 +330,7 @@ public class SQL {
 
     private eSQLType getSQLType(String sql) {
         if (null == sql) {
-            System.err.println(Marker.getTimer() + "sql为空");
+            System.err.println(TimerMarker.getTimer() + "sql为空");
             return eSQLType.INVALID;
         }
         eSQLType type;

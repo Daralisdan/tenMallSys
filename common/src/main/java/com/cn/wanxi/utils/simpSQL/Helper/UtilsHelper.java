@@ -1,6 +1,7 @@
 package com.cn.wanxi.utils.simpSQL.Helper;
 
 import com.cn.wanxi.utils.simpSQL.config.Config;
+import com.cn.wanxi.utils.simpSQL.base.TimerMarker;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,7 +24,7 @@ public class UtilsHelper {
         try {
             return FORMAT.format(FORMATX.parse(before));
         } catch (ParseException e) {
-            System.err.println(Marker.getTimer() + "请检查输入格式与配置信息");
+            System.err.println(TimerMarker.getTimer() + "请检查输入格式与配置信息");
         }
         return DEFAULT_DATE_TIME;
     }

@@ -14,15 +14,15 @@ import java.util.*;
 @Repository
 public class IOrderDaoImpl implements IOrderDao {
 //    @Autowired
-//    private JdbcTemplate jdbcTemplate;
+//    private JdbcTemplate jdbcTemplateSentence;
 //
 //    //    @Override
 ////    public List<Map<String, Object>> list(int page, int size) {
 ////        List<Map<String, Object>> list;
 ////        String exeSQL = "select * from wx_tab_order limit " + (page - 1) * size + " , " + size;
 ////        String exeSQLitem = "select * from wx_tab_order_item limit " + (page - 1) * size + " , " + size;
-////        List<Map<String, Object>> listitem = jdbcTemplate.queryForList(exeSQLitem);
-////        list = jdbcTemplate.queryForList(exeSQL);
+////        List<Map<String, Object>> listitem = jdbcTemplateSentence.queryForList(exeSQLitem);
+////        list = jdbcTemplateSentence.queryForList(exeSQL);
 ////
 ////        return list;
 //
@@ -33,9 +33,9 @@ public class IOrderDaoImpl implements IOrderDao {
 //        Map<String, Object> map ;
 //        String exeSQL = "select * from wx_tab_order limit " + (page - 1) * size + " , " + size;
 //        String exeSQLitem = "select * from wx_tab_order_item limit " + (page - 1) * size + " , " + size;
-//        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQLitem);
-//        List<Map<String, Object>> list2 = jdbcTemplate.queryForList(exeSQL);
-//        map=jdbcTemplate.queryForMap(exeSQL);
+//        List<Map<String, Object>> list = jdbcTemplateSentence.queryForList(exeSQLitem);
+//        List<Map<String, Object>> list2 = jdbcTemplateSentence.queryForList(exeSQL);
+//        map=jdbcTemplateSentence.queryForMap(exeSQL);
 //
 //        map.put("sublist",list);
 ////        list2.(list);
@@ -62,7 +62,7 @@ public class IOrderDaoImpl implements IOrderDao {
 //////            }
 ////
 ////        }
-//        List<Map<String, Object>> list2 = jdbcTemplate.queryForList(sql);
+//        List<Map<String, Object>> list2 = jdbcTemplateSentence.queryForList(sql);
 //        return list2;
 //    }
 //
@@ -71,7 +71,7 @@ public class IOrderDaoImpl implements IOrderDao {
 //    public OrderEntity findById(int id) {
 //        OrderEntity orderEntity = null;
 //        String exeSQL = "select * from wx_tab_order where id=?";
-//        List<OrderEntity> orderEntities = jdbcTemplate.query(exeSQL, new Object[]{id}, new BeanPropertyRowMapper<OrderEntity>(OrderEntity.class));
+//        List<OrderEntity> orderEntities = jdbcTemplateSentence.query(exeSQL, new Object[]{id}, new BeanPropertyRowMapper<OrderEntity>(OrderEntity.class));
 //        if (null != orderEntities && orderEntities.size() > 0) {
 //            orderEntity = orderEntities.get(0);
 //        }
@@ -82,7 +82,7 @@ public class IOrderDaoImpl implements IOrderDao {
 //    public int batchSendSubmit(OrderLogEntity orderLogEntity) {
 //        String exeSQL = "INSERT INTO wx_tab_order_log (operate,operate_time,order_id,order_status,pay_status,consign_status,remarks) values(?,?,?,?,?,?,?)";
 //        Object args[] = {"1", UtilsHelper.formatDateTimer(new Date()),orderLogEntity.getOrder_id(),"1","1","1","aaa"};
-//        int temp = jdbcTemplate.update(exeSQL, args);
+//        int temp = jdbcTemplateSentence.update(exeSQL, args);
 //        return temp;
 //    }
 //
