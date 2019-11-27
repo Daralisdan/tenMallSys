@@ -19,7 +19,7 @@ public class Msg {
     /**
      * 用户要返回给浏览器的数据
      */
-    private Object data;
+    private Object rows;
 
     /**
      * 返回成功状态的信息
@@ -51,7 +51,7 @@ public class Msg {
      * 状态信息跟数据一起返回给用户
      */
     public Msg messageData(Object data) {
-        this.data=data;
+        this.rows=data;
         return this;
     }
 
