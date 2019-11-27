@@ -21,10 +21,6 @@ public class CategoryService implements ICategoryService {
     @Autowired
     private com.cn.wanxi.dao.category.ICategoryDao ICategoryDao;
 
-    @Override
-    public int deleteById(int id) {
-        return ICategoryDao.deleteById(id);
-    }
 
     @Override
     public int add(CategoryEntity categoryEntity) {
@@ -32,34 +28,33 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public List<Map<String, Object>> findAll() {
-        return ICategoryDao.queryAll();
-    }
-
-    @Override
-    public List<Map<String, Object>> findByParentId(int parent_id) {
-        return ICategoryDao.findByParentId(parent_id);
-    }
-
-    @Override
-    public CategoryEntity findById(int id) {
-        return ICategoryDao.findById(id);
+    public int delete(CategoryEntity categoryEntity) {
+        return ICategoryDao.delete(categoryEntity);
     }
 
     @Override
     public int update(CategoryEntity categoryEntity) {
-        int result = 0;
-        //先根据id查询，当前数据是否存在
-        int id = categoryEntity.getId();
-        CategoryEntity byId = ICategoryDao.findById(id);
-        //如果查询当前数据存在，则修改
-        if (byId != null) {
-            int up = ICategoryDao.update(categoryEntity);
-            //如果修改成功，返回true
-            if (up > 0) {
-                result = up;
-            }
-        }
-        return result;
+        return ICategoryDao.update(categoryEntity);
+    }
+
+    @Override
+    public List<Map<String, Object>> findOne(CategoryEntity categoryEntity) {
+        return ICategoryDao.findOne(categoryEntity);
+    }
+
+    @Override
+    public int count(CategoryEntity categoryEntity,int page,int size){
+
+        return ICategoryDao.count(categoryEntity,page,size);
+    }
+
+    @Override
+    public List<Map<String, Object>> findLimit(CategoryEntity categoryEntity, int page, int size) {
+        return ICategoryDao.findLimit(categoryEntity,page,size);
+    }
+
+    @Override
+    public List<Map<String, Object>> findAll(CategoryEntity categoryEntity) {
+        return ICategoryDao.findAll(categoryEntity);
     }
 }

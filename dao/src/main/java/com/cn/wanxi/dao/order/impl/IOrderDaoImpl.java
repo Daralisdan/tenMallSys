@@ -64,7 +64,7 @@ public class IOrderDaoImpl implements IOrderDao {
                 "                   receiver_mobile as receiverMobile  ,  receiver_address as receiverAddress ,  source_type as sourceType ,  transaction_id as transactionId ," +
                 "                  order_status as orderStatus ,  pay_status as  payStatus, consign_status as consignStatus , is_delete as isDelete  from wx_tab_order " +
 
-                
+
 
                 "limit " + (page - 1) * size + " , " + size;
         List<Map<String, Object>> listzhu = jdbcTemplate.queryForList(exeSQL);

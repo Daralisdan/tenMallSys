@@ -23,15 +23,16 @@ public class AdminServiceImp implements IAdminService {
 
     @Override
     public boolean login(AdminEntity entity) {
-        if(null == entity || null == entity.getLogin_name() || null == entity.getPassword()){
-            return false;
-        }
-        AdminEntity temp = iAdminDao.findByName(entity.getLogin_name());
-        if(null == temp || null == temp.getPassword()){
-            return false;
-        }else{
-            return temp.getPassword().equals(entity.getPassword());
-        }
+//        if(null == entity || null == entity.getLogin_name() || null == entity.getPassword()){
+//            return false;
+//        }
+//        AdminEntity temp = iAdminDao.findByName(entity.getLogin_name());
+//        if(null == temp || null == temp.getPassword()){
+//            return false;
+//        }else{
+//            return temp.getPassword().equals(entity.getPassword());
+//        }
+        return false;
     }
 
     @Override

@@ -13,15 +13,18 @@ import java.util.Map;
  * 2019/11/18,Create by yaodan
  */
 public interface ICategoryService {
-    int deleteById(int id);
 
     int add(CategoryEntity categoryEntity);
 
-    List<Map<String, Object>> findAll();
-
-    List<Map<String, Object>> findByParentId(int parent_id);
-
-    CategoryEntity findById(int id);
+    int delete(CategoryEntity categoryEntity);
 
     int update(CategoryEntity categoryEntity);
+
+    List<Map<String, Object>> findOne(CategoryEntity categoryEntity);
+
+    int count(CategoryEntity categoryEntity,int page,int size);
+
+    List<Map<String, Object>> findLimit(CategoryEntity categoryEntity,int page,int size);
+
+    List<Map<String, Object>> findAll(CategoryEntity categoryEntity);
 }
