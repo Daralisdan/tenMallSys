@@ -19,26 +19,6 @@ public class TemplateDaoImpl implements TemplateDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-
-    /**
-     * 模板分页查询
-     *
-     * @param templateEntity
-     * @return
-     */
-    @Override
-    public Map<String, Object> find(TemplateEntity templateEntity) {
-        int page = (templateEntity.getPage() - 1) * templateEntity.getSize();
-        int size = templateEntity.getSize() * templateEntity.getPage();
-        String exeSQL = "select id , name , spec_num as specNum , para_num as paraNum from wx_tab_template where name = ? limit " + page + "," + size;
-        Object arg = templateEntity.getName();
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, arg);
-        Map<String, Object> map = new TreeMap();
-        map.put("rows", list);
-        map.put("total", templateEntity.getSize());
-        return map;
-    }
-
     /**
      * 模板新增
      *
@@ -94,5 +74,37 @@ public class TemplateDaoImpl implements TemplateDao {
         return temp;
     }
 
+    /**
+     * 模板分页查询
+     *
+     * @param templateEntity
+     * @return
+     */
+    @Override
+    public Map<String, Object> find(TemplateEntity templateEntity) {
+        int page = (templateEntity.getPage() - 1) * templateEntity.getSize();
+        int size = templateEntity.getSize() * templateEntity.getPage();
+        String exeSQL = "select id , name , spec_num as specNum , para_num as paraNum from wx_tab_template where name = ? limit " + page + "," + size;
+        Object arg = templateEntity.getName();
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, arg);
+        Map<String, Object> map = new TreeMap();
+        map.put("rows", list);
+        map.put("total", templateEntity.getSize());
+        return map;
+    }
 
+    @Override
+    public Map<String, Object> findSpecsById(TemplateEntity templateEntity) {
+        String templateSQL = "select id,name,spec_num as specNum,para_num as paraNum from wx_tab_template where id = ?";
+        String paraSQL = "select id,name,options,seq,template_id as templateId from wx_tab_para where template_id = ?";
+        String sepcSQL = "select id,name,options,seq,template_id as templateId from wx_tab_sepc where template_id = ?";
+        Object arg = templateEntity.getId();
+        List<Map<String, Object>> sepcList = jdbcTemplate.queryForList(sepcSQL, arg);
+        List<Map<String, Object>> paraList = jdbcTemplate.queryForList(paraSQL, arg);
+        Map<String, Object> map = jdbcTemplate.queryForMap(templateSQL, arg);
+        map.put("specs", sepcList);
+        map.put("paras", paraList);
+        return map;
+
+    }
 }

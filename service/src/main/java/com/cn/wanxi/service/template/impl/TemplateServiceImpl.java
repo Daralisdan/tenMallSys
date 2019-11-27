@@ -23,11 +23,6 @@ public class TemplateServiceImpl implements ITemplateService {
         return templateDao.delete(templateEntity);
     }
 
-//    @Override
-////    public Map<String, Object> find(TemplateEntity templateEntity, Integer page, Integer size) {
-////        return templateDao.find(templateEntity, page, size);
-////    }
-
 
     @Override
     public Map<String, Object> find(TemplateEntity templateEntity) {
@@ -47,5 +42,10 @@ public class TemplateServiceImpl implements ITemplateService {
     @Override
     public int update(TemplateEntity templateEntity) {
         return templateDao.update(templateEntity);
+    }
+
+    @Override
+    public Map<String, Object> findSpecsById(TemplateEntity templateEntity) {
+        return templateDao.findSpecsById(templateEntity);
     }
 }

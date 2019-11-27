@@ -56,8 +56,8 @@ public class ParaController {
 
 
     @PostMapping(value = "/findCondPage" , produces = "application/json;charset=UTF-8")
-    public Map<String, Object> find(@RequestBody ParaEntity paraEntity, Integer page, Integer size) {
-        Map<String, Object> map = iParaService.find(paraEntity, page, size);
+    public Map<String, Object> find(@RequestBody ParaEntity paraEntity) {
+        Map<String, Object> map = iParaService.find(paraEntity);
         return map;
     }
 

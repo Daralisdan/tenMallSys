@@ -41,7 +41,7 @@ public class SepcServiceImpl implements ISepcService {
     }
 
     @Override
-    public Map<String, Object> find(SepcEntity sepcEntity, Integer page, Integer size) {
-        return sepcDao.find(sepcEntity, page, size);
+    public Map<String, Object> find(SepcEntity sepcEntity) {
+        return sepcDao.find(sepcEntity);
     }
 }

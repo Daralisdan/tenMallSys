@@ -75,13 +75,15 @@ public class paraDaoImpl implements ParaDao {
     }
 
     @Override
-    public Map<String, Object> find(ParaEntity paraEntity, Integer page, Integer size) {
-        String exeSQL = "select id,name,options,seq,template_id as templateId from wx_tab_para where name = ? and options = ? limit " + ((page - 1) * size) + " , " + (page * size);
+    public Map<String, Object> find(ParaEntity paraEntity) {
+        int size = paraEntity.getSize() * paraEntity.getPage();
+        int page = (paraEntity.getPage() - 1) * paraEntity.getSize();
+        String exeSQL = "select id,name,options,seq,template_id as templateId from wx_tab_para where name = ? and options = ? limit " + page + " , " + size;
         Object[] args = {paraEntity.getName(), paraEntity.getOptions()};
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, args);
         Map<String, Object> map = new TreeMap();
-        map.put("total", size);
         map.put("rows", list);
+        map.put("total", paraEntity.getSize());
         return map;
     }
 }

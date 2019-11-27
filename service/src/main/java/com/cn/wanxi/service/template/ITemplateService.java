@@ -20,4 +20,6 @@ public interface ITemplateService {
 
     int update(TemplateEntity templateEntity);
 
+    Map<String,Object> findSpecsById(TemplateEntity templateEntity);
+
 }
