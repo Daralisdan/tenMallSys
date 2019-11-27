@@ -1,11 +1,9 @@
 package com.cn.wanxi.utils.utils;
 
-import lombok.Data;
-
 /**
  * 2019/11/16,Create by yaodan
  */
-@Data
+
 public class Msg {
 
     /**
@@ -20,6 +18,30 @@ public class Msg {
      * 用户要返回给浏览器的数据
      */
     private Object rows;
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public Object getRows() {
+        return rows;
+    }
+
+    public void setRows(Object rows) {
+        this.rows = rows;
+    }
 
     /**
      * 返回成功状态的信息

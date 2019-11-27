@@ -14,7 +14,7 @@ public interface ParaDao {
     int add(ParaEntity paraEntity);
 
 
-    Map<String, Object> find(ParaEntity paraEntity, Integer page, Integer size);
+    Map<String, Object> find(ParaEntity paraEntity);
 
 
     List<Map<String, Object>> findAll();

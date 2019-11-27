@@ -101,4 +101,15 @@ public class TemplateController {
         }
         return msg;
     }
+
+    @PostMapping(value = "findSpecsById", produces = "application/json;charset=UTF-8")
+    public Map<String, Object> findSpecsById(@RequestBody TemplateEntity templateEntity) {
+        if (templateEntity.getId() != null) {
+            Map<String, Object> map = iTemplateService.findSpecsById(templateEntity);
+            return map;
+        }
+
+
+        return null;
+    }
 }

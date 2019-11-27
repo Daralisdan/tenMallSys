@@ -76,13 +76,15 @@ public class SepcDaoImpl implements SepcDao {
     }
 
     @Override
-    public Map<String, Object> find(SepcEntity sepcEntity, Integer page, Integer size) {
-        String exeSQL = "select id,name,options,seq,template_id as templateId from wx_tab_sepc where name = ? and options = ? limit " + ((page - 1) * size) + " , " + (page * size);
+    public Map<String, Object> find(SepcEntity sepcEntity) {
+        int page = (sepcEntity.getPage() - 1) * sepcEntity.getSize();
+        int size = sepcEntity.getSize() * sepcEntity.getPage();
+        String exeSQL = "select id,name,options,seq,template_id as templateId from wx_tab_sepc where name = ? and options = ? limit " + page + " , " + size;
         Object[] args = {sepcEntity.getName(), sepcEntity.getOptions()};
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, args);
         Map<String, Object> map = new TreeMap();
-        map.put("total", size);
         map.put("rows", list);
+        map.put("total", sepcEntity.getSize());
         return map;
     }
 }

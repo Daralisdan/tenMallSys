@@ -14,7 +14,7 @@ public interface SepcDao {
     int add(SepcEntity sepcEntity);
 
 
-    Map<String, Object> find(SepcEntity sepcEntity, Integer page, Integer size);
+    Map<String, Object> find(SepcEntity sepcEntity);
 
 
     List<Map<String, Object>> findAll();
