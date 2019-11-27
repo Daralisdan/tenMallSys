@@ -50,9 +50,8 @@ public class BrandController {
      * @return
      */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
-    public Msg add(int id, String letter, String name, int seq, MultipartFile image) {
+    public Msg add(String letter, String name, int seq, MultipartFile image) {
         BrandEntity brandEntity = new BrandEntity();
-        brandEntity.setId(id);
         brandEntity.setName(name);
         brandEntity.setLetter(letter);
         brandEntity.setImage(image);
