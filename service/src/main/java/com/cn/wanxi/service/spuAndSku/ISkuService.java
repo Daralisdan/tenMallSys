@@ -13,6 +13,8 @@ public interface ISkuService {
 
     WxTabSku findById(int id);
 
+    List<WxTabSku> findByIds(int id);
+
     int update(WxTabSku WxTabSku);
 
     int deleteById(int id);

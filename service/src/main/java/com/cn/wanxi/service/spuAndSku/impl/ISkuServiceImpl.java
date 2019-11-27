@@ -32,6 +32,11 @@ public class ISkuServiceImpl implements ISkuService {
     }
 
     @Override
+    public List<WxTabSku> findByIds(int id) {
+        return iSkuDao.findByIds(id);
+    }
+
+    @Override
     public int update(WxTabSku wxTabSku) {
         int result = 0;
         //先根据id查询，当前数据是否存在
