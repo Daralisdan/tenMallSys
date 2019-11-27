@@ -24,6 +24,7 @@ public class CategoryDaoImpl implements ICategoryDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+
     private SQLSentence sqlSentence = SQLSentence.getInstance();
 
     /**

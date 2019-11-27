@@ -25,9 +25,7 @@ import java.util.Map;
 public class UserController {
 
     @Autowired
-    private IUserService iUserService;
-
-    private IUniversalDao daoTemp = new UniversalDaoImpl();
+    private IUniversalDao daoTemp;
 
     /**
      * 【用户登录】

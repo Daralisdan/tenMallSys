@@ -35,7 +35,7 @@ public class Message {
     }
 
     public void setMessage(int code, OperationTypeEnum type) {
-        message = CodeEnum.values()[code].getType() + type.getOperation();
+        message = type.getOperation() + CodeEnum.values()[code].getType();
     }
 
     /**

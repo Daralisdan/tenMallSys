@@ -27,9 +27,7 @@ import java.util.Map;
 public class AdminController {
 
     @Autowired
-    private IAdminService iAdminService;
-
-    private IUniversalDao daoTemp = new UniversalDaoImpl();
+    private IUniversalDao daoTemp;
 
     /**
      * 【管理员登录】

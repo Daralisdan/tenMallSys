@@ -29,6 +29,43 @@ public class CategoryController {
     private ICategoryService iCategoryService;
 
     /**
+     * 【查询所有】
+     *
+     * @return
+     */
+    @PostMapping(value = "/list",produces = "application/json;charset=UTF-8")
+    public Message list(){
+        Message msg;
+        CategoryEntity categoryEntity = new CategoryEntity();
+        List<Map<String, Object>> result = iCategoryService.findAll(categoryEntity);
+        if(!isEmpty(result)){
+            msg = MessageProxy.success(OperationTypeEnum.FIND, result);
+        } else {
+            msg = MessageProxy.fail(OperationTypeEnum.FIND);
+        }
+        return msg;
+    }
+
+    /**
+     * 【固定条件查询所有，固定parent_id】
+     *
+     * @return
+     */
+    @PostMapping(value = "/listSub",produces = "application/json;charset=UTF-8")
+    public Message listSub(Integer parentId){
+        Message msg;
+        CategoryEntity categoryEntity = new CategoryEntity();
+        categoryEntity.setParentId(parentId);
+        List<Map<String, Object>> result = iCategoryService.findAll(categoryEntity);
+        if(!isEmpty(result)){
+            msg = MessageProxy.success(OperationTypeEnum.FIND, result);
+        } else {
+            msg = MessageProxy.fail(OperationTypeEnum.FIND);
+        }
+        return msg;
+    }
+
+    /**
      * 【添加商品分类信息】
      *
      * @return

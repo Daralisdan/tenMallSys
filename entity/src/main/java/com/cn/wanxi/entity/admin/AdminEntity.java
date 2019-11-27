@@ -9,7 +9,7 @@ import com.cn.wanxi.entity.Universal;
  * 2019/11/18,Create by yaodan
  */
 public class AdminEntity implements Universal {
-    private int id;
+    private Integer id;
     private String loginName;
     private String password;
     private String status;
@@ -17,18 +17,18 @@ public class AdminEntity implements Universal {
     public AdminEntity() {
     }
 
-    public AdminEntity(int id, String login_name, String password, String status) {
+    public AdminEntity(Integer id, String loginName, String password, String status) {
         this.id = id;
-        this.loginName = login_name;
+        this.loginName = loginName;
         this.password = password;
         this.status = status;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

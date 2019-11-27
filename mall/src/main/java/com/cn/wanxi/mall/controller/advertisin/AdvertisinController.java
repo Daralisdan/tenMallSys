@@ -9,6 +9,7 @@ import com.cn.wanxi.utils.message.Message;
 import com.cn.wanxi.utils.message.MessageLimit;
 import com.cn.wanxi.utils.message.MessageProxy;
 import com.cn.wanxi.utils.message.enums.OperationTypeEnum;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,8 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 @RestController
 @RequestMapping("/advertisin")
 public class AdvertisinController {
-    private IUniversalDao daoTemp = new UniversalDaoImpl();
+    @Autowired
+    private IUniversalDao daoTemp;
 
     /**
      * 【管理员查找全部】

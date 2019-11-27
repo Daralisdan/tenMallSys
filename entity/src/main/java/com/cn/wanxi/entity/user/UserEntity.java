@@ -14,8 +14,8 @@ public class UserEntity implements Universal {
     private String password;
     private String phone;
     private String email;
-    private Date created;
-    private Date updated;
+    private String created;
+    private String updated;
     private String sourceType;
     private String nickName;
     private String name;
@@ -28,13 +28,13 @@ public class UserEntity implements Universal {
     private Integer userLevel;
     private Integer points;
     private Integer experienceValue;
-    private Date birthday;
-    private Date lastLoginTime;
+    private String birthday;
+    private String lastLoginTime;
 
     public UserEntity() {
     }
 
-    public UserEntity(Integer id, String username, String password, String phone, String email, Date created, Date updated, String sourceType, String nickName, String name, String status, String headPic, String qq, String isMobileCheck, String isMailCheck, String sex, Integer userLevel, Integer points, Integer experienceValue, Date birthday, Date lastLoginTime) {
+    public UserEntity(Integer id, String username, String password, String phone, String email, String created, String updated, String sourceType, String nickName, String name, String status, String headPic, String qq, String isMobileCheck, String isMailCheck, String sex, Integer userLevel, Integer points, Integer experienceValue, String birthday, String lastLoginTime) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -98,19 +98,19 @@ public class UserEntity implements Universal {
         this.email = email;
     }
 
-    public Date getCreated() {
+    public String getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(String created) {
         this.created = created;
     }
 
-    public Date getUpdated() {
+    public String getUpdated() {
         return updated;
     }
 
-    public void setUpdated(Date updated) {
+    public void setUpdated(String updated) {
         this.updated = updated;
     }
 
@@ -210,19 +210,19 @@ public class UserEntity implements Universal {
         this.experienceValue = experienceValue;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
-    public Date getLastLoginTime() {
+    public String getLastLoginTime() {
         return lastLoginTime;
     }
 
-    public void setLastLoginTime(Date lastLoginTime) {
+    public void setLastLoginTime(String lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
     }
 
@@ -234,8 +234,8 @@ public class UserEntity implements Universal {
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", created=" + created +
-                ", updated=" + updated +
+                ", created='" + created + '\'' +
+                ", updated='" + updated + '\'' +
                 ", sourceType='" + sourceType + '\'' +
                 ", nickName='" + nickName + '\'' +
                 ", name='" + name + '\'' +
@@ -248,8 +248,8 @@ public class UserEntity implements Universal {
                 ", userLevel=" + userLevel +
                 ", points=" + points +
                 ", experienceValue=" + experienceValue +
-                ", birthday=" + birthday +
-                ", lastLoginTime=" + lastLoginTime +
+                ", birthday='" + birthday + '\'' +
+                ", lastLoginTime='" + lastLoginTime + '\'' +
                 '}';
     }
 }
