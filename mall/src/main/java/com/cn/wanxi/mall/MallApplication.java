@@ -50,7 +50,7 @@ public class MallApplication extends WebMvcConfigurationSupport {
 
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
-
+            //图片映射
         registry.addResourceHandler("upload/**")
                 .addResourceLocations(ResourceUtils.FILE_URL_PREFIX + "E://images/upload/");
         //将所有/static/** 访问都映射到classpath:/static/ 目录下
