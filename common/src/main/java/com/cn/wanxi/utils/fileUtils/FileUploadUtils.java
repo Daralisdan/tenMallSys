@@ -14,32 +14,33 @@ import java.io.IOException;
 
 public class FileUploadUtils {
 
-    public  Msg uploadUtil(MultipartFile file,String path,String imageFileName){
+    public Msg uploadUtil(MultipartFile file, String path, String imageFileName) {
         if (file == null) {
-            return  Msg.fail().messageData("空");
+            return Msg.fail().messageData("空");
         }
 
         if (file.isEmpty()) {
-            return  Msg.fail().messageData("文件不存在");
+            return Msg.fail().messageData("文件不存在");
         }
-        Msg msg = null;
+        Msg msg;
         if (!file.isEmpty()) {
             String fileName = file.getOriginalFilename();
-            String realName = imageFileName+ "/" + FileNewNameUtils.getFileNewName(fileName);
+            String realName = imageFileName + "/" + FileNewNameUtils.getFileNewName(fileName);
 
-            boolean upload =upload(file,path +realName);
+            boolean upload = upload(file, path + realName);
             if (upload) {
                 msg = Msg.success().messageData(realName);
 
-            }else{
+            } else {
                 msg = Msg.fail().messageData("IO错误");
             }
-        }else{
+        } else {
             msg = Msg.fail().messageData("图片错误！");
         }
         return msg;
     }
-    public  boolean upload(MultipartFile file,  String realName) {
+
+    public boolean upload(MultipartFile file, String realName) {
 
         File dest = new File(realName);
         //判断文件父目录是否存在

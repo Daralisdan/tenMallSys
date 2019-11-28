@@ -49,7 +49,7 @@ public class BrandController {
      *
      * @return
      */
-    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "/add")
     public Msg add(String letter, String name, Integer seq, MultipartFile imageFile) {
         BrandEntity brandEntity = getBrandEntity(letter, name, seq, imageFile);
         Msg msg;
