@@ -75,6 +75,11 @@ public class SepcDaoImpl implements SepcDao {
         return temp;
     }
 
+    /**
+     * 分页查询
+     * @param sepcEntity
+     * @return
+     */
     @Override
     public Map<String, Object> find(SepcEntity sepcEntity) {
         int page = (sepcEntity.getPage() - 1) * sepcEntity.getSize();

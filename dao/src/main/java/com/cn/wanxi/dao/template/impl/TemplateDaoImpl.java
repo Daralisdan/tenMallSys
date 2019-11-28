@@ -28,10 +28,14 @@ public class TemplateDaoImpl implements TemplateDao {
     @Override
     public int add(TemplateEntity templateEntity) {
         String exeSQL = "INSERT INTO wx_tab_template (name) VALUES (?)";
-        Object arg[] = {templateEntity.getName()};
-        System.out.println(arg[0]);
-        int temp = jdbcTemplate.update(exeSQL, arg[0]);
-        return temp;
+        String templateNameSql = "select name from wx_tab_template where name = ?";
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(templateNameSql,templateEntity.getName());
+        if (list.size() == 0) {
+            int temp = jdbcTemplate.update(exeSQL, templateEntity.getName());
+            return temp;
+        } else {
+            return 0;
+        }
     }
 
     /**

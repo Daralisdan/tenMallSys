@@ -36,17 +36,14 @@ public class SepcController {
      */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
     public Msg add(@RequestBody SepcEntity sepcEntity) {
-        Msg msg;
-        if (!sepcEntity.getName().trim().equals("") && !sepcEntity.getOptions().trim().equals("")) {
-            if (iSepcService.add(sepcEntity)) {
-                msg = Msg.success().messageData(sepcEntity);
-            } else {
-                msg = Msg.fail().messageData("找不到相应的模板ID");
-            }
+        Msg m;
+        int result = iSepcService.add(sepcEntity);
+        if (!isEmpty(result)) {
+            m = Msg.success().messageData(sepcEntity);
         } else {
-            msg = Msg.fail().messageData("name或者Options不能为空");
+            m = Msg.fail();
         }
-        return msg;
+        return m;
     }
 
     /**

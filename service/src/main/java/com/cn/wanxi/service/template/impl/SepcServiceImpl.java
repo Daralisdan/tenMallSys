@@ -19,8 +19,7 @@ public class SepcServiceImpl implements ISepcService {
 
     @Autowired
     private SepcDao sepcDao;
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+
 
     @Override
     public int deleteById(SepcEntity sepcEntity) {
@@ -34,15 +33,8 @@ public class SepcServiceImpl implements ISepcService {
     }
 
     @Override
-    public boolean add(SepcEntity sepcEntity) {
-        String sql = "select template_id from wx_tab_template where id = " + sepcEntity.getTemplateId();
-        List list = jdbcTemplate.queryForList(sql);
-        if (list.size() != 0) {
-            sepcDao.add(sepcEntity);
-            return true;
-        } else {
-            return false;
-        }
+    public int add(SepcEntity sepcEntity) {
+        return sepcDao.add(sepcEntity);
     }
 
     @Override
