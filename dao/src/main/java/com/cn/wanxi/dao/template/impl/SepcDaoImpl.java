@@ -29,7 +29,7 @@ public class SepcDaoImpl implements SepcDao {
      */
     @Override
     public int add(SepcEntity sepcEntity) {
-        String exeSQL = "INSERT INTO wx_tab_sepc(name,seq,options,template_id) VALUES(?,?,?,?)";
+        String exeSQL = "INSERT INTO wx_tab_sepc(name,options,seq,template_id) VALUES(?,?,?,?)";
         Object args[] = {sepcEntity.getName(), sepcEntity.getOptions(), sepcEntity.getSeq(), sepcEntity.getTemplateId()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
