@@ -221,6 +221,7 @@ public class SpuAndSkuController {
      */
     @RequestMapping(value ="/findAuditALL",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
     public LinkedHashMap daishenghebiao(@RequestBody  Map<String, Object> param){
+
         Object page = param.get("page");
         Object size = param.get("size");
         if(page==null&&size==null){
@@ -251,29 +252,14 @@ public class SpuAndSkuController {
      * @param
      * @return
      */
-    @RequestMapping(value ="/ShelvesReq",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    public String ShelvesReq(@RequestBody Map<String, Object> param){
-        Object id = param.get("id");
-        Object type = param.get("type");
+    @RequestMapping(value ="/shelvesReq",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
+    public String ShelvesReq(@RequestBody Map<String, Integer> param){
+        Integer id = param.get("id");
         if(id==null){
             return cuo;
         }
-        if(type==null){
-            return cuo;
-        }
-        int b = Integer.parseInt(id.toString());
-        String s = type.toString();
-        if("0".equals(s)){
-            int code = 1;
-            String message = "上架失败";
-            JSONObject result = new JSONObject();
-            result.put("code",code);
-            result.put("message",message);
-            return  result.toJSONString();
-        }
-
-        i = iSpuService.shangjia(b);
-        if (i >0&&"1".equals(s)) {
+        i = iSpuService.shangjia(id);
+        if (i >0) {
             int code = 0;
             String message = "上架成功";
             JSONObject result = new JSONObject();
@@ -331,7 +317,6 @@ public class SpuAndSkuController {
     public String submitReq(@RequestBody WxTabSpu wxTabSpu){
         int i = iSpuService.tijiaoshenhe(wxTabSpu);
         if(i>0) {
-
             int code = 0;
             String message = "提交成功";
             JSONObject result = new JSONObject();
@@ -350,13 +335,23 @@ public class SpuAndSkuController {
 
     /**
      *根据id 然后更改审核审核状态和是否上架
-     * @param wxTabSpu
+     * @param page
      * @return
      */
     @RequestMapping(value ="/auditReq",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    public String auditReq(@RequestBody WxTabSpu wxTabSpu){
-        int i = iSpuService.shenhechenggong(wxTabSpu);
-        if(i>0) {
+    public String auditReq(@RequestBody Map<String,Integer> page ){
+         Integer id = page.get("id");
+         Integer type = page.get("type");
+         if(type==0){
+             int code = 1;
+             String message = "审核失败";
+             JSONObject result = new JSONObject();
+             result.put("code",code);
+             result.put("message",message);
+             return  result.toJSONString();
+         }
+        int i = iSpuService.shenhechenggong(id);
+        if(i>0&&type==1) {
             int code = 0;
             String message = "审核成功";
             JSONObject result = new JSONObject();
@@ -374,12 +369,12 @@ public class SpuAndSkuController {
     }
     /**
      * 根据商品的 id 更改状态为下架
-     * @param wxTabSku
+     * @param wxTabSpu
      * @return
      */
     @RequestMapping(value ="/pullReq",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    public String pullReq(@RequestBody WxTabSku wxTabSku ){
-        int i = iSkuService.xiajia(wxTabSku);
+    public String pullReq(@RequestBody WxTabSpu wxTabSpu ){
+        int i = iSpuService.xiajia(wxTabSpu);
         if(i>0) {
             int code = 0;
             String message = "下架成功";

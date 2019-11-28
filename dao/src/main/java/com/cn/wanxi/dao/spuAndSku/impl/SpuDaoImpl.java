@@ -142,10 +142,9 @@ public class SpuDaoImpl implements ISpuDao {
     }
 
     @Override
-    public int shenhechenggong(WxTabSpu wxTabSpu) {
+    public int shenhechenggong(int id) {
         String exeSQL = "update wx_tab_spu set  is_marketable='1' , status='1'   WHERE id=?";
-        Object args[] = {wxTabSpu.getId()};
-        int temp = jdbcTemplate.update(exeSQL, args);
+        int temp = jdbcTemplate.update(exeSQL,id);
         return temp;
     }
 

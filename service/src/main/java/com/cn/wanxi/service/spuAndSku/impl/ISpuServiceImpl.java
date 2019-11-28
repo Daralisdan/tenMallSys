@@ -68,8 +68,8 @@ public class ISpuServiceImpl implements ISpuService {
     }
 
     @Override
-    public int shenhechenggong(WxTabSpu wxTabSpu) {
-        return iSpuDao.shenhechenggong(wxTabSpu);
+    public int shenhechenggong(int id) {
+        return iSpuDao.shenhechenggong(id);
     }
 
     @Override
