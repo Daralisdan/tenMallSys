@@ -35,7 +35,7 @@ public class OrderController {
      */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
     public Msg add(@RequestBody OrderEntity orderEntity) {
-        Msg msg=null;
+        Msg msg = null;
         if (null != orderEntity.getUsername() && orderEntity.getUsername().trim() != "") {
             int result = iOrderService.add(orderEntity);
             if (0 != result) {
@@ -85,7 +85,7 @@ public class OrderController {
     public Msg list2(@RequestBody Map<String, String> param) {
         Msg msg = null;
         String ids = param.get("ids");
-        if("".equals(ids)){
+        if ("".equals(ids)) {
             msg = Msg.fail().messageData("格式不对");
         } else {
             Map<String, Object> list = iOrderService.batchlist(ids);
@@ -102,30 +102,40 @@ public class OrderController {
     }
 
     @PostMapping(value = "/batchSendSubmit", produces = "application/json;charset=UTF-8")
-    public Msg batchSendSubmit(@RequestBody Map<String, String> param) {
-        Msg msg = null;
-
-        Object shippingName = param.get("shippingName");
-        Object shippingCode = param.get("shippingCode");
-        Object orderId = param.get("orderId");
-        int id = Integer.parseInt(String.valueOf(orderId));
-        if (id > 0) {
-            //根据id查询数据
-            OrderEntity byId = iOrderService.findById(id);
-            //判断是否查询到该品牌信息
-            if (!ObjectUtils.isEmpty(byId)) {
-                int result = iOrderService.batchSendSubmit(id, orderId, shippingName, shippingCode);
-                if (result > 0) {
-                    msg = Msg.success();
+    public Msg batchSendSubmit(@RequestBody OrderEntity[] orderEntities) {
+        Msg msg=null;
+        int id = 0;
+        int orderId = 0;
+        String shippingName;
+        String shippingCode;
+        for (int i = 0; i < orderEntities.length; i++) {
+            id = orderEntities[i].getId();
+            orderId=orderEntities[i].getId();
+            shippingName=orderEntities[i].getShippingName();
+            shippingCode=orderEntities[i].getShippingCode();
+            if (id > 0) {
+                //根据id查询数据
+                OrderEntity byId = iOrderService.findById(id);
+                //判断是否查询到该品牌信息
+                if (!ObjectUtils.isEmpty(byId)) {
+                    int result = iOrderService.batchSendSubmit(id, orderId, shippingName, shippingCode);
+                    if (result > 0) {
+                        msg = Msg.success();
+                    }
+                } else {
+                    msg =Msg.fail().messageData("该订单不存在");
                 }
             } else {
-                msg = Msg.fail().messageData("该订单不存在");
+                msg = Msg.fail().messageData("输入格式有误");
             }
-        } else {
-            msg = Msg.fail().messageData("输入格式有误");
-        }
-        return msg;
 
+
+
+        }
+//        int id = Integer.parseInt(String.valueOf(orderId));
+
+//        return msg;
+            return msg;
     }
 //    @PostMapping("/findbyorderid")
 //    public Msg findByOrderId(int orderId) {
