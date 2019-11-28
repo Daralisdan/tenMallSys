@@ -50,9 +50,11 @@ public class MallApplication extends WebMvcConfigurationSupport {
 
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
+
+        registry.addResourceHandler("upload/**")
+                .addResourceLocations(ResourceUtils.FILE_URL_PREFIX + "E://images/upload/");
         //将所有/static/** 访问都映射到classpath:/static/ 目录下
-        registry.addResourceHandler("/static/**")
-                .addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/static/");
+        registry.addResourceHandler("/static/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/static/");
 
     }
 
@@ -77,4 +79,6 @@ public class MallApplication extends WebMvcConfigurationSupport {
                 // 跨域允许时间
                 .maxAge(3600);
     }
+
+
 }
