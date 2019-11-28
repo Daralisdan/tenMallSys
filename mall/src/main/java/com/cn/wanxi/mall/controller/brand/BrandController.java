@@ -67,7 +67,7 @@ public class BrandController {
                 return msg;
             }
         } else {
-            msg = Msg.fail().messageData("名字和seq不能为空,图片必须上传");
+            msg = Msg.fail().messageData("名字和seq不能为空,图片可传可不传");
         }
         return msg;
     }
