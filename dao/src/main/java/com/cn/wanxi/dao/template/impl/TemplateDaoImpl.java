@@ -93,7 +93,7 @@ public class TemplateDaoImpl implements TemplateDao {
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, arg);
         Map<String, Object> map = new TreeMap();
         map.put("rows", list);
-        map.put("total", templateEntity.getSize());
+        map.put("total", list.size());
         return map;
     }
 

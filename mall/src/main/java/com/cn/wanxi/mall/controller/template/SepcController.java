@@ -75,7 +75,7 @@ public class SepcController {
      * @return
      */
     @PostMapping(value = "/update", produces = "application/json;charset=UTF-8")
-    public Msg update(@RequestBody SepcEntity sepcEntity) {
+    public Map<String, Object> update(@RequestBody SepcEntity sepcEntity) {
         Msg msg;
         int up = iSepcService.update(sepcEntity);
         if (up > 0) {
@@ -83,7 +83,10 @@ public class SepcController {
         } else {
             msg = Msg.fail();
         }
-        return msg;
+        Map<String, Object> map = new TreeMap<>();
+        map.put("code", msg.getCode());
+        map.put("message", msg.getMsg());
+        return map;
     }
 
     /**
@@ -93,7 +96,7 @@ public class SepcController {
      * @return
      */
     @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
-    public Msg delete(@RequestBody SepcEntity sepcEntity) {
+    public Map<String,Object> delete(@RequestBody SepcEntity sepcEntity) {
         Msg msg;
         int i = iSepcService.deleteById(sepcEntity);
         if (i > 0) {
@@ -101,7 +104,10 @@ public class SepcController {
         } else {
             msg = Msg.fail();
         }
-        return msg;
+        Map<String,Object> map = new TreeMap<>();
+        map.put("code",msg.getCode());
+        map.put("message",msg.getMsg());
+        return map;
     }
 
 }

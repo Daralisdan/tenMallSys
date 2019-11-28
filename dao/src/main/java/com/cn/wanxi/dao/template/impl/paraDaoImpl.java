@@ -83,7 +83,7 @@ public class paraDaoImpl implements ParaDao {
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, args);
         Map<String, Object> map = new TreeMap();
         map.put("rows", list);
-        map.put("total", paraEntity.getSize());
+        map.put("total", list.size());
         return map;
     }
 }
