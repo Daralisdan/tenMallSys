@@ -33,10 +33,10 @@ public class IRefundCauseServiceImpl implements IRefundCauseService {
 
         return up;
     }
-    @Override
-    public List<Map<String, Object>> refundList(int page, int size) {
-        return iRefundCauseDao.refundList(page, size);
-    }
+//    @Override
+//    public Map<String, Object> refundList(int page, int size) {
+//        return iRefundCauseDao.refundList(page, size);
+//    }
     /**
      * 添加退货退款申请表
      * @param refundCauseEntity
@@ -58,8 +58,8 @@ public class IRefundCauseServiceImpl implements IRefundCauseService {
      * @return
      */
     @Override
-    public List<Map<String, Object>> findAll() {
-        return iRefundCauseDao.queryAll();
+    public List<Map<String, Object>> findAll(int page, int size,String type) {
+        return iRefundCauseDao.queryAll(page, size,type);
     }
     /**
      * 根据退货退款申请表id 查询
@@ -100,5 +100,14 @@ public class IRefundCauseServiceImpl implements IRefundCauseService {
             }
         }
         return result;
+    }
+    /**
+     * 统计所有数据
+     *
+     * @return
+     */
+    @Override
+    public int countAll() {
+        return iRefundCauseDao.countAll();
     }
 }
