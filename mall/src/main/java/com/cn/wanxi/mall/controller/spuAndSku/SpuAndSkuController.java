@@ -425,7 +425,7 @@ public class SpuAndSkuController {
 //        HashMap<Integer,Object> idToSku = new HashMap<>();
 //        for(Integer id  : idList){
 //            iSkuService.findById(id);
-//        }      
+//        }
 //
 //        int count = iSpuService.zong();
 //        LinkedHashMap linkedHashMap = new LinkedHashMap();
