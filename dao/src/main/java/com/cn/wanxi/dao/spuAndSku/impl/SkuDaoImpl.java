@@ -54,6 +54,17 @@ public class SkuDaoImpl implements ISkuDao {
 
         return wxTabSkuu;    }
 
+    @Override
+    public int update(List<WxTabSku> wxTabSkul) {
+        int temp = 0;
+        String exeSQL = "update wx_tab_sku set sn=?,name=?,price=?,num=?,alert_num=?,image=?,images=?,weight=?,create_time=?,update_time=?,spu_id=?,category_id=?,category_name=?,brand_name=?,spec=?,sale_num=?,comment_num=?,status=? WHERE id=?";
+        for(WxTabSku wxTabSku:wxTabSkul){
+            Object args[] = {wxTabSku.getSn(),wxTabSku.getName(),wxTabSku.getPrice(),wxTabSku.getNum(),wxTabSku.getAlertNum(),wxTabSku.getImage(),wxTabSku.getImages(),wxTabSku.getWeight(),wxTabSku.getCreateTime(),wxTabSku.getUpdateTime(),wxTabSku.getSpuId(),wxTabSku.getCategoryId(),wxTabSku.getCategoryName(),wxTabSku.getBrandName(),wxTabSku.getSpec(),wxTabSku.getSaleNum(),wxTabSku.getCommentNum(),wxTabSku.getStatus(),wxTabSku.getId()};
+            temp = jdbcTemplate.update(exeSQL, args);
+        }
+        return temp;
+    }
+
 
     @Override
     public int update(WxTabSku wxTabSku) {
