@@ -8,9 +8,11 @@ import com.cn.wanxi.utils.utils.Msg;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -36,6 +38,11 @@ public class BrandController {
     @Autowired
     private IBrandService iBrandService;
 
+    @Value("${spring.resources.static-locations}")
+    private String path;
+
+    @Value("${spring.mvc.static-path-pattern}")
+    private String imageFileName;
 
     /**
      * 【添加品牌信息】
@@ -43,18 +50,28 @@ public class BrandController {
      * @return
      */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
-    public Msg add(@RequestBody BrandEntity brandEntity) {
-        Msg msg = null;
-        if (null != brandEntity.getName() && brandEntity.getName().trim() != "") {
-            int result = iBrandService.add(brandEntity);
-            if (0 != result) {
-                msg = Msg.success().messageData(brandEntity);
+    public Msg add(String letter, String name, Integer seq, MultipartFile imageFile) {
+        BrandEntity brandEntity = getBrandEntity(letter, name, seq, imageFile);
+        Msg msg;
+        if ((null != name && name.trim() != "") && (null != seq)) {
+            msg = iBrandService.add(brandEntity, path, imageFileName);
+            String image = brandEntity.getImage();
+            if (0 == msg.getCode()) {
+                if (image == null) {
+                    msg = Msg.success().messageData(brandEntity);
+                } else {
+
+                    msg = Msg.success().messageData(image);
+                }
+            } else {
+                return msg;
             }
         } else {
-            msg = Msg.fail().messageData("名字不能为空");
+            msg = Msg.fail().messageData("名字和seq不能为空,图片必须上传");
         }
         return msg;
     }
+
 
     /**
      * 【展示所有品牌信息】
@@ -103,22 +120,25 @@ public class BrandController {
     /**
      * 【修改品牌信息】根据id查询
      *
-     * @param brandEntity
+     * @param
      * @return
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public Msg update(@RequestBody BrandEntity brandEntity) {
+    public Msg update(Integer id, String letter, String name, Integer seq, MultipartFile imageFile) {
         Msg msg = null;
-        //先获取id
-        int id = brandEntity.getId();
+        if (StringUtils.isEmpty(id)) {
+            return Msg.fail().messageData("请输入id,id不能为空");
+        }
         if (id > 0) {
+            BrandEntity brandEntity = getBrandEntity(letter, name, seq, imageFile);
+            brandEntity.setId(id);
             //根据id查询数据
             BrandEntity byId = iBrandService.findById(id);
             //判断是否查询到该品牌信息
             if (!ObjectUtils.isEmpty(byId)) {
-                int result = iBrandService.update(brandEntity);
-                if (result > 0) {
-                    msg = Msg.success().messageData(brandEntity);
+                Msg update = iBrandService.update(brandEntity, path, imageFileName);
+                if (update.getCode() == 0) {
+                    msg = Msg.success().messageData(brandEntity.getImage());
                 }
             } else {
                 msg = Msg.fail().messageData("该品牌不存在");
@@ -127,6 +147,25 @@ public class BrandController {
             msg = Msg.fail().messageData("请输入id");
         }
         return msg;
+    }
+
+    /**
+     * 封装实体类 实体类接收前台的数据
+     *
+     * @param letter
+     * @param name
+     * @param seq
+     * @param
+     * @return
+     */
+
+    private BrandEntity getBrandEntity(String letter, String name, Integer seq, MultipartFile imageFlle) {
+        BrandEntity brandEntity = new BrandEntity();
+        brandEntity.setName(name);
+        brandEntity.setLetter(letter);
+        brandEntity.setImageFile(imageFlle);
+        brandEntity.setSeq(seq);
+        return brandEntity;
     }
 
     /**
