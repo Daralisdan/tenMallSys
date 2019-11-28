@@ -138,7 +138,7 @@ public class BrandController {
             if (!ObjectUtils.isEmpty(byId)) {
                 Msg update = iBrandService.update(brandEntity, path, imageFileName);
                 if (update.getCode() == 0) {
-                    msg = Msg.success().messageData(brandEntity);
+                    msg = Msg.success().messageData(brandEntity.getImage());
                 }
             } else {
                 msg = Msg.fail().messageData("该品牌不存在");
