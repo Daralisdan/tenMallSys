@@ -4,6 +4,7 @@ import com.cn.wanxi.dao.template.SepcDao;
 import com.cn.wanxi.entity.template.SepcEntity;
 import com.cn.wanxi.service.template.ISepcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class SepcServiceImpl implements ISepcService {
 
     @Autowired
     private SepcDao sepcDao;
+
 
     @Override
     public int deleteById(SepcEntity sepcEntity) {
@@ -41,7 +43,7 @@ public class SepcServiceImpl implements ISepcService {
     }
 
     @Override
-    public Map<String, Object> find(SepcEntity sepcEntity, Integer page, Integer size) {
-        return sepcDao.find(sepcEntity, page, size);
+    public Map<String, Object> find(SepcEntity sepcEntity) {
+        return sepcDao.find(sepcEntity);
     }
 }

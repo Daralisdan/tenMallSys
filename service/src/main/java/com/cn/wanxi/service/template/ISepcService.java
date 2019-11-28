@@ -17,7 +17,7 @@ public interface ISepcService {
 
     List<Map<String, Object>> findAll();
 
-    Map<String, Object> find(SepcEntity sepcEntity, Integer page, Integer size);
+    Map<String, Object> find(SepcEntity sepcEntity);
 
     int update(SepcEntity sepcEntity);
 

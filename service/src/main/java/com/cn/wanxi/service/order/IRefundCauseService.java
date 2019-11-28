@@ -10,16 +10,17 @@ import java.util.Map;
 public interface IRefundCauseService {
     int updateStatus(RefundCauseEntity refundCauseEntity);
 
-    List<Map<String, Object>> refundList(int page, int size);
+//    Map<String, Object> refundList(int page, int size);
 
     int add(RefundCauseEntity refundCauseEntity);
 
-    List<Map<String, Object>> findAll();
+    List<Map<String, Object>> findAll(int page, int size,String type);
 
     RefundCauseEntity findById(int id);
 
     int deleteById(int id);
 
     int update(RefundCauseEntity refundCauseEntity);
+    int countAll();
 
 }

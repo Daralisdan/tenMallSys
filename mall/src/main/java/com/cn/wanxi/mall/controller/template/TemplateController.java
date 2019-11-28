@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
@@ -32,15 +33,21 @@ public class TemplateController {
      * @return
      */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
-    public Msg add(@RequestBody TemplateEntity templateEntity) {
+    public Map add(@RequestBody TemplateEntity templateEntity) {
         Msg m;
+        Map<String, Object> map = new TreeMap<>();
         int result = iTemplateService.add(templateEntity);
-        if (!isEmpty(result)) {
-            m = Msg.success().messageData(templateEntity);
+        if (!isEmpty(result) && result != 0) {
+            m = Msg.success();
+            map.put("msg",m.getMsg());
+        } else if (result == 0) {
+            m = Msg.fail().messageData("该模板已存在");
         } else {
             m = Msg.fail();
+            map.put("msg",m.getMsg());
         }
-        return m;
+        map.put("coda",m.getCode());
+        return map;
     }
 
     /**
@@ -100,5 +107,16 @@ public class TemplateController {
             msg = Msg.fail();
         }
         return msg;
+    }
+
+    @PostMapping(value = "findSpecsById", produces = "application/json;charset=UTF-8")
+    public Map<String, Object> findSpecsById(@RequestBody TemplateEntity templateEntity) {
+        if (templateEntity.getId() != null) {
+            Map<String, Object> map = iTemplateService.findSpecsById(templateEntity);
+            return map;
+        }
+
+
+        return null;
     }
 }

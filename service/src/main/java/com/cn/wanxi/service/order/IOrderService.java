@@ -24,7 +24,8 @@ public interface IOrderService {
     //    int update(RefundCauseEntity refundCauseEntity);
     List<Map<String, Object>> findAll();
 
-    int batchSendSubmit(int orderId);
+    //    int batchSendSubmit( orderId,String shippingName,String shippingCode);
+    int countAll();
 
-
+    int batchSendSubmit(int id, Object orderId, Object shippingName, Object shippingCode);
 }

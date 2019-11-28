@@ -6,9 +6,11 @@ import com.cn.wanxi.utils.utils.UtilsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCountCallbackHandler;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,25 +49,25 @@ public class IRefundCauseImpl implements IRefundCauseDao {
     }
 
 
-    /**
-     * 根据page和size分页查询所有的待退款审批列表
-     *
-     * @param page
-     * @param size
-     * @return
-     */
-    @Override
-    public List<Map<String, Object>> refundList(int page, int size) {
-
-        String exeSQL = "select id, order_id as orderId , apply_time as applyTime , user_id as userId, user_account as userAccount ,linkman , linkman_mobile as linkmanMobile ,type, return_money as returnMoney , is_return_freight as isReturnFreight,status, dispose_time as disposeTime  ,  return_cause as returnCause ,evidence,description,remark, admin_id as adminId   from wx_tab_return_order limit " + (page - 1) * size + " , " + size;
-
-//        map=jdbcTemplate.queryForMap(exeSQL,);
-
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
-
-
-        return list;
-    }
+//    /**
+//     * 根据page和size分页查询所有的待退款审批列表
+//     *
+//     * @param page
+//     * @param size
+//     * @return
+//     */
+//    @Override
+//    public Map<String, Object> refundList(int page, int size,String type) {
+//
+//        String exeSQL = "select id, order_id as orderId , apply_time as applyTime , user_id as userId, user_account as userAccount ,linkman , linkman_mobile as linkmanMobile ,type, return_money as returnMoney , is_return_freight as isReturnFreight,status, dispose_time as disposeTime  ,  return_cause as returnCause ,evidence,description,remark, admin_id as adminId   from wx_tab_return_order where type = "+type+" limit " + (page - 1) * size + " , " + size;
+//
+////        map=jdbcTemplate.queryForMap(exeSQL,);
+//
+//        Map<String, Object> list = jdbcTemplate.queryForMap(exeSQL);
+//
+//
+//        return list;
+//    }
 
     /**
      * 添加待退款订单
@@ -87,9 +89,15 @@ public class IRefundCauseImpl implements IRefundCauseDao {
      * @return
      */
     @Override
-    public List<Map<String, Object>> queryAll() {
-        String exeSQL = "select id,  order_id as orderId , apply_time as applyTime , user_id as userId, user_account as userAccount ,linkman , linkman_mobile as linkmanMobile ,type, return_money as returnMoney , is_return_freight as isReturnFreight,status, dispose_time as disposeTime  ,  return_cause as returnCause ,evidence,description,remark, admin_id as adminId    from wx_tab_return_order";
+    public List<Map<String, Object>> queryAll(int page,int size,String type) {
+//        Map<String, Object> map = new LinkedHashMap<>();
+        String exeSQL = "select id,  order_id as orderId ,  DATE_FORMAT(apply_time,'%Y-%m-%d %H:%i:%s') as applyTime , user_id as userId, user_account as userAccount ,linkman , linkman_mobile as linkmanMobile ,type, return_money as returnMoney , is_return_freight as isReturnFreight,status,  DATE_FORMAT(dispose_time,'%Y-%m-%d %H:%i:%s')  as disposeTime  ,  return_cause as returnCause ,evidence,description,remark, admin_id as adminId    from wx_tab_return_order where type = "+type+" limit " + (page - 1) * size + " , " + size;
+//                "limit" + (page - 1) * size + " , " + size;
+//                "limit " + (page - 1) * size + " , " + size;
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
+//        map.put("rows",list);
+
+
         return list;
     }
 
@@ -102,7 +110,7 @@ public class IRefundCauseImpl implements IRefundCauseDao {
     @Override
     public RefundCauseEntity findById(int id) {
         RefundCauseEntity refundCauseEntity = null;
-        String exeSQL = "select id, order_id as orderId , apply_time as applyTime , user_id as userId, user_account as userAccount ,linkman , linkman_mobile as linkmanMobile ,type, return_money as returnMoney , is_return_freight as isReturnFreight,status, dispose_time as disposeTime  ,  return_cause as returnCause ,evidence,description,remark, admin_id as adminId   from wx_tab_return_order where id=?";
+        String exeSQL = "select id, order_id as orderId , DATE_FORMAT(apply_time,'%Y-%m-%d %H:%i:%s') as applyTime , user_id as userId, user_account as userAccount ,linkman , linkman_mobile as linkmanMobile ,type, return_money as returnMoney , is_return_freight as isReturnFreight,status,  DATE_FORMAT(dispose_time,'%Y-%m-%d %H:%i:%s') as disposeTime  ,  return_cause as returnCause ,evidence,description,remark, admin_id as adminId   from wx_tab_return_order where id=?";
         List<RefundCauseEntity> refundCauseEntities = jdbcTemplate.query(exeSQL, new Object[]{id}, new BeanPropertyRowMapper<RefundCauseEntity>(RefundCauseEntity.class));
         if (null != refundCauseEntities && refundCauseEntities.size() > 0) {
             refundCauseEntity = refundCauseEntities.get(0);
@@ -134,6 +142,22 @@ public class IRefundCauseImpl implements IRefundCauseDao {
                 refundCauseEntity.getRemark(), refundCauseEntity.getAdminId(), refundCauseEntity.getId()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
+    }
+
+
+    /**
+     * 【统计查询数据库所有数据】
+     *
+     * @return
+     */
+    @Override
+    public int countAll() {
+        String sql = "select * from wx_tab_return_order";
+        RowCountCallbackHandler countCallback = new RowCountCallbackHandler();
+        jdbcTemplate.query(sql, countCallback);
+        int count = countCallback.getRowCount();
+        System.out.println("目前的总条数是" + count);
+        return count;
     }
 
 }

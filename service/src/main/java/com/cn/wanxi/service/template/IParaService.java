@@ -17,7 +17,7 @@ public interface IParaService {
 
     List<Map<String, Object>> findAll();
 
-    Map<String, Object> find(ParaEntity paraEntity, Integer page, Integer size);
+    Map<String, Object> find(ParaEntity paraEntity);
 
     int update(ParaEntity paraEntity);
 
