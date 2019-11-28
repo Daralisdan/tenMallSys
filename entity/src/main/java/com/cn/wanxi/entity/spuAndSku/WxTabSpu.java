@@ -1,5 +1,7 @@
 package com.cn.wanxi.entity.spuAndSku;
 
+import java.util.List;
+
 public class WxTabSpu {
     private Integer id;
     private String sn;
@@ -23,7 +25,7 @@ public class WxTabSpu {
     private String isEnablePec;
     private String isDelete;
     private String status;
-    private WxTabSku SkuList;
+    private List<WxTabSku> skuList;
 
     public Integer getId() {
         return id;
@@ -185,12 +187,12 @@ public class WxTabSpu {
         this.status = status;
     }
 
-    public WxTabSku getSkuList() {
-        return SkuList;
+    public List<WxTabSku> getSkuList() {
+        return skuList;
     }
 
-    public void setSkuList(WxTabSku skuList) {
-        SkuList = skuList;
+    public void setSkuList(List<WxTabSku> skuList) {
+        this.skuList = skuList;
     }
 
     public String getIsMarkeTable() {
@@ -234,7 +236,7 @@ public class WxTabSpu {
                 ", isEnablePec='" + isEnablePec + '\'' +
                 ", isDelete='" + isDelete + '\'' +
                 ", status='" + status + '\'' +
-                ", SkuList=" + SkuList +
+                ", skuList=" + skuList +
                 '}';
     }
 }

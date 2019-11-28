@@ -8,7 +8,7 @@ import java.util.Map;
 public interface ISkuDao {
 
 
-    int insert(WxTabSku wxTabSku);
+    int insert( List<WxTabSku> wxTabSku);
 
     List<Map<String, Object>> queryAll();
 

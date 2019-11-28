@@ -14,10 +14,10 @@ public class ISkuServiceImpl implements ISkuService {
     @Autowired
     private ISkuDao iSkuDao;
 
-    @Override
-    public int insert(WxTabSku wxTabSku) {
 
-        return iSkuDao.insert(wxTabSku);
+    @Override
+    public int insert(List<WxTabSku> wxTabSku) {
+        return  iSkuDao.insert(wxTabSku);
     }
 
     @Override

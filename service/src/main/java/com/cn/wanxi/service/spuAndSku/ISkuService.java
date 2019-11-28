@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface ISkuService {
     
-    int insert(WxTabSku wxTabSku);
+    int insert( List<WxTabSku> wxTabSku);
 
     List<Map<String, Object>> queryAll();
 

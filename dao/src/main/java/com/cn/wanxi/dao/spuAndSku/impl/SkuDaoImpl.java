@@ -18,13 +18,15 @@ public class SkuDaoImpl implements ISkuDao {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public int insert(WxTabSku wxTabSku) {
+    public int insert(List<WxTabSku> wxTabSkul) {
+        int temp = 0;
         String exeSQL = "INSERT INTO wx_tab_sku(sn,name,price,num,alert_num,image,images,weight,create_time,update_time,spu_id,category_id,category_name,brand_name,spec,sale_num,comment_num,status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        Object args[] = {wxTabSku.getSn(),wxTabSku.getName(),wxTabSku.getPrice(),wxTabSku.getNum(),wxTabSku.getAlertNum(),wxTabSku.getImage(),wxTabSku.getImages(),wxTabSku.getWeight(),wxTabSku.getCreateTime(),wxTabSku.getUpdateTime(),wxTabSku.getSpuId(),wxTabSku.getCategoryId(),wxTabSku.getCategoryName(),wxTabSku.getBrandName(),wxTabSku.getSpec(),wxTabSku.getSaleNum(),wxTabSku.getCommentNum(),wxTabSku.getStatus()};
-        int temp = jdbcTemplate.update(exeSQL, args);
+        for(WxTabSku wxTabSku : wxTabSkul){
+            Object args[] = {wxTabSku.getSn(),wxTabSku.getName(),wxTabSku.getPrice(),wxTabSku.getNum(),wxTabSku.getAlertNum(),wxTabSku.getImage(),wxTabSku.getImages(),wxTabSku.getWeight(),wxTabSku.getCreateTime(),wxTabSku.getUpdateTime(),wxTabSku.getSpuId(),wxTabSku.getCategoryId(),wxTabSku.getCategoryName(),wxTabSku.getBrandName(),wxTabSku.getSpec(),wxTabSku.getSaleNum(),wxTabSku.getCommentNum(),wxTabSku.getStatus()};
+            temp = jdbcTemplate.update(exeSQL, args);
+        }
         return temp;
     }
-
     @Override
     public List<Map<String, Object>> queryAll() {
         String exeSQL = "select id, sn, name, price, num, alert_num as alertNum, image, images, weight,  DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%s')  as createTime,DATE_FORMAT(update_time,'%Y-%m-%d %H:%i:%s') as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num commentNum, status from wx_tab_sku";
