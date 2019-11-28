@@ -70,6 +70,9 @@ public class SpuAndSkuController {
 
     @RequestMapping(value ="/add",method = RequestMethod.POST ,produces="text/plain;charset=UTF-8")
     public String insertskuspu(@RequestBody WxTabSpu wxTabSpu){
+        if(wxTabSpu==null){
+            return cuo;
+        }
         int i = iSpuService.insert(wxTabSpu);
         List<WxTabSku> skuList = wxTabSpu.getSkuList();
         int b = iSkuService.insert(skuList);
@@ -100,6 +103,9 @@ public class SpuAndSkuController {
      */
     @RequestMapping(value ="/delete",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
     public String delete(@RequestBody  WxTabSpu wxTabSpu ){
+        if(wxTabSpu==null){
+            return cuo;
+        }
         Integer id = wxTabSpu.getId();
         i = iSpuService.deleteById(id);
         b = iSkuService.deleteById(id);
@@ -141,13 +147,16 @@ public class SpuAndSkuController {
     /**
      * 根据更新sku表和spu表
      * @param wxTabSpu
-     * @param wxTabSku
      * @return
      */
     @RequestMapping(value ="/update",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    public String update(@RequestBody WxTabSpu wxTabSpu, WxTabSku wxTabSku ){
-        i = iSpuService.update(wxTabSpu);
-        b = iSkuService.update(wxTabSku);
+    public String update(@RequestBody WxTabSpu wxTabSpu){
+        if(wxTabSpu==null){
+            return cuo;
+        }
+        int i = iSpuService.update(wxTabSpu);
+        List<WxTabSku> skuList = wxTabSpu.getSkuList();
+        int b = iSkuService.update(skuList);
         if(i>=1&&b>=1) {
             int code = 0;
             String message = "更新成功";
@@ -211,10 +220,17 @@ public class SpuAndSkuController {
      * @return
      */
     @RequestMapping(value ="/findAuditALL",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
-    public LinkedHashMap daishenghebiao(@RequestBody  Map<String, Integer> param){
-        Integer page = param.get("page");
-        Integer size = param.get("size");
-        Integer status = param.get("status");
+    public LinkedHashMap daishenghebiao(@RequestBody  Map<String, Object> param){
+        Object page = param.get("page");
+        Object size = param.get("size");
+        if(page==null&&size==null){
+            LinkedHashMap linkedHashMap = new LinkedHashMap();
+            linkedHashMap.put("code","page和size不能为空");
+            return linkedHashMap;
+        }
+        int i = Integer.parseInt(page.toString());
+        int b = Integer.parseInt(size.toString());
+        Object status = param.get("status");
         WxTabSpu wxTabSpu = new WxTabSpu();
         if (status != null) {
             wxTabSpu.setStatus(status.toString());
@@ -223,7 +239,7 @@ public class SpuAndSkuController {
             linkedHashMap.put("status","状态不存在");
             return linkedHashMap;
         }
-        List<Map<String, Object>> list = iSpuService.daishenheliebiao(wxTabSpu, page, size);
+        List<Map<String, Object>> list = iSpuService.daishenheliebiao(wxTabSpu, i, b);
         int count = iSpuService.zong();
         LinkedHashMap linkedHashMap = new LinkedHashMap();
         linkedHashMap.put("row",list);
@@ -236,10 +252,18 @@ public class SpuAndSkuController {
      * @return
      */
     @RequestMapping(value ="/ShelvesReq",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    public String ShelvesReq(@RequestBody Map<String, Integer> param){
-        Integer id = param.get("id");
-        Integer type = param.get("type");
-        if(type==0){
+    public String ShelvesReq(@RequestBody Map<String, Object> param){
+        Object id = param.get("id");
+        Object type = param.get("type");
+        if(id==null){
+            return cuo;
+        }
+        if(type==null){
+            return cuo;
+        }
+        int b = Integer.parseInt(id.toString());
+        String s = type.toString();
+        if("0".equals(s)){
             int code = 1;
             String message = "上架失败";
             JSONObject result = new JSONObject();
@@ -247,11 +271,9 @@ public class SpuAndSkuController {
             result.put("message",message);
             return  result.toJSONString();
         }
-        if(id==null){
-            return cuo;
-        }
-        i = iSpuService.shangjia(id);
-        if (i>0&&type==1) {
+
+        i = iSpuService.shangjia(b);
+        if (i >0&&"1".equals(s)) {
             int code = 0;
             String message = "上架成功";
             JSONObject result = new JSONObject();
