@@ -5,6 +5,8 @@ import com.cn.wanxi.entity.order.RefundCauseItemEntity;
 import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.order.IRefundCauseItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,14 +30,16 @@ public class OrderRefundCauseItemController {
      */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
     public Msg add(@RequestBody RefundCauseItemEntity refundCauseItemEntity) {
-        Msg m;
-        int result = iRefundCauseItemService.add(refundCauseItemEntity);
-        if (!isEmpty(result)) {
-            m = Msg.success().messageData(refundCauseItemEntity);
+        Msg msg = null;
+        if (0 != refundCauseItemEntity.getOrderId()) {
+            int result = iRefundCauseItemService.add(refundCauseItemEntity);
+            if (0 != result) {
+                msg = Msg.success().messageData(refundCauseItemEntity);
+            }
         } else {
-            m = Msg.fail();
+            msg = Msg.fail().messageData("退货退款申请明细ID不能为空");
         }
-        return m;
+        return msg;
     }
 
     /**
@@ -64,12 +68,15 @@ public class OrderRefundCauseItemController {
     @PostMapping(value = "/findById", produces = "application/json;charset=UTF-8")
     public Msg findById(@RequestBody Map<String, Integer> param, HttpServletResponse response) {
         Msg msg = null;
-        int id =param.get("id");
-        RefundCauseItemEntity byId = iRefundCauseItemService.findById(id);
-        if (byId != null) {
-            msg = Msg.success().messageData(byId);
-        } else {
-            msg = Msg.fail();
+        int id = param.get("id");
+        if (!StringUtils.isEmpty(id) && id > 0) {
+            RefundCauseItemEntity byId = iRefundCauseItemService.findById(id);
+            //判断是否有返回的数据
+            if (!ObjectUtils.isEmpty(byId)) {
+                msg = Msg.success().messageData(byId);
+            } else {
+                msg = Msg.fail().messageData("该退货退款明细不存在");
+            }
         }
         return msg;
     }
@@ -83,12 +90,22 @@ public class OrderRefundCauseItemController {
     @PostMapping(value = "/update", produces = "application/json;charset=UTF-8")
     public Msg updateInfo(@RequestBody RefundCauseItemEntity refundCauseItemEntity) {
         Msg msg = null;
-
-        int up = iRefundCauseItemService.update(refundCauseItemEntity);
-        if (up > 0) {
-            msg = Msg.success().messageData(refundCauseItemEntity);
+        //先获取id
+        int id = refundCauseItemEntity.getId();
+        if (id > 0) {
+            //根据id查询数据
+            RefundCauseItemEntity byId = iRefundCauseItemService.findById(id);
+            //判断是否查询到该品牌信息
+            if (!ObjectUtils.isEmpty(byId)) {
+                int result = iRefundCauseItemService.update(refundCauseItemEntity);
+                if (result > 0) {
+                    msg = Msg.success().messageData(refundCauseItemEntity);
+                }
+            } else {
+                msg = Msg.fail().messageData("该退货退款明细不存在");
+            }
         } else {
-            msg = Msg.fail();
+            msg = Msg.fail().messageData("请输入id");
         }
         return msg;
     }
@@ -102,12 +119,16 @@ public class OrderRefundCauseItemController {
     @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
     public Msg deleteById(@RequestBody Map<String, Integer> param, HttpServletResponse response) {
         Msg msg = null;
-        int id =param.get("id");
-        int i = iRefundCauseItemService.deleteById(id);
-        if (i > 0) {
-            msg = Msg.success();
+        int id = param.get("id");
+        if (id > 0) {
+            int i = iRefundCauseItemService.deleteById(id);
+            if (i > 0) {
+                msg = Msg.success().messageData("删除成功");
+            } else {
+                msg = Msg.fail().messageData("删除失败,该退货退款明细不存在");
+            }
         } else {
-            msg = Msg.fail();
+            msg = Msg.fail().messageData("请输入id");
         }
         return msg;
     }

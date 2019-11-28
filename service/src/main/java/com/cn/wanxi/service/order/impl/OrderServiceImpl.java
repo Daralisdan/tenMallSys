@@ -38,23 +38,18 @@ public class OrderServiceImpl implements IOrderService {
      * @return
      */
     @Override
-    public Map<String, Object> list(int page,int size) {
+    public Map<String, Object> list(int page, int size) {
         return iOrderDao.list(page, size);
     }
 
     @Override
-    public Map<String, Object>  batchlist(String ids) {
+    public Map<String, Object> batchlist(String ids) {
         return iOrderDao.batchlist(ids);
     }
 
     @Override
     public OrderEntity findById(int id) {
         return iOrderDao.findById(id);
-    }
-
-    @Override
-    public int batchSendSubmit(int orderId) {
-        return iOrderDao.batchSendSubmit(orderId);
     }
 
 
@@ -72,5 +67,19 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public List<Map<String, Object>> findAll() {
         return iOrderDao.queryAll();
+    }
+
+    @Override
+    public int batchSendSubmit(int id,Object  orderId,Object  shippingName,Object shippingCode) {
+        return iOrderDao.batchSendSubmit(id,orderId, shippingName, shippingCode);
+    }
+    /**
+     * 统计所有数据
+     *
+     * @return
+     */
+    @Override
+    public int countAll() {
+        return iOrderDao.countAll();
     }
 }
