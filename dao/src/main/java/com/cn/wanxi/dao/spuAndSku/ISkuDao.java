@@ -16,6 +16,8 @@ public interface ISkuDao {
 
     List<WxTabSku> findByIds(int id);
 
+    int update(List<WxTabSku> wxTabSku);
+
     int update(WxTabSku WxTabSku);
 
     int deleteById(int id);
