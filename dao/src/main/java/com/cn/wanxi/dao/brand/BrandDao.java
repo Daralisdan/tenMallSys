@@ -84,4 +84,6 @@ public interface BrandDao {
     List<Map<String, Object>> findListAndPage(BrandEntity brandEntity, int page, int size);
 
     int adds(Map<String, BrandEntity> brandEntity);
+
+    int fileUpload(String realName);
 }

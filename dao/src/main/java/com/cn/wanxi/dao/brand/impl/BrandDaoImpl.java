@@ -158,6 +158,12 @@ public class BrandDaoImpl implements BrandDao {
         return 0;
     }
 
+    @Override
+    public int fileUpload(String realName) {
+
+        return 0;
+    }
+
 
     /**
      * 【提取公共方法】条件查询
