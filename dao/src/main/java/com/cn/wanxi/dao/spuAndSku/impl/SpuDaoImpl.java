@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -113,11 +115,12 @@ public class SpuDaoImpl implements ISpuDao {
         return wxTabSpu;
     }
 
+
+
     @Override
     public int update(WxTabSpu wxTabSpu) {
         String exeSQL = "update wx_tab_spu set sn=?,name=?,caption=?,brand_id=?,category1_id=?,category2_id=?,category3_id=?,template_id=?,freight_id=?,image=?,images=?,sale_service=?,introduction=?,spec_items=?,para_items=?,sale_num=?,comment_num=?,is_marketable=?,is_enable_pec=?,is_delete=?,status=? WHERE id=?";
-        Object args[] = {wxTabSpu.getSn(),wxTabSpu.getName(),wxTabSpu.getCaption(),wxTabSpu.getBrandId(),wxTabSpu.getCategory1Id(),wxTabSpu.getCategory2Id(),wxTabSpu.getCategory3Id(),
-                wxTabSpu.getTemplateId(),wxTabSpu.getFreightId(),wxTabSpu.getImage(),wxTabSpu.getImages(),wxTabSpu.getSaleService(),wxTabSpu.getIntroduction(),wxTabSpu.getSpecItems(),wxTabSpu.getParaItems(),wxTabSpu.getSaleNum(),  wxTabSpu.getCommentNum(),wxTabSpu.getIsMarkeTable(),wxTabSpu.getIsEnablePec(),wxTabSpu.getIsDelete(),wxTabSpu.getStatus()};
+        Object args[] = {wxTabSpu.getSn(),wxTabSpu.getName(),wxTabSpu.getCaption(),wxTabSpu.getBrandId(),wxTabSpu.getCategory1Id(),wxTabSpu.getCategory2Id(),wxTabSpu.getCategory3Id(), wxTabSpu.getTemplateId(),wxTabSpu.getFreightId(),wxTabSpu.getImage(),wxTabSpu.getImages(),wxTabSpu.getSaleService(),wxTabSpu.getIntroduction(),wxTabSpu.getSpecItems(),wxTabSpu.getParaItems(),wxTabSpu.getSaleNum(),  wxTabSpu.getCommentNum(),wxTabSpu.getIsMarkeTable(),wxTabSpu.getIsEnablePec(),wxTabSpu.getIsDelete(),wxTabSpu.getStatus(),wxTabSpu.getId()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
     }
@@ -157,7 +160,21 @@ public class SpuDaoImpl implements ISpuDao {
         return conn;
     }
 
-
+    @Override
+    public Map<String, Object> list(int page, int size) {
+        String exeSQL = "select id, sn, name, caption, brand_id as brandId, category1_id as category1Id, category2_id as category2Id, category3_id as category3Id, template_id as templateId, freight_id as freightId, image, images, sale_service as saleService, introduction, spec_items as specItems, para_items as paraItms, sale_num as saleNum, comment_num as commentNum, is_marketable as isMakeTable, is_enable_pec as isEnablePec, is_delete as isDelete, status from wx_tab_spu limit " + (page - 1)*size+" ,"+size;
+        List<Map<String, Object>> listzhu = jdbcTemplate.queryForList(exeSQL);
+        List<Map<String, Object>> listss = new ArrayList();
+        LinkedHashMap map = new LinkedHashMap<>();
+        for (Map<String, Object> sss : listzhu) {
+            String sql2 = "select id, sn, name, price, num, alert_num as alertNum, image, images, weight, create_time as createTime, update_time as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num commentNum, status from wx_tab_sku where spu_id = " +sss.get("id");
+            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql2);
+            sss.put("sublist", list);
+            listss.add(sss);
+        }
+        map.put("row",listss);
+        return map;
+    }
     public List<Map<String, Object>> fe1nye(int page, int size) {
         String exeSQL = "select id, sn, name, caption, brand_id as brandId, category1_id as category1Id, category2_id as category2Id, category3_id as category3Id, template_id as templateId, freight_id as freightId, image, images, sale_service as saleService, introduction, spec_items as specItems, para_items as paraItms, sale_num as saleNum, comment_num as commentNum, is_marketable as isMakeTable, is_enable_pec as isEnablePec, is_delete as isDelete, status from wx_tab_spu limit "+(page-1)*size+","+size;
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
@@ -169,5 +186,36 @@ public class SpuDaoImpl implements ISpuDao {
         String exeSQL = "select count(*) from wx_tab_spu";
         int conut = jdbcTemplate.queryForObject(exeSQL, Integer.class);
         return conut;
+    }
+
+    @Override
+    public int xiajia(WxTabSpu wxTabSpu) {
+        String exeSQL = "update wx_tab_spu set is_marketable='2' WHERE id=?";
+        Object args[] = {wxTabSpu.getId()};
+        int temp = jdbcTemplate.update(exeSQL, args);
+        return temp;
+    }
+
+    @Override
+    public int shangjia(int id) {
+        String exeSQL = "update wx_tab_spu set is_marketable='1' WHERE id=?";
+
+        return jdbcTemplate.update(exeSQL, id);
+    }
+
+    @Override
+    public int piliangshangjia(String id) {
+        String sql = "update  wx_tab_spu set is_marketable='1' where id in "+"("+id+")";
+
+        int temp = jdbcTemplate.update(sql);
+        return temp;
+    }
+
+    @Override
+    public int piliangxiajia(String id) {
+        String sql = "update  wx_tab_spu set is_marketable='2' where id in "+"("+id+")";
+
+        int temp = jdbcTemplate.update(sql);
+        return temp;
     }
 }

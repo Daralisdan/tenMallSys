@@ -29,4 +29,14 @@ public interface ISpuService {
 
     int zong();
 
+    Map<String, Object> list(int page, int size);
+
+    int xiajia( WxTabSpu wxTabSpu);
+
+    int shangjia(int id);
+
+    int piliangshangjia(String id);
+
+    int piliangxiajia(String id);
+
 }
