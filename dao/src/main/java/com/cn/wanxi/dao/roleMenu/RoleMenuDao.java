@@ -12,6 +12,8 @@ package com.cn.wanxi.dao.roleMenu;
 
 import com.cn.wanxi.entity.roleMenu.RoleMenuEntity;
 
+import java.util.List;
+
 /**
  * 〈一句话功能简述〉<br>
  * 〈〉
@@ -28,4 +30,6 @@ public interface RoleMenuDao {
     RoleMenuEntity findByRoleId(int roleid);
 
     int[] batchCarFlowDelete(int ids, String menid);
+
+    List<RoleMenuEntity> findEntitiesByRoleId(int roleid);
 }

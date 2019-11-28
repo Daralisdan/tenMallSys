@@ -10,10 +10,17 @@
  */
 package com.cn.wanxi.service.userRole.impl;
 
+import com.cn.wanxi.dao.menu.IMenuDao;
+import com.cn.wanxi.dao.roleMenu.RoleMenuDao;
 import com.cn.wanxi.dao.userRole.UserRoleDao;
+import com.cn.wanxi.entity.menu.MenuEntity;
+import com.cn.wanxi.entity.roleMenu.RoleMenuEntity;
 import com.cn.wanxi.service.userRole.IUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 〈一句话功能简述〉<br> 
@@ -28,6 +35,12 @@ public class UserRoleServiceImpl implements IUserRoleService {
     @Autowired
     private UserRoleDao userRoleDao;
 
+    @Autowired
+    private RoleMenuDao roleMenuDao;
+
+    @Autowired
+    private IMenuDao iMenuDao;
+
     @Override
     public int[] batchCarFlowInsert(String username , String roleid){
 
@@ -38,6 +51,20 @@ public class UserRoleServiceImpl implements IUserRoleService {
     @Override
     public int[] batchCarFlowDelete(String username ,String roleid){
         return userRoleDao.batchCarFlowDelete(username,roleid);
+    }
+
+    @Override
+    public ArrayList<String> getMenuName(String username) {
+        Integer roleId = userRoleDao.selectRoleByUsername(username);
+        List<RoleMenuEntity> byRoleId = roleMenuDao.findEntitiesByRoleId(roleId);
+
+        ArrayList<String> menuNameList = new ArrayList<>();
+        for(RoleMenuEntity iter : byRoleId){
+            Integer menuId = iter.getMenuId();
+            MenuEntity menuTemp = iMenuDao.findById(menuId);
+            menuNameList.add(menuTemp.getName());
+        }
+        return menuNameList;
     }
 
 }

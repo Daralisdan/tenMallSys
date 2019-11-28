@@ -21,4 +21,5 @@ package com.cn.wanxi.dao.userRole;
 public interface UserRoleDao {
     int[] batchCarFlowInsert(String username, String roleid);
     int[] batchCarFlowDelete(String username ,String roleid);
+    Integer selectRoleByUsername(String username);
 }
