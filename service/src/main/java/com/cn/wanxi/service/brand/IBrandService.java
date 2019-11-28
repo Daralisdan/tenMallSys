@@ -18,7 +18,7 @@ public interface IBrandService {
 
     BrandEntity findById(int id);
 
-    int update(BrandEntity brandEntity);
+    Msg update(BrandEntity brandEntity, String path, String imageFileName);
 
     List<Map<String, Object>> findList(BrandEntity brandEntity);
 
@@ -31,4 +31,5 @@ public interface IBrandService {
     int adds(Map<String, BrandEntity> brandEntity);
 
     int fileUpload(String realName);
+
 }

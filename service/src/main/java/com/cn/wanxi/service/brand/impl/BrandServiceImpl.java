@@ -28,26 +28,26 @@ public class BrandServiceImpl implements IBrandService {
      * @return
      */
     @Override
-    public Msg add(BrandEntity brand,String path,String imageFileName) {
+    public Msg add(BrandEntity brand, String path, String imageFileName) {
         //判断页面传的值中名字不能为空
         String name = brand.getName() != null ? brand.getName().trim() : "";
-        Msg msg=null;
+        Msg msg = null;
         //不为空时，添加数据
         if (!StringUtils.isEmpty(name)) {
-            FileUploadUtils fileUploadUtils=new FileUploadUtils();
-           Msg msgresule=fileUploadUtils.uploadUtil(brand.getImage(),path,imageFileName);
-            if(msgresule.getCode()==0) {
-                brand.setImageUrl((String) msgresule.getRows());
-                if (brandDao.insert(brand) == 1) {
-                    msg = Msg.success().messageData("成功");
+            if (brand.getImageFile() != null && brand.getImageFile().getSize() > 0) {
+                FileUploadUtils fileUploadUtils = new FileUploadUtils();
+                Msg msgResult = fileUploadUtils.uploadUtil(brand.getImageFile(), path, imageFileName);
+                if (msgResult.getCode() == 0) {
+                    brand.setImage((String) msgResult.getRows());
                 } else {
-                    msg = Msg.fail().messageData("成功");
+                    return Msg.fail().messageData("图片上传失败");
                 }
-
-            }else{
-                msg=Msg.fail().messageData("失败");
             }
-
+            if (brandDao.insert(brand) == 1) {
+                msg = Msg.success().messageData("新增成功");
+            } else {
+                msg = Msg.fail().messageData("新增失败");
+            }
         }
         return msg;
     }
@@ -81,8 +81,24 @@ public class BrandServiceImpl implements IBrandService {
      * @return
      */
     @Override
-    public int update(BrandEntity brandEntity) {
-        return brandDao.update(brandEntity);
+    public Msg update(BrandEntity brandEntity, String path, String imageFileName) {
+        Msg msg;
+        if (brandEntity.getImageFile() != null && brandEntity.getImageFile().getSize() > 0) {
+            FileUploadUtils fileUploadUtils = new FileUploadUtils();
+            Msg msgresule = fileUploadUtils.uploadUtil(brandEntity.getImageFile(), path, imageFileName);
+            if (msgresule.getCode() == 0) {
+                brandEntity.setImage((String) msgresule.getRows());
+
+            } else {
+                return Msg.fail().messageData("上传图片失败");
+            }
+        }
+        if (brandDao.update(brandEntity) == 1) {
+            msg = Msg.success().messageData("修改成功");
+        } else {
+            msg = Msg.fail().messageData("修改失败");
+        }
+        return msg;
     }
 
 

@@ -81,11 +81,4 @@ public class MallApplication extends WebMvcConfigurationSupport {
     }
 
 
-   /* @Bean
-    public MultipartConfigElement multipartConfigElement() {
-        MultipartConfigFactory factory = new MultipartConfigFactory();
-        factory.setLocation("D:\\upload\tmp");
-        return factory.createMultipartConfig();
-    }
-*/
 }

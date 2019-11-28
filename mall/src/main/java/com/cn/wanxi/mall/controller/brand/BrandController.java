@@ -50,41 +50,28 @@ public class BrandController {
      * @return
      */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
-    public Msg add(String letter, String name, int seq, MultipartFile image) {
-        BrandEntity brandEntity = new BrandEntity();
-        brandEntity.setName(name);
-        brandEntity.setLetter(letter);
-        brandEntity.setImage(image);
-        brandEntity.setSeq(seq);
+    public Msg add(String letter, String name, Integer seq, MultipartFile imageFile) {
+        BrandEntity brandEntity = getBrandEntity(letter, name, seq, imageFile);
+        Msg msg;
+        if ((null != name && name.trim() != "") && (null != seq)) {
+            msg = iBrandService.add(brandEntity, path, imageFileName);
+            String image = brandEntity.getImage();
+            if (0 == msg.getCode()) {
+                if (image == null) {
+                    msg = Msg.success().messageData(brandEntity);
+                } else {
 
-        Msg msg = null;
-        if (null != name && name.trim() != "") {
-            if (0 == iBrandService.add(brandEntity, path, imageFileName).getCode()) {
-                msg = Msg.success().messageData(brandEntity.getImageUrl());
+                    msg = Msg.success().messageData(image);
+                }
             } else {
-                msg = Msg.fail().messageData("发生错误！！！");
+                return msg;
             }
         } else {
-            msg = Msg.fail().messageData("名字不能为空");
+            msg = Msg.fail().messageData("名字和seq不能为空,图片必须上传");
         }
         return msg;
     }
 
-
-//    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
-//    public Msg add(@RequestBody BrandEntity brandEntity) {
-//
-//        Msg msg = null;
-//        if (null != brandEntity.getName() && brandEntity.getName().trim() != "") {
-//            int result = iBrandService.add(brandEntity);
-//            if (0 != result) {
-//                msg = Msg.success().messageData(brandEntity);
-//            }
-//        } else {
-//            msg = Msg.fail().messageData("名字不能为空");
-//        }
-//        return msg;
-//    }
 
     /**
      * 【展示所有品牌信息】
@@ -133,21 +120,24 @@ public class BrandController {
     /**
      * 【修改品牌信息】根据id查询
      *
-     * @param brandEntity
+     * @param
      * @return
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public Msg update(@RequestBody BrandEntity brandEntity) {
+    public Msg update(Integer id, String letter, String name, Integer seq, MultipartFile imageFile) {
         Msg msg = null;
-        //先获取id
-        int id = brandEntity.getId();
+        if (StringUtils.isEmpty(id)) {
+            return Msg.fail().messageData("请输入id,id不能为空");
+        }
         if (id > 0) {
+            BrandEntity brandEntity = getBrandEntity(letter, name, seq, imageFile);
+            brandEntity.setId(id);
             //根据id查询数据
             BrandEntity byId = iBrandService.findById(id);
             //判断是否查询到该品牌信息
             if (!ObjectUtils.isEmpty(byId)) {
-                int result = iBrandService.update(brandEntity);
-                if (result > 0) {
+                Msg update = iBrandService.update(brandEntity, path, imageFileName);
+                if (update.getCode() == 0) {
                     msg = Msg.success().messageData(brandEntity);
                 }
             } else {
@@ -157,6 +147,25 @@ public class BrandController {
             msg = Msg.fail().messageData("请输入id");
         }
         return msg;
+    }
+
+    /**
+     * 封装实体类 实体类接收前台的数据
+     *
+     * @param letter
+     * @param name
+     * @param seq
+     * @param
+     * @return
+     */
+
+    private BrandEntity getBrandEntity(String letter, String name, Integer seq, MultipartFile imageFlle) {
+        BrandEntity brandEntity = new BrandEntity();
+        brandEntity.setName(name);
+        brandEntity.setLetter(letter);
+        brandEntity.setImageFile(imageFlle);
+        brandEntity.setSeq(seq);
+        return brandEntity;
     }
 
     /**
