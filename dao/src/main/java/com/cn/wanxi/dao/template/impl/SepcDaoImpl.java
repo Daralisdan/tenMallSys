@@ -29,7 +29,7 @@ public class SepcDaoImpl implements SepcDao {
      */
     @Override
     public int add(SepcEntity sepcEntity) {
-        String exeSQL = "INSERT INTO wx_tab_sepc(name,seq,options,template_id) VALUES(?,?,?,?)";
+        String exeSQL = "INSERT INTO wx_tab_sepc(name,options,seq,template_id) VALUES(?,?,?,?)";
         Object args[] = {sepcEntity.getName(), sepcEntity.getOptions(), sepcEntity.getSeq(), sepcEntity.getTemplateId()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
@@ -85,11 +85,13 @@ public class SepcDaoImpl implements SepcDao {
         int page = (sepcEntity.getPage() - 1) * sepcEntity.getSize();
         int size = sepcEntity.getSize() * sepcEntity.getPage();
         String exeSQL = "select id,name,options,seq,template_id as templateId from wx_tab_sepc where name = ? and options = ? limit " + page + " , " + size;
+        String totalSQL = "select count(name) where name = ?";
+//        int total = jdbcTemplate.query(totalSQL,);
         Object[] args = {sepcEntity.getName(), sepcEntity.getOptions()};
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, args);
         Map<String, Object> map = new TreeMap();
         map.put("rows", list);
-        map.put("total", sepcEntity.getSize());
+        map.put("total", list.size());
         return map;
     }
 }

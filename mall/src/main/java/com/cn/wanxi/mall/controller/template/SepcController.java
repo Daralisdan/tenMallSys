@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
@@ -35,7 +36,7 @@ public class SepcController {
      * @return
      */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
-    public Msg add(@RequestBody SepcEntity sepcEntity) {
+    public Map<String, Object> add(@RequestBody SepcEntity sepcEntity) {
         Msg m;
         int result = iSepcService.add(sepcEntity);
         if (!isEmpty(result)) {
@@ -43,7 +44,10 @@ public class SepcController {
         } else {
             m = Msg.fail();
         }
-        return m;
+        Map<String, Object> map = new TreeMap<>();
+        map.put("code", m.getCode());
+        map.put("message", m.getMsg());
+        return map;
     }
 
     /**
@@ -71,7 +75,7 @@ public class SepcController {
      * @return
      */
     @PostMapping(value = "/update", produces = "application/json;charset=UTF-8")
-    public Msg update(@RequestBody SepcEntity sepcEntity) {
+    public Map<String, Object> update(@RequestBody SepcEntity sepcEntity) {
         Msg msg;
         int up = iSepcService.update(sepcEntity);
         if (up > 0) {
@@ -79,7 +83,10 @@ public class SepcController {
         } else {
             msg = Msg.fail();
         }
-        return msg;
+        Map<String, Object> map = new TreeMap<>();
+        map.put("code", msg.getCode());
+        map.put("message", msg.getMsg());
+        return map;
     }
 
     /**
@@ -89,7 +96,7 @@ public class SepcController {
      * @return
      */
     @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
-    public Msg delete(@RequestBody SepcEntity sepcEntity) {
+    public Map<String,Object> delete(@RequestBody SepcEntity sepcEntity) {
         Msg msg;
         int i = iSepcService.deleteById(sepcEntity);
         if (i > 0) {
@@ -97,7 +104,10 @@ public class SepcController {
         } else {
             msg = Msg.fail();
         }
-        return msg;
+        Map<String,Object> map = new TreeMap<>();
+        map.put("code",msg.getCode());
+        map.put("message",msg.getMsg());
+        return map;
     }
 
 }

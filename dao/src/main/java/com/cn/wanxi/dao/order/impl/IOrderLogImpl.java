@@ -2,11 +2,13 @@ package com.cn.wanxi.dao.order.impl;
 
 import com.cn.wanxi.dao.order.IOrderLogDao;
 import com.cn.wanxi.entity.order.OrderLogEntity;
+import com.cn.wanxi.utils.utils.UtilsHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +41,7 @@ public class IOrderLogImpl implements IOrderLogDao {
      */
     @Override
     public List<Map<String, Object>> queryAll() {
-        String exeSQL = "select id, operater , operate_time as operateTime , order_id as orderId  ,   order_status as  orderStatus, pay_status as  payStatus ,  consign_status as consignStatus ,remarks   from wx_tab_order_log";
+        String exeSQL = "select id, operater ,  DATE_FORMAT(operate_time,'%Y-%m-%d %H:%i:%s') as operateTime , order_id as orderId  ,   order_status as  orderStatus, pay_status as  payStatus ,  consign_status as consignStatus ,remarks   from wx_tab_order_log";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
         return list;
     }
@@ -47,7 +49,7 @@ public class IOrderLogImpl implements IOrderLogDao {
     @Override
     public OrderLogEntity findById(int id) {
         OrderLogEntity orderLogEntity = null;
-        String exeSQL = "select id, operater , operate_time as operateTime , order_id as orderId  ,   order_status as  orderStatus, pay_status as  payStatus ,  consign_status as consignStatus ,remarks from wx_tab_order_log where id=?";
+        String exeSQL = "select id, operater , DATE_FORMAT(operate_time,'%Y-%m-%d %H:%i:%s') as operateTime , order_id as orderId  ,   order_status as  orderStatus, pay_status as  payStatus ,  consign_status as consignStatus ,remarks from wx_tab_order_log where id=?";
         List<OrderLogEntity> orderLogEntities = jdbcTemplate.query(exeSQL, new Object[]{id}, new BeanPropertyRowMapper<OrderLogEntity>(OrderLogEntity.class));
         if (null != orderLogEntities && orderLogEntities.size() > 0) {
             orderLogEntity = orderLogEntities.get(0);
@@ -58,7 +60,7 @@ public class IOrderLogImpl implements IOrderLogDao {
     @Override
     public int update(OrderLogEntity orderLogEntity) {
         String exeSQL = "update wx_tab_order_log set operater=? ,operate_time=?,order_id=?,order_status=?,pay_status=?,consign_status=?,remarks=?  WHERE id=?";
-        Object args[] = {orderLogEntity.getOperater(), orderLogEntity.getOperateTime(), orderLogEntity.getOrderId(), orderLogEntity.getOrderStatus(),
+        Object args[] = {orderLogEntity.getOperater(), UtilsHelper.formatDateTimer(new Date()), orderLogEntity.getOrderId(), orderLogEntity.getOrderStatus(),
                 orderLogEntity.getPayStatus(), orderLogEntity.getConsignStatus(), orderLogEntity.getRemarks(),orderLogEntity.getId()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;

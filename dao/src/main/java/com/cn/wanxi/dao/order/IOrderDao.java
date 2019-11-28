@@ -22,6 +22,10 @@ public interface IOrderDao {
     OrderEntity findById(int id);
     int deleteById(int id);
 
-    int batchSendSubmit(int orderId);
+
+
+    int batchSendSubmit(int id,Object  orderId,Object  shippingName,Object shippingCode);
+
+    int countAll();
 
 }

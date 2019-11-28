@@ -4,6 +4,8 @@ import com.cn.wanxi.entity.order.ReturnCauseEntity;
 import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.order.IReturnCauseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,14 +40,16 @@ public class OrderReturnCauseController {
      */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
     public Msg add(@RequestBody ReturnCauseEntity returnCauseEntity) {
-        Msg m;
-        int result = iReturnCauseService.add(returnCauseEntity);
-        if (!isEmpty(result)) {
-            m = Msg.success().messageData(returnCauseEntity);
+        Msg msg=null;
+        if (null != returnCauseEntity.getStatus() && returnCauseEntity.getStatus().trim() != "") {
+            int result = iReturnCauseService.add(returnCauseEntity);
+            if (0 != result) {
+                msg = Msg.success().messageData(returnCauseEntity);
+            }
         } else {
-            m = Msg.fail();
+            msg = Msg.fail().messageData("原因不能为空");
         }
-        return m;
+        return msg;
     }
 
     /**
@@ -74,12 +78,15 @@ public class OrderReturnCauseController {
     @PostMapping(value = "/findById", produces = "application/json;charset=UTF-8")
     public Msg findById(@RequestBody Map<String, Integer> param, HttpServletResponse response) {
         Msg msg = null;
-        int  id = param.get("id");
-        ReturnCauseEntity byId = iReturnCauseService.findById(id);
-        if (byId != null) {
-            msg = Msg.success().messageData(byId);
-        } else {
-            msg = Msg.fail();
+        int id = param.get("id");
+        if (!StringUtils.isEmpty(id) && id > 0) {
+            ReturnCauseEntity byId = iReturnCauseService.findById(id);
+            //判断是否有返回的数据
+            if (!ObjectUtils.isEmpty(byId)) {
+                msg = Msg.success().messageData(byId);
+            } else {
+                msg = Msg.fail().messageData("该原因不存在");
+            }
         }
         return msg;
     }
@@ -93,12 +100,22 @@ public class OrderReturnCauseController {
     @PostMapping(value = "/update", produces = "application/json;charset=UTF-8")
     public Msg updateInfo(@RequestBody ReturnCauseEntity returnCauseEntity) {
         Msg msg = null;
-
-        int up = iReturnCauseService.update(returnCauseEntity);
-        if (up > 0) {
-            msg = Msg.success().messageData(returnCauseEntity);
+        //先获取id
+        int id = returnCauseEntity.getId();
+        if (id > 0) {
+            //根据id查询数据
+            ReturnCauseEntity byId = iReturnCauseService.findById(id);
+            //判断是否查询到该品牌信息
+            if (!ObjectUtils.isEmpty(byId)) {
+                int result = iReturnCauseService.update(returnCauseEntity);
+                if (result > 0) {
+                    msg = Msg.success().messageData(returnCauseEntity);
+                }
+            } else {
+                msg = Msg.fail().messageData("该原因不存在");
+            }
         } else {
-            msg = Msg.fail();
+            msg = Msg.fail().messageData("请输入id");
         }
         return msg;
     }
@@ -113,12 +130,16 @@ public class OrderReturnCauseController {
     @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
     public Msg deleteById(@RequestBody Map<String, Integer> param, HttpServletResponse response) {
         Msg msg = null;
-        int id=param.get("id");
-        int i = iReturnCauseService.deleteById(id);
-        if (i > 0) {
-            msg = Msg.success();
+        int id = param.get("id");
+        if (id > 0) {
+            int i = iReturnCauseService.deleteById(id);
+            if (i > 0) {
+                msg = Msg.success().messageData("删除成功");
+            } else {
+                msg = Msg.fail().messageData("删除失败,该原因不存在");
+            }
         } else {
-            msg = Msg.fail();
+            msg = Msg.fail().messageData("请输入id");
         }
         return msg;
     }
