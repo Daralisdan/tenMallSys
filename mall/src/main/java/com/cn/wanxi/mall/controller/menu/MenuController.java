@@ -164,37 +164,41 @@ public class MenuController {
      * @return
      */
     @RequestMapping(value = "/findCondPage", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public Msg findByConditionPage(@RequestBody ByPage byPage) {
+    public Msg findByConditionPage(@RequestBody Map<String,Object> param) {
         Msg msg;
-        int page = byPage.getPage();
-        int size = byPage.getSize();
+        int i=0;
+        int j=0;
+        Object name=param.get("name");
+        Object page = param.get("page");
+        Object size = param.get("size");
+       if(page==null&&size==null){
+           msg = Msg.fail().messageData("page,size不能为空");
+           return msg;
+       }
+        i=Integer.parseInt(page.toString());
+        j=Integer.parseInt(size.toString());
         MenuEntity menuEntity = new MenuEntity();
-//        Object icon = byPage.getSearchMap().get("icon");
-//        if (icon != null) {
-//            menuEntity.setIcon(icon.toString());
-//        }
-//        Object url = byPage.getSearchMap().get("url");
-//        if (url != null) {
-//            menuEntity.setUrl(url.toString());
-//        }
+        if (name != null) {
+            menuEntity.setName(name.toString());
+        }
 
         //实例化 分页实体类
         com.cn.wanxi.entity.brand.PageList pageList = new PageList();
         //根据页数，每页记录数查询
-        List<Map<String, Object>> list = iMenuService.findListAndPage(menuEntity, page, size);
+        List<Map<String, Object>> list = iMenuService.findListAndPage(menuEntity, i, j);
         //把查询出来的对象封装在分页实体类中
         pageList.setList(list);
         //统计所有数据的总行数
         int TotalRows = iMenuService.countAll();
         //把页数封装在分页实体类中
-        pageList.setPage(page);
+        pageList.setPage(i);
         pageList.setTotal(list.size());
         //查询出来的总行数封装在分页实体类中
         pageList.setTotalRows(TotalRows);
         if (list.isEmpty()) {
             msg = Msg.fail().messageData("菜单信息不存在");
         } else {
-            msg = getPages(size, pageList, TotalRows);
+            msg = getPages(j, pageList, TotalRows);
         }
         return msg;
     }
