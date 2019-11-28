@@ -54,6 +54,11 @@ public class ISkuServiceImpl implements ISkuService {
     }
 
     @Override
+    public int update(List<WxTabSku> wxTabSku) {
+        return iSkuDao.update(wxTabSku);
+    }
+
+    @Override
     public int deleteById(int id) {
         return iSkuDao.deleteById(id);
     }

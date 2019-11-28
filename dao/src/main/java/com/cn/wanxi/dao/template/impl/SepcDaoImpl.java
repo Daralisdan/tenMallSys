@@ -77,6 +77,7 @@ public class SepcDaoImpl implements SepcDao {
 
     /**
      * 分页查询
+     *
      * @param sepcEntity
      * @return
      */
@@ -84,11 +85,8 @@ public class SepcDaoImpl implements SepcDao {
     public Map<String, Object> find(SepcEntity sepcEntity) {
         int page = (sepcEntity.getPage() - 1) * sepcEntity.getSize();
         int size = sepcEntity.getSize() * sepcEntity.getPage();
-        String exeSQL = "select id,name,options,seq,template_id as templateId from wx_tab_sepc where name = ? and options = ? limit " + page + " , " + size;
-        String totalSQL = "select count(name) where name = ?";
-//        int total = jdbcTemplate.query(totalSQL,);
-        Object[] args = {sepcEntity.getName(), sepcEntity.getOptions()};
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, args);
+        String exeSQL = "select id,name,options,seq,template_id as templateId from wx_tab_sepc where name = ? limit " + page + " , " + size;
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, sepcEntity.getName());
         Map<String, Object> map = new TreeMap();
         map.put("rows", list);
         map.put("total", list.size());

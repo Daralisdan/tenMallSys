@@ -120,8 +120,7 @@ public class SpuDaoImpl implements ISpuDao {
     @Override
     public int update(WxTabSpu wxTabSpu) {
         String exeSQL = "update wx_tab_spu set sn=?,name=?,caption=?,brand_id=?,category1_id=?,category2_id=?,category3_id=?,template_id=?,freight_id=?,image=?,images=?,sale_service=?,introduction=?,spec_items=?,para_items=?,sale_num=?,comment_num=?,is_marketable=?,is_enable_pec=?,is_delete=?,status=? WHERE id=?";
-        Object args[] = {wxTabSpu.getSn(),wxTabSpu.getName(),wxTabSpu.getCaption(),wxTabSpu.getBrandId(),wxTabSpu.getCategory1Id(),wxTabSpu.getCategory2Id(),wxTabSpu.getCategory3Id(),
-                wxTabSpu.getTemplateId(),wxTabSpu.getFreightId(),wxTabSpu.getImage(),wxTabSpu.getImages(),wxTabSpu.getSaleService(),wxTabSpu.getIntroduction(),wxTabSpu.getSpecItems(),wxTabSpu.getParaItems(),wxTabSpu.getSaleNum(),  wxTabSpu.getCommentNum(),wxTabSpu.getIsMarkeTable(),wxTabSpu.getIsEnablePec(),wxTabSpu.getIsDelete(),wxTabSpu.getStatus()};
+        Object args[] = {wxTabSpu.getSn(),wxTabSpu.getName(),wxTabSpu.getCaption(),wxTabSpu.getBrandId(),wxTabSpu.getCategory1Id(),wxTabSpu.getCategory2Id(),wxTabSpu.getCategory3Id(), wxTabSpu.getTemplateId(),wxTabSpu.getFreightId(),wxTabSpu.getImage(),wxTabSpu.getImages(),wxTabSpu.getSaleService(),wxTabSpu.getIntroduction(),wxTabSpu.getSpecItems(),wxTabSpu.getParaItems(),wxTabSpu.getSaleNum(),  wxTabSpu.getCommentNum(),wxTabSpu.getIsMarkeTable(),wxTabSpu.getIsEnablePec(),wxTabSpu.getIsDelete(),wxTabSpu.getStatus(),wxTabSpu.getId()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
     }
