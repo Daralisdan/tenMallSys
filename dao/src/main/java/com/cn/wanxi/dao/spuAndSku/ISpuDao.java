@@ -36,7 +36,7 @@ public interface ISpuDao{
 
     int tijiaoshenhe (WxTabSpu wxTabSpu);
 
-    int shenhechenggong(WxTabSpu wxTabSpu);
+    int shenhechenggong(int id);
 
     int xiajia( WxTabSpu wxTabSpu);
 

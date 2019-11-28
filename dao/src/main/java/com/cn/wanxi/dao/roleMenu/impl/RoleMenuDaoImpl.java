@@ -68,6 +68,13 @@ public class RoleMenuDaoImpl implements RoleMenuDao {
     }
 
     @Override
+    public List<RoleMenuEntity> findEntitiesByRoleId(int roleid) {
+        String exeSQL = "select id, role_id as roleId, menu_id as menuId from wx_tab_roleMenu where role_id=?";
+        List<RoleMenuEntity> roleMenuEntities = jdbcTemplate.query(exeSQL, new Object[]{roleid}, new BeanPropertyRowMapper<RoleMenuEntity>(RoleMenuEntity.class));
+        return roleMenuEntities;
+    }
+
+    @Override
     public int[] batchCarFlowDelete(int  ids ,String menid) {
 //
         String[] split = menid.split(",");
