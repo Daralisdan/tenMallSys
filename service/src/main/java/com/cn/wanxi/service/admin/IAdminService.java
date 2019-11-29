@@ -12,10 +12,6 @@ import java.util.Map;
  * 2019/11/18,Create by yaodan
  */
 public interface IAdminService {
-    boolean login(AdminEntity entity);
+    boolean login(String username,String password);
     boolean logout(String login_name);
-    boolean add(AdminEntity entity);
-    boolean deleteById(int id);
-    AdminEntity findById(int id);
-    List<Map<String, Object>> findAll();
 }

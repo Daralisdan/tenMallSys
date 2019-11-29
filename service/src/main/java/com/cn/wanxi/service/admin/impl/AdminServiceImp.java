@@ -22,43 +22,13 @@ public class AdminServiceImp implements IAdminService {
     private IAdminDao iAdminDao;
 
     @Override
-    public boolean login(AdminEntity entity) {
-//        if(null == entity || null == entity.getLogin_name() || null == entity.getPassword()){
-//            return false;
-//        }
-//        AdminEntity temp = iAdminDao.findByName(entity.getLogin_name());
-//        if(null == temp || null == temp.getPassword()){
-//            return false;
-//        }else{
-//            return temp.getPassword().equals(entity.getPassword());
-//        }
-        return false;
+    public boolean login(String username,String password) {
+        String backPassword = iAdminDao.findPasswordByName(username);
+        return password.equalsIgnoreCase(backPassword);
     }
 
     @Override
     public boolean logout(String login_name) {
-        return !(null == login_name || null == iAdminDao.findByName(login_name));
+        return iAdminDao.checkByName(login_name);
     }
-
-    @Override
-    public boolean add(AdminEntity entity) {
-        return 0 != iAdminDao.insert(entity);
-    }
-
-    @Override
-    public boolean deleteById(int id) {
-        return 0 != iAdminDao.deleteById(id);
-    }
-
-    @Override
-    public AdminEntity findById(int id) {
-        return iAdminDao.findById(id);
-    }
-
-    @Override
-    public List<Map<String, Object>> findAll() {
-        return iAdminDao.queryAll();
-    }
-
-
 }

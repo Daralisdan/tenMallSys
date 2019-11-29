@@ -1,25 +1,16 @@
 package com.cn.wanxi.mall.controller.advertisin;
 
-import com.cn.wanxi.dao.universal.IUniversalDao;
-import com.cn.wanxi.dao.universal.impl.UniversalDaoImpl;
-import com.cn.wanxi.entity.PageSelect;
 import com.cn.wanxi.entity.advertisin.AdvertisinEntity;
-import com.cn.wanxi.utils.jdbcTemplateSentence.ToEntity;
-import com.cn.wanxi.utils.message.Message;
-import com.cn.wanxi.utils.message.MessageLimit;
-import com.cn.wanxi.utils.message.MessageProxy;
-import com.cn.wanxi.utils.message.enums.OperationTypeEnum;
+import com.cn.wanxi.service.advertisin.IAdvertisinService;
+import com.cn.wanxi.utils.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.LinkedHashMap;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import static org.springframework.util.ObjectUtils.isEmpty;
 
 /**
  * @author LeesonWong
@@ -29,7 +20,7 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 @RequestMapping("/advertisin")
 public class AdvertisinController {
     @Autowired
-    private IUniversalDao daoTemp;
+    private IAdvertisinService iAdvertisinService;
 
     /**
      * 【管理员查找全部】
@@ -37,13 +28,16 @@ public class AdvertisinController {
      * @return
      */
     @PostMapping(value = "/findAll",produces = "application/json;charset=UTF-8")
-    public Message findByAll(){
-        Message m;
-        List<Map<String,Object>> list =  daoTemp.findAll(new AdvertisinEntity());
-        if (null != list && !list.isEmpty()) {
-            m = MessageProxy.success(OperationTypeEnum.FIND,list);
+    public Message findAll(){
+        Message m = new Message();
+        List<AdvertisinEntity> list = iAdvertisinService.findAdvertisinAll();
+        if(0 < list.size()){
+            m.setCode(0);
+            m.setMessage("查询成功");
+            m.setData(list);
         } else {
-            m = MessageProxy.fail(OperationTypeEnum.FIND);
+            m.setCode(1);
+            m.setMessage("查询失败");
         }
         return m;
     }
@@ -54,13 +48,16 @@ public class AdvertisinController {
      * @return
      */
     @PostMapping(value = "/findTypeAll",produces = "application/json;charset=UTF-8")
-    public Message findTypeAll(@RequestBody AdvertisinEntity entity){
-        Message m;
-        List<Map<String,Object>> list =  daoTemp.findAll(entity);
-        if (null != list && !list.isEmpty()) {
-            m = MessageProxy.success(OperationTypeEnum.FIND,list);
+    public Message findTypeAll(String position){
+        Message m = new Message();
+        List<AdvertisinEntity> list = iAdvertisinService.findByPosition(position);
+        if(0 < list.size()){
+            m.setCode(0);
+            m.setMessage("查询成功");
+            m.setData(list);
         } else {
-            m = MessageProxy.fail(OperationTypeEnum.FIND);
+            m.setCode(1);
+            m.setMessage("查询失败");
         }
         return m;
     }
@@ -71,30 +68,16 @@ public class AdvertisinController {
      * @return
      */
     @PostMapping(value = "/findById",produces = "application/json;charset=UTF-8")
-    public Message findById(@RequestBody AdvertisinEntity entity){
-        Message m;
-        List<Map<String,Object>> list =  daoTemp.findAll(entity);
-        if (null != list && !list.isEmpty()) {
-            m = MessageProxy.success(OperationTypeEnum.FIND,list);
+    public Message findById(int id){
+        Message m = new Message();
+        AdvertisinEntity entity = iAdvertisinService.findById(id);
+        if(null != entity){
+            m.setCode(0);
+            m.setMessage("查询成功");
+            m.setData(entity);
         } else {
-            m = MessageProxy.fail(OperationTypeEnum.FIND);
-        }
-        return m;
-    }
-
-    /**
-     * 【管理员查找全部】
-     *
-     * @return
-     */
-    @PostMapping(value = "/find",produces = "application/json;charset=UTF-8")
-    public Message find(@RequestBody AdvertisinEntity entity){
-        Message m;
-        List<Map<String,Object>> list =  daoTemp.findAll(entity);
-        if (null != list && !list.isEmpty()) {
-            m = MessageProxy.success(OperationTypeEnum.FIND,list);
-        } else {
-            m = MessageProxy.fail(OperationTypeEnum.FIND);
+            m.setCode(1);
+            m.setMessage("查询失败");
         }
         return m;
     }
@@ -105,26 +88,18 @@ public class AdvertisinController {
      * @return
      */
     @PostMapping(value = "/findCondPage",produces = "application/json;charset=UTF-8")
-    public MessageLimit findCondPage(@RequestBody PageSelect pageSelect){
-        MessageLimit msgLimit = new MessageLimit();
-        AdvertisinEntity advertisinEntity = (AdvertisinEntity) ToEntity.transMapToEntity(pageSelect.getEntityMap(),AdvertisinEntity.class);
-        int page = pageSelect.getPage();
-        int size = pageSelect.getSize();
-        List<Map<String, Object>> result = daoTemp.findLimit(advertisinEntity,page,size);
-        int count = daoTemp.count(advertisinEntity,page,size);
-        LinkedHashMap<String,Object> pagedResult = new LinkedHashMap<>();
-        pagedResult.put("rows",result);
-        pagedResult.put("total",count);
-
-        if(!isEmpty(result)){
-            msgLimit.setCode(0);
-            msgLimit.setMessage("查询成功");
-            msgLimit.setData(pagedResult);
+    public Message findCondPage(int page,int size,String position){
+        Message m = new Message();
+        List<AdvertisinEntity> list = iAdvertisinService.findCondPage(page,size,position);
+        if(0 < list.size()){
+            m.setCode(0);
+            m.setMessage("查询成功");
+            m.setData(list);
         } else {
-            msgLimit.setCode(1);
-            msgLimit.setMessage("查询失败");
+            m.setCode(1);
+            m.setMessage("查询失败");
         }
-        return msgLimit;
+        return m;
     }
 
     /**
@@ -133,13 +108,15 @@ public class AdvertisinController {
      * @return
      */
     @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
-    public Message add(@RequestBody AdvertisinEntity entity){
-        Message m;
-
-        if (0 != daoTemp.insert(entity)) {
-            m = MessageProxy.success(OperationTypeEnum.ADD);
+    public Message add(String position, String name, Date startTime,Date endTime,String image,String url,String remarks){
+        Message m = new Message();
+        boolean isSuccess = iAdvertisinService.add(position,name,startTime,endTime,image,url,remarks);
+        if(isSuccess){
+            m.setCode(0);
+            m.setMessage("添加成功");
         } else {
-            m = MessageProxy.fail(OperationTypeEnum.ADD);
+            m.setCode(1);
+            m.setMessage("添加失败");
         }
         return m;
     }
@@ -150,13 +127,15 @@ public class AdvertisinController {
      * @return
      */
     @PostMapping(value = "/update",produces = "application/json;charset=UTF-8")
-    public Message update(@RequestBody AdvertisinEntity entity){
-        Message m;
-
-        if (0 != daoTemp.update(entity)) {
-            m = MessageProxy.success(OperationTypeEnum.MODIFY);
+    public Message update(String position, String name, Date startTime,Date endTime,String image,String url,String remarks,int id){
+        Message m = new Message();
+        boolean isSuccess = iAdvertisinService.update(position,name,startTime,endTime,image,url,remarks,id);
+        if(isSuccess){
+            m.setCode(0);
+            m.setMessage("更新成功");
         } else {
-            m = MessageProxy.fail(OperationTypeEnum.MODIFY);
+            m.setCode(1);
+            m.setMessage("更新失败");
         }
         return m;
     }
@@ -166,13 +145,15 @@ public class AdvertisinController {
      * @return
      */
     @PostMapping(value = "/delete",produces = "application/json;charset=UTF-8")
-    public Message delete(@RequestBody AdvertisinEntity entity){
-        Message m;
-
-        if (0 != daoTemp.delete(entity)) {
-            m = MessageProxy.success(OperationTypeEnum.DELETE);
+    public Message delete(int id){
+        Message m = new Message();
+        boolean isSuccess = iAdvertisinService.delete(id);
+        if(isSuccess){
+            m.setCode(0);
+            m.setMessage("删除成功");
         } else {
-            m = MessageProxy.fail(OperationTypeEnum.DELETE);
+            m.setCode(1);
+            m.setMessage("删除失败");
         }
         return m;
     }

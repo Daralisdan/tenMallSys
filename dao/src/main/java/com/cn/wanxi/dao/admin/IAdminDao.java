@@ -12,16 +12,6 @@ import java.util.Map;
  * 2019/11/18,Create by yaodan
  */
 public interface IAdminDao {
-
-    int insert(AdminEntity entity);
-
-    int deleteById(int id);
-
-    List<Map<String, Object>> queryAll();
-
-    AdminEntity findById(int id);
-
-    AdminEntity findByName(String login_name);
-
-    int update(AdminEntity entity);
+    String findPasswordByName(String username);
+    boolean checkByName(String username);
 }

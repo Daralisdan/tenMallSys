@@ -1,19 +1,13 @@
 package com.cn.wanxi.mall.controller.category;
 
 import com.cn.wanxi.entity.category.CategoryEntity;
-import com.cn.wanxi.entity.PageSelect;
-import com.cn.wanxi.utils.jdbcTemplateSentence.ToEntity;
-import com.cn.wanxi.utils.message.Message;
+import com.cn.wanxi.utils.Message;
 import com.cn.wanxi.service.category.ICategoryService;
-import com.cn.wanxi.utils.message.MessageLimit;
-import com.cn.wanxi.utils.message.MessageProxy;
-import com.cn.wanxi.utils.message.enums.OperationTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
@@ -35,15 +29,18 @@ public class CategoryController {
      */
     @PostMapping(value = "/list",produces = "application/json;charset=UTF-8")
     public Message list(){
-        Message msg;
-        CategoryEntity categoryEntity = new CategoryEntity();
-        List<Map<String, Object>> result = iCategoryService.findAll(categoryEntity);
+        Message m = new Message();
+
+        List<CategoryEntity> result = iCategoryService.findAll();
         if(!isEmpty(result)){
-            msg = MessageProxy.success(OperationTypeEnum.FIND, result);
+            m.setCode(0);
+            m.setMessage("查询所有商品分类");
+            m.setData(result);
         } else {
-            msg = MessageProxy.fail(OperationTypeEnum.FIND);
+            m.setCode(1);
+            m.setMessage("查询失败或数据库中数据条数为0");
         }
-        return msg;
+        return m;
     }
 
     /**
@@ -52,17 +49,18 @@ public class CategoryController {
      * @return
      */
     @PostMapping(value = "/listSub",produces = "application/json;charset=UTF-8")
-    public Message listSub(Integer parentId){
-        Message msg;
-        CategoryEntity categoryEntity = new CategoryEntity();
-        categoryEntity.setParentId(parentId);
-        List<Map<String, Object>> result = iCategoryService.findAll(categoryEntity);
+    public Message listSub(int parentId){
+        Message m = new Message();
+        List<CategoryEntity> result = iCategoryService.findAllByParentId(parentId);
         if(!isEmpty(result)){
-            msg = MessageProxy.success(OperationTypeEnum.FIND, result);
+            m.setCode(0);
+            m.setMessage("根据parentId查询商品分类");
+            m.setData(result);
         } else {
-            msg = MessageProxy.fail(OperationTypeEnum.FIND);
+            m.setCode(1);
+            m.setMessage("查询失败或数据库中数据条数为0");
         }
-        return msg;
+        return m;
     }
 
     /**
@@ -72,32 +70,16 @@ public class CategoryController {
      */
     @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
     public Message add(@RequestBody CategoryEntity categoryEntity) {
-        Message msg;
-        int result = iCategoryService.add(categoryEntity);
-        if (0 != result) {
-            msg = MessageProxy.success(OperationTypeEnum.ADD);
+        Message m = new Message();
+        boolean isSuccess = iCategoryService.add(categoryEntity);
+        if (isSuccess) {
+            m.setCode(0);
+            m.setMessage("添加成功");
         } else {
-            msg = MessageProxy.fail(OperationTypeEnum.ADD);
+            m.setCode(1);
+            m.setMessage("添加失败");
         }
-        return msg;
-    }
-
-    /**
-     * 【依据条件删除】
-     *
-     * @param categoryEntity
-     * @return
-     */
-    @PostMapping(value = "/delete",produces = "application/json;charset=UTF-8")
-    public Message delete(@RequestBody CategoryEntity categoryEntity){
-        Message msg;
-        int result = iCategoryService.delete(categoryEntity);
-        if (0 != result) {
-            msg = MessageProxy.success(OperationTypeEnum.DELETE);
-        } else {
-            msg = MessageProxy.fail(OperationTypeEnum.DELETE);
-        }
-        return msg;
+        return m;
     }
 
     /**
@@ -108,78 +90,35 @@ public class CategoryController {
      */
     @PostMapping(value = "/update",produces = "application/json;charset=UTF-8")
     public Message update(@RequestBody CategoryEntity categoryEntity){
-        Message msg;
-        int result = iCategoryService.update(categoryEntity);
-        if (0 != result) {
-            msg = MessageProxy.success(OperationTypeEnum.UPDATE);
+        Message m = new Message();
+        boolean isSuccess = iCategoryService.update(categoryEntity);
+        if (isSuccess) {
+            m.setCode(0);
+            m.setMessage("更新成功");
         } else {
-            msg = MessageProxy.fail(OperationTypeEnum.UPDATE);
+            m.setCode(1);
+            m.setMessage("更新失败");
         }
-        return msg;
+        return m;
     }
 
     /**
-     * 【依据条件查询一条】
+     * 【依据条件删除】
      *
-     * @param categoryEntity
+     * @param id
      * @return
      */
-    @PostMapping(value = "/findOne",produces = "application/json;charset=UTF-8")
-    public Message findOne(@RequestBody CategoryEntity categoryEntity){
-        Message msg;
-        List<Map<String, Object>> result = iCategoryService.findOne(categoryEntity);
-        if(!isEmpty(result)){
-            msg = MessageProxy.success(OperationTypeEnum.FIND, result);
+    @PostMapping(value = "/delete",produces = "application/json;charset=UTF-8")
+    public Message delete(int id){
+        Message m = new Message();
+        boolean isSuccess = iCategoryService.delete(id);
+        if (isSuccess) {
+            m.setCode(0);
+            m.setMessage("删除成功");
         } else {
-            msg = MessageProxy.fail(OperationTypeEnum.FIND);
+            m.setCode(1);
+            m.setMessage("删除失败");
         }
-        return msg;
-    }
-
-    /**
-     * 【依据条件查询分页】
-     *
-     * @param pageSelect
-     * @return
-     */
-    @PostMapping(value = "/findPage",produces = "application/json;charset=UTF-8")
-    public MessageLimit findPage(@RequestBody PageSelect pageSelect){
-        MessageLimit msgLimit = new MessageLimit();
-        CategoryEntity categoryEntity = (CategoryEntity)ToEntity.transMapToEntity(pageSelect.getEntityMap(),CategoryEntity.class);
-        int page = pageSelect.getPage();
-        int size = pageSelect.getSize();
-        List<Map<String, Object>> result = iCategoryService.findLimit(categoryEntity,page,size);
-        //计数
-        int count = iCategoryService.count(categoryEntity,page,size);
-        LinkedHashMap<String,Object> pagedResult = new LinkedHashMap<>();
-        pagedResult.put("rows",result);
-        pagedResult.put("total",count);
-
-        if(!isEmpty(result)){
-            msgLimit.setCode(0);
-            msgLimit.setMessage("查询成功");
-            msgLimit.setData(pagedResult);
-        } else {
-            msgLimit.setCode(1);
-            msgLimit.setMessage("查询失败");
-        }
-        return msgLimit;
-    }
-
-    /**
-     * 【条件查询所有】
-     *
-     * @return
-     */
-    @PostMapping(value = "/findAll",produces = "application/json;charset=UTF-8")
-    public Message findAll(CategoryEntity categoryEntity){
-        Message msg;
-        List<Map<String, Object>> result = iCategoryService.findAll(categoryEntity);
-        if(!isEmpty(result)){
-            msg = MessageProxy.success(OperationTypeEnum.FIND, result);
-        } else {
-            msg = MessageProxy.fail(OperationTypeEnum.FIND);
-        }
-        return msg;
+        return m;
     }
 }

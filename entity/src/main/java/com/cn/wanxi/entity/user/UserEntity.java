@@ -1,21 +1,19 @@
 package com.cn.wanxi.entity.user;
 
-import com.cn.wanxi.entity.Universal;
-
 import java.util.Date;
 
 /**
  * @author LeesonWong
  * @date 2019/11/19 19:03
  */
-public class UserEntity implements Universal {
+public class UserEntity {
     private Integer id;
     private String username;
     private String password;
     private String phone;
     private String email;
-    private String created;
-    private String updated;
+    private Date created;
+    private Date updated;
     private String sourceType;
     private String nickName;
     private String name;
@@ -28,13 +26,13 @@ public class UserEntity implements Universal {
     private Integer userLevel;
     private Integer points;
     private Integer experienceValue;
-    private String birthday;
-    private String lastLoginTime;
+    private Date birthday;
+    private Date lastLoginTime;
 
     public UserEntity() {
     }
 
-    public UserEntity(Integer id, String username, String password, String phone, String email, String created, String updated, String sourceType, String nickName, String name, String status, String headPic, String qq, String isMobileCheck, String isMailCheck, String sex, Integer userLevel, Integer points, Integer experienceValue, String birthday, String lastLoginTime) {
+    public UserEntity(Integer id, String username, String password, String phone, String email, Date created, Date updated, String sourceType, String nickName, String name, String status, String headPic, String qq, String isMobileCheck, String isMailCheck, String sex, Integer userLevel, Integer points, Integer experienceValue, Date birthday, Date lastLoginTime) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -98,19 +96,19 @@ public class UserEntity implements Universal {
         this.email = email;
     }
 
-    public String getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
-    public String getUpdated() {
+    public Date getUpdated() {
         return updated;
     }
 
-    public void setUpdated(String updated) {
+    public void setUpdated(Date updated) {
         this.updated = updated;
     }
 
@@ -210,19 +208,19 @@ public class UserEntity implements Universal {
         this.experienceValue = experienceValue;
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
-    public String getLastLoginTime() {
+    public Date getLastLoginTime() {
         return lastLoginTime;
     }
 
-    public void setLastLoginTime(String lastLoginTime) {
+    public void setLastLoginTime(Date lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
     }
 
@@ -234,8 +232,8 @@ public class UserEntity implements Universal {
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", created='" + created + '\'' +
-                ", updated='" + updated + '\'' +
+                ", created=" + created +
+                ", updated=" + updated +
                 ", sourceType='" + sourceType + '\'' +
                 ", nickName='" + nickName + '\'' +
                 ", name='" + name + '\'' +
@@ -248,8 +246,8 @@ public class UserEntity implements Universal {
                 ", userLevel=" + userLevel +
                 ", points=" + points +
                 ", experienceValue=" + experienceValue +
-                ", birthday='" + birthday + '\'' +
-                ", lastLoginTime='" + lastLoginTime + '\'' +
+                ", birthday=" + birthday +
+                ", lastLoginTime=" + lastLoginTime +
                 '}';
     }
 }

@@ -1,15 +1,13 @@
 package com.cn.wanxi.entity.admin;
 
-import com.cn.wanxi.entity.Universal;
-
 /**
  * 【登陆认证】
  * 数据表： 系统数据库wx_tab_admin 表（管理员表）
  *
  * 2019/11/18,Create by yaodan
  */
-public class AdminEntity implements Universal {
-    private Integer id;
+public class AdminEntity {
+    private int id;
     private String loginName;
     private String password;
     private String status;
@@ -17,18 +15,18 @@ public class AdminEntity implements Universal {
     public AdminEntity() {
     }
 
-    public AdminEntity(Integer id, String loginName, String password, String status) {
+    public AdminEntity(int id, String loginName, String password, String status) {
         this.id = id;
         this.loginName = loginName;
         this.password = password;
         this.status = status;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 

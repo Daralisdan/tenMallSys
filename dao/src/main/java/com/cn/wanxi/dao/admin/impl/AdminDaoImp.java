@@ -2,8 +2,6 @@ package com.cn.wanxi.dao.admin.impl;
 
 import com.cn.wanxi.dao.admin.IAdminDao;
 import com.cn.wanxi.entity.admin.AdminEntity;
-import com.cn.wanxi.utils.jdbcTemplateSentence.SQLSentence;
-import com.cn.wanxi.utils.jdbcTemplateSentence.eunms.SQLTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,55 +22,28 @@ public class AdminDaoImp implements IAdminDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private SQLSentence sqlSentence = SQLSentence.getInstance();
 
     @Override
-    public int insert(AdminEntity entity) {
-        Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.INSERT);
-        int counter = jdbcTemplate.update(entry.getKey(), entry.getValue());
-        return counter;
-    }
-
-    @Override
-    public int deleteById(int id) {
-        String exeSQL = "DELETE FROM wx_tab_admin WHERE id=?";
-        return jdbcTemplate.update(exeSQL, id);
-    }
-
-    @Override
-    public List<Map<String, Object>> queryAll() {
-        String exeSQL = "select * from wx_tab_admin";
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
-        return list;
-    }
-
-    @Override
-    public AdminEntity findById(int id) {
-        AdminEntity adminEntity = null;
-        String exeSQL = "select * from wx_tab_admin where id=?";
-        List<AdminEntity> adminEntities = jdbcTemplate.query(exeSQL, new Object[]{id}, new BeanPropertyRowMapper<AdminEntity>(AdminEntity.class));
-        if (null != adminEntities && adminEntities.size() > 0) {
-            adminEntity = adminEntities.get(0);
+    public boolean checkByName(String username) {
+        String sql = "select id as id,login_name as loginName,password as password,status as status from wx_tab_admin where login_name = ?";
+        Object[] args = {username};
+        List<AdminEntity> list = jdbcTemplate.query(sql, args, new BeanPropertyRowMapper<>(AdminEntity.class));
+        if(0 < list.size()){
+            return true;
+        } else {
+            return false;
         }
-        return adminEntity;
     }
 
     @Override
-    public AdminEntity findByName(String login_name) {
-        AdminEntity adminEntity = null;
-        String exeSQL = "select * from wx_tab_admin where login_name=?";
-        List<AdminEntity> adminEntities = jdbcTemplate.query(exeSQL, new Object[]{login_name}, new BeanPropertyRowMapper<AdminEntity>(AdminEntity.class));
-        if (null != adminEntities && adminEntities.size() > 0) {
-            adminEntity = adminEntities.get(0);
+    public String findPasswordByName(String username) {
+        String sql = "select password as password from wx_tab_admin where login_name = ?";
+        Object[] args = {username};
+        List<AdminEntity> list = jdbcTemplate.query(sql, args, new BeanPropertyRowMapper<>(AdminEntity.class));
+        if(0 < list.size()){
+            return list.get(0).getPassword();
+        } else {
+            return null;
         }
-        return adminEntity;
-    }
-
-    @Override
-    public int update(AdminEntity entity) {
-        String exeSQL = "update wx_tab_admin set login_name=?,password=?,status=?  WHERE id=?";
-        Object args[] = {entity.getLoginName(),entity.getPassword(),entity.getStatus(),entity.getId()};
-        int temp = jdbcTemplate.update(exeSQL, args);
-        return temp;
     }
 }
