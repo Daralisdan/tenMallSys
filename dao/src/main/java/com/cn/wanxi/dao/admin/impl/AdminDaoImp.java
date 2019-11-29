@@ -22,13 +22,33 @@ public class AdminDaoImp implements IAdminDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    private static final String attrMapper =
+            "id as id," +
+            "login_name as loginName," +
+            "password as password," +
+            "name as name," +
+            "phone as phone," +
+            "email as email," +
+            "status as status";
+
+    @Override
+    public String findPasswordByName(String username) {
+        String sql = "select " + attrMapper + " from wx_tab_admin where login_name = ?";
+        Object[] args = {username};
+        AdminEntity entity = jdbcTemplate.queryForObject(sql, args, new BeanPropertyRowMapper<>(AdminEntity.class));
+        if(null != entity){
+            return entity.getPassword();
+        } else {
+            return null;
+        }
+    }
 
     @Override
     public boolean checkByName(String username) {
-        String sql = "select id as id,login_name as loginName,password as password,status as status from wx_tab_admin where login_name = ?";
+        String sql = "select " + attrMapper +" from wx_tab_admin where login_name = ?";
         Object[] args = {username};
-        List<AdminEntity> list = jdbcTemplate.query(sql, args, new BeanPropertyRowMapper<>(AdminEntity.class));
-        if(0 < list.size()){
+        AdminEntity entity = jdbcTemplate.queryForObject(sql, args, new BeanPropertyRowMapper<>(AdminEntity.class));
+        if(null != entity){
             return true;
         } else {
             return false;
@@ -36,14 +56,43 @@ public class AdminDaoImp implements IAdminDao {
     }
 
     @Override
-    public String findPasswordByName(String username) {
-        String sql = "select password as password from wx_tab_admin where login_name = ?";
-        Object[] args = {username};
-        List<AdminEntity> list = jdbcTemplate.query(sql, args, new BeanPropertyRowMapper<>(AdminEntity.class));
-        if(0 < list.size()){
-            return list.get(0).getPassword();
-        } else {
-            return null;
-        }
+    public boolean insert(AdminEntity entity) {
+        String sql = "insert into wx_tab_admin";
+        return false;
+    }
+
+    @Override
+    public AdminEntity findByName(String username) {
+        return null;
+    }
+
+    @Override
+    public boolean updatePasswordByUsername(String username, String password) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteById(Integer id) {
+        return false;
+    }
+
+    @Override
+    public List<AdminEntity> findConditionPage(Integer page, Integer size) {
+        return null;
+    }
+
+    @Override
+    public int countCondition(String status) {
+        return 0;
+    }
+
+    @Override
+    public AdminEntity findById(Integer id) {
+        return null;
+    }
+
+    @Override
+    public List<AdminEntity> findAll() {
+        return null;
     }
 }
