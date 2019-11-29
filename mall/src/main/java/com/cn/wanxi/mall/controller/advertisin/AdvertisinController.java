@@ -5,12 +5,12 @@ import com.cn.wanxi.service.advertisin.IAdvertisinService;
 import com.cn.wanxi.utils.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author LeesonWong
@@ -27,13 +27,13 @@ public class AdvertisinController {
      *
      * @return
      */
-    @PostMapping(value = "/findAll",produces = "application/json;charset=UTF-8")
-    public Message findAll(){
+    @PostMapping(value = "/findAll", produces = "application/json;charset=UTF-8")
+    public Message findAll() {
         Message m = new Message();
         List<AdvertisinEntity> list = iAdvertisinService.findAdvertisinAll();
-        if(0 < list.size()){
+        if (0 < list.size()) {
             m.setCode(0);
-            m.setMessage("查询成功");
+            m.setMessage("查询成功，共查询出" + list.size() + "条数据");
             m.setData(list);
         } else {
             m.setCode(1);
@@ -47,13 +47,14 @@ public class AdvertisinController {
      *
      * @return
      */
-    @PostMapping(value = "/findTypeAll",produces = "application/json;charset=UTF-8")
-    public Message findTypeAll(String position){
+    @PostMapping(value = "/findTypeAll", produces = "application/json;charset=UTF-8")
+    public Message findTypeAll(@RequestBody Map<String,String> args) {
+        String position = args.get("position");
         Message m = new Message();
         List<AdvertisinEntity> list = iAdvertisinService.findByPosition(position);
-        if(0 < list.size()){
+        if (0 < list.size()) {
             m.setCode(0);
-            m.setMessage("查询成功");
+            m.setMessage("查询成功，共查询出" + list.size() + "条数据");
             m.setData(list);
         } else {
             m.setCode(1);
@@ -67,11 +68,12 @@ public class AdvertisinController {
      *
      * @return
      */
-    @PostMapping(value = "/findById",produces = "application/json;charset=UTF-8")
-    public Message findById(int id){
+    @PostMapping(value = "/findById", produces = "application/json;charset=UTF-8")
+    public Message findById(@RequestBody Map<String,String> args) {
+        Integer id = Integer.parseInt(args.get("id"));
         Message m = new Message();
         AdvertisinEntity entity = iAdvertisinService.findById(id);
-        if(null != entity){
+        if (null != entity) {
             m.setCode(0);
             m.setMessage("查询成功");
             m.setData(entity);
@@ -87,11 +89,14 @@ public class AdvertisinController {
      *
      * @return
      */
-    @PostMapping(value = "/findCondPage",produces = "application/json;charset=UTF-8")
-    public Message findCondPage(int page,int size,String position){
+    @PostMapping(value = "/findCondPage", produces = "application/json;charset=UTF-8")
+    public Message findCondPage(@RequestBody Map<String,String> args) {
+        Integer page = Integer.parseInt(args.get("page"));
+        Integer size = Integer.parseInt(args.get("size"));
+        String position = args.get("position");
         Message m = new Message();
-        List<AdvertisinEntity> list = iAdvertisinService.findCondPage(page,size,position);
-        if(0 < list.size()){
+        List<AdvertisinEntity> list = iAdvertisinService.findCondPage(page, size, position);
+        if (0 < list.size()) {
             m.setCode(0);
             m.setMessage("查询成功");
             m.setData(list);
@@ -107,11 +112,25 @@ public class AdvertisinController {
      *
      * @return
      */
-    @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
-    public Message add(String position, String name, Date startTime,Date endTime,String image,String url,String remarks){
+    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
+    public Message add(@RequestBody Map<String,String> args) {
+        String position = args.get("position");
+        String name = args.get("name");
+        String startTime = args.get("startTime");
+        String endTime = args.get("endTime");
+        String image = args.get("image");
+        String url = args.get("url");
+        String remarks = args.get("remarks");
+
         Message m = new Message();
-        boolean isSuccess = iAdvertisinService.add(position,name,startTime,endTime,image,url,remarks);
-        if(isSuccess){
+        if(null == position || null == name || null == startTime || null == endTime ||
+                null == image || null == url || null == remarks){
+            m.setCode(1);
+            m.setMessage("添加失败,不允许有字段为空");
+        }
+
+        boolean isSuccess = iAdvertisinService.add(position, name, startTime, endTime, image, url, remarks);
+        if (isSuccess) {
             m.setCode(0);
             m.setMessage("添加成功");
         } else {
@@ -126,11 +145,25 @@ public class AdvertisinController {
      *
      * @return
      */
-    @PostMapping(value = "/update",produces = "application/json;charset=UTF-8")
-    public Message update(String position, String name, Date startTime,Date endTime,String image,String url,String remarks,int id){
+    @PostMapping(value = "/update", produces = "application/json;charset=UTF-8")
+    public Message update(@RequestBody Map<String,String> args) {
+        String position = args.get("position");
+        String name = args.get("name");
+        String startTime = args.get("startTime");
+        String endTime = args.get("endTime");
+        String image = args.get("image");
+        String url = args.get("url");
+        String remarks = args.get("remarks");
+        Integer id = Integer.parseInt(args.get("id"));
+
         Message m = new Message();
-        boolean isSuccess = iAdvertisinService.update(position,name,startTime,endTime,image,url,remarks,id);
-        if(isSuccess){
+        if(null == position || null == name || null == startTime || null == endTime ||
+                null == image || null == url || null == remarks || null == id){
+            m.setCode(1);
+            m.setMessage("添加失败,不允许有字段为空");
+        }
+        boolean isSuccess = iAdvertisinService.update(position, name, startTime, endTime, image, url, remarks, id);
+        if (isSuccess) {
             m.setCode(0);
             m.setMessage("更新成功");
         } else {
@@ -139,16 +172,19 @@ public class AdvertisinController {
         }
         return m;
     }
+
     /**
      * 【管理员查找全部】
      *
      * @return
      */
-    @PostMapping(value = "/delete",produces = "application/json;charset=UTF-8")
-    public Message delete(int id){
+    @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
+    public Message delete(@RequestBody Map<String,String> args) {
+        Integer id = Integer.parseInt(args.get("id"));
+
         Message m = new Message();
         boolean isSuccess = iAdvertisinService.delete(id);
-        if(isSuccess){
+        if (isSuccess) {
             m.setCode(0);
             m.setMessage("删除成功");
         } else {
@@ -157,5 +193,4 @@ public class AdvertisinController {
         }
         return m;
     }
-
 }

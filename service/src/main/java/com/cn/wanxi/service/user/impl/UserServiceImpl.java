@@ -46,7 +46,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public ArrayList<UserEntity> findCondPage(String username, String status, int page, int size) {
+    public List<UserEntity> findCondPage(String username, String status, int page, int size) {
         return iUserDao.findConditionPage(page,size);
     }
 
@@ -61,7 +61,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public ArrayList<UserEntity> findUserAll() {
+    public List<UserEntity> findUserAll() {
         return iUserDao.findAll();
     }
 }

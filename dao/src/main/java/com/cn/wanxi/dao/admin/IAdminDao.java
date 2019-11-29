@@ -14,4 +14,20 @@ import java.util.Map;
 public interface IAdminDao {
     String findPasswordByName(String username);
     boolean checkByName(String username);
+
+    boolean insert(AdminEntity entity);
+
+    AdminEntity findByName(String username);
+
+    boolean updatePasswordByUsername(String username, String password);
+
+    boolean deleteById(Integer id);
+
+    List<AdminEntity> findConditionPage(String username, String status, Integer page, Integer size);
+
+    int countCondition(String username,String status);
+
+    AdminEntity findById(Integer id);
+
+    List<AdminEntity> findAll();
 }

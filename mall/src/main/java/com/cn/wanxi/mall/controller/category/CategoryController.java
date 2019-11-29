@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
@@ -49,7 +50,8 @@ public class CategoryController {
      * @return
      */
     @PostMapping(value = "/listSub",produces = "application/json;charset=UTF-8")
-    public Message listSub(int parentId){
+    public Message listSub(@RequestBody Map<String,String> args){
+        Integer parentId = Integer.parseInt(args.get("parentId"));
         Message m = new Message();
         List<CategoryEntity> result = iCategoryService.findAllByParentId(parentId);
         if(!isEmpty(result)){
@@ -105,11 +107,12 @@ public class CategoryController {
     /**
      * 【依据条件删除】
      *
-     * @param id
+     * @param args
      * @return
      */
     @PostMapping(value = "/delete",produces = "application/json;charset=UTF-8")
-    public Message delete(int id){
+    public Message delete(@RequestBody Map<String,String> args){
+        Integer id = Integer.parseInt(args.get("id"));
         Message m = new Message();
         boolean isSuccess = iCategoryService.delete(id);
         if (isSuccess) {

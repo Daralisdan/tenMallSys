@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 【登陆认证】
@@ -57,42 +56,65 @@ public class AdminDaoImp implements IAdminDao {
 
     @Override
     public boolean insert(AdminEntity entity) {
-        String sql = "insert into wx_tab_admin";
-        return false;
+        String sql = "insert into wx_tab_admin(login_name,password,name,phone,email,status)";
+        Object[] args = {entity.getLoginName(),entity.getPassword(),entity.getName(),entity.getPhone(),entity.getEmail(),entity.getStatus()};
+        int temp = jdbcTemplate.update(sql, args);
+        return 0 < temp;
     }
 
     @Override
     public AdminEntity findByName(String username) {
-        return null;
+        String sql = "select " + attrMapper + " from wx_tab_admin where login_name = ?";
+        Object[] args = {username};
+        AdminEntity entity = jdbcTemplate.queryForObject(sql,args,new BeanPropertyRowMapper<>(AdminEntity.class));
+        return entity;
     }
 
     @Override
     public boolean updatePasswordByUsername(String username, String password) {
-        return false;
+        String sql = "update wx_tab_admin set password = ? where login_name = ?";
+        Object[] args = {password,username};
+        int temp = jdbcTemplate.update(sql,args);
+        return 0 < temp;
     }
 
     @Override
     public boolean deleteById(Integer id) {
-        return false;
+        String sql = "delete from wx_tab_admin where id = ?";
+        Object[] args = {id};
+        int temp = jdbcTemplate.update(sql,args);
+        return 0 < temp;
     }
 
     @Override
-    public List<AdminEntity> findConditionPage(Integer page, Integer size) {
-        return null;
+    public List<AdminEntity> findConditionPage(String username, String status, Integer page, Integer size) {
+        String sql = "select " + attrMapper + " from wx_tab_admin where username = ? and status = ? limit " + (page - 1)*size + "," + size;
+        Object[] args = {username,status};
+        List<AdminEntity> list = jdbcTemplate.query(sql, args, new BeanPropertyRowMapper<>(AdminEntity.class));
+        return list;
     }
 
+
     @Override
-    public int countCondition(String status) {
-        return 0;
+    public int countCondition(String username,String status) {
+        String sql = "select count(*) from from wx_tab_admin where username = ? and status = ?";
+        Object[] args = {username,status};
+        Integer total = jdbcTemplate.queryForObject(sql, args, new BeanPropertyRowMapper<>(Integer.class));
+        return total;
     }
 
     @Override
     public AdminEntity findById(Integer id) {
-        return null;
+        String sql = "select " + attrMapper + " from wx_tab_admin where id = ?";
+        Object[] args = {id};
+        AdminEntity entity = jdbcTemplate.queryForObject(sql,args,new BeanPropertyRowMapper<>(AdminEntity.class));
+        return entity;
     }
 
     @Override
     public List<AdminEntity> findAll() {
-        return null;
+        String sql = "select " + attrMapper + " from wx_tab_admin";
+        List<AdminEntity> list = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(AdminEntity.class));
+        return list;
     }
 }

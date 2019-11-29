@@ -19,11 +19,11 @@ public interface IUserDao {
 
     boolean deleteById(int id);
 
-    ArrayList<UserEntity> findConditionPage(int page, int size);
+    List<UserEntity> findConditionPage(int page, int size);
 
     int countCondition();
 
     UserEntity findById(int id);
 
-    ArrayList<UserEntity> findAll();
+    List<UserEntity> findAll();
 }

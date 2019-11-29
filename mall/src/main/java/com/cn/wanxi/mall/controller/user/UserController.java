@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author LeesonWong
@@ -45,7 +46,10 @@ public class UserController {
     }
 
     @PostMapping(value = "/update",produces = "application/json;charset=UTF-8")
-    public Message update(String username,String password,String odpassword) {
+    public Message update(@RequestBody Map<String,String> args) {
+        String username = args.get("username");
+        String password = args.get("password");
+        String odpassword = args.get("odpassword");
         Message m = new Message();
         boolean isSuccess = iUserService.modifyPassword(username,password,odpassword);
         if(isSuccess){
@@ -66,7 +70,8 @@ public class UserController {
      * @return
      */
     @PostMapping(value = "/deleteById",produces = "application/json;charset=UTF-8")
-    public Message delete(int id) {
+    public Message delete(@RequestBody Map<String,String> args) {
+        Integer id = Integer.parseInt(args.get("id"));
         Message m = new Message();
         boolean isSuccess = iUserService.deleteUserById(id);
         if(isSuccess){
@@ -83,12 +88,13 @@ public class UserController {
 
     /**
      * 重置密码
-     * @param username
-     * @param password
+     * @param args
      * @return
      */
     @PostMapping(value = "/reset",produces = "application/json;charset=UTF-8")
-    public Message reset(String username,String password) {
+    public Message reset(@RequestBody Map<String,String> args) {
+        String username = args.get("username");
+        String password = args.get("password");
         Message m = new Message();
         boolean isSuccess = iUserService.resetUserPassword(username,password);
         if(isSuccess){
@@ -104,9 +110,13 @@ public class UserController {
     }
 
     @PostMapping(value = "/findCondPage",produces = "application/json;charset=UTF-8")
-    public Message findCondPage(String username,String status,int page,int size) {
+    public Message findCondPage(@RequestBody Map<String,String> args) {
+        String username = args.get("username");
+        String status = args.get("status");
+        Integer page = Integer.parseInt(args.get("page"));
+        Integer size = Integer.parseInt(args.get("size"));
         Message m = new Message();
-        ArrayList<UserEntity> list = iUserService.findCondPage(username,status,page,size);
+        List<UserEntity> list = iUserService.findCondPage(username,status,page,size);
         if(0 < list.size()){
             int total = iUserService.count(username,status);
             LinkedHashMap<String,Object> result = new LinkedHashMap<>();
@@ -124,11 +134,12 @@ public class UserController {
 
     /**
      * 【按照id查询，返回实体】
-     * @param id
+     * @param args
      * @return
      */
     @PostMapping(value = "/findById",produces = "application/json;charset=UTF-8")
-    public Message findById(int id) {
+    public Message findById(@RequestBody Map<String,String> args) {
+        Integer id = Integer.parseInt(args.get("id"));
         Message m = new Message();
         UserEntity entity;
         entity = iUserService.findUserById(id);
@@ -151,7 +162,7 @@ public class UserController {
     @PostMapping(value = "/findAll",produces = "application/json;charset=UTF-8")
     public Message findAll() {
         Message m = new Message();
-        ArrayList<UserEntity> list =  iUserService.findUserAll();
+        List<UserEntity> list =  iUserService.findUserAll();
         if(0 < list.size()){
             m.setCode(0);
             m.setMessage("共查找到" + list.size() +"条数据");

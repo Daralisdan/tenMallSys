@@ -6,7 +6,6 @@ import com.cn.wanxi.service.advertisin.IAdvertisinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.util.List;
 
 /**
@@ -40,12 +39,12 @@ public class AdvertisinServiceImp implements IAdvertisinService {
     }
 
     @Override
-    public boolean add(String position, String name, Date startTime, Date endTime, String image, String url, String remarks) {
+    public boolean add(String position, String name, String startTime, String endTime, String image, String url, String remarks) {
         return iAdvertisinDao.add(position,name,startTime,endTime,image,url,remarks);
     }
 
     @Override
-    public boolean update(String position, String name, Date startTime, Date endTime, String image, String url, String remarks, int id) {
+    public boolean update(String position, String name, String startTime, String endTime, String image, String url, String remarks, int id) {
         return iAdvertisinDao.update(position,name,startTime,endTime,image,url,remarks,id);
     }
 

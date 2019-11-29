@@ -24,11 +24,56 @@ public class AdminServiceImp implements IAdminService {
     @Override
     public boolean login(String username,String password) {
         String backPassword = iAdminDao.findPasswordByName(username);
-        return password.equalsIgnoreCase(backPassword);
+        return password.equals(backPassword);
     }
 
     @Override
     public boolean logout(String login_name) {
         return iAdminDao.checkByName(login_name);
+    }
+
+    @Override
+    public boolean addAdmin(AdminEntity entity) {
+        return iAdminDao.insert(entity);
+    }
+
+    @Override
+    public boolean modifyPassword(String username, String password, String odpassword) {
+        AdminEntity byName = iAdminDao.findByName(username);
+        if(odpassword.equals(byName.getPassword())){
+            return iAdminDao.updatePasswordByUsername(username,password);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteUserById(Integer id) {
+        return iAdminDao.deleteById(id);
+    }
+
+    @Override
+    public boolean resetUserPassword(String username, String password) {
+        return iAdminDao.updatePasswordByUsername(username,password);
+    }
+
+    @Override
+    public List<AdminEntity> findCondPage(String username, String status, Integer page, Integer size) {
+        return iAdminDao.findConditionPage(username,status,page,size);
+    }
+
+    @Override
+    public int count(String username, String status) {
+        return iAdminDao.countCondition(username,status);
+    }
+
+    @Override
+    public AdminEntity findUserById(Integer id) {
+        return iAdminDao.findById(id);
+    }
+
+    @Override
+    public List<AdminEntity> findUserAll() {
+        return iAdminDao.findAll();
     }
 }

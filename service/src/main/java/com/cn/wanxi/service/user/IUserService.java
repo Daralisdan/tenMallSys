@@ -20,11 +20,11 @@ public interface IUserService {
 
     boolean resetUserPassword(String username, String password);
 
-    ArrayList<UserEntity> findCondPage(String username, String status, int page, int size);
+    List<UserEntity> findCondPage(String username, String status, int page, int size);
 
     int count(String username, String status);
 
     UserEntity findUserById(int id);
 
-    ArrayList<UserEntity> findUserAll();
+    List<UserEntity> findUserAll();
 }

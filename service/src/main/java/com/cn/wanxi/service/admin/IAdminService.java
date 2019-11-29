@@ -14,4 +14,20 @@ import java.util.Map;
 public interface IAdminService {
     boolean login(String username,String password);
     boolean logout(String login_name);
+
+    boolean addAdmin(AdminEntity entity);
+
+    boolean modifyPassword(String username, String password, String odpassword);
+
+    boolean deleteUserById(Integer id);
+
+    boolean resetUserPassword(String username, String password);
+
+    List<AdminEntity> findCondPage(String username, String status, Integer page, Integer size);
+
+    int count(String username, String status);
+
+    AdminEntity findUserById(Integer id);
+
+    List<AdminEntity> findUserAll();
 }

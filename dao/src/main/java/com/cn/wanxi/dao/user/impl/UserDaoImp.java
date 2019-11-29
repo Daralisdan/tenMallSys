@@ -20,12 +20,27 @@ public class UserDaoImp implements IUserDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    private static final String attrMapper = "id as id,username as username,password as password," +
-            "phone as phone,email as email,created as created,updated as updated,source_type as sourceType," +
-            "nick_name as nickName,name as name,status as status,head_pic as headPic,qq as qq,is_mobile_check as isMobileCheck," +
-            "is_mail_check as isMailCheck,sex as sex,user_level as userLevel,points as points,experience_value as experienceValue," +
-            "birthday as birthday,last_login_time as lastLoginTime";
+    private static final String attrMapper =
+            "id as id,username as username," +
+            "password as password," +
+            "phone as phone," +
+            "email as email," +
+            "DATE_FORMAT(created,'%Y-%m-%d %H:%i:%s') as created," +
+            "DATE_FORMAT(updated,'%Y-%m-%d %H:%i:%s') as updated," +
+            "source_type as sourceType," +
+            "nick_name as nickName," +
+            "name as name," +
+            "status as status," +
+            "head_pic as headPic," +
+            "qq as qq," +
+            "is_mobile_check as isMobileCheck," +
+            "is_mail_check as isMailCheck," +
+            "sex as sex," +
+            "user_level as userLevel," +
+            "points as points," +
+            "experience_value as experienceValue," +
+            "DATE_FORMAT(birthday,'%Y-%m-%d %H:%i:%s') as birthday," +
+            "DATE_FORMAT(last_login_time,'%Y-%m-%d %H:%i:%s') as lastLoginTime";
 
     @Override
     public boolean insert(UserEntity entity) {
@@ -63,10 +78,10 @@ public class UserDaoImp implements IUserDao {
     }
 
     @Override
-    public ArrayList<UserEntity> findConditionPage(int page, int size) {
-        String exeSQL = "select id as id,username as username,status as status from wx_tab_user limit" + (page-1)*size + "," + size;
+    public List<UserEntity> findConditionPage(int page, int size) {
+        String exeSQL = "select id as id,username as username,status as status from wx_tab_user limit " + (page-1)*size + "," + size;
         List<UserEntity> userEntities = jdbcTemplate.query(exeSQL,new BeanPropertyRowMapper<>(UserEntity.class));
-        return (ArrayList<UserEntity>)userEntities;
+        return userEntities;
     }
 
     @Override
@@ -88,9 +103,9 @@ public class UserDaoImp implements IUserDao {
     }
 
     @Override
-    public ArrayList<UserEntity> findAll() {
+    public List<UserEntity> findAll() {
         String exeSQL = "select " + attrMapper + " from wx_tab_user";
         List<UserEntity> userEntities = jdbcTemplate.query(exeSQL,new BeanPropertyRowMapper<>(UserEntity.class));
-        return (ArrayList<UserEntity>)userEntities;
+        return userEntities;
     }
 }
