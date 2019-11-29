@@ -20,17 +20,20 @@ public class IOrderItemImpl implements IOrderItemDao {
     /**
      * 添加订单详细
      *
-     * @param orderItemEntity
+     * @param orderItemEntityList
      * @return
      */
     @Override
-    public int insert(OrderItemEntity orderItemEntity) {
+    public int insert(List<OrderItemEntity> orderItemEntityList) {
         String exeSQL = "INSERT INTO wx_tab_order_item(category_id1,category_id2,category_id3,spu_id,sku_id,order_id,name,price,num,money,pay_money,image,weight,post_fee,is_return) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        Object args[] = {orderItemEntity.getCategoryId1(), orderItemEntity.getCategoryId2(), orderItemEntity.getCategoryId3(),
-                orderItemEntity.getSpuId(), orderItemEntity.getSkuId(), orderItemEntity.getOrderId(), orderItemEntity.getName(),
-                orderItemEntity.getPrice(), orderItemEntity.getNum(), orderItemEntity.getMoney(), orderItemEntity.getImage(),
-                orderItemEntity.getWeight(), orderItemEntity.getPostFee(), orderItemEntity.getIsReturn()};
-        int temp = jdbcTemplate.update(exeSQL, args);
+        int temp = 0;
+        for (OrderItemEntity orderItemEntity : orderItemEntityList) {
+            Object args[] = {orderItemEntity.getCategoryId1(), orderItemEntity.getCategoryId2(), orderItemEntity.getCategoryId3(),
+                    orderItemEntity.getSpuId(), orderItemEntity.getSkuId(), orderItemEntity.getOrderId(), orderItemEntity.getName(),
+                    orderItemEntity.getPrice(), orderItemEntity.getNum(), orderItemEntity.getMoney(), orderItemEntity.getPayMoney(),orderItemEntity.getImage(),
+                    orderItemEntity.getWeight(), orderItemEntity.getPostFee(), orderItemEntity.getIsReturn()};
+            temp= jdbcTemplate.update(exeSQL, args);
+        }
         return temp;
     }
 
@@ -63,7 +66,7 @@ public class IOrderItemImpl implements IOrderItemDao {
                 "image=?,weight=?,post_fee=?,is_return=?  WHERE id=?";
         Object args[] = {orderItemEntity.getCategoryId1(), orderItemEntity.getCategoryId2(), orderItemEntity.getCategoryId3(), orderItemEntity.getSpuId(),
                 orderItemEntity.getSkuId(), orderItemEntity.getOrderId(), orderItemEntity.getName(), orderItemEntity.getPrice(), orderItemEntity.getNum(), orderItemEntity.getMoney(),
-                orderItemEntity.getImage(), orderItemEntity.getWeight(), orderItemEntity.getPostFee(), orderItemEntity.getIsReturn(),orderItemEntity.getId()};
+                orderItemEntity.getImage(), orderItemEntity.getWeight(), orderItemEntity.getPostFee(), orderItemEntity.getIsReturn(), orderItemEntity.getId()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
     }

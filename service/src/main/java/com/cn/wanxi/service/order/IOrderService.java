@@ -13,8 +13,6 @@ import java.util.Map;
 public interface IOrderService {
     int add(OrderEntity orderEntity);
 
-    Map<String, Object> list(int page, int size);
-
     Map<String, Object> batchlist(String ids);
 
     OrderEntity findById(int id);
@@ -28,4 +26,6 @@ public interface IOrderService {
     int countAll();
 
     int batchSendSubmit(int id, Object orderId, Object shippingName, Object shippingCode);
+
+    Map<String, Object> list(int page, int size, OrderEntity orderEntity);
 }

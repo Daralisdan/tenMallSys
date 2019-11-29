@@ -2,6 +2,8 @@ package com.cn.wanxi.entity.order;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * 2019/11/18,Create by yaodan
  */
@@ -34,43 +36,10 @@ public class OrderEntity {
     private String payStatus;
     private String consignStatus;
     private String isDelete;
-    private OrderItemEntity sublist;
+    private List<OrderItemEntity> sublist;
 
 
 
-    public OrderEntity() {
-    }
-
-    public OrderEntity(Integer id, Integer totalNum, Integer totalMoney, Integer preMoney, Integer postFee, Integer payMoney, String payType, String createTime, String updateTime, String payTime, String consignTime, String endTime, String closeTime, String shippingName, String shippingCode, String username, String buyerMessage, String buyerRate, String receiverContact, String receiverMobile, String receiverAddress, String sourceType, Integer transactionId, String orderStatus, String payStatus, String consignStatus, String isDelete, OrderItemEntity sublist) {
-        this.id = id;
-        this.totalNum = totalNum;
-        this.totalMoney = totalMoney;
-        this.preMoney = preMoney;
-        this.postFee = postFee;
-        this.payMoney = payMoney;
-        this.payType = payType;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
-        this.payTime = payTime;
-        this.consignTime = consignTime;
-        this.endTime = endTime;
-        this.closeTime = closeTime;
-        this.shippingName = shippingName;
-        this.shippingCode = shippingCode;
-        this.username = username;
-        this.buyerMessage = buyerMessage;
-        this.buyerRate = buyerRate;
-        this.receiverContact = receiverContact;
-        this.receiverMobile = receiverMobile;
-        this.receiverAddress = receiverAddress;
-        this.sourceType = sourceType;
-        this.transactionId = transactionId;
-        this.orderStatus = orderStatus;
-        this.payStatus = payStatus;
-        this.consignStatus = consignStatus;
-        this.isDelete = isDelete;
-        this.sublist = sublist;
-    }
 
     @Override
     public String toString() {

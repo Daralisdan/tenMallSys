@@ -10,7 +10,7 @@ import java.util.Map;
  */
 
 public interface IOrderItemService {
-    int add(OrderItemEntity orderItemEntity);
+    int add(List<OrderItemEntity> orderItemEntityList);
 
     List<Map<String, Object>> findAll();
 

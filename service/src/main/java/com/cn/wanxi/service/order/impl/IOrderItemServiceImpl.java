@@ -20,19 +20,13 @@ public class IOrderItemServiceImpl implements IOrderItemService {
 
     /**
      * 添加订单详细列表
-     * @param orderItemEntity
+     * @param orderItemEntityList
      * @return
      */
     @Override
-    public int add(OrderItemEntity orderItemEntity) {
-        //判断页面传的值中名字不能为空
-        String name = orderItemEntity.getName().trim();
-        int result = 0;
-        //不为空时，添加数据
-        if (!StringUtils.isEmpty(name)) {
-            result = iOrderItemDao.insert(orderItemEntity);
-        }
-        return result;
+    public int add(List<OrderItemEntity> orderItemEntityList) {
+
+        return iOrderItemDao.insert(orderItemEntityList);
     }
 
     /**

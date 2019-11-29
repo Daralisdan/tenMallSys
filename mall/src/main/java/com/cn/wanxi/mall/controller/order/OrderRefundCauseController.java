@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.springframework.util.StringUtils.isEmpty;
 
@@ -83,7 +80,7 @@ public class OrderRefundCauseController {
     }
 
     @PostMapping(value = "/approval", produces = "application/json;charset=UTF-8")
-    public Msg approval(@RequestBody RefundCauseEntity refundCauseEntity) {
+    public Map<String, Object> approval(@RequestBody RefundCauseEntity refundCauseEntity) {
         Msg msg = null;
         int up = iRefundCauseService.updateStatus(refundCauseEntity);
         if (up > 0) {
@@ -91,7 +88,10 @@ public class OrderRefundCauseController {
         } else {
             msg = Msg.fail();
         }
-        return msg;
+        Map<String,Object> map = new TreeMap<>();
+        map.put("code",msg.getCode());
+        map.put("message",msg.getMsg());
+        return map;
     }
 
     /**
@@ -210,13 +210,18 @@ public class OrderRefundCauseController {
     }
 
     @PostMapping(value = "/casue", produces = "application/json;charset=UTF-8")
-    public Msg casue(@RequestBody ReturnCauseEntity returnCauseEntity) {
+
+    public Msg casue(@RequestBody Map<String, Integer> param, HttpServletResponse response) {
         Msg msg = null;
-        int up = iReturnCauseService.update(returnCauseEntity);
-        if (up > 0) {
-            msg = Msg.success().messageData(returnCauseEntity);
-        } else {
-            msg = Msg.fail();
+        int id = param.get("id");
+        if (!StringUtils.isEmpty(id) && id > 0) {
+            ReturnCauseEntity byId = iReturnCauseService.findById(id);
+            //判断是否有返回的数据
+            if (!ObjectUtils.isEmpty(byId)) {
+                msg = Msg.success().messageData(byId);
+            } else {
+                msg = Msg.fail().messageData("该原因不存在");
+            }
         }
         return msg;
     }
