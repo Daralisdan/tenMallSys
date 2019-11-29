@@ -49,7 +49,7 @@ public class BrandController {
      *
      * @return
      */
-    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "/add")
     public Msg add(String letter, String name, Integer seq, MultipartFile imageFile) {
         BrandEntity brandEntity = getBrandEntity(letter, name, seq, imageFile);
         Msg msg;
@@ -126,9 +126,6 @@ public class BrandController {
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public Msg update(Integer id, String letter, String name, Integer seq, MultipartFile imageFile) {
         Msg msg = null;
-        if (StringUtils.isEmpty(id)) {
-            return Msg.fail().messageData("请输入id,id不能为空");
-        }
         if (id > 0) {
             BrandEntity brandEntity = getBrandEntity(letter, name, seq, imageFile);
             brandEntity.setId(id);
