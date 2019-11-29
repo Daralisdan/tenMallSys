@@ -39,13 +39,13 @@ public class AdvertisinServiceImp implements IAdvertisinService {
     }
 
     @Override
-    public boolean add(String position, String name, String startTime, String endTime, String image, String url, String remarks) {
-        return iAdvertisinDao.add(position,name,startTime,endTime,image,url,remarks);
+    public boolean add(String position, String name, String startTime, String endTime,String status, String image, String url, String remarks) {
+        return iAdvertisinDao.add(position,name,startTime,endTime,status,image,url,remarks);
     }
 
     @Override
-    public boolean update(String position, String name, String startTime, String endTime, String image, String url, String remarks, int id) {
-        return iAdvertisinDao.update(position,name,startTime,endTime,image,url,remarks,id);
+    public boolean update(String position, String name, String startTime, String endTime,String status, String image, String url, String remarks, int id) {
+        return iAdvertisinDao.update(position,name,startTime,endTime,status,image,url,remarks,id);
     }
 
     @Override

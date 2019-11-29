@@ -56,7 +56,7 @@ public class AdminDaoImp implements IAdminDao {
 
     @Override
     public boolean insert(AdminEntity entity) {
-        String sql = "insert into wx_tab_admin(login_name,password,name,phone,email,status)";
+        String sql = "insert into wx_tab_admin(login_name,password,name,phone,email,status) values(?,?,?,?,?,?)";
         Object[] args = {entity.getLoginName(),entity.getPassword(),entity.getName(),entity.getPhone(),entity.getEmail(),entity.getStatus()};
         int temp = jdbcTemplate.update(sql, args);
         return 0 < temp;

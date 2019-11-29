@@ -13,7 +13,7 @@ public class AdvertisinEntity {
     private String position;
     private String startTime;
     private String endTime;
-    private Character status;
+    private String status;
     private String image;
     private String url;
     private String remarks;
@@ -21,7 +21,7 @@ public class AdvertisinEntity {
     public AdvertisinEntity() {
     }
 
-    public AdvertisinEntity(Integer id, String name, String position, String startTime, String endTime, Character status, String image, String url, String remarks) {
+    public AdvertisinEntity(Integer id, String name, String position, String startTime, String endTime, String status, String image, String url, String remarks) {
         this.id = id;
         this.name = name;
         this.position = position;
@@ -73,11 +73,11 @@ public class AdvertisinEntity {
         this.endTime = endTime;
     }
 
-    public Character getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Character status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -113,7 +113,7 @@ public class AdvertisinEntity {
                 ", position='" + position + '\'' +
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +
-                ", status=" + status +
+                ", status='" + status + '\'' +
                 ", image='" + image + '\'' +
                 ", url='" + url + '\'' +
                 ", remarks='" + remarks + '\'' +

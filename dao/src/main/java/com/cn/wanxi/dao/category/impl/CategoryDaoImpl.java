@@ -36,7 +36,7 @@ public class CategoryDaoImpl implements ICategoryDao {
 
     @Override
     public List<CategoryEntity> findAllByParentId(int parentId) {
-        String exeSQL = "select " + attrMapper + " from wx_tab_category where parent_id = ";
+        String exeSQL = "select " + attrMapper + " from wx_tab_category where parent_id = ?";
         Object[] args = {parentId};
         List<CategoryEntity> userEntities = jdbcTemplate.query(exeSQL,args,new BeanPropertyRowMapper<>(CategoryEntity.class));
         return userEntities;

@@ -118,18 +118,19 @@ public class AdvertisinController {
         String name = args.get("name");
         String startTime = args.get("startTime");
         String endTime = args.get("endTime");
+        String status = args.get("status");
         String image = args.get("image");
         String url = args.get("url");
         String remarks = args.get("remarks");
 
         Message m = new Message();
         if(null == position || null == name || null == startTime || null == endTime ||
-                null == image || null == url || null == remarks){
+                null == status || null == image || null == url || null == remarks){
             m.setCode(1);
             m.setMessage("添加失败,不允许有字段为空");
         }
 
-        boolean isSuccess = iAdvertisinService.add(position, name, startTime, endTime, image, url, remarks);
+        boolean isSuccess = iAdvertisinService.add(position, name, startTime, endTime,status, image, url, remarks);
         if (isSuccess) {
             m.setCode(0);
             m.setMessage("添加成功");
@@ -151,6 +152,7 @@ public class AdvertisinController {
         String name = args.get("name");
         String startTime = args.get("startTime");
         String endTime = args.get("endTime");
+        String status = args.get("status");
         String image = args.get("image");
         String url = args.get("url");
         String remarks = args.get("remarks");
@@ -158,11 +160,12 @@ public class AdvertisinController {
 
         Message m = new Message();
         if(null == position || null == name || null == startTime || null == endTime ||
-                null == image || null == url || null == remarks || null == id){
+                null == status ||null == image || null == url || null == remarks || null == id){
             m.setCode(1);
             m.setMessage("添加失败,不允许有字段为空");
+            return m;
         }
-        boolean isSuccess = iAdvertisinService.update(position, name, startTime, endTime, image, url, remarks, id);
+        boolean isSuccess = iAdvertisinService.update(position, name, startTime, endTime,status, image, url, remarks, id);
         if (isSuccess) {
             m.setCode(0);
             m.setMessage("更新成功");
