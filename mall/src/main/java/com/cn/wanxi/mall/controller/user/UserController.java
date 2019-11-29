@@ -1,18 +1,15 @@
 package com.cn.wanxi.mall.controller.user;
 
-import com.cn.wanxi.dao.universal.IUniversalDao;
-import com.cn.wanxi.dao.universal.impl.UniversalDaoImpl;
 import com.cn.wanxi.entity.user.UserEntity;
 import com.cn.wanxi.service.user.IUserService;
-import com.cn.wanxi.utils.message.Message;
-import com.cn.wanxi.utils.message.MessageProxy;
-import com.cn.wanxi.utils.message.enums.OperationTypeEnum;
+import com.cn.wanxi.utils.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,42 +22,7 @@ import java.util.Map;
 public class UserController {
 
     @Autowired
-    private IUniversalDao daoTemp;
-
-    /**
-     * 【用户登录】
-     *
-     * @return
-     */
-    @PostMapping(value = "/login",produces = "application/json;charset=UTF-8")
-    public Message login(@RequestBody UserEntity entity) {
-        Message m;
-        if(0 != daoTemp.findOne(entity).size()){
-            m = MessageProxy.success(OperationTypeEnum.LOGIN);
-        } else {
-            m = MessageProxy.fail(OperationTypeEnum.LOGIN);
-        }
-        return m;
-    }
-
-    /**
-     * 【用户退出】
-     *
-     * @return
-     */
-    @PostMapping(value = "/logout",produces = "application/json;charset=UTF-8")
-    public Message logout(String username) {
-        Message m;
-        UserEntity entityTemp = new UserEntity();
-        entityTemp.setName(username);
-
-        if (0 != daoTemp.findOne(entityTemp).size()) {
-            m = MessageProxy.success(OperationTypeEnum.LOGOUT);
-        } else {
-            m = MessageProxy.fail(OperationTypeEnum.LOGOUT);
-        }
-        return m;
-    }
+    private IUserService iUserService;
 
     /**
      * 【添加用户】
@@ -69,12 +31,35 @@ public class UserController {
      */
     @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
     public Message add(@RequestBody UserEntity entity) {
-        Message m;
-        boolean flag = 0 != daoTemp.insert(entity);
-        if (flag) {
-            m = MessageProxy.success(OperationTypeEnum.ADD);
+        Message m = new Message();
+        boolean isSuccess = iUserService.addUser(entity);
+        if(isSuccess){
+            m.setCode(0);
+            m.setMessage("添加成功");
+            m.setData("新增操作无返回数据");
         } else {
-            m = MessageProxy.fail(OperationTypeEnum.ADD);
+            m.setCode(1);
+            m.setMessage("添加失败");
+            m.setData("新增操作无返回数据");
+        }
+        return m;
+    }
+
+    @PostMapping(value = "/update",produces = "application/json;charset=UTF-8")
+    public Message update(@RequestBody Map<String,String> args) {
+        String username = args.get("username");
+        String password = args.get("password");
+        String odpassword = args.get("odpassword");
+        Message m = new Message();
+        boolean isSuccess = iUserService.modifyPassword(username,password,odpassword);
+        if(isSuccess){
+            m.setCode(0);
+            m.setMessage("密码修改成功");
+            m.setData("密码修改操作无返回数据");
+        } else {
+            m.setCode(1);
+            m.setMessage("密码修改失败");
+            m.setData("密码修改操作无返回数据");
         }
         return m;
     }
@@ -85,86 +70,106 @@ public class UserController {
      * @return
      */
     @PostMapping(value = "/deleteById",produces = "application/json;charset=UTF-8")
-    public Message delete(int id) {
-        Message m;
-        UserEntity entity = new UserEntity();
-        entity.setId(id);
-
-        if (0 != daoTemp.delete(entity)) {
-            m = MessageProxy.success(OperationTypeEnum.DELETE);
+    public Message delete(@RequestBody Map<String,String> args) {
+        Integer id = Integer.parseInt(args.get("id"));
+        Message m = new Message();
+        boolean isSuccess = iUserService.deleteUserById(id);
+        if(isSuccess){
+            m.setCode(0);
+            m.setMessage("用户删除成功");
+            m.setData("用户删除操作无返回数据");
         } else {
-            m = MessageProxy.fail(OperationTypeEnum.DELETE);
+            m.setCode(1);
+            m.setMessage("用户删除失败");
+            m.setData("用户删除操作无返回数据");
+        }
+        return m;
+    }
+
+    /**
+     * 重置密码
+     * @param args
+     * @return
+     */
+    @PostMapping(value = "/reset",produces = "application/json;charset=UTF-8")
+    public Message reset(@RequestBody Map<String,String> args) {
+        String username = args.get("username");
+        String password = args.get("password");
+        Message m = new Message();
+        boolean isSuccess = iUserService.resetUserPassword(username,password);
+        if(isSuccess){
+            m.setCode(0);
+            m.setMessage("重置密码成功");
+            m.setData("重置密码操作无返回数据");
+        } else {
+            m.setCode(1);
+            m.setMessage("重置密码失败");
+            m.setData("重置密码操作无返回数据");
+        }
+        return m;
+    }
+
+    @PostMapping(value = "/findCondPage",produces = "application/json;charset=UTF-8")
+    public Message findCondPage(@RequestBody Map<String,String> args) {
+        String username = args.get("username");
+        String status = args.get("status");
+        Integer page = Integer.parseInt(args.get("page"));
+        Integer size = Integer.parseInt(args.get("size"));
+        Message m = new Message();
+        List<UserEntity> list = iUserService.findCondPage(username,status,page,size);
+        if(0 < list.size()){
+            int total = iUserService.count(username,status);
+            LinkedHashMap<String,Object> result = new LinkedHashMap<>();
+            result.put("rows",list);
+            result.put("total",total);
+            m.setCode(0);
+            m.setMessage("共查找出" + list.size() + "满足条件");
+            m.setData(result);
+        } else {
+            m.setCode(1);
+            m.setMessage("未共查找出满足条件的数据");
         }
         return m;
     }
 
     /**
      * 【按照id查询，返回实体】
-     *
+     * @param args
      * @return
      */
     @PostMapping(value = "/findById",produces = "application/json;charset=UTF-8")
-    public Message findById(int id) {
-        Message m;
-        UserEntity entity = new UserEntity();
-        entity.setId(id);
-        List<Map<String, Object>> one = daoTemp.findOne(entity);
-        if(null != one && 0 != one.size()){
-            m = MessageProxy.success(OperationTypeEnum.FIND,one);
+    public Message findById(@RequestBody Map<String,String> args) {
+        Integer id = Integer.parseInt(args.get("id"));
+        Message m = new Message();
+        UserEntity entity;
+        entity = iUserService.findUserById(id);
+        if(null != entity){
+            m.setCode(0);
+            m.setMessage("查询成功");
+            m.setData(entity);
         } else {
-            m = MessageProxy.fail(OperationTypeEnum.FIND);
+            m.setCode(1);
+            m.setMessage("查询失败");
         }
         return m;
     }
 
     /**
-     * 【返回全部实体集】
+     * 【查询所有】
      *
      * @return
      */
     @PostMapping(value = "/findAll",produces = "application/json;charset=UTF-8")
     public Message findAll() {
-        Message m;
-        List<Map<String,Object>> list =  daoTemp.findAll(new UserEntity());
-        if (null != list && !list.isEmpty()) {
-            m = MessageProxy.success(OperationTypeEnum.FIND,list);
+        Message m = new Message();
+        List<UserEntity> list =  iUserService.findUserAll();
+        if(0 < list.size()){
+            m.setCode(0);
+            m.setMessage("共查找到" + list.size() +"条数据");
+            m.setData(list);
         } else {
-            m = MessageProxy.fail(OperationTypeEnum.FIND);
-        }
-        return m;
-    }
-
-    @PostMapping(value = "/update",produces = "application/json;charset=UTF-8")
-    public Message update(String username,String password,String odpassword) {
-        Message m;
-        UserEntity oldEntity = new UserEntity();
-        UserEntity newEntity = new UserEntity();
-        oldEntity.setName(username);
-        oldEntity.setPassword(odpassword);
-        newEntity.setName(username);
-        newEntity.setPassword(password);
-        if(0 == daoTemp.findOne(oldEntity).size()){
-            m = MessageProxy.fail(OperationTypeEnum.UPDATE);
-        } else {
-            if(0 < daoTemp.update(newEntity)){
-                m = MessageProxy.success(OperationTypeEnum.UPDATE,"密码");
-            } else {
-                m = MessageProxy.fail(OperationTypeEnum.UPDATE,"密码");
-            }
-        }
-        return m;
-    }
-
-    @PostMapping(value = "/reset",produces = "application/json;charset=UTF-8")
-    public Message reset(String username,String password) {
-        Message m;
-        UserEntity entity = new UserEntity();
-        entity.setName(username);
-        entity.setPassword(password);
-        if(0 < daoTemp.update(entity)){
-            m = MessageProxy.success(OperationTypeEnum.UPDATE,"密码");
-        } else {
-            m = MessageProxy.fail(OperationTypeEnum.UPDATE,"密码");
+            m.setCode(1);
+            m.setMessage("查询失败或数据库中数据条数为0");
         }
         return m;
     }

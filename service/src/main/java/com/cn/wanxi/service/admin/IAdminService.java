@@ -12,10 +12,22 @@ import java.util.Map;
  * 2019/11/18,Create by yaodan
  */
 public interface IAdminService {
-    boolean login(AdminEntity entity);
+    boolean login(String username,String password);
     boolean logout(String login_name);
-    boolean add(AdminEntity entity);
-    boolean deleteById(int id);
-    AdminEntity findById(int id);
-    List<Map<String, Object>> findAll();
+
+    boolean addAdmin(AdminEntity entity);
+
+    boolean modifyPassword(String username, String password, String odpassword);
+
+    boolean deleteUserById(Integer id);
+
+    boolean resetUserPassword(String username, String password);
+
+    List<AdminEntity> findCondPage(String username, String status, Integer page, Integer size);
+
+    int count(String username, String status);
+
+    AdminEntity findUserById(Integer id);
+
+    List<AdminEntity> findUserAll();
 }

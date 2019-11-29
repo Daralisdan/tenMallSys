@@ -22,43 +22,58 @@ public class AdminServiceImp implements IAdminService {
     private IAdminDao iAdminDao;
 
     @Override
-    public boolean login(AdminEntity entity) {
-//        if(null == entity || null == entity.getLogin_name() || null == entity.getPassword()){
-//            return false;
-//        }
-//        AdminEntity temp = iAdminDao.findByName(entity.getLogin_name());
-//        if(null == temp || null == temp.getPassword()){
-//            return false;
-//        }else{
-//            return temp.getPassword().equals(entity.getPassword());
-//        }
-        return false;
+    public boolean login(String username,String password) {
+        String backPassword = iAdminDao.findPasswordByName(username);
+        return password.equals(backPassword);
     }
 
     @Override
     public boolean logout(String login_name) {
-        return !(null == login_name || null == iAdminDao.findByName(login_name));
+        return iAdminDao.checkByName(login_name);
     }
 
     @Override
-    public boolean add(AdminEntity entity) {
-        return 0 != iAdminDao.insert(entity);
+    public boolean addAdmin(AdminEntity entity) {
+        return iAdminDao.insert(entity);
     }
 
     @Override
-    public boolean deleteById(int id) {
-        return 0 != iAdminDao.deleteById(id);
+    public boolean modifyPassword(String username, String password, String odpassword) {
+        AdminEntity byName = iAdminDao.findByName(username);
+        if(odpassword.equals(byName.getPassword())){
+            return iAdminDao.updatePasswordByUsername(username,password);
+        } else {
+            return false;
+        }
     }
 
     @Override
-    public AdminEntity findById(int id) {
+    public boolean deleteUserById(Integer id) {
+        return iAdminDao.deleteById(id);
+    }
+
+    @Override
+    public boolean resetUserPassword(String username, String password) {
+        return iAdminDao.updatePasswordByUsername(username,password);
+    }
+
+    @Override
+    public List<AdminEntity> findCondPage(String username, String status, Integer page, Integer size) {
+        return iAdminDao.findConditionPage(username,status,page,size);
+    }
+
+    @Override
+    public int count(String username, String status) {
+        return iAdminDao.countCondition(username,status);
+    }
+
+    @Override
+    public AdminEntity findUserById(Integer id) {
         return iAdminDao.findById(id);
     }
 
     @Override
-    public List<Map<String, Object>> findAll() {
-        return iAdminDao.queryAll();
+    public List<AdminEntity> findUserAll() {
+        return iAdminDao.findAll();
     }
-
-
 }

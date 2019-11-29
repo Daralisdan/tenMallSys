@@ -1,14 +1,13 @@
 package com.cn.wanxi.entity.advertisin;
 
-import com.cn.wanxi.entity.Universal;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * @author LeesonWong
  * @date 2019/11/26 19:42
  */
-public class AdvertisinEntity implements Universal {
+public class AdvertisinEntity {
     private Integer id;
     private String name;
     private String position;

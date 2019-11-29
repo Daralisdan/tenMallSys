@@ -1,7 +1,5 @@
 package com.cn.wanxi.entity.category;
 
-import com.cn.wanxi.entity.Universal;
-
 /**
  * 【商品分类管理】：商品分类，主要用户对商品进行类别管理。一个分类对应一种模板类型的参数
  *
@@ -9,7 +7,7 @@ import com.cn.wanxi.entity.Universal;
  *
  * 2019/11/18,Create by yaodan
  */
-public class CategoryEntity implements Universal {
+public class CategoryEntity {
     private Integer id;
     private String name;
     private Integer goodsNum;

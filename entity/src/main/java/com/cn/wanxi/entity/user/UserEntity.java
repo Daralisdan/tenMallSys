@@ -1,14 +1,10 @@
 package com.cn.wanxi.entity.user;
 
-import com.cn.wanxi.entity.Universal;
-
-import java.util.Date;
-
 /**
  * @author LeesonWong
  * @date 2019/11/19 19:03
  */
-public class UserEntity implements Universal {
+public class UserEntity {
     private Integer id;
     private String username;
     private String password;

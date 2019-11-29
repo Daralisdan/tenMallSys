@@ -1,12 +1,8 @@
 package com.cn.wanxi.mall.controller.admin;
 
-import com.cn.wanxi.dao.universal.IUniversalDao;
-import com.cn.wanxi.dao.universal.impl.UniversalDaoImpl;
 import com.cn.wanxi.entity.admin.AdminEntity;
 import com.cn.wanxi.service.admin.IAdminService;
-import com.cn.wanxi.utils.message.Message;
-import com.cn.wanxi.utils.message.MessageProxy;
-import com.cn.wanxi.utils.message.enums.OperationTypeEnum;
+import com.cn.wanxi.utils.Message;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +26,7 @@ import java.util.Map;
 public class AdminController {
 
     @Autowired
-    private IUniversalDao daoTemp;
+    private IAdminService iAdminService;
 
     /**
      * 【管理员登录】
@@ -37,31 +34,41 @@ public class AdminController {
      * @return
      */
     @PostMapping(value = "/login",produces = "application/json;charset=UTF-8")
-    public Message login(@RequestBody AdminEntity adminEntity) {
-        Message m;
-        if(0 != daoTemp.findOne(adminEntity).size()){
-            m = MessageProxy.success(OperationTypeEnum.LOGIN);
+    public Message login(@RequestBody Map<String,String> args) {
+        String username = args.get("username");
+        String password = args.get("password");
+        Message m = new Message();
+        boolean isSuccess = iAdminService.login(username,password);
+        if(isSuccess){
+            m.setCode(0);
+            m.setMessage("登录成功");
+            m.setData("登录操作无返回数据");
         } else {
-            m = MessageProxy.fail(OperationTypeEnum.LOGIN);
+            m.setCode(1);
+            m.setMessage("登录失败");
+            m.setData("登录操作无返回数据");
         }
         return m;
     }
 
     /**
-     * 【管理员登录】
+     * 【管理员退出】
      *
      * @return
      */
     @PostMapping(value = "/logout",produces = "application/json;charset=UTF-8")
-    public Message logout(String username){
-        Message m;
-        AdminEntity entityTemp = new AdminEntity();
-        entityTemp.setLoginName(username);
-
-        if (0 != daoTemp.findOne(entityTemp).size()) {
-            m = MessageProxy.success(OperationTypeEnum.LOGOUT);
+    public Message logout(@RequestBody Map<String,String> args){
+        String username = args.get("username");
+        Message m = new Message();
+        boolean isSuccess = iAdminService.logout(username);
+        if(isSuccess){
+            m.setCode(0);
+            m.setMessage("退出成功");
+            m.setData("退出操作无返回数据");
         } else {
-            m = MessageProxy.fail(OperationTypeEnum.LOGOUT);
+            m.setCode(1);
+            m.setMessage("退出失败");
+            m.setData("退出操作无返回数据");
         }
         return m;
     }
@@ -73,79 +80,155 @@ public class AdminController {
      */
     @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
     public Message add(@RequestBody AdminEntity entity){
-        Message m;
-        boolean flag = 0 != daoTemp.insert(entity);
-        if (flag) {
-            m = MessageProxy.success(OperationTypeEnum.ADD);
+        Message m = new Message();
+        boolean isSuccess = iAdminService.addAdmin(entity);
+        if(isSuccess){
+            m.setCode(0);
+            m.setMessage("添加成功");
+            m.setData("新增操作无返回数据");
         } else {
-            m = MessageProxy.fail(OperationTypeEnum.ADD);
+            m.setCode(1);
+            m.setMessage("添加失败");
+            m.setData("新增操作无返回数据");
         }
         return m;
     }
 
     /**
-     * 【管理员查找】
+     * 【管理员更新】
      *
      * @return
      */
-    @PostMapping(value = "/findById",produces = "application/json;charset=UTF-8")
-    public Message findById(int id){
-        Message m;
-        AdminEntity entity = new AdminEntity();
-        entity.setId(id);
-        List<Map<String, Object>> one = daoTemp.findOne(entity);
-        if(null != one && 0 != one.size()){
-            m = MessageProxy.success(OperationTypeEnum.FIND,one);
+    @PostMapping(value = "/update",produces = "application/json;charset=UTF-8")
+    public Message update(@RequestBody Map<String,String> args){
+        String username = args.get("username");
+        String password = args.get("password");
+        String odpassword = args.get("odpassword");
+        Message m = new Message();
+        boolean isSuccess = iAdminService.modifyPassword(username,password,odpassword);
+        if(isSuccess){
+            m.setCode(0);
+            m.setMessage("密码修改成功");
+            m.setData("密码修改操作无返回数据");
         } else {
-            m = MessageProxy.fail(OperationTypeEnum.FIND);
+            m.setCode(1);
+            m.setMessage("密码修改失败");
+            m.setData("密码修改操作无返回数据");
         }
         return m;
     }
 
     /**
-     * 【管理员查找全部】
-     *
-     * @return
-     */
-    @PostMapping(value = "/findAll",produces = "application/json;charset=UTF-8")
-    public Message findByAll(){
-        Message m;
-        List<Map<String,Object>> list =  daoTemp.findAll(new AdminEntity());
-        if (null != list && !list.isEmpty()) {
-            m = MessageProxy.success(OperationTypeEnum.FIND,list);
-        } else {
-            m = MessageProxy.fail(OperationTypeEnum.FIND);
-        }
-        return m;
-    }
-
-    /**
-     * 【管理员删除】
+     * 【删除管理员】
      *
      * @return
      */
     @PostMapping(value = "/deleteById",produces = "application/json;charset=UTF-8")
-    public Message deleteById(int id){
-        Message m;
-        AdminEntity entity = new AdminEntity();
-        entity.setId(id);
-
-        if (0 != daoTemp.delete(entity)) {
-            m = MessageProxy.success(OperationTypeEnum.DELETE);
+    public Message delete(@RequestBody Map<String,String> args) {
+        Integer id = Integer.parseInt(args.get("id"));
+        Message m = new Message();
+        boolean isSuccess = iAdminService.deleteUserById(id);
+        if(isSuccess){
+            m.setCode(0);
+            m.setMessage("用户删除成功");
+            m.setData("用户删除操作无返回数据");
         } else {
-            m = MessageProxy.fail(OperationTypeEnum.DELETE);
+            m.setCode(1);
+            m.setMessage("用户删除失败");
+            m.setData("用户删除操作无返回数据");
         }
         return m;
     }
 
-    @PostMapping(value = "/update",produces = "application/json;charset=UTF-8")
-    public Message update(@RequestBody AdminEntity entity){
-        Message m;
-        boolean flag = 0 != daoTemp.update(entity);
-        if (flag) {
-            m = MessageProxy.success(OperationTypeEnum.UPDATE);
+    /**
+     * 重置密码
+     * @param args
+     * @return
+     */
+    @PostMapping(value = "/reset",produces = "application/json;charset=UTF-8")
+    public Message reset(@RequestBody Map<String,String> args) {
+        String username = args.get("username");
+        String password = args.get("password");
+        Message m = new Message();
+        boolean isSuccess = iAdminService.resetUserPassword(username,password);
+        if(isSuccess){
+            m.setCode(0);
+            m.setMessage("重置密码成功");
+            m.setData("重置密码操作无返回数据");
         } else {
-            m = MessageProxy.fail(OperationTypeEnum.UPDATE);
+            m.setCode(1);
+            m.setMessage("重置密码失败");
+            m.setData("重置密码操作无返回数据");
+        }
+        return m;
+    }
+
+    /**
+     * 【分页条件查询】
+     *
+     * @return
+     */
+    @PostMapping(value = "/findCondPage",produces = "application/json;charset=UTF-8")
+    public Message findCondPage(@RequestBody Map<String,String> args) {
+        String username = args.get("username");
+        String status = args.get("status");
+        Integer page = Integer.parseInt(args.get("page"));
+        Integer size = Integer.parseInt(args.get("size"));
+        Message m = new Message();
+        List<AdminEntity> list = iAdminService.findCondPage(username,status,page,size);
+        if(0 < list.size()){
+            int total = iAdminService.count(username,status);
+            LinkedHashMap<String,Object> result = new LinkedHashMap<>();
+            result.put("rows",list);
+            result.put("total",total);
+            m.setCode(0);
+            m.setMessage("共查找出" + list.size() + "满足条件");
+            m.setData(result);
+        } else {
+            m.setCode(1);
+            m.setMessage("未共查找出满足条件的数据");
+        }
+        return m;
+    }
+
+    /**
+     * 【按照id查询，返回实体】
+     * @param args
+     * @return
+     */
+    @PostMapping(value = "/findById",produces = "application/json;charset=UTF-8")
+    public Message findById(@RequestBody Map<String,String> args) {
+        Integer id = Integer.parseInt(args.get("id"));
+        Message m = new Message();
+        AdminEntity entity;
+        entity = iAdminService.findUserById(id);
+        if(null != entity){
+            m.setCode(0);
+            m.setMessage("查询成功");
+            m.setData(entity);
+        } else {
+            m.setCode(1);
+            m.setMessage("查询失败");
+        }
+        return m;
+    }
+
+    /**
+     * 【查询所有】
+     *
+     * @return
+     */
+    @PostMapping(value = "/findAll",produces = "application/json;charset=UTF-8")
+    public Message findAll() {
+        Message m = new Message();
+        List<AdminEntity> list =  iAdminService.findUserAll();
+        if(0 < list.size()){
+            m.setCode(0);
+            m.setMessage("共查找到" + list.size() +"条数据");
+            m.setData(list);
+        } else {
+            m.setCode(1);
+            m.setMessage("查询失败或数据库中数据条数为0");
         }
         return m;
     }

@@ -12,16 +12,22 @@ import java.util.Map;
  * 2019/11/18,Create by yaodan
  */
 public interface IAdminDao {
+    String findPasswordByName(String username);
+    boolean checkByName(String username);
 
-    int insert(AdminEntity entity);
+    boolean insert(AdminEntity entity);
 
-    int deleteById(int id);
+    AdminEntity findByName(String username);
 
-    List<Map<String, Object>> queryAll();
+    boolean updatePasswordByUsername(String username, String password);
 
-    AdminEntity findById(int id);
+    boolean deleteById(Integer id);
 
-    AdminEntity findByName(String login_name);
+    List<AdminEntity> findConditionPage(String username, String status, Integer page, Integer size);
 
-    int update(AdminEntity entity);
+    int countCondition(String username,String status);
+
+    AdminEntity findById(Integer id);
+
+    List<AdminEntity> findAll();
 }
