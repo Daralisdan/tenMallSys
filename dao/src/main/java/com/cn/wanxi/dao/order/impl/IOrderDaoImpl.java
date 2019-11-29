@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
+
 @Slf4j
 @Repository
 public class IOrderDaoImpl implements IOrderDao {
@@ -26,7 +27,7 @@ public class IOrderDaoImpl implements IOrderDao {
      */
     @Override
     public int insert(OrderEntity orderEntity) {
-        String exeSQL = "INSERT INTO wx_tab_order(total_num,total_money,pre_money,post_fee,pay_money,pay_type,create_time,update_time,num,money,pay_money,pay_time,consign_time,end_time,close_time,shipping_name,shipping_code," +
+        String exeSQL = "INSERT INTO wx_tab_order( total_num,total_money,pre_money,post_fee,pay_money,pay_type,create_time,update_time,pay_time,consign_time,end_time,close_time,shipping_name,shipping_code," +
                 "username,buyer_message,buyer_rate,receiver_contact,receiver_mobile,receiver_address,source_type,transaction_id,order_status,pay_status,consign_status,is_delete) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         Object args[] = {orderEntity.getTotalNum(), orderEntity.getTotalMoney(), orderEntity.getPreMoney(), orderEntity.getPostFee(), orderEntity.getPayMoney(), orderEntity.getPayType(), orderEntity.getCreateTime(), orderEntity.getUpdateTime(),
                 orderEntity.getPayTime(), orderEntity.getConsignTime(), orderEntity.getEndTime(), orderEntity.getCloseTime(), orderEntity.getShippingName(), orderEntity.getShippingCode(),
@@ -54,7 +55,6 @@ public class IOrderDaoImpl implements IOrderDao {
 
     /**
      * 根据page和size分页查询所有订单主表以及详细表
-     *
      *
      * @param orderEntity
      * @param page
@@ -204,13 +204,15 @@ public class IOrderDaoImpl implements IOrderDao {
         if (!StringUtils.isEmpty(orderEntity.getOrderStatus())) {
             sql.append("    AND order_status='" + orderEntity.getOrderStatus() + "'");
         }
-        if (!StringUtils.isEmpty(orderEntity.getCreateTime())&&!StringUtils.isEmpty(orderEntity.getEndTime())) {
-            sql.append("    AND create_time between '" +orderEntity.getCreateTime() + "' and '" +orderEntity.getEndTime() + "'");
+        if (!StringUtils.isEmpty(orderEntity.getCreateTime()) && !StringUtils.isEmpty(orderEntity.getEndTime())) {
+            sql.append("    AND create_time between '" + orderEntity.getCreateTime() + "' and '" + orderEntity.getEndTime() + "'");
         }
-
-
-
-
+        if (!StringUtils.isEmpty(orderEntity.getCreateTime()) ) {
+            sql.append("    AND create_time > '" + orderEntity.getCreateTime() + "'");
+        }
+        if (!StringUtils.isEmpty(orderEntity.getEndTime())) {
+            sql.append("    AND end_time < '" + orderEntity.getEndTime() + "'");
+        }
 
 
 //        if (!StringUtils.isEmpty(brandEntity.getLetter())) {

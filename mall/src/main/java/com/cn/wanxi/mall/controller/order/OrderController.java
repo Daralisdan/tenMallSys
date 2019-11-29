@@ -2,7 +2,9 @@ package com.cn.wanxi.mall.controller.order;
 
 
 import com.cn.wanxi.entity.order.OrderEntity;
+import com.cn.wanxi.entity.order.OrderItemEntity;
 import com.cn.wanxi.entity.order.PageMap;
+import com.cn.wanxi.service.order.IOrderItemService;
 import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.order.IOrderService;
 import com.fasterxml.jackson.databind.util.JSONPObject;
@@ -32,6 +34,8 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 public class OrderController {
     @Autowired
     private IOrderService iOrderService;
+    @Autowired
+    private IOrderItemService iOrderItemService;
 
 
     /**
@@ -41,24 +45,31 @@ public class OrderController {
      * @return
      */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
-    public Msg add(@RequestBody OrderEntity orderEntity) {
+    public Map<String, Object> add(@RequestBody OrderEntity orderEntity) {
         Msg msg = null;
-        if (null != orderEntity.getUsername() && orderEntity.getUsername().trim() != "") {
+        List<OrderItemEntity> sublist = orderEntity.getSublist();
+        if (null != orderEntity.getUsername() && orderEntity.getUsername().trim() != ""
+
+        ) {
             int result = iOrderService.add(orderEntity);
-            if (0 != result) {
-                msg = Msg.success().messageData(orderEntity);
+            int result2 = iOrderItemService.add(sublist);
+            if (result >= 1 && result2 >= 1) {
+                msg = Msg.success();
             }
         } else {
             msg = Msg.fail().messageData("名字不能为空");
         }
-        return msg;
+        Map<String, Object> map = new TreeMap<>();
+        map.put("code", msg.getCode());
+        map.put("message", msg.getMsg());
+        return map;
     }
 
     @PostMapping(value = "/findPage", produces = "application/json;charset=UTF-8")
     public Msg list(@RequestBody Map<String, Object> param, HttpServletResponse response) {
         Msg msg = null;
-        OrderEntity orderEntity =new OrderEntity();
-        if (param.get("page")==null&&param.get("size")==null){
+        OrderEntity orderEntity = new OrderEntity();
+        if (param.get("page") == null && param.get("size") == null) {
             msg = Msg.fail().messageData("请输入正确的page或者size");
         }
         int page = Integer.parseInt(String.valueOf(param.get("page")));
@@ -73,27 +84,36 @@ public class OrderController {
 //            String edDate = String.valueOf(param.get("eddate"));
 //        }
 //        String edDate = String.valueOf(param.get("eddate"));
-        if (param.get("username")!=null){
+        if (param.get("username") != null) {
             String username = param.get("username").toString();
             orderEntity.setUsername(username);
         }
-        if (param.get("orderStatus")!=null){
+        if (param.get("orderStatus") != null) {
             String orderStatus = String.valueOf(param.get("orderStatus"));
             orderEntity.setOrderStatus(orderStatus);
         }
-        if (param.get("bgDate")!=null&&param.get("edDate")!=null){
+        if (param.get("bgDate") != null && param.get("edDate") != null) {
             String bgDate = String.valueOf(param.get("bgDate"));
-             orderEntity.setCreateTime(bgDate);
+            orderEntity.setCreateTime(bgDate);
             String edDate = String.valueOf(param.get("edDate"));
             orderEntity.setEndTime(edDate);
         }
+        if (param.get("bgDate") != null) {
+            String bgDate = String.valueOf(param.get("bgDate"));
+            orderEntity.setCreateTime(bgDate);
 
+        }
+        if (param.get("edDate") != null) {
+            String edDate = String.valueOf(param.get("edDate"));
+            orderEntity.setEndTime(edDate);
+
+        }
 
 
         PageMap pageMap = new PageMap();
 
 
-        Map<String, Object> list = iOrderService.list(page, size,orderEntity);
+        Map<String, Object> list = iOrderService.list(page, size, orderEntity);
         //把查询出来的对象封装在分页实体类中
         pageMap.setMap(list);
         if (null == list && list.isEmpty()) {
