@@ -3,6 +3,7 @@ package com.cn.wanxi.mall.controller.brand;
 
 import com.cn.wanxi.utils.fileUtils.FileUploadUtils;
 import com.cn.wanxi.utils.utils.Msg;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
  *
  * @author 2019/11/22,Create by yaodan
  */
+@Api(tags = "图片上传接口")
 @RestController
 @RequestMapping("/brand")
 public class FileUploadController {

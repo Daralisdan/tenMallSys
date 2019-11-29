@@ -30,9 +30,9 @@ import java.util.Map;
  * @CrossOrigin 解决跨域问题
  */
 @CrossOrigin
-@Api(value = "品牌管理模块的接口")
 @RestController
 @RequestMapping("/brand")
+@Api(tags = "品牌管理模块的接口")
 public class BrandController {
 
     @Autowired
@@ -49,6 +49,7 @@ public class BrandController {
      *
      * @return
      */
+    @ApiOperation(value = "添加品牌信息接口")
     @PostMapping(value = "/add")
     public Msg add(String letter, String name, Integer seq, MultipartFile imageFile) {
         BrandEntity brandEntity = getBrandEntity(letter, name, seq, imageFile);
@@ -78,6 +79,7 @@ public class BrandController {
      *
      * @return
      */
+    @ApiOperation(value = "展示所有品牌信息")
     @PostMapping("/findAll")
     public Msg findAll() {
         Msg msg;
@@ -123,6 +125,7 @@ public class BrandController {
      * @param
      * @return
      */
+    @ApiOperation(value = "根据id查询修改品牌信息")
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public Msg update(Integer id, String letter, String name, Integer seq, MultipartFile imageFile) {
         Msg msg = null;
@@ -147,25 +150,6 @@ public class BrandController {
     }
 
     /**
-     * 封装实体类 实体类接收前台的数据
-     *
-     * @param letter
-     * @param name
-     * @param seq
-     * @param
-     * @return
-     */
-
-    private BrandEntity getBrandEntity(String letter, String name, Integer seq, MultipartFile imageFlle) {
-        BrandEntity brandEntity = new BrandEntity();
-        brandEntity.setName(name);
-        brandEntity.setLetter(letter);
-        brandEntity.setImageFile(imageFlle);
-        brandEntity.setSeq(seq);
-        return brandEntity;
-    }
-
-    /**
      * 【根据id删除】
      * 前端传的json数据可以用 map或者对象接收
      * 该方法用对象接收json对象数据
@@ -174,8 +158,8 @@ public class BrandController {
      * @return
      * @RequestParam(required = true) int id  提示必须输入id
      */
-    @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
     @ApiOperation(value = "根据id删除数据")
+    @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
     public Msg deleteById(@RequestBody BrandEntity brandEntity) {
         Msg msg = null;
         int id = brandEntity.getId();
@@ -192,11 +176,13 @@ public class BrandController {
         return msg;
     }
 
+
     /**
      * 【条件查询】
      *
      * @return
      */
+    @ApiOperation(value = "条件查询")
     @RequestMapping(value = "/findList", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public Msg findList(@RequestBody BrandEntity brandEntity) {
         Msg msg;
@@ -215,6 +201,7 @@ public class BrandController {
      * @param param page 当前页码 size 当前页记录数
      * @return
      */
+    @ApiOperation(value = "分页查询")
     @RequestMapping(value = "/findPage", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public Msg findAllbyPager(@RequestBody Map<String, Integer> param) {
         Msg msg;
@@ -256,6 +243,7 @@ public class BrandController {
      *
      * @return
      */
+    @ApiOperation(value = "根据条件分页查询")
     @RequestMapping(value = "/findPageCon", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public Msg findByConditionPage(@RequestBody ByPage byPage) {
         Msg msg;
@@ -290,6 +278,25 @@ public class BrandController {
             msg = getPages(size, pageList, TotalRows);
         }
         return msg;
+    }
+
+    /**
+     * 封装实体类 实体类接收前台的数据
+     *
+     * @param letter
+     * @param name
+     * @param seq
+     * @param
+     * @return
+     */
+
+    private BrandEntity getBrandEntity(String letter, String name, Integer seq, MultipartFile imageFlle) {
+        BrandEntity brandEntity = new BrandEntity();
+        brandEntity.setName(name);
+        brandEntity.setLetter(letter);
+        brandEntity.setImageFile(imageFlle);
+        brandEntity.setSeq(seq);
+        return brandEntity;
     }
 
     /**

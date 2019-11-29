@@ -7,6 +7,7 @@ import com.cn.wanxi.service.admin.IAdminService;
 import com.cn.wanxi.utils.message.Message;
 import com.cn.wanxi.utils.message.MessageProxy;
 import com.cn.wanxi.utils.message.enums.OperationTypeEnum;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +25,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/admin")
+@Api(tags = "登陆认证的接口")
 public class AdminController {
 
     @Autowired
