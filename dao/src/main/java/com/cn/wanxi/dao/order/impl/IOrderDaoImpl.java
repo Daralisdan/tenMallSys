@@ -3,14 +3,16 @@ package com.cn.wanxi.dao.order.impl;
 import com.cn.wanxi.dao.order.IOrderDao;
 import com.cn.wanxi.entity.order.OrderEntity;
 import com.cn.wanxi.utils.utils.UtilsHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCountCallbackHandler;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
-
+@Slf4j
 @Repository
 public class IOrderDaoImpl implements IOrderDao {
     @Autowired
@@ -53,20 +55,25 @@ public class IOrderDaoImpl implements IOrderDao {
     /**
      * 根据page和size分页查询所有订单主表以及详细表
      *
+     *
+     * @param orderEntity
      * @param page
-     * @param size
+     * @param orderEntity
      * @return
      */
     @Override
-    public Map<String, Object> list(int page, int size) {
-        String exeSQL = "select id, total_num as totalNum , total_money as totalMoney ,  pre_money as preMoney,  post_fee as postFee, pay_money as payMoney, pay_type as payType," +
-                "                 create_time as createTime,  update_time as updateTime, pay_time as payTime,  consign_time as consignTime, end_time  as endTime  , close_time as closeTime , shipping_name as  shippingName," +
-                "                  shipping_code as shippingCode ,username, buyer_message as  buyerMessage,  buyer_rate as buyerRate , receiver_contact as  receiverContact," +
-                "                   receiver_mobile as receiverMobile  ,  receiver_address as receiverAddress ,  source_type as sourceType ,  transaction_id as transactionId ," +
-                "                  order_status as orderStatus ,  pay_status as  payStatus, consign_status as consignStatus , is_delete as isDelete  from wx_tab_order " +
-
-
-                "limit " + (page - 1) * size + " , " + size;
+    public Map<String, Object> list(int page, int size, OrderEntity orderEntity) {
+        StringBuffer sql = getQuerySql(orderEntity);
+        sql.append("    ORDER BY id ASC LIMIT  " + (page - 1) * size + " , " + size);
+        String exeSQL = sql.toString();
+//        String exeSQL = "select id, total_num as totalNum , total_money as totalMoney ,  pre_money as preMoney,  post_fee as postFee, pay_money as payMoney, pay_type as payType," +
+//                "                 create_time as createTime,  update_time as updateTime, pay_time as payTime,  consign_time as consignTime, end_time  as endTime  , close_time as closeTime , shipping_name as  shippingName," +
+//                "                  shipping_code as shippingCode ,username, buyer_message as  buyerMessage,  buyer_rate as buyerRate , receiver_contact as  receiverContact," +
+//                "                   receiver_mobile as receiverMobile  ,  receiver_address as receiverAddress ,  source_type as sourceType ,  transaction_id as transactionId ," +
+//                "                  order_status as orderStatus ,  pay_status as  payStatus, consign_status as consignStatus , is_delete as isDelete  from wx_tab_order " +
+//
+//
+//                "limit " + (page - 1) * size + " , " + size;
         List<Map<String, Object>> listzhu = jdbcTemplate.queryForList(exeSQL);
         List<Map<String, Object>> listss = new ArrayList();
         Map<String, Object> map = new LinkedHashMap<>();
@@ -176,6 +183,43 @@ public class IOrderDaoImpl implements IOrderDao {
         int count = countCallback.getRowCount();
         System.out.println("目前的总条数是" + count);
         return count;
+    }
+
+    /**
+     * 【提取公共方法】条件查询
+     *
+     * @param orderEntity
+     * @return
+     */
+    private StringBuffer getQuerySql(OrderEntity orderEntity) {
+        StringBuffer sql = new StringBuffer();
+        sql.append("select id, total_num as totalNum , total_money as totalMoney ,  pre_money as preMoney,  post_fee as postFee, pay_money as payMoney, pay_type as payType," +
+                " create_time as createTime,  update_time as updateTime, pay_time as payTime,  consign_time as consignTime, end_time  as endTime  , close_time as closeTime , shipping_name as  shippingName," +
+                " shipping_code as shippingCode ,username, buyer_message as  buyerMessage,  buyer_rate as buyerRate , receiver_contact as  receiverContact," +
+                "                                  receiver_mobile as receiverMobile  ,  receiver_address as receiverAddress ,  source_type as sourceType ,  transaction_id as transactionId ," +
+                "                                 order_status as orderStatus ,  pay_status as  payStatus, consign_status as consignStatus , is_delete as isDelete  from wx_tab_order WHERE 1=1");
+        if (!StringUtils.isEmpty(orderEntity.getUsername())) {
+            sql.append("    AND username='" + orderEntity.getUsername() + "'");
+        }
+        if (!StringUtils.isEmpty(orderEntity.getOrderStatus())) {
+            sql.append("    AND order_status='" + orderEntity.getOrderStatus() + "'");
+        }
+        if (!StringUtils.isEmpty(orderEntity.getCreateTime())&&!StringUtils.isEmpty(orderEntity.getEndTime())) {
+            sql.append("    AND create_time between '" +orderEntity.getCreateTime() + "' and '" +orderEntity.getEndTime() + "'");
+        }
+
+
+
+
+
+
+//        if (!StringUtils.isEmpty(brandEntity.getLetter())) {
+//            sql.append("    AND letter='" + brandEntity.getLetter() + "'");
+//        }
+//        if (!StringUtils.isEmpty(brandEntity.getSeq()) && brandEntity.getSeq() != 0) {
+//            sql.append("    AND seq=" + brandEntity.getSeq());
+//        }
+        return sql;
     }
 }
 

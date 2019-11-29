@@ -32,15 +32,6 @@ public class OrderServiceImpl implements IOrderService {
         return result;
     }
 
-    /**
-     * 【查询所有订单信息】
-     *
-     * @return
-     */
-    @Override
-    public Map<String, Object> list(int page, int size) {
-        return iOrderDao.list(page, size);
-    }
 
     @Override
     public Map<String, Object> batchlist(String ids) {
@@ -73,6 +64,12 @@ public class OrderServiceImpl implements IOrderService {
     public int batchSendSubmit(int id,Object  orderId,Object  shippingName,Object shippingCode) {
         return iOrderDao.batchSendSubmit(id,orderId, shippingName, shippingCode);
     }
+
+    @Override
+    public Map<String, Object> list(int page, int size, OrderEntity orderEntity) {
+        return iOrderDao.list(page, size,orderEntity);
+    }
+
     /**
      * 统计所有数据
      *
