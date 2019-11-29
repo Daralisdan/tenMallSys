@@ -40,7 +40,7 @@ public class ParaServiceImpl implements IParaService {
     }
 
     @Override
-    public Map<String, Object> find(ParaEntity paraEntity, Integer page, Integer size) {
-        return paraDao.find(paraEntity,page,size);
+    public Map<String, Object> find(ParaEntity paraEntity) {
+        return paraDao.find(paraEntity);
     }
 }

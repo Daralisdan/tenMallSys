@@ -23,10 +23,20 @@ public interface ISpuService {
 
     int tijiaoshenhe(WxTabSpu wxTabSpu);
 
-    int shenhechenggong(WxTabSpu wxTabSpu);
+    int shenhechenggong(int id);
 
     List<Map<String, Object>> fenye(WxTabSpu wxTabSpu, int page, int size);
 
     int zong();
+
+    Map<String, Object> list(int page, int size);
+
+    int xiajia( WxTabSpu wxTabSpu);
+
+    int shangjia(int id);
+
+    int piliangshangjia(String id);
+
+    int piliangxiajia(String id);
 
 }

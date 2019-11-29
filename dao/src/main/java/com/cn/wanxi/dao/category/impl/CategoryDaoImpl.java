@@ -2,8 +2,9 @@ package com.cn.wanxi.dao.category.impl;
 
 import com.cn.wanxi.dao.category.ICategoryDao;
 import com.cn.wanxi.entity.category.CategoryEntity;
+import com.cn.wanxi.utils.jdbcTemplateSentence.SQLSentence;
+import com.cn.wanxi.utils.jdbcTemplateSentence.eunms.SQLTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -23,50 +24,103 @@ public class CategoryDaoImpl implements ICategoryDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+
+    private SQLSentence sqlSentence = SQLSentence.getInstance();
+
+    /**
+     * 添加实体
+     * @param entity
+     * @return
+     */
     @Override
     public int insert(CategoryEntity entity) {
-        String exeSQL = "INSERT INTO wx_tab_category(name,goods_num,is_show,is_menu,seq,parent_id,template_id) VALUES(?,?,?,?,?,?,?)";
-        Object args[] = {entity.getName(), entity.getGoods_num(), entity.getIs_show(), entity.getIs_menu(), entity.getSeq(), entity.getParent_id(), entity.getTemplate_id()};
-        int counter = jdbcTemplate.update(exeSQL, args);
+        int counter = 0;
+        Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.INSERT);
+        if(null != entry){
+            counter = jdbcTemplate.update(entry.getKey(), entry.getValue());
+        }
+        return counter;
+    }
+
+    /**
+     * 删除实体
+     * @param entity
+     * @return
+     */
+    @Override
+    public int delete(CategoryEntity entity) {
+        int counter = 0;
+        Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.DELETE);
+        if(null != entry){
+            counter = jdbcTemplate.update(entry.getKey(), entry.getValue());
+        }
+        return counter;
+    }
+
+    /**
+     * 更新实体
+     * @param entity
+     * @return
+     */
+    @Override
+    public int update(CategoryEntity entity) {
+        int counter = 0;
+        Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.UPDATE);
+        if(null != entry){
+            counter = jdbcTemplate.update(entry.getKey(), entry.getValue());
+        }
         return counter;
     }
 
     @Override
-    public List<Map<String, Object>> queryAll() {
-        String exeSQL = "select * from wx_tab_category";
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
+    public List<Map<String, Object>> findOne(CategoryEntity entity) {
+        Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.SELECT);
+        String sql = entry.getKey() + " limit 0,1";
+        Object[] args = entry.getValue();
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql,args);
         return list;
     }
 
     @Override
-    public CategoryEntity findById(int id) {
-        CategoryEntity categoryEntity = null;
-        String exeSQL = "select * from wx_tab_category where id=?";
-        List<CategoryEntity> categoryEntities = jdbcTemplate.query(exeSQL, new Object[]{id}, new BeanPropertyRowMapper<CategoryEntity>(CategoryEntity.class));
-        if (null != categoryEntities && categoryEntities.size() > 0) {
-            categoryEntity = categoryEntities.get(0);
+    public int count(CategoryEntity entity,int page,int size){
+        int result;
+        Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.COUNT);
+        String sql = entry.getKey();
+        Object[] args = entry.getValue();
+        /**
+         * 这里如果有参数则返回条件查询的结果
+         * 没有任何有效参数则表示查询所有
+         */
+        if(0 == args.length){
+            result = jdbcTemplate.queryForObject(sql,Integer.class);
+        } else {
+            result = jdbcTemplate.queryForObject(sql,args,Integer.class);
         }
-        return categoryEntity;
+
+        return result;
     }
 
     @Override
-    public List<Map<String, Object>> findByParentId(int parent_id) {
-        String exeSQL = "select * from wx_tab_category where parent_id = ?";
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, parent_id);
+    public List<Map<String, Object>> findLimit(CategoryEntity entity, int page, int size) {
+        Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.SELECT);
+        String sql = entry.getKey() + " limit " + (page - 1)*size + "," + size;
+        Object[] args = entry.getValue();
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql,args);
         return list;
     }
 
     @Override
-    public int update(CategoryEntity entity) {
-        String exeSQL = "update wx_tab_category set name=?,goods_num=?,is_show=?,is_menu=?,seq=?,parent_id=?,template_id=?  WHERE id=?";
-        Object args[] = {entity.getName(), entity.getGoods_num(), entity.getIs_show(), entity.getIs_menu(), entity.getSeq(), entity.getParent_id(), entity.getTemplate_id(), entity.getId()};
-        int temp = jdbcTemplate.update(exeSQL, args);
-        return temp;
+    public List<Map<String, Object>> findAll(CategoryEntity entity) {
+        Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.SELECT);
+        String sql = entry.getKey();
+        Object[] args = entry.getValue();
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql,args);
+        return list;
     }
 
-    @Override
-    public int deleteById(int id) {
-        String exeSQL = "DELETE FROM wx_tab_category WHERE id=?";
-        return jdbcTemplate.update(exeSQL, id);
-    }
+
+
+
+
+
 }

@@ -14,10 +14,10 @@ public class ISkuServiceImpl implements ISkuService {
     @Autowired
     private ISkuDao iSkuDao;
 
-    @Override
-    public int insert(WxTabSku wxTabSku) {
 
-        return iSkuDao.insert(wxTabSku);
+    @Override
+    public int insert(List<WxTabSku> wxTabSku) {
+        return  iSkuDao.insert(wxTabSku);
     }
 
     @Override
@@ -29,6 +29,11 @@ public class ISkuServiceImpl implements ISkuService {
     @Override
     public WxTabSku findById(int id) {
         return iSkuDao.findById(id);
+    }
+
+    @Override
+    public List<WxTabSku> findByIds(int id) {
+        return iSkuDao.findByIds(id);
     }
 
     @Override
@@ -46,6 +51,11 @@ public class ISkuServiceImpl implements ISkuService {
             }
         }
         return result;
+    }
+
+    @Override
+    public int update(List<WxTabSku> wxTabSku) {
+        return iSkuDao.update(wxTabSku);
     }
 
     @Override

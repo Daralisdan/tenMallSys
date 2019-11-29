@@ -26,7 +26,7 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-        <!-- jdbcTemplate 依赖 -->
+        <!-- jdbcTemplateSentence 依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>

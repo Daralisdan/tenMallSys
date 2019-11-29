@@ -1,11 +1,16 @@
 package com.cn.wanxi.mall.controller.admin;
 
+import com.cn.wanxi.dao.universal.IUniversalDao;
+import com.cn.wanxi.dao.universal.impl.UniversalDaoImpl;
 import com.cn.wanxi.entity.admin.AdminEntity;
-import com.cn.wanxi.utils.utils.Msg;
-import com.cn.wanxi.utils.utils.MsgX;
 import com.cn.wanxi.service.admin.IAdminService;
+import com.cn.wanxi.utils.message.Message;
+import com.cn.wanxi.utils.message.MessageProxy;
+import com.cn.wanxi.utils.message.enums.OperationTypeEnum;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,28 +21,28 @@ import java.util.Map;
  * 【登陆认证】
  * 数据表： 系统数据库wx_tab_admin 表（管理员表）
  *
- * 2019/11/18,Create by yaodan
+ * 2019/11/26,Create by LessonWong
  */
 @RestController
 @RequestMapping("/admin")
+@Api(tags = "登陆认证的接口")
 public class AdminController {
 
     @Autowired
-    private IAdminService iAdminService;
+    private IUniversalDao daoTemp;
 
     /**
      * 【管理员登录】
      *
      * @return
      */
-    @PostMapping("/login")
-    public MsgX login(AdminEntity adminEntity) {
-        MsgX m;
-        boolean flag = iAdminService.login(adminEntity);
-        if (flag) {
-            m = MsgX.success(0,"登录");
+    @PostMapping(value = "/login",produces = "application/json;charset=UTF-8")
+    public Message login(@RequestBody AdminEntity adminEntity) {
+        Message m;
+        if(0 != daoTemp.findOne(adminEntity).size()){
+            m = MessageProxy.success(OperationTypeEnum.LOGIN);
         } else {
-            m = MsgX.fail(1,"登录");
+            m = MessageProxy.fail(OperationTypeEnum.LOGIN);
         }
         return m;
     }
@@ -47,14 +52,16 @@ public class AdminController {
      *
      * @return
      */
-    @PostMapping("/logout")
-    public MsgX logout(String username){
-        MsgX m;
-        boolean flag = iAdminService.logout(username);
-        if (flag) {
-            m = MsgX.success(0,"退出");
+    @PostMapping(value = "/logout",produces = "application/json;charset=UTF-8")
+    public Message logout(String username){
+        Message m;
+        AdminEntity entityTemp = new AdminEntity();
+        entityTemp.setLoginName(username);
+
+        if (0 != daoTemp.findOne(entityTemp).size()) {
+            m = MessageProxy.success(OperationTypeEnum.LOGOUT);
         } else {
-            m = MsgX.fail(1,"退出");
+            m = MessageProxy.fail(OperationTypeEnum.LOGOUT);
         }
         return m;
     }
@@ -64,14 +71,14 @@ public class AdminController {
      *
      * @return
      */
-    @PostMapping("/add")
-    public MsgX add(AdminEntity entity){
-        MsgX m;
-        boolean flag = iAdminService.add(entity);
+    @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
+    public Message add(@RequestBody AdminEntity entity){
+        Message m;
+        boolean flag = 0 != daoTemp.insert(entity);
         if (flag) {
-            m = MsgX.success(0,"添加");
+            m = MessageProxy.success(OperationTypeEnum.ADD);
         } else {
-            m = MsgX.fail(1,"添加");
+            m = MessageProxy.fail(OperationTypeEnum.ADD);
         }
         return m;
     }
@@ -81,10 +88,18 @@ public class AdminController {
      *
      * @return
      */
-    @PostMapping("/findById")
-    public AdminEntity findById(int id){
-        AdminEntity entity = iAdminService.findById(id);
-        return entity;
+    @PostMapping(value = "/findById",produces = "application/json;charset=UTF-8")
+    public Message findById(int id){
+        Message m;
+        AdminEntity entity = new AdminEntity();
+        entity.setId(id);
+        List<Map<String, Object>> one = daoTemp.findOne(entity);
+        if(null != one && 0 != one.size()){
+            m = MessageProxy.success(OperationTypeEnum.FIND,one);
+        } else {
+            m = MessageProxy.fail(OperationTypeEnum.FIND);
+        }
+        return m;
     }
 
     /**
@@ -92,14 +107,14 @@ public class AdminController {
      *
      * @return
      */
-    @PostMapping("/findAll")
-    public Msg findByAll(){
-        Msg m;
-        List<Map<String,Object>> list =  iAdminService.findAll();
+    @PostMapping(value = "/findAll",produces = "application/json;charset=UTF-8")
+    public Message findByAll(){
+        Message m;
+        List<Map<String,Object>> list =  daoTemp.findAll(new AdminEntity());
         if (null != list && !list.isEmpty()) {
-            m = Msg.success().messageData(list);
+            m = MessageProxy.success(OperationTypeEnum.FIND,list);
         } else {
-            m = Msg.fail();
+            m = MessageProxy.fail(OperationTypeEnum.FIND);
         }
         return m;
     }
@@ -109,17 +124,29 @@ public class AdminController {
      *
      * @return
      */
-    @PostMapping("/deleteById")
-    public MsgX deleteById(int id){
-        MsgX m;
-        boolean flag = iAdminService.deleteById(id);
-        if (flag) {
-            m = MsgX.success(0,"删除");
+    @PostMapping(value = "/deleteById",produces = "application/json;charset=UTF-8")
+    public Message deleteById(int id){
+        Message m;
+        AdminEntity entity = new AdminEntity();
+        entity.setId(id);
+
+        if (0 != daoTemp.delete(entity)) {
+            m = MessageProxy.success(OperationTypeEnum.DELETE);
         } else {
-            m = MsgX.fail(1,"删除");
+            m = MessageProxy.fail(OperationTypeEnum.DELETE);
         }
         return m;
     }
 
-
+    @PostMapping(value = "/update",produces = "application/json;charset=UTF-8")
+    public Message update(@RequestBody AdminEntity entity){
+        Message m;
+        boolean flag = 0 != daoTemp.update(entity);
+        if (flag) {
+            m = MessageProxy.success(OperationTypeEnum.UPDATE);
+        } else {
+            m = MessageProxy.fail(OperationTypeEnum.UPDATE);
+        }
+        return m;
+    }
 }

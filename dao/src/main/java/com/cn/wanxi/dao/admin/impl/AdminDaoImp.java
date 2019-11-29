@@ -2,6 +2,8 @@ package com.cn.wanxi.dao.admin.impl;
 
 import com.cn.wanxi.dao.admin.IAdminDao;
 import com.cn.wanxi.entity.admin.AdminEntity;
+import com.cn.wanxi.utils.jdbcTemplateSentence.SQLSentence;
+import com.cn.wanxi.utils.jdbcTemplateSentence.eunms.SQLTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,12 +24,13 @@ public class AdminDaoImp implements IAdminDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    private SQLSentence sqlSentence = SQLSentence.getInstance();
+
     @Override
     public int insert(AdminEntity entity) {
-        String exeSQL = "INSERT INTO wx_tab_admin(login_name,password,status) VALUES(?,?,?)";
-        Object args[] = {entity.getLogin_name(),entity.getPassword(),entity.getStatus()};
-        int temp = jdbcTemplate.update(exeSQL, args);
-        return temp;
+        Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.INSERT);
+        int counter = jdbcTemplate.update(entry.getKey(), entry.getValue());
+        return counter;
     }
 
     @Override
@@ -68,7 +71,7 @@ public class AdminDaoImp implements IAdminDao {
     @Override
     public int update(AdminEntity entity) {
         String exeSQL = "update wx_tab_admin set login_name=?,password=?,status=?  WHERE id=?";
-        Object args[] = {entity.getLogin_name(),entity.getPassword(),entity.getStatus(),entity.getId()};
+        Object args[] = {entity.getLoginName(),entity.getPassword(),entity.getStatus(),entity.getId()};
         int temp = jdbcTemplate.update(exeSQL, args);
         return temp;
     }

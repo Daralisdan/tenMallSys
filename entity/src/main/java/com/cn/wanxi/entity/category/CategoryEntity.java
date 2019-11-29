@@ -1,5 +1,7 @@
 package com.cn.wanxi.entity.category;
 
+import com.cn.wanxi.entity.Universal;
+
 /**
  * 【商品分类管理】：商品分类，主要用户对商品进行类别管理。一个分类对应一种模板类型的参数
  *
@@ -7,35 +9,35 @@ package com.cn.wanxi.entity.category;
  *
  * 2019/11/18,Create by yaodan
  */
-public class CategoryEntity {
-    private int id;
+public class CategoryEntity implements Universal {
+    private Integer id;
     private String name;
-    private int goods_num;
-    private int is_show;
-    private int is_menu;
-    private int seq;
-    private int parent_id;
-    private int template_id;
+    private Integer goodsNum;
+    private Integer isShow;
+    private Integer isMenu;
+    private Integer seq;
+    private Integer parentId;
+    private Integer templateId;
 
     public CategoryEntity() {
     }
 
-    public CategoryEntity(int id, String name, int goods_num, int is_show, int is_menu, int seq, int parent_id, int template_id) {
+    public CategoryEntity(Integer id, String name, Integer goodsNum, Integer isShow, Integer isMenu, Integer seq, Integer parentId, Integer templateId) {
         this.id = id;
         this.name = name;
-        this.goods_num = goods_num;
-        this.is_show = is_show;
-        this.is_menu = is_menu;
+        this.goodsNum = goodsNum;
+        this.isShow = isShow;
+        this.isMenu = isMenu;
         this.seq = seq;
-        this.parent_id = parent_id;
-        this.template_id = template_id;
+        this.parentId = parentId;
+        this.templateId = templateId;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -47,52 +49,52 @@ public class CategoryEntity {
         this.name = name;
     }
 
-    public int getGoods_num() {
-        return goods_num;
+    public Integer getGoodsNum() {
+        return goodsNum;
     }
 
-    public void setGoods_num(int goods_num) {
-        this.goods_num = goods_num;
+    public void setGoodsNum(Integer goodsNum) {
+        this.goodsNum = goodsNum;
     }
 
-    public int getIs_show() {
-        return is_show;
+    public Integer getIsShow() {
+        return isShow;
     }
 
-    public void setIs_show(int is_show) {
-        this.is_show = is_show;
+    public void setIsShow(Integer isShow) {
+        this.isShow = isShow;
     }
 
-    public int getIs_menu() {
-        return is_menu;
+    public Integer getIsMenu() {
+        return isMenu;
     }
 
-    public void setIs_menu(int is_menu) {
-        this.is_menu = is_menu;
+    public void setIsMenu(Integer isMenu) {
+        this.isMenu = isMenu;
     }
 
-    public int getSeq() {
+    public Integer getSeq() {
         return seq;
     }
 
-    public void setSeq(int seq) {
+    public void setSeq(Integer seq) {
         this.seq = seq;
     }
 
-    public int getParent_id() {
-        return parent_id;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setParent_id(int parent_id) {
-        this.parent_id = parent_id;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
-    public int getTemplate_id() {
-        return template_id;
+    public Integer getTemplateId() {
+        return templateId;
     }
 
-    public void setTemplate_id(int template_id) {
-        this.template_id = template_id;
+    public void setTemplateId(Integer templateId) {
+        this.templateId = templateId;
     }
 
     @Override
@@ -100,12 +102,12 @@ public class CategoryEntity {
         return "CategoryEntity{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", goods_num=" + goods_num +
-                ", is_show='" + is_show + '\'' +
-                ", is_menu='" + is_menu + '\'' +
+                ", goodsNum=" + goodsNum +
+                ", isShow=" + isShow +
+                ", isMenu=" + isMenu +
                 ", seq=" + seq +
-                ", parent_id=" + parent_id +
-                ", template_id=" + template_id +
+                ", parentId=" + parentId +
+                ", templateId=" + templateId +
                 '}';
     }
 }

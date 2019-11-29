@@ -22,11 +22,11 @@ public interface ISpuDao{
 
     List<Map<String, Object>> queryAll();
 
-    List<Map<String, Object>> findPage(WxTabSpu wxTabSpu, int page, int size);
+    List<Map<String, Object>> findPage(WxTabSpu wxTabSpu , int page , int size);
 
     WxTabSpu findById(int id);
 
-    List<Map<String, Object>> daishenheliebiao(WxTabSpu wxTabSpu, int page, int size);
+    List<Map<String, Object>> daishenheliebiao(WxTabSpu wxTabSpu, int page,int size );
 
     WxTabSpu findByName(String name);
 
@@ -34,13 +34,25 @@ public interface ISpuDao{
 
     int deleteById(int id);
 
-    int tijiaoshenhe(WxTabSpu wxTabSpu);
+    int tijiaoshenhe (WxTabSpu wxTabSpu);
 
-    int shenhechenggong(WxTabSpu wxTabSpu);
+    int shenhechenggong(int id);
 
-    List<Map<String, Object>> fenye(WxTabSpu wxTabSpu, int page, int size);
+    int xiajia( WxTabSpu wxTabSpu);
+
+    int shangjia(int id);
+
+    int piliangshangjia(String id);
+
+    int piliangxiajia(String id);
+
+    List<Map<String, Object>> fenye(WxTabSpu wxTabSpu,int page, int size);
 
     int zong();
+
+    Map<String, Object> list(int page, int size);
+
+
 
 }
 

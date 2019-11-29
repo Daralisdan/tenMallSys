@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/product")
@@ -71,11 +69,13 @@ public class SpuAndSkuController {
     }
 
     @RequestMapping(value ="/add",method = RequestMethod.POST ,produces="text/plain;charset=UTF-8")
-    public String insertskuspu(@RequestBody WxTabSpu wxTabSpu, WxTabSku wxTabSku){
-
+    public String insertskuspu(@RequestBody WxTabSpu wxTabSpu){
+        if(wxTabSpu==null){
+            return cuo;
+        }
         int i = iSpuService.insert(wxTabSpu);
-        System.out.println(i);
-        int b = iSkuService.insert(wxTabSku);
+        List<WxTabSku> skuList = wxTabSpu.getSkuList();
+        int b = iSkuService.insert(skuList);
         if(i>=1&&b>=1) {
             int code = 0;
             String message = "新增成功";
@@ -98,11 +98,14 @@ public class SpuAndSkuController {
 //    }
     /**
      * 根据id删除spu和sku表
-     * @param id
+     * @param wxTabSpu
      * @return
      */
     @RequestMapping(value ="/delete",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
     public String delete(@RequestBody  WxTabSpu wxTabSpu ){
+        if(wxTabSpu==null){
+            return cuo;
+        }
         Integer id = wxTabSpu.getId();
         i = iSpuService.deleteById(id);
         b = iSkuService.deleteById(id);
@@ -144,13 +147,16 @@ public class SpuAndSkuController {
     /**
      * 根据更新sku表和spu表
      * @param wxTabSpu
-     * @param wxTabSku
      * @return
      */
     @RequestMapping(value ="/update",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    public String update(@RequestBody WxTabSpu wxTabSpu, WxTabSku wxTabSku ){
-        i = iSpuService.update(wxTabSpu);
-        b = iSkuService.update(wxTabSku);
+    public String update(@RequestBody WxTabSpu wxTabSpu){
+        if(wxTabSpu==null){
+            return cuo;
+        }
+        int i = iSpuService.update(wxTabSpu);
+        List<WxTabSku> skuList = wxTabSpu.getSkuList();
+        int b = iSkuService.update(skuList);
         if(i>=1&&b>=1) {
             int code = 0;
             String message = "更新成功";
@@ -173,24 +179,19 @@ public class SpuAndSkuController {
      * @return
      */
     @RequestMapping(value ="/findById",method = RequestMethod.POST)
-    public WxTabSpu findid(@RequestBody WxTabSpu wxTabSpuu){
+    public LinkedHashMap findid(@RequestBody WxTabSpu wxTabSpuu){
         int id = wxTabSpuu.getId();
         WxTabSpu wxTabSpu = iSpuService.findById(id);
-        WxTabSku wxTabSku = iSkuService.findById(id);
-        wxTabSpu.setSkuList(wxTabSku);
-//        if(wxTabSpu==null){
-//            JSONObject result = new JSONObject();
-//            result.put("code",cuo);
-//            return result;
-//        }
-//        JSONObject resultt = new JSONObject();
-//        resultt.put("spu",wxTabSpu);
-        return wxTabSpu;
+        List<WxTabSku> wxTabSkuList = iSkuService.findByIds(id);
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        linkedHashMap.put("spu",wxTabSpu);
+        linkedHashMap.put("skuList",wxTabSkuList);
+        return linkedHashMap;
     }
 
 
-    @RequestMapping(value ="/findSearch",method = RequestMethod.POST)
-    public LinkedHashMap findSearch( @RequestBody Map<String, Integer> param ){
+    @RequestMapping(value ="/spuList",method = RequestMethod.POST)
+    public LinkedHashMap spuList( @RequestBody Map<String, Integer> param ){
         Integer page = param.get("page");
         Integer size = param.get("size");
         WxTabSpu wxTabSpu = new WxTabSpu();
@@ -203,11 +204,23 @@ public class SpuAndSkuController {
     }
 
     @RequestMapping(value ="/findSpuPage",method = RequestMethod.POST)
-    public LinkedHashMap spufenye(@RequestBody Map<String, Integer> param){
-        Integer page = param.get("page");
-        Integer size = param.get("size");
+    public LinkedHashMap spufenye(@RequestBody Map<String, Object> param){
+        Object page = param.get("page");
+        Object size = param.get("size");
+        Object name = param.get("name");
+        if(size==null&&page==null){
+            LinkedHashMap linkedHashMap = new LinkedHashMap();
+            linkedHashMap.put("code","页码为空");
+            return linkedHashMap;
+        }
+        int i = Integer.parseInt(page.toString());
+        int b = Integer.parseInt(size.toString());
         WxTabSpu wxTabSpu = new WxTabSpu();
-        List<Map<String, Object>> list = iSpuService.fenye(wxTabSpu, page, size);
+
+        if(name!=null){
+            wxTabSpu.setName(name.toString());
+        }
+        List<Map<String, Object>> list = iSpuService.fenye(wxTabSpu, i,b);
         int count = iSpuService.zong();
         LinkedHashMap linkedHashMap = new LinkedHashMap();
         linkedHashMap.put("row",list);
@@ -219,10 +232,18 @@ public class SpuAndSkuController {
      * @return
      */
     @RequestMapping(value ="/findAuditALL",method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
-    public LinkedHashMap daishenghebiao(@RequestBody  Map<String, Integer> param){
-        Integer page = param.get("page");
-        Integer size = param.get("size");
-        Integer status = param.get("status");
+    public LinkedHashMap daishenghebiao(@RequestBody  Map<String, Object> param){
+
+        Object page = param.get("page");
+        Object size = param.get("size");
+        if(page==null&&size==null){
+            LinkedHashMap linkedHashMap = new LinkedHashMap();
+            linkedHashMap.put("code","page和size不能为空");
+            return linkedHashMap;
+        }
+        int i = Integer.parseInt(page.toString());
+        int b = Integer.parseInt(size.toString());
+        Object status = param.get("status");
         WxTabSpu wxTabSpu = new WxTabSpu();
         if (status != null) {
             wxTabSpu.setStatus(status.toString());
@@ -231,7 +252,7 @@ public class SpuAndSkuController {
             linkedHashMap.put("status","状态不存在");
             return linkedHashMap;
         }
-        List<Map<String, Object>> list = iSpuService.daishenheliebiao(wxTabSpu, page, size);
+        List<Map<String, Object>> list = iSpuService.daishenheliebiao(wxTabSpu, i, b);
         int count = iSpuService.zong();
         LinkedHashMap linkedHashMap = new LinkedHashMap();
         linkedHashMap.put("row",list);
@@ -243,22 +264,17 @@ public class SpuAndSkuController {
      * @param
      * @return
      */
-    @RequestMapping(value ="/ShelvesReq",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    public String ShelvesReq(@RequestBody WxTabSku wxTabSkuu){
-        int id = wxTabSkuu.getId();
-        if(" ".equals(id)){
+    @RequestMapping(value ="/shelvesReq",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
+    public String ShelvesReq(@RequestBody Map<String, Integer> param){
+        Integer id = param.get("id");
+        if(id==null){
             return cuo;
         }
-        WxTabSku wxTabSku = iSkuService.findByIdzj(id);
-        Integer spu_id = wxTabSku.getSpuId();
-        WxTabSpu wxTabSpu = iSpuService.findById(spu_id);
-        String status = wxTabSpu.getStatus();
-        if ("1".equals(status)) {
-            iSkuService.shangjia(id);
+        i = iSpuService.shangjia(id);
+        if (i >0) {
             int code = 0;
             String message = "上架成功";
             JSONObject result = new JSONObject();
-
             result.put("code",code);
             result.put("message",message);
             return  result.toJSONString();
@@ -274,32 +290,20 @@ public class SpuAndSkuController {
     }
     /**
      * 根据许多商品的id 然后查到spu表然后判断其状态是否为已审核，然后更改商品的状态
-     * @param id
+     * @param page
      * @return
      */
     @RequestMapping(value ="/batchShelvesReq",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    public String batchShelvesReq(@RequestBody String id){
-
-        if(id==null&&id.trim()==""){
+    public String batchShelvesReq(@RequestBody Map<String,String> page){
+        String id = page.get("id");
+        if(id==null){
             return cuo;
         }
-        String[] ids = id.split(",");
-        String status = null;
-        WxTabSku wxTabSku =null;
-        for (String bb:ids){
-            if(bb==null&&bb.trim()=="") {
-               return cuo;
-            }
-            i = Integer.parseInt(bb);
-            wxTabSku = iSkuService.findByIdzj(i);
-            Integer spu_id = wxTabSku.getSpuId();
-            WxTabSpu wxTabSpu = iSpuService.findById(spu_id);
-            status = wxTabSpu.getStatus();
-        }
-        if ("1".equals(status)) {
+        i = iSpuService.piliangshangjia(id);
+        if (i>0) {
             iSkuService.shangjia(i);
             int code = 0;
-            String message = "上架成功";
+            String message = "批量上架成功";
             JSONObject result = new JSONObject();
             result.put("code",code);
             result.put("message",message);
@@ -307,7 +311,7 @@ public class SpuAndSkuController {
         }
         else {
             int code = 1;
-            String message = "上架失败";
+            String message = "批量上架失败";
             JSONObject result = new JSONObject();
             result.put("code",code);
             result.put("message",message);
@@ -325,7 +329,6 @@ public class SpuAndSkuController {
     public String submitReq(@RequestBody WxTabSpu wxTabSpu){
         int i = iSpuService.tijiaoshenhe(wxTabSpu);
         if(i>0) {
-
             int code = 0;
             String message = "提交成功";
             JSONObject result = new JSONObject();
@@ -344,13 +347,23 @@ public class SpuAndSkuController {
 
     /**
      *根据id 然后更改审核审核状态和是否上架
-     * @param wxTabSpu
+     * @param page
      * @return
      */
     @RequestMapping(value ="/auditReq",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    public String auditReq(@RequestBody WxTabSpu wxTabSpu){
-        int i = iSpuService.shenhechenggong(wxTabSpu);
-        if(i>0) {
+    public String auditReq(@RequestBody Map<String,Integer> page ){
+         Integer id = page.get("id");
+         Integer type = page.get("type");
+         if(type==0){
+             int code = 1;
+             String message = "审核失败";
+             JSONObject result = new JSONObject();
+             result.put("code",code);
+             result.put("message",message);
+             return  result.toJSONString();
+         }
+        int i = iSpuService.shenhechenggong(id);
+        if(i>0&&type==1) {
             int code = 0;
             String message = "审核成功";
             JSONObject result = new JSONObject();
@@ -368,12 +381,12 @@ public class SpuAndSkuController {
     }
     /**
      * 根据商品的 id 更改状态为下架
-     * @param wxTabSku
+     * @param wxTabSpu
      * @return
      */
     @RequestMapping(value ="/pullReq",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    public String pullReq(@RequestBody WxTabSku wxTabSku ){
-        int i = iSkuService.xiajia(wxTabSku);
+    public String pullReq(@RequestBody WxTabSpu wxTabSpu ){
+        int i = iSpuService.xiajia(wxTabSpu);
         if(i>0) {
             int code = 0;
             String message = "下架成功";
@@ -393,29 +406,72 @@ public class SpuAndSkuController {
 
     /**
      * 批量下架
-     * @param id
+     * @param page
      * @return
      */
     @RequestMapping(value ="/batchPullReq",method = RequestMethod.POST,produces="text/plain;charset=UTF-8")
-    public String batchPullReq(String id ){
-        if(id==null&&id.trim()==""){
+    public String batchPullReq(@RequestBody Map<String,String> page ){
+        String id = page.get("id");
+        if(id==null){
             return cuo;
         }
-        int i = iSkuService.piliangxiajia(id);
+        int i = iSpuService.piliangxiajia(id);
         if(i>0) {
             int code = 0;
-            String message = "下架成功";
+            String message = "批量下架成功";
             JSONObject result = new JSONObject();
             result.put("code",code);
             result.put("message",message);
             return  result.toJSONString();
         }else {
             int code = 1;
-            String message = "下架失败";
+            String message = "批量下架失败";
             JSONObject result = new JSONObject();
             result.put("code",code);
             result.put("message",message);
             return  result.toJSONString();
         }
+    }
+//    @RequestMapping(value ="/testFindSearch",method = RequestMethod.POST)
+//    public LinkedHashMap testFindSearch( @RequestBody Map<String, Integer> param ){
+//        Integer page = param.get("page");
+//        Integer size = param.get("size");
+//
+//        /**
+//         * 满足条件的spu
+//         */
+//        WxTabSpu wxTabSpu = new WxTabSpu();
+//        List<Map<String, Object>> list = iSpuService.fenye(wxTabSpu, page, size);
+//
+//        /**
+//         * id数组
+//         */
+//        ArrayList<Integer> idList = new ArrayList<>();
+//        for(Map<String, Object> iter : list){
+//            idList.add((Integer) iter.get("id"));
+//        }
+//
+//        HashMap<Integer,Object> idToSku = new HashMap<>();
+//        for(Integer id  : idList){
+//            iSkuService.findById(id);
+//        }
+//
+//        int count = iSpuService.zong();
+//        LinkedHashMap linkedHashMap = new LinkedHashMap();
+//        linkedHashMap.put("row",list);
+//        linkedHashMap.put("total",count);
+//        return linkedHashMap;
+//    }
+
+    @RequestMapping(value ="/findSearch",method = RequestMethod.POST)
+    public Map<String, Object> testlFindSearch( @RequestBody Map<String, Integer> param ){
+        Integer page = param.get("page");
+        Integer size = param.get("size");
+        Map<String, Object> list = iSpuService.list(page, size);
+        int zong = iSpuService.zong();
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        linkedHashMap.put("spu",list);
+        linkedHashMap.put("total",zong);
+        return list;
     }
 }

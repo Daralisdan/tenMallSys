@@ -8,9 +8,11 @@ import com.cn.wanxi.utils.utils.Msg;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -28,39 +30,56 @@ import java.util.Map;
  * @CrossOrigin 解决跨域问题
  */
 @CrossOrigin
-@Api(value = "品牌管理模块的接口")
 @RestController
 @RequestMapping("/brand")
+@Api(tags = "品牌管理模块的接口")
 public class BrandController {
 
     @Autowired
     private IBrandService iBrandService;
 
+    @Value("${spring.resources.static-locations}")
+    private String path;
+
+    @Value("${spring.mvc.static-path-pattern}")
+    private String imageFileName;
 
     /**
      * 【添加品牌信息】
      *
      * @return
      */
-    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
-    public Msg add(@RequestBody BrandEntity brandEntity) {
-        Msg msg = null;
-        if (null != brandEntity.getName() && brandEntity.getName().trim() != "") {
-            int result = iBrandService.add(brandEntity);
-            if (0 != result) {
-                msg = Msg.success().messageData(brandEntity);
+    @ApiOperation(value = "添加品牌信息接口")
+    @PostMapping(value = "/add")
+    public Msg add(String letter, String name, Integer seq, MultipartFile imageFile) {
+        BrandEntity brandEntity = getBrandEntity(letter, name, seq, imageFile);
+        Msg msg;
+        if ((null != name && name.trim() != "") && (null != seq)) {
+            msg = iBrandService.add(brandEntity, path, imageFileName);
+            String image = brandEntity.getImage();
+            if (0 == msg.getCode()) {
+                if (image == null) {
+                    msg = Msg.success().messageData(brandEntity);
+                } else {
+
+                    msg = Msg.success().messageData(image);
+                }
+            } else {
+                return msg;
             }
         } else {
-            msg = Msg.fail().messageData("名字不能为空");
+            msg = Msg.fail().messageData("名字和seq不能为空,图片可传可不传");
         }
         return msg;
     }
+
 
     /**
      * 【展示所有品牌信息】
      *
      * @return
      */
+    @ApiOperation(value = "展示所有品牌信息")
     @PostMapping("/findAll")
     public Msg findAll() {
         Msg msg;
@@ -103,22 +122,23 @@ public class BrandController {
     /**
      * 【修改品牌信息】根据id查询
      *
-     * @param brandEntity
+     * @param
      * @return
      */
+    @ApiOperation(value = "根据id查询修改品牌信息")
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public Msg update(@RequestBody BrandEntity brandEntity) {
+    public Msg update(Integer id, String letter, String name, Integer seq, MultipartFile imageFile) {
         Msg msg = null;
-        //先获取id
-        int id = brandEntity.getId();
         if (id > 0) {
+            BrandEntity brandEntity = getBrandEntity(letter, name, seq, imageFile);
+            brandEntity.setId(id);
             //根据id查询数据
             BrandEntity byId = iBrandService.findById(id);
             //判断是否查询到该品牌信息
             if (!ObjectUtils.isEmpty(byId)) {
-                int result = iBrandService.update(brandEntity);
-                if (result > 0) {
-                    msg = Msg.success().messageData(brandEntity);
+                Msg update = iBrandService.update(brandEntity, path, imageFileName);
+                if (update.getCode() == 0) {
+                    msg = Msg.success().messageData(brandEntity.getImage());
                 }
             } else {
                 msg = Msg.fail().messageData("该品牌不存在");
@@ -138,8 +158,8 @@ public class BrandController {
      * @return
      * @RequestParam(required = true) int id  提示必须输入id
      */
-    @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
     @ApiOperation(value = "根据id删除数据")
+    @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
     public Msg deleteById(@RequestBody BrandEntity brandEntity) {
         Msg msg = null;
         int id = brandEntity.getId();
@@ -156,11 +176,13 @@ public class BrandController {
         return msg;
     }
 
+
     /**
      * 【条件查询】
      *
      * @return
      */
+    @ApiOperation(value = "条件查询")
     @RequestMapping(value = "/findList", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public Msg findList(@RequestBody BrandEntity brandEntity) {
         Msg msg;
@@ -179,6 +201,7 @@ public class BrandController {
      * @param param page 当前页码 size 当前页记录数
      * @return
      */
+    @ApiOperation(value = "分页查询")
     @RequestMapping(value = "/findPage", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public Msg findAllbyPager(@RequestBody Map<String, Integer> param) {
         Msg msg;
@@ -220,6 +243,7 @@ public class BrandController {
      *
      * @return
      */
+    @ApiOperation(value = "根据条件分页查询")
     @RequestMapping(value = "/findPageCon", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public Msg findByConditionPage(@RequestBody ByPage byPage) {
         Msg msg;
@@ -254,6 +278,25 @@ public class BrandController {
             msg = getPages(size, pageList, TotalRows);
         }
         return msg;
+    }
+
+    /**
+     * 封装实体类 实体类接收前台的数据
+     *
+     * @param letter
+     * @param name
+     * @param seq
+     * @param
+     * @return
+     */
+
+    private BrandEntity getBrandEntity(String letter, String name, Integer seq, MultipartFile imageFlle) {
+        BrandEntity brandEntity = new BrandEntity();
+        brandEntity.setName(name);
+        brandEntity.setLetter(letter);
+        brandEntity.setImageFile(imageFlle);
+        brandEntity.setSeq(seq);
+        return brandEntity;
     }
 
     /**

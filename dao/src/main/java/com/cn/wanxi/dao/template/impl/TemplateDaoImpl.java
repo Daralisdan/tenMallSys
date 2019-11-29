@@ -19,26 +19,6 @@ public class TemplateDaoImpl implements TemplateDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-
-    /**
-     * 模板分页查询
-     *
-     * @param templateEntity
-     * @return
-     */
-    @Override
-    public Map<String, Object> find(TemplateEntity templateEntity) {
-        int page = (templateEntity.getPage() - 1) * templateEntity.getSize();
-        int size = templateEntity.getSize() * templateEntity.getPage();
-        String exeSQL = "select id , name , spec_num as specNum , para_num as paraNum from wx_tab_template where name = ? limit " + page + "," + size;
-        Object arg = templateEntity.getName();
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, arg);
-        Map<String, Object> map = new TreeMap();
-        map.put("rows", list);
-        map.put("total", templateEntity.getSize());
-        return map;
-    }
-
     /**
      * 模板新增
      *
@@ -48,10 +28,14 @@ public class TemplateDaoImpl implements TemplateDao {
     @Override
     public int add(TemplateEntity templateEntity) {
         String exeSQL = "INSERT INTO wx_tab_template (name) VALUES (?)";
-        Object arg[] = {templateEntity.getName()};
-        System.out.println(arg[0]);
-        int temp = jdbcTemplate.update(exeSQL, arg[0]);
-        return temp;
+        String templateNameSql = "select name from wx_tab_template where name = ?";
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(templateNameSql,templateEntity.getName());
+        if (list.size() == 0) {
+            int temp = jdbcTemplate.update(exeSQL, templateEntity.getName());
+            return temp;
+        } else {
+            return 0;
+        }
     }
 
     /**
@@ -94,5 +78,37 @@ public class TemplateDaoImpl implements TemplateDao {
         return temp;
     }
 
+    /**
+     * 模板分页查询
+     *
+     * @param templateEntity
+     * @return
+     */
+    @Override
+    public Map<String, Object> find(TemplateEntity templateEntity) {
+        int page = (templateEntity.getPage() - 1) * templateEntity.getSize();
+        int size = templateEntity.getSize() * templateEntity.getPage();
+        String exeSQL = "select id , name , spec_num as specNum , para_num as paraNum from wx_tab_template where name = ? limit " + page + "," + size;
+        Object arg = templateEntity.getName();
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, arg);
+        Map<String, Object> map = new TreeMap();
+        map.put("rows", list);
+        map.put("total", list.size());
+        return map;
+    }
 
+    @Override
+    public Map<String, Object> findSpecsById(TemplateEntity templateEntity) {
+        String templateSQL = "select id,name,spec_num as specNum,para_num as paraNum from wx_tab_template where id = ?";
+        String paraSQL = "select id,name,options,seq,template_id as templateId from wx_tab_para where template_id = ?";
+        String sepcSQL = "select id,name,options,seq,template_id as templateId from wx_tab_sepc where template_id = ?";
+        Object arg = templateEntity.getId();
+        List<Map<String, Object>> sepcList = jdbcTemplate.queryForList(sepcSQL, arg);
+        List<Map<String, Object>> paraList = jdbcTemplate.queryForList(paraSQL, arg);
+        Map<String, Object> map = jdbcTemplate.queryForMap(templateSQL, arg);
+        map.put("specs", sepcList);
+        map.put("paras", paraList);
+        return map;
+
+    }
 }
