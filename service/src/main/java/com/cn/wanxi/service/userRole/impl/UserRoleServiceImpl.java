@@ -62,7 +62,10 @@ public class UserRoleServiceImpl implements IUserRoleService {
         for(RoleMenuEntity iter : byRoleId){
             Integer menuId = iter.getMenuId();
             MenuEntity menuTemp = iMenuDao.findById(menuId);
-            menuNameList.add(menuTemp.getName());
+            if(null !=menuTemp){
+                menuNameList.add(menuTemp.getName());
+            }
+
         }
         return menuNameList;
     }

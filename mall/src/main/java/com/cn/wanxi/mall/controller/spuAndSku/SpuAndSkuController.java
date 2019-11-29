@@ -204,11 +204,23 @@ public class SpuAndSkuController {
     }
 
     @RequestMapping(value ="/findSpuPage",method = RequestMethod.POST)
-    public LinkedHashMap spufenye(@RequestBody Map<String, Integer> param){
-        Integer page = param.get("page");
-        Integer size = param.get("size");
+    public LinkedHashMap spufenye(@RequestBody Map<String, Object> param){
+        Object page = param.get("page");
+        Object size = param.get("size");
+        Object name = param.get("name");
+        if(size==null&&page==null){
+            LinkedHashMap linkedHashMap = new LinkedHashMap();
+            linkedHashMap.put("code","页码为空");
+            return linkedHashMap;
+        }
+        int i = Integer.parseInt(page.toString());
+        int b = Integer.parseInt(size.toString());
         WxTabSpu wxTabSpu = new WxTabSpu();
-        List<Map<String, Object>> list = iSpuService.fenye(wxTabSpu, page, size);
+
+        if(name!=null){
+            wxTabSpu.setName(name.toString());
+        }
+        List<Map<String, Object>> list = iSpuService.fenye(wxTabSpu, i,b);
         int count = iSpuService.zong();
         LinkedHashMap linkedHashMap = new LinkedHashMap();
         linkedHashMap.put("row",list);

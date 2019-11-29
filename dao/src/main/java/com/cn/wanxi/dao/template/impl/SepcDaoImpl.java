@@ -86,6 +86,7 @@ public class SepcDaoImpl implements SepcDao {
         int page = (sepcEntity.getPage() - 1) * sepcEntity.getSize();
         int size = sepcEntity.getSize() * sepcEntity.getPage();
         String exeSQL = "select id,name,options,seq,template_id as templateId from wx_tab_sepc where name = ? limit " + page + " , " + size;
+        System.out.println(sepcEntity.getName());
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, sepcEntity.getName());
         Map<String, Object> map = new TreeMap();
         map.put("rows", list);
