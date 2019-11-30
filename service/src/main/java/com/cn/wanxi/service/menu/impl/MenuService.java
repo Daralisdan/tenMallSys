@@ -54,8 +54,8 @@ public class MenuService implements IMenuService {
     }
 
     @Override
-    public MenuEntity findByName(String name){
-        return iMenuDao.findByName(name);
+    public  List<Map<String,Object>> findByName(String username){
+        return iMenuDao.findByName(username);
     }
 
     /**

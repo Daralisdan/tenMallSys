@@ -98,8 +98,8 @@ public class MenuController {
     @RequestMapping(value = "/findAuthMenu", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public Msg findByName(@RequestBody Map<String,String> param) {
         Msg msg = null;
-        String name = param.get("name");
-        MenuEntity byName = iMenuService.findByName(name);
+        String username = param.get("username");
+        List<Map<String,Object>>  byName = iMenuService.findByName(username);
         if (byName != null) {
             msg = Msg.success().messageData(byName);
         } else {
