@@ -66,9 +66,10 @@ public class OrderController {
     }
 
     @PostMapping(value = "/findPage", produces = "application/json;charset=UTF-8")
-    public Msg list(@RequestBody Map<String, Object> param, HttpServletResponse response) {
+    public Map<String,Object> list(@RequestBody Map<String, Object> param, HttpServletResponse response) {
         Msg msg = null;
         OrderEntity orderEntity = new OrderEntity();
+        Map<String,Object> map = new TreeMap<>();
         if (param.get("page") == null && param.get("size") == null) {
             msg = Msg.fail().messageData("请输入正确的page或者size");
         }
@@ -114,6 +115,7 @@ public class OrderController {
 
 
         Map<String, Object> list = iOrderService.list(page, size, orderEntity);
+
         //把查询出来的对象封装在分页实体类中
         pageMap.setMap(list);
         if (null == list && list.isEmpty()) {
@@ -129,8 +131,11 @@ public class OrderController {
             //查询出来的总行数封装在分页实体类中
             pageMap.setTotalRows(TotalRows);
             msg = getPages(size, pageMap, TotalRows);
+//            map.put("total",list.size());
+            list.put("total",TotalRows);
+
         }
-        return msg;
+        return list;
     }
 
     @PostMapping(value = "/batchFindAll", produces = "application/json;charset=UTF-8")
@@ -167,6 +172,7 @@ public class OrderController {
         int orderId = 0;
         String shippingName;
         String shippingCode;
+
         // 转化为json格式
         JSONObject jsonObject = JSONObject.fromObject(orderEntitiestr);
         // 拿到json对象的属性
@@ -196,6 +202,7 @@ public class OrderController {
         Map<String, Object> map = new TreeMap<>();
         map.put("code", msg.getCode());
         map.put("message", msg.getMsg());
+
         return map;
     }
 //    @PostMapping("/findbyorderid")
@@ -295,6 +302,22 @@ public class OrderController {
         pageMap.setPages(pages);
         msg = Msg.success().messageData(pageMap);
         return msg;
+    }
+
+    /**
+     * 【test】
+     *
+     * @param list
+     * @return
+     */
+    @PostMapping(value = "/test", produces = "application/json;charset=UTF-8")
+    public Msg test(@RequestBody List<Map<String,String>> list) {
+
+
+
+        int a = 10;
+
+        return new Msg();
     }
 
 //    @PostMapping(value = "/test", produces = "application/json;charset=UTF-8")
