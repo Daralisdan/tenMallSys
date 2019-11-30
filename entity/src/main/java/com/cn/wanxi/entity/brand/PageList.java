@@ -11,7 +11,7 @@ import java.util.List;
  * 2019/11/19,Create by yaodan
  */
 @Data
-public class PageList  {
+public class PageList {
     //当前页
     private int page;
     //每页记录数
