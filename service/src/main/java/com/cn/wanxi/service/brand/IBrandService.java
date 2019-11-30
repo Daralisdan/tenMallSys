@@ -12,13 +12,13 @@ import java.util.Map;
 public interface IBrandService {
     int deleteById(int id);
 
-    Msg add(BrandEntity brandEntity, String path, String imageFileName);
+    Msg add(BrandEntity brandEntity);
 
     List<Map<String, Object>> findAll();
 
-    BrandEntity findById(int id);
+    BrandEntity findById(Integer id);
 
-    Msg update(BrandEntity brandEntity, String path, String imageFileName);
+    Msg update(BrandEntity brandEntity);
 
     List<Map<String, Object>> findList(BrandEntity brandEntity);
 

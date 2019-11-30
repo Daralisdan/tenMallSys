@@ -50,29 +50,22 @@ public class BrandController {
      * @return
      */
     @ApiOperation(value = "添加品牌信息接口")
-    @PostMapping(value = "/add")
-    public Msg add(String letter, String name, Integer seq, MultipartFile imageFile) {
-        BrandEntity brandEntity = getBrandEntity(letter, name, seq, imageFile);
+    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
+    public Msg add(@RequestBody BrandEntity brandEntity) {
         Msg msg;
-        if ((null != name && name.trim() != "") && (null != seq)) {
-            msg = iBrandService.add(brandEntity, path, imageFileName);
-            String image = brandEntity.getImage();
+        //正则表达式 匹配A-z之间任意一个字母
+        String reg = "[A-z]{1}";
+        String letter = brandEntity.getLetter();
+        if (!(StringUtils.isEmpty(brandEntity.getName())) && (null != brandEntity.getSeq()) && letter.matches(reg)) {
+            msg = iBrandService.add(brandEntity);
             if (0 == msg.getCode()) {
-                if (image == null) {
-                    msg = Msg.success().messageData(brandEntity);
-                } else {
-
-                    msg = Msg.success().messageData(image);
-                }
-            } else {
-                return msg;
+                msg = Msg.success().messageData(brandEntity);
             }
         } else {
-            msg = Msg.fail().messageData("名字和seq不能为空,图片可传可不传");
+            msg = Msg.fail().messageData("名字和seq不能为空且首字母只能为任意一位字母");
         }
         return msg;
     }
-
 
     /**
      * 【展示所有品牌信息】
@@ -127,16 +120,15 @@ public class BrandController {
      */
     @ApiOperation(value = "根据id查询修改品牌信息")
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public Msg update(Integer id, String letter, String name, Integer seq, MultipartFile imageFile) {
+    public Msg update(@RequestBody BrandEntity brandEntity) {
         Msg msg = null;
+        Integer id = brandEntity.getId();
         if (id > 0) {
-            BrandEntity brandEntity = getBrandEntity(letter, name, seq, imageFile);
-            brandEntity.setId(id);
             //根据id查询数据
             BrandEntity byId = iBrandService.findById(id);
             //判断是否查询到该品牌信息
             if (!ObjectUtils.isEmpty(byId)) {
-                Msg update = iBrandService.update(brandEntity, path, imageFileName);
+                Msg update = iBrandService.update(brandEntity);
                 if (update.getCode() == 0) {
                     msg = Msg.success().messageData(brandEntity.getImage());
                 }
@@ -278,25 +270,6 @@ public class BrandController {
             msg = getPages(size, pageList, TotalRows);
         }
         return msg;
-    }
-
-    /**
-     * 封装实体类 实体类接收前台的数据
-     *
-     * @param letter
-     * @param name
-     * @param seq
-     * @param
-     * @return
-     */
-
-    private BrandEntity getBrandEntity(String letter, String name, Integer seq, MultipartFile imageFlle) {
-        BrandEntity brandEntity = new BrandEntity();
-        brandEntity.setName(name);
-        brandEntity.setLetter(letter);
-        brandEntity.setImageFile(imageFlle);
-        brandEntity.setSeq(seq);
-        return brandEntity;
     }
 
     /**

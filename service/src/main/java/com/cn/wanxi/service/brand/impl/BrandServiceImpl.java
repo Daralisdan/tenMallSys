@@ -28,27 +28,27 @@ public class BrandServiceImpl implements IBrandService {
      * @return
      */
     @Override
-    public Msg add(BrandEntity brand, String path, String imageFileName) {
+    public Msg add(BrandEntity brand) {
         //判断页面传的值中名字不能为空
-        String name = brand.getName() != null ? brand.getName().trim() : "";
-        Msg msg = null;
+//        String name = brand.getName() != null ? brand.getName().trim() : "";
+        Msg msg;
         //不为空时，添加数据
-        if (!StringUtils.isEmpty(name)) {
-            if (brand.getImageFile() != null && brand.getImageFile().getSize() > 0) {
-                FileUploadUtils fileUploadUtils = new FileUploadUtils();
-                Msg msgResult = fileUploadUtils.uploadUtil(brand.getImageFile(), path, imageFileName);
-                if (msgResult.getCode() == 0) {
-                    brand.setImage((String) msgResult.getRows());
-                } else {
-                    return Msg.fail().messageData("图片上传失败");
-                }
-            }
-            if (brandDao.insert(brand) == 1) {
-                msg = Msg.success().messageData("新增成功");
-            } else {
-                msg = Msg.fail().messageData("新增失败");
-            }
+//        if (!StringUtils.isEmpty(name)) {
+//            if (brand.getImageFile() != null && brand.getImageFile().getSize() > 0) {
+//                FileUploadUtils fileUploadUtils = new FileUploadUtils();
+//                Msg msgResult = fileUploadUtils.uploadUtil(brand.getImageFile(), path, imageFileName);
+//                if (msgResult.getCode() == 0) {
+//                    brand.setImage((String) msgResult.getRows());
+//                } else {
+//                    return Msg.fail().messageData("图片上传失败");
+//                }
+//            }
+        if (brandDao.insert(brand) == 1) {
+            msg = Msg.success().messageData("新增成功");
+        } else {
+            msg = Msg.fail().messageData("新增失败");
         }
+
         return msg;
     }
 
@@ -69,7 +69,7 @@ public class BrandServiceImpl implements IBrandService {
      * @return
      */
     @Override
-    public BrandEntity findById(int id) {
+    public BrandEntity findById(Integer id) {
         return brandDao.findById(id);
     }
 
@@ -81,18 +81,18 @@ public class BrandServiceImpl implements IBrandService {
      * @return
      */
     @Override
-    public Msg update(BrandEntity brandEntity, String path, String imageFileName) {
+    public Msg update(BrandEntity brandEntity) {
         Msg msg;
-        if (brandEntity.getImageFile() != null && brandEntity.getImageFile().getSize() > 0) {
-            FileUploadUtils fileUploadUtils = new FileUploadUtils();
-            Msg msgresule = fileUploadUtils.uploadUtil(brandEntity.getImageFile(), path, imageFileName);
-            if (msgresule.getCode() == 0) {
-                brandEntity.setImage((String) msgresule.getRows());
-
-            } else {
-                return Msg.fail().messageData("上传图片失败");
-            }
-        }
+//        if (brandEntity.getImageFile() != null && brandEntity.getImageFile().getSize() > 0) {
+//            FileUploadUtils fileUploadUtils = new FileUploadUtils();
+//            Msg msgresule = fileUploadUtils.uploadUtil(brandEntity);
+//            if (msgresule.getCode() == 0) {
+//                brandEntity.setImage((String) msgresule.getRows());
+//
+//            } else {
+//                return Msg.fail().messageData("上传图片失败");
+//            }
+//        }
         if (brandDao.update(brandEntity) == 1) {
             msg = Msg.success().messageData("修改成功");
         } else {

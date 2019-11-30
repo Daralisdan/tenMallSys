@@ -12,8 +12,6 @@ public class BrandEntity {
     private Integer id;
     //品牌名称
     private String name;
-    //品牌图片
-    private MultipartFile imageFile;
     //品牌的首字母
     private String letter;
     //排序
