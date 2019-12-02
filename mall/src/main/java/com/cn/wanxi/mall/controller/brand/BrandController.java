@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -53,7 +52,7 @@ public class BrandController {
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
     public Msg add(@RequestBody BrandEntity brandEntity) {
         Msg msg;
-        //正则表达式 匹配A-z之间任意一个字母
+        //正则表达式 匹配A-z之间任意一个英文字母，不能是中文或数字
         String reg = "[A-z]{1}";
         String letter = brandEntity.getLetter();
         if (!(StringUtils.isEmpty(brandEntity.getName())) && (null != brandEntity.getSeq()) && letter.matches(reg)) {
@@ -62,7 +61,7 @@ public class BrandController {
                 msg = Msg.success().messageData(brandEntity);
             }
         } else {
-            msg = Msg.fail().messageData("名字和seq不能为空且首字母只能为任意一位字母");
+            msg = Msg.fail().messageData("名字和seq不能为空且首字母只能为任意一位英文字母，不能是中文或数字");
         }
         return msg;
     }
@@ -123,20 +122,28 @@ public class BrandController {
     public Msg update(@RequestBody BrandEntity brandEntity) {
         Msg msg = null;
         Integer id = brandEntity.getId();
+        //正则表达式 匹配A-z之间任意一个英文字母，不能是中文或数字
+        String reg = "[A-z]{1}";
+        String letter = brandEntity.getLetter();
+
         if (id > 0) {
             //根据id查询数据
             BrandEntity byId = iBrandService.findById(id);
             //判断是否查询到该品牌信息
             if (!ObjectUtils.isEmpty(byId)) {
-                Msg update = iBrandService.update(brandEntity);
-                if (update.getCode() == 0) {
-                    msg = Msg.success().messageData(brandEntity.getImage());
+                if (letter.matches(reg)) {
+                    Msg update = iBrandService.update(brandEntity);
+                    if (update.getCode() == 0) {
+                        msg = Msg.success().messageData(brandEntity);
+                    }
+                } else {
+                    msg = Msg.fail().messageData("首字母只能为任意一位英文字母，不能是中文或数字");
                 }
             } else {
                 msg = Msg.fail().messageData("该品牌不存在");
             }
         } else {
-            msg = Msg.fail().messageData("请输入id");
+            msg = Msg.fail().messageData("请正确输入id");
         }
         return msg;
     }

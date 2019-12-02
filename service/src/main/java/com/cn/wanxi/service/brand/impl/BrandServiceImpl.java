@@ -3,11 +3,9 @@ package com.cn.wanxi.service.brand.impl;
 import com.cn.wanxi.dao.brand.BrandDao;
 import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.service.brand.IBrandService;
-import com.cn.wanxi.utils.fileUtils.FileUploadUtils;
 import com.cn.wanxi.utils.utils.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -83,17 +81,8 @@ public class BrandServiceImpl implements IBrandService {
     @Override
     public Msg update(BrandEntity brandEntity) {
         Msg msg;
-//        if (brandEntity.getImageFile() != null && brandEntity.getImageFile().getSize() > 0) {
-//            FileUploadUtils fileUploadUtils = new FileUploadUtils();
-//            Msg msgresule = fileUploadUtils.uploadUtil(brandEntity);
-//            if (msgresule.getCode() == 0) {
-//                brandEntity.setImage((String) msgresule.getRows());
-//
-//            } else {
-//                return Msg.fail().messageData("上传图片失败");
-//            }
-//        }
-        if (brandDao.update(brandEntity) == 1) {
+        int update = brandDao.update(brandEntity);
+        if (update == 1) {
             msg = Msg.success().messageData("修改成功");
         } else {
             msg = Msg.fail().messageData("修改失败");
