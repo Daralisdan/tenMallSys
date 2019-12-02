@@ -138,11 +138,11 @@ public class CategoryController {
         ArrayList<CategoryTreeNodeEntity> result = iCategoryService.getCategoryTree();
         if (0 < result.size()) {
             m.setCode(0);
-            m.setMessage("删除成功");
+            m.setMessage("查询成功");
             m.setData(result);
         } else {
             m.setCode(1);
-            m.setMessage("删除失败");
+            m.setMessage("查询失败");
         }
         return m;
     }
