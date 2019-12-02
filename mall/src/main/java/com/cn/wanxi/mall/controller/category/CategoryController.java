@@ -132,8 +132,8 @@ public class CategoryController {
      *
      * @return
      */
-    @PostMapping(value = "/categoryTree",produces = "application/json;charset=UTF-8")
-    public Message categoryTree(){
+    @PostMapping(value = "/categoryListT",produces = "application/json;charset=UTF-8")
+    public Message categoryListT(){
         Message m = new Message();
         ArrayList<CategoryTreeNodeEntity> result = iCategoryService.getCategoryTree();
         if (0 < result.size()) {
