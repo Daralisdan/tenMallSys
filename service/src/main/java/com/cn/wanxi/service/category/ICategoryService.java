@@ -1,8 +1,10 @@
 package com.cn.wanxi.service.category;
 
 import com.cn.wanxi.entity.category.CategoryEntity;
+import com.cn.wanxi.entity.category.CategoryTreeNodeEntity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,4 +25,6 @@ public interface ICategoryService {
     boolean update(CategoryEntity categoryEntity);
 
     boolean delete(int id);
+
+    ArrayList<CategoryTreeNodeEntity> getCategoryTree();
 }

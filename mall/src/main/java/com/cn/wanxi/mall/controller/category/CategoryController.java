@@ -1,12 +1,14 @@
 package com.cn.wanxi.mall.controller.category;
 
 import com.cn.wanxi.entity.category.CategoryEntity;
+import com.cn.wanxi.entity.category.CategoryTreeNodeEntity;
 import com.cn.wanxi.utils.Message;
 import com.cn.wanxi.service.category.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -118,6 +120,26 @@ public class CategoryController {
         if (isSuccess) {
             m.setCode(0);
             m.setMessage("删除成功");
+        } else {
+            m.setCode(1);
+            m.setMessage("删除失败");
+        }
+        return m;
+    }
+
+    /**
+     * 【菜单树】
+     *
+     * @return
+     */
+    @PostMapping(value = "/categoryTree",produces = "application/json;charset=UTF-8")
+    public Message categoryTree(){
+        Message m = new Message();
+        ArrayList<CategoryTreeNodeEntity> result = iCategoryService.getCategoryTree();
+        if (0 < result.size()) {
+            m.setCode(0);
+            m.setMessage("删除成功");
+            m.setData(result);
         } else {
             m.setCode(1);
             m.setMessage("删除失败");
