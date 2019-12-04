@@ -2,6 +2,7 @@ package com.cn.wanxi.dao.category.impl;
 
 import com.cn.wanxi.dao.category.ICategoryDao;
 import com.cn.wanxi.entity.category.CategoryEntity;
+import com.cn.wanxi.entity.category.CategoryTreeNodeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -67,5 +68,12 @@ public class CategoryDaoImpl implements ICategoryDao {
         Object[] args = {id};
         int temp = jdbcTemplate.update(exeSQL, args);
         return 0 < temp;
+    }
+
+    @Override
+    public List<CategoryTreeNodeEntity> findNodeAll() {
+        String exeSQL = "select " + attrMapper + " from wx_tab_category";
+        List<CategoryTreeNodeEntity> userEntities = jdbcTemplate.query(exeSQL,new BeanPropertyRowMapper<>(CategoryTreeNodeEntity.class));
+        return userEntities;
     }
 }
