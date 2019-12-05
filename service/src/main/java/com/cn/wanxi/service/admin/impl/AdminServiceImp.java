@@ -1,5 +1,6 @@
 package com.cn.wanxi.service.admin.impl;
 
+import com.cn.wanxi.dao.AdminRole.IAdminRoleDao;
 import com.cn.wanxi.dao.admin.IAdminDao;
 import com.cn.wanxi.entity.admin.AdminEntity;
 import com.cn.wanxi.service.admin.IAdminService;
@@ -21,10 +22,18 @@ public class AdminServiceImp implements IAdminService {
     @Autowired
     private IAdminDao iAdminDao;
 
+    @Autowired
+    private IAdminRoleDao iAdminRoleDao;
+
     @Override
-    public boolean login(String username,String password) {
+    public Integer login(String username,String password) {
+        Integer roleId = null;
         String backPassword = iAdminDao.findPasswordByName(username);
-        return password.equals(backPassword);
+        if(password.equals(backPassword)){
+            return roleId = iAdminRoleDao.selectRoleByUsername(username);
+        } else {
+            return null;
+        }
     }
 
     @Override
