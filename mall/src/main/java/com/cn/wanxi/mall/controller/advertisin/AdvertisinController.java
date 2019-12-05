@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -73,10 +74,12 @@ public class AdvertisinController {
         Integer id = Integer.parseInt(args.get("id"));
         Message m = new Message();
         AdvertisinEntity entity = iAdvertisinService.findById(id);
+        ArrayList<AdvertisinEntity> list = new ArrayList<>();
+        list.add(entity);
         if (null != entity) {
             m.setCode(0);
             m.setMessage("查询成功");
-            m.setData(entity);
+            m.setData(list);
         } else {
             m.setCode(1);
             m.setMessage("查询失败");
