@@ -30,7 +30,7 @@ public interface BrandDao {
      * @param id
      * @return
      */
-    BrandEntity findById(int id);
+    BrandEntity findById(Integer id);
 
     /**
      * 【修改品牌信息】
@@ -46,7 +46,7 @@ public interface BrandDao {
      * @param id
      * @return
      */
-    int deleteById(int id);
+    int deleteById(Integer id);
 
     /**
      * 【条件查询】
@@ -83,7 +83,5 @@ public interface BrandDao {
      */
     List<Map<String, Object>> findListAndPage(BrandEntity brandEntity, int page, int size);
 
-    int adds(Map<String, BrandEntity> brandEntity);
-
-    int fileUpload(String realName);
+    List<Map<String, Object>> queryNameId();
 }

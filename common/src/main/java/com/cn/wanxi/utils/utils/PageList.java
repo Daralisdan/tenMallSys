@@ -1,4 +1,4 @@
-package com.cn.wanxi.entity.brand;
+package com.cn.wanxi.utils.utils;
 
 import lombok.Data;
 
