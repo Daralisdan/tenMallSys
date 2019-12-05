@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static org.springframework.util.StringUtils.isEmpty;
 
@@ -39,17 +40,20 @@ public class OrderReturnCauseController {
      * @return
      */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
-    public Msg add(@RequestBody ReturnCauseEntity returnCauseEntity) {
+    public Map<String,Object> add(@RequestBody ReturnCauseEntity returnCauseEntity) {
         Msg msg=null;
-        if (null != returnCauseEntity.getStatus() && returnCauseEntity.getStatus().trim() != "") {
+        if (null != returnCauseEntity.getCause() && returnCauseEntity.getCause() .trim() != "") {
             int result = iReturnCauseService.add(returnCauseEntity);
             if (0 != result) {
-                msg = Msg.success().messageData(returnCauseEntity);
+                msg = Msg.success();
             }
         } else {
             msg = Msg.fail().messageData("原因不能为空");
         }
-        return msg;
+        Map<String,Object> map = new TreeMap<>();
+        map.put("code",msg.getCode());
+        map.put("message",msg.getMsg());
+        return map;
     }
 
     /**
@@ -98,7 +102,7 @@ public class OrderReturnCauseController {
      * @return
      */
     @PostMapping(value = "/update", produces = "application/json;charset=UTF-8")
-    public Msg updateInfo(@RequestBody ReturnCauseEntity returnCauseEntity) {
+    public Map<String, Object> updateInfo(@RequestBody ReturnCauseEntity returnCauseEntity) {
         Msg msg = null;
         //先获取id
         int id = returnCauseEntity.getId();
@@ -117,7 +121,10 @@ public class OrderReturnCauseController {
         } else {
             msg = Msg.fail().messageData("请输入id");
         }
-        return msg;
+        Map<String,Object> map = new TreeMap<>();
+        map.put("code",msg.getCode());
+        map.put("message",msg.getMsg());
+        return map;
     }
 
 
@@ -128,7 +135,7 @@ public class OrderReturnCauseController {
      * @return
      */
     @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
-    public Msg deleteById(@RequestBody Map<String, Integer> param, HttpServletResponse response) {
+    public Map<String, Object> deleteById(@RequestBody Map<String, Integer> param, HttpServletResponse response) {
         Msg msg = null;
         int id = param.get("id");
         if (id > 0) {
@@ -141,7 +148,10 @@ public class OrderReturnCauseController {
         } else {
             msg = Msg.fail().messageData("请输入id");
         }
-        return msg;
+        Map<String,Object> map = new TreeMap<>();
+        map.put("code",msg.getCode());
+        map.put("message",msg.getMsg());
+        return map;
     }
 
 

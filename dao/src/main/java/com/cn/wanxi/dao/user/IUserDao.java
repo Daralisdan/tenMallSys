@@ -2,6 +2,7 @@ package com.cn.wanxi.dao.user;
 
 import com.cn.wanxi.entity.user.UserEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,15 +11,19 @@ import java.util.Map;
  * @date 2019/11/19 19:06
  */
 public interface IUserDao {
-    int insert(UserEntity entity);
-
-    int deleteById(int id);
-
-    UserEntity findById(int id);
+    boolean insert(UserEntity entity);
 
     UserEntity findByName(String username);
 
-    List<Map<String,Object>> queryAll();
+    boolean updatePasswordByUsername(String username, String password);
 
-    int update(UserEntity entity);
+    boolean deleteById(int id);
+
+    List<UserEntity> findConditionPage(int page, int size);
+
+    int countCondition();
+
+    UserEntity findById(int id);
+
+    List<UserEntity> findAll();
 }

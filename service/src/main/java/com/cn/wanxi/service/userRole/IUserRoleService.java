@@ -10,6 +10,8 @@
  */
 package com.cn.wanxi.service.userRole;
 
+import java.util.ArrayList;
+
 /**
  * 〈一句话功能简述〉<br> 
  * 〈〉
@@ -21,4 +23,5 @@ package com.cn.wanxi.service.userRole;
 public interface IUserRoleService {
     int[] batchCarFlowInsert(String username, String roleid);
     int[] batchCarFlowDelete(String username ,String roleid);
+    ArrayList<String> getMenuName(String username);
 }

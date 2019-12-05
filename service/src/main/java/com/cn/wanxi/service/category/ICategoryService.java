@@ -1,9 +1,11 @@
 package com.cn.wanxi.service.category;
 
 import com.cn.wanxi.entity.category.CategoryEntity;
+import com.cn.wanxi.entity.category.CategoryTreeNodeEntity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 【商品分类管理】：商品分类，主要用户对商品进行类别管理。一个分类对应一种模板类型的参数
@@ -14,17 +16,15 @@ import java.util.Map;
  */
 public interface ICategoryService {
 
-    int add(CategoryEntity categoryEntity);
+    List<CategoryEntity> findAll();
 
-    int delete(CategoryEntity categoryEntity);
+    List<CategoryEntity> findAllByParentId(int parentId);
 
-    int update(CategoryEntity categoryEntity);
+    boolean add(CategoryEntity categoryEntity);
 
-    List<Map<String, Object>> findOne(CategoryEntity categoryEntity);
+    boolean update(CategoryEntity categoryEntity);
 
-    int count(CategoryEntity categoryEntity,int page,int size);
+    boolean delete(int id);
 
-    List<Map<String, Object>> findLimit(CategoryEntity categoryEntity,int page,int size);
-
-    List<Map<String, Object>> findAll(CategoryEntity categoryEntity);
+    ArrayList<CategoryTreeNodeEntity> getCategoryTree();
 }

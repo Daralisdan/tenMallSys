@@ -19,8 +19,8 @@ package com.cn.wanxi.entity.role;
  * @since 1.0.0
  */
 public class RoleEntity {
-    Integer id;
-    String roleName;
+    private Integer id;
+    private String roleName;
 
     public String getRoleName() {
         return roleName;

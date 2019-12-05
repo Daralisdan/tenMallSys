@@ -3,9 +3,9 @@ package com.cn.wanxi.service.brand.impl;
 import com.cn.wanxi.dao.brand.BrandDao;
 import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.service.brand.IBrandService;
+import com.cn.wanxi.utils.utils.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -26,16 +26,28 @@ public class BrandServiceImpl implements IBrandService {
      * @return
      */
     @Override
-    public int add(BrandEntity brand) {
+    public Msg add(BrandEntity brand) {
         //判断页面传的值中名字不能为空
-        String name = brand.getName() != null ? brand.getName().trim() : "";
-        int result = 0;
+//        String name = brand.getName() != null ? brand.getName().trim() : "";
+        Msg msg;
         //不为空时，添加数据
-        if (!StringUtils.isEmpty(name)) {
-            result = brandDao.insert(brand);
-            System.out.println(result);
+//        if (!StringUtils.isEmpty(name)) {
+//            if (brand.getImageFile() != null && brand.getImageFile().getSize() > 0) {
+//                FileUploadUtils fileUploadUtils = new FileUploadUtils();
+//                Msg msgResult = fileUploadUtils.uploadUtil(brand.getImageFile(), path, imageFileName);
+//                if (msgResult.getCode() == 0) {
+//                    brand.setImage((String) msgResult.getRows());
+//                } else {
+//                    return Msg.fail().messageData("图片上传失败");
+//                }
+//            }
+        if (brandDao.insert(brand) == 1) {
+            msg = Msg.success().messageData("新增成功");
+        } else {
+            msg = Msg.fail().messageData("新增失败");
         }
-        return result;
+
+        return msg;
     }
 
     /**
@@ -55,7 +67,7 @@ public class BrandServiceImpl implements IBrandService {
      * @return
      */
     @Override
-    public BrandEntity findById(int id) {
+    public BrandEntity findById(Integer id) {
         return brandDao.findById(id);
     }
 
@@ -67,8 +79,15 @@ public class BrandServiceImpl implements IBrandService {
      * @return
      */
     @Override
-    public int update(BrandEntity brandEntity) {
-        return brandDao.update(brandEntity);
+    public Msg update(BrandEntity brandEntity) {
+        Msg msg;
+        int update = brandDao.update(brandEntity);
+        if (update == 1) {
+            msg = Msg.success().messageData("修改成功");
+        } else {
+            msg = Msg.fail().messageData("修改失败");
+        }
+        return msg;
     }
 
 
@@ -134,6 +153,11 @@ public class BrandServiceImpl implements IBrandService {
     @Override
     public int adds(Map<String, BrandEntity> brandEntity) {
         return brandDao.adds(brandEntity);
+    }
+
+    @Override
+    public int fileUpload(String realName) {
+        return brandDao.fileUpload(realName);
     }
 
 

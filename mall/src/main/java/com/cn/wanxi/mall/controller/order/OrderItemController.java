@@ -25,25 +25,7 @@ public class OrderItemController {
     @Autowired
     private IOrderItemService iOrderItemService;
 
-    /**
-     * 添加订单详细
-     * @param orderItemEntity
-     * @return
-     */
-    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
 
-    public Msg add(@RequestBody OrderItemEntity orderItemEntity) {
-        Msg msg=null;
-        if (0 != orderItemEntity.getOrderId()) {
-            int result = iOrderItemService.add(orderItemEntity);
-            if (0 != result) {
-                msg = Msg.success().messageData(orderItemEntity);
-            }
-        } else {
-            msg = Msg.fail().messageData("名字不能为空");
-        }
-        return msg;
-    }
 
     /**
      * 查找所有的订单详细

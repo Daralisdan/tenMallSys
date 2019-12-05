@@ -19,7 +19,7 @@ public interface IMenuService {
     List<Map<String, Object>> findAll();
 
     MenuEntity findById(int id);
-    MenuEntity findByName(String name);
+    List<Map<String,Object>> findByName(String username);
 
     int update(MenuEntity menuEntity);
     List<Map<String, Object>> findListAndPage(MenuEntity menuEntity, int page, int size);

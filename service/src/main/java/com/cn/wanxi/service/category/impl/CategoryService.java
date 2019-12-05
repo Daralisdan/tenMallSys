@@ -1,12 +1,16 @@
 package com.cn.wanxi.service.category.impl;
 
+import com.cn.wanxi.dao.category.ICategoryDao;
 import com.cn.wanxi.entity.category.CategoryEntity;
+import com.cn.wanxi.entity.category.CategoryTreeNodeEntity;
 import com.cn.wanxi.service.category.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.beans.BeanMap;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 【商品分类管理】：商品分类，主要用户对商品进行类别管理。一个分类对应一种模板类型的参数
@@ -19,42 +23,61 @@ import java.util.Map;
 public class CategoryService implements ICategoryService {
 
     @Autowired
-    private com.cn.wanxi.dao.category.ICategoryDao ICategoryDao;
+    private ICategoryDao iCategoryDao;
 
 
     @Override
-    public int add(CategoryEntity categoryEntity) {
-        return ICategoryDao.insert(categoryEntity);
+    public List<CategoryEntity> findAll() {
+        return iCategoryDao.findAll();
     }
 
     @Override
-    public int delete(CategoryEntity categoryEntity) {
-        return ICategoryDao.delete(categoryEntity);
+    public List<CategoryEntity> findAllByParentId(int parentId) {
+        return iCategoryDao.findAllByParentId(parentId);
     }
 
     @Override
-    public int update(CategoryEntity categoryEntity) {
-        return ICategoryDao.update(categoryEntity);
+    public boolean add(CategoryEntity categoryEntity) {
+        return iCategoryDao.insert(categoryEntity);
     }
 
     @Override
-    public List<Map<String, Object>> findOne(CategoryEntity categoryEntity) {
-        return ICategoryDao.findOne(categoryEntity);
+    public boolean update(CategoryEntity categoryEntity) {
+        return iCategoryDao.update(categoryEntity);
     }
 
     @Override
-    public int count(CategoryEntity categoryEntity,int page,int size){
-
-        return ICategoryDao.count(categoryEntity,page,size);
+    public boolean delete(int id) {
+        return iCategoryDao.deleteById(id);
     }
 
     @Override
-    public List<Map<String, Object>> findLimit(CategoryEntity categoryEntity, int page, int size) {
-        return ICategoryDao.findLimit(categoryEntity,page,size);
+    public ArrayList<CategoryTreeNodeEntity> getCategoryTree() {
+        List<CategoryTreeNodeEntity> all = iCategoryDao.findNodeAll();
+
+        //一级菜单
+        ArrayList<CategoryTreeNodeEntity> result = getSubList(all,0);
+        //二级菜单
+        for(int i = 0;i < result.size();++i){
+            CategoryTreeNodeEntity temp = result.get(i);
+            ArrayList<CategoryTreeNodeEntity> tempList = getSubList(all,temp.getId());
+            for(int j = 0;j < tempList.size();++j){
+                CategoryTreeNodeEntity tempInner = tempList.get(j);
+                ArrayList<CategoryTreeNodeEntity> tempInnerList = getSubList(all,tempInner.getId());
+                tempInner.setList(tempInnerList);
+            }
+            temp.setList(tempList);
+        }
+        return result;
     }
 
-    @Override
-    public List<Map<String, Object>> findAll(CategoryEntity categoryEntity) {
-        return ICategoryDao.findAll(categoryEntity);
+    private ArrayList<CategoryTreeNodeEntity> getSubList(List<CategoryTreeNodeEntity> target,int id){
+        ArrayList<CategoryTreeNodeEntity> result = new ArrayList<>();
+        for(CategoryTreeNodeEntity iter : target){
+            if(id == iter.getParentId()){
+                result.add(iter);
+            }
+        }
+        return result;
     }
 }

@@ -68,14 +68,10 @@ public class MenuDaoImpl implements IMenuDao {
     }
 
     @Override
-    public MenuEntity findByName(String name) {
-        MenuEntity menuEntity = null;
-        String exeSQL = "select id, name, icon, url, parent_id as parentId from wx_tab_menu where name=?";
-        List<MenuEntity> menuEntities = jdbcTemplate.query(exeSQL, new Object[]{name}, new BeanPropertyRowMapper<MenuEntity>(MenuEntity.class));
-        if (null != menuEntities && menuEntities.size() > 0) {
-            menuEntity = menuEntities.get(0);
-        }
-        return menuEntity;
+    public List<Map<String,Object>> findByName(String username) {
+        String exeSQL = "SELECT s.name   FROM wx_tab_menu  s  JOIN  wx_tab_roleMenu b ON s.id =  b.menu_id  JOIN wx_tab_role c on b.role_id= c.id  JOIN wx_tab_userRole d on c.id =d.role_id    where username=?";
+        List<Map<String,Object>> list = jdbcTemplate.queryForList(exeSQL,username);
+        return list;
     }
 
 

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
  public interface IOrderItemDao  {
-    int insert(OrderItemEntity orderItemEntity);
+    int insert(List<OrderItemEntity> orderItemEntityList);
     List<Map<String, Object>> queryAll();
     OrderItemEntity findById(int id);
     int deleteById(int id);

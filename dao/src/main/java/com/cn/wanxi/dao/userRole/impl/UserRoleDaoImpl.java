@@ -58,4 +58,12 @@ public class UserRoleDaoImpl implements UserRoleDao {
         }
         return c;
     }
+
+    @Override
+    public Integer selectRoleByUsername(String username) {
+        String sql = "select role_id from wx_tab_userRole where username = ?";
+        Object[] args = {username};
+        Integer roleId = jdbcTemplate.queryForObject(sql,args,Integer.class);
+        return roleId;
+    }
 }

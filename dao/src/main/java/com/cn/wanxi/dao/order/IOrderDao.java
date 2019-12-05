@@ -1,9 +1,6 @@
 package com.cn.wanxi.dao.order;
 import com.cn.wanxi.entity.order.OrderEntity;
 
-import com.cn.wanxi.entity.order.OrderLogEntity;
-import com.cn.wanxi.entity.order.RefundCauseEntity;
-
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +12,7 @@ public interface IOrderDao {
     int insert(OrderEntity orderEntity);
     List<Map<String, Object>> queryAll();
 
-    Map<String, Object> list(int page, int size);
+    Map<String, Object> list(int page, int size, OrderEntity orderEntity);
 
     Map<String, Object> batchlist(String ids);
 

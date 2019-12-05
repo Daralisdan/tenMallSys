@@ -25,7 +25,7 @@ public class IReturnCauseImpl implements IReturnCauseDao {
     @Override
     public ReturnCauseEntity findById(int id) {
         ReturnCauseEntity returnCauseEntity = null;
-        String exeSQL = "select cause,seq,status from wx_tab_return_cause where id=?";
+        String exeSQL = "select id, cause,seq,status from wx_tab_return_cause where id=?";
         List<ReturnCauseEntity> returnCauseEntities = jdbcTemplate.query(exeSQL, new Object[]{id}, new BeanPropertyRowMapper<ReturnCauseEntity>(ReturnCauseEntity.class));
         if (null != returnCauseEntities && returnCauseEntities.size() > 0) {
             returnCauseEntity = returnCauseEntities.get(0);

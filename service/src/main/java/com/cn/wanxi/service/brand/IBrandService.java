@@ -1,6 +1,7 @@
 package com.cn.wanxi.service.brand;
 
 import com.cn.wanxi.entity.brand.BrandEntity;
+import com.cn.wanxi.utils.utils.Msg;
 
 import java.util.List;
 import java.util.Map;
@@ -11,13 +12,13 @@ import java.util.Map;
 public interface IBrandService {
     int deleteById(int id);
 
-    int add(BrandEntity brandEntity);
+    Msg add(BrandEntity brandEntity);
 
     List<Map<String, Object>> findAll();
 
-    BrandEntity findById(int id);
+    BrandEntity findById(Integer id);
 
-    int update(BrandEntity brandEntity);
+    Msg update(BrandEntity brandEntity);
 
     List<Map<String, Object>> findList(BrandEntity brandEntity);
 
@@ -28,4 +29,7 @@ public interface IBrandService {
     List<Map<String, Object>> findListAndPage(BrandEntity brandEntity, int page, int size);
 
     int adds(Map<String, BrandEntity> brandEntity);
+
+    int fileUpload(String realName);
+
 }

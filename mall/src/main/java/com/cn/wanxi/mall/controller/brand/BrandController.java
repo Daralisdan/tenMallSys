@@ -8,6 +8,7 @@ import com.cn.wanxi.utils.utils.Msg;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -28,30 +29,39 @@ import java.util.Map;
  * @CrossOrigin 解决跨域问题
  */
 @CrossOrigin
-@Api(value = "品牌管理模块的接口")
 @RestController
 @RequestMapping("/brand")
+@Api(tags = "品牌管理模块的接口")
 public class BrandController {
 
     @Autowired
     private IBrandService iBrandService;
 
+    @Value("${spring.resources.static-locations}")
+    private String path;
+
+    @Value("${spring.mvc.static-path-pattern}")
+    private String imageFileName;
 
     /**
      * 【添加品牌信息】
      *
      * @return
      */
+    @ApiOperation(value = "添加品牌信息接口")
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
     public Msg add(@RequestBody BrandEntity brandEntity) {
-        Msg msg = null;
-        if (null != brandEntity.getName() && brandEntity.getName().trim() != "") {
-            int result = iBrandService.add(brandEntity);
-            if (0 != result) {
+        Msg msg;
+        //正则表达式 匹配A-z之间任意一个英文字母，不能是中文或数字
+        String reg = "[A-z]{1}";
+        String letter = brandEntity.getLetter();
+        if (!(StringUtils.isEmpty(brandEntity.getName())) && (null != brandEntity.getSeq()) && letter.matches(reg)) {
+            msg = iBrandService.add(brandEntity);
+            if (0 == msg.getCode()) {
                 msg = Msg.success().messageData(brandEntity);
             }
         } else {
-            msg = Msg.fail().messageData("名字不能为空");
+            msg = Msg.fail().messageData("名字和seq不能为空且首字母只能为任意一位英文字母，不能是中文或数字");
         }
         return msg;
     }
@@ -61,6 +71,7 @@ public class BrandController {
      *
      * @return
      */
+    @ApiOperation(value = "展示所有品牌信息")
     @PostMapping("/findAll")
     public Msg findAll() {
         Msg msg;
@@ -103,28 +114,36 @@ public class BrandController {
     /**
      * 【修改品牌信息】根据id查询
      *
-     * @param brandEntity
+     * @param
      * @return
      */
+    @ApiOperation(value = "根据id查询修改品牌信息")
     @RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public Msg update(@RequestBody BrandEntity brandEntity) {
         Msg msg = null;
-        //先获取id
-        int id = brandEntity.getId();
+        Integer id = brandEntity.getId();
+        //正则表达式 匹配A-z之间任意一个英文字母，不能是中文或数字
+        String reg = "[A-z]{1}";
+        String letter = brandEntity.getLetter();
+
         if (id > 0) {
             //根据id查询数据
             BrandEntity byId = iBrandService.findById(id);
             //判断是否查询到该品牌信息
             if (!ObjectUtils.isEmpty(byId)) {
-                int result = iBrandService.update(brandEntity);
-                if (result > 0) {
-                    msg = Msg.success().messageData(brandEntity);
+                if (letter.matches(reg)) {
+                    Msg update = iBrandService.update(brandEntity);
+                    if (update.getCode() == 0) {
+                        msg = Msg.success().messageData(brandEntity);
+                    }
+                } else {
+                    msg = Msg.fail().messageData("首字母只能为任意一位英文字母，不能是中文或数字");
                 }
             } else {
                 msg = Msg.fail().messageData("该品牌不存在");
             }
         } else {
-            msg = Msg.fail().messageData("请输入id");
+            msg = Msg.fail().messageData("请正确输入id");
         }
         return msg;
     }
@@ -138,8 +157,8 @@ public class BrandController {
      * @return
      * @RequestParam(required = true) int id  提示必须输入id
      */
-    @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
     @ApiOperation(value = "根据id删除数据")
+    @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
     public Msg deleteById(@RequestBody BrandEntity brandEntity) {
         Msg msg = null;
         int id = brandEntity.getId();
@@ -156,11 +175,13 @@ public class BrandController {
         return msg;
     }
 
+
     /**
      * 【条件查询】
      *
      * @return
      */
+    @ApiOperation(value = "条件查询")
     @RequestMapping(value = "/findList", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public Msg findList(@RequestBody BrandEntity brandEntity) {
         Msg msg;
@@ -179,6 +200,7 @@ public class BrandController {
      * @param param page 当前页码 size 当前页记录数
      * @return
      */
+    @ApiOperation(value = "分页查询")
     @RequestMapping(value = "/findPage", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public Msg findAllbyPager(@RequestBody Map<String, Integer> param) {
         Msg msg;
@@ -220,6 +242,7 @@ public class BrandController {
      *
      * @return
      */
+    @ApiOperation(value = "根据条件分页查询")
     @RequestMapping(value = "/findPageCon", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public Msg findByConditionPage(@RequestBody ByPage byPage) {
         Msg msg;

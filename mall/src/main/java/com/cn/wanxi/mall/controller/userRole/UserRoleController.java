@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Map;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
@@ -61,6 +62,20 @@ public class UserRoleController {
         } else {
             m = Msg.fail();
         }
+        return m;
+    }
+
+    @PostMapping(value = "/userToMenuName", produces = "application/json;charset=UTF-8")
+    public Msg userToMenuName(@RequestBody Map<String,String> param) {
+        Msg m;
+        String username = param.get("username");
+        int a = 10;
+        if(isEmpty(username) || "".equals(username)){
+            m = new Msg().messageData("查询失败");
+            return m;
+        }
+        ArrayList<String> menuNames = iUserRoleService.getMenuName(username);
+        m = new Msg().messageData(menuNames);
         return m;
     }
 }

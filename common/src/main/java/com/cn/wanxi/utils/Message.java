@@ -1,22 +1,18 @@
-package com.cn.wanxi.utils.message;
-
-import java.util.List;
-import java.util.Map;
-
+package com.cn.wanxi.utils;
 /**
- * 这个类只是赶进度的妥协，会将data类型抽象出来统一格式
  * @author LeesonWong
- * @date 2019/11/26 18:33
+ * @date 2019/11/22 22:59
  */
-public class MessageLimit {
+
+public class Message {
     private int code;
     private String message;
-    private Map<String, Object> data;
+    private Object data;
 
-    public MessageLimit() {
+    public Message() {
     }
 
-    public MessageLimit(int code, String message, Map<String, Object> data) {
+    public Message(int code, String message, Object data) {
         this.code = code;
         this.message = message;
         this.data = data;
@@ -38,17 +34,17 @@ public class MessageLimit {
         this.message = message;
     }
 
-    public Map<String, Object> getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(Map<String, Object> data) {
+    public void setData(Object data) {
         this.data = data;
     }
 
     @Override
     public String toString() {
-        return "MessageLimit{" +
+        return "Message{" +
                 "code=" + code +
                 ", message='" + message + '\'' +
                 ", data=" + data +

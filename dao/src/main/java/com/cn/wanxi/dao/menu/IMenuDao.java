@@ -52,7 +52,7 @@ public interface IMenuDao {
     int deleteById(int id);
     int countAll();
     int adds(Map<String, MenuEntity> menuEntity);
-    MenuEntity findByName(String name);
+    List<Map<String,Object>> findByName(String username);
 
     List<Map<String, Object>> findListAndPage(MenuEntity menuEntity, int page, int size);
 }

@@ -6,6 +6,7 @@ import com.cn.wanxi.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,13 +21,38 @@ public class UserServiceImpl implements IUserService {
     private IUserDao iUserDao;
 
     @Override
-    public boolean addUserByEntity(UserEntity entity) {
-        return 0 != iUserDao.insert(entity);
+    public boolean addUser(UserEntity entity) {
+        return iUserDao.insert(entity);
+    }
+
+    @Override
+    public boolean modifyPassword(String username, String password, String odpassword) {
+        UserEntity byName = iUserDao.findByName(username);
+        if(odpassword.equals(byName.getPassword())){
+            return iUserDao.updatePasswordByUsername(username,password);
+        } else {
+            return false;
+        }
     }
 
     @Override
     public boolean deleteUserById(int id) {
-        return 0 != iUserDao.deleteById(id);
+        return iUserDao.deleteById(id);
+    }
+
+    @Override
+    public boolean resetUserPassword(String username, String password) {
+        return iUserDao.updatePasswordByUsername(username,password);
+    }
+
+    @Override
+    public List<UserEntity> findCondPage(String username, String status, int page, int size) {
+        return iUserDao.findConditionPage(page,size);
+    }
+
+    @Override
+    public int count(String username, String status) {
+        return iUserDao.countCondition();
     }
 
     @Override
@@ -35,25 +61,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public UserEntity findUserByName(String username) {
-        return iUserDao.findByName(username);
-    }
-
-    @Override
-    public List<Map<String, Object>> findAll() {
-        return iUserDao.queryAll();
-    }
-
-    @Override
-    public boolean updateUserByEntity(UserEntity entity) {
-        return 0 != iUserDao.update(entity);
-    }
-
-    @Override
-    public boolean checkUserInfo(UserEntity entity) {
-        if(null == entity || null == entity.getUsername() || null == entity.getPassword()){
-            return false;
-        }
-        return entity.getPassword().equals(iUserDao.findByName(entity.getUsername()).getPassword());
+    public List<UserEntity> findUserAll() {
+        return iUserDao.findAll();
     }
 }

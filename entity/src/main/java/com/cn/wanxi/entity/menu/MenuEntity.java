@@ -7,11 +7,11 @@ package com.cn.wanxi.entity.menu;
  * 2019/11/18,Create by yaodan
  */
 public class MenuEntity {
-    int id;
-    String name;
-    String icon;
-    String url;
-    String parentId;
+    private Integer id;
+    private String name;
+    private String icon;
+    private String url;
+    private Integer parentId;
 
     @Override
     public String toString() {
@@ -24,11 +24,11 @@ public class MenuEntity {
                 '}';
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -56,11 +56,11 @@ public class MenuEntity {
         this.url = url;
     }
 
-    public String getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
 }

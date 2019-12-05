@@ -2,12 +2,13 @@ package com.cn.wanxi.dao.category.impl;
 
 import com.cn.wanxi.dao.category.ICategoryDao;
 import com.cn.wanxi.entity.category.CategoryEntity;
-import com.cn.wanxi.utils.jdbcTemplateSentence.SQLSentence;
-import com.cn.wanxi.utils.jdbcTemplateSentence.eunms.SQLTypeEnum;
+import com.cn.wanxi.entity.category.CategoryTreeNodeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,103 +25,55 @@ public class CategoryDaoImpl implements ICategoryDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    private static final String attrMapper = "id as id,name as name,goods_num as goodsNum,is_show as isShow," +
+            "is_menu as isMenu,seq as seq,parent_id as parentId,template_id as templateId";
 
-    private SQLSentence sqlSentence = SQLSentence.getInstance();
-
-    /**
-     * 添加实体
-     * @param entity
-     * @return
-     */
     @Override
-    public int insert(CategoryEntity entity) {
-        int counter = 0;
-        Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.INSERT);
-        if(null != entry){
-            counter = jdbcTemplate.update(entry.getKey(), entry.getValue());
-        }
-        return counter;
-    }
-
-    /**
-     * 删除实体
-     * @param entity
-     * @return
-     */
-    @Override
-    public int delete(CategoryEntity entity) {
-        int counter = 0;
-        Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.DELETE);
-        if(null != entry){
-            counter = jdbcTemplate.update(entry.getKey(), entry.getValue());
-        }
-        return counter;
-    }
-
-    /**
-     * 更新实体
-     * @param entity
-     * @return
-     */
-    @Override
-    public int update(CategoryEntity entity) {
-        int counter = 0;
-        Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.UPDATE);
-        if(null != entry){
-            counter = jdbcTemplate.update(entry.getKey(), entry.getValue());
-        }
-        return counter;
+    public List<CategoryEntity> findAll() {
+        String exeSQL = "select " + attrMapper + " from wx_tab_category";
+        List<CategoryEntity> userEntities = jdbcTemplate.query(exeSQL,new BeanPropertyRowMapper<>(CategoryEntity.class));
+        return userEntities;
     }
 
     @Override
-    public List<Map<String, Object>> findOne(CategoryEntity entity) {
-        Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.SELECT);
-        String sql = entry.getKey() + " limit 0,1";
-        Object[] args = entry.getValue();
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql,args);
-        return list;
+    public List<CategoryEntity> findAllByParentId(int parentId) {
+        String exeSQL = "select " + attrMapper + " from wx_tab_category where parent_id = ?";
+        Object[] args = {parentId};
+        List<CategoryEntity> userEntities = jdbcTemplate.query(exeSQL,args,new BeanPropertyRowMapper<>(CategoryEntity.class));
+        return userEntities;
     }
 
     @Override
-    public int count(CategoryEntity entity,int page,int size){
-        int result;
-        Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.COUNT);
-        String sql = entry.getKey();
-        Object[] args = entry.getValue();
-        /**
-         * 这里如果有参数则返回条件查询的结果
-         * 没有任何有效参数则表示查询所有
-         */
-        if(0 == args.length){
-            result = jdbcTemplate.queryForObject(sql,Integer.class);
-        } else {
-            result = jdbcTemplate.queryForObject(sql,args,Integer.class);
-        }
-
-        return result;
+    public boolean insert(CategoryEntity categoryEntity) {
+        String exeSQL = "INSERT INTO wx_tab_category(name,goods_num,is_show,is_menu,seq,parent_id,template_id) VALUES(?,?,?,?,?,?,?)";
+        Object[] args = {categoryEntity.getName(),categoryEntity.getGoodsNum(),categoryEntity.getIsShow(),categoryEntity.getIsMenu(),
+                categoryEntity.getSeq(),categoryEntity.getParentId(),categoryEntity.getTemplateId()};
+        int temp = jdbcTemplate.update(exeSQL, args);
+        return 0 < temp;
     }
 
     @Override
-    public List<Map<String, Object>> findLimit(CategoryEntity entity, int page, int size) {
-        Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.SELECT);
-        String sql = entry.getKey() + " limit " + (page - 1)*size + "," + size;
-        Object[] args = entry.getValue();
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql,args);
-        return list;
+    public boolean update(CategoryEntity categoryEntity) {
+        String exeSQL = "update wx_tab_category set name = ?,goods_num = ?,is_show = ?,is_menu = ?," +
+                "seq = ?,parent_id = ?,template_id = ? where id = ?";
+        Object[] args = {categoryEntity.getName(),categoryEntity.getGoodsNum(),categoryEntity.getIsShow(),categoryEntity.getIsMenu(),
+                categoryEntity.getSeq(),categoryEntity.getParentId(),categoryEntity.getTemplateId(),categoryEntity.getId()};
+        int temp = jdbcTemplate.update(exeSQL, args);
+        return 0 < temp;
     }
 
     @Override
-    public List<Map<String, Object>> findAll(CategoryEntity entity) {
-        Map.Entry<String,Object[]> entry = sqlSentence.getSentenceByEntity(entity, SQLTypeEnum.SELECT);
-        String sql = entry.getKey();
-        Object[] args = entry.getValue();
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql,args);
-        return list;
+    public boolean deleteById(int id) {
+        String exeSQL = "delete from wx_tab_category where id = ?";
+        Object[] args = {id};
+        int temp = jdbcTemplate.update(exeSQL, args);
+        return 0 < temp;
     }
 
-
-
-
-
-
+    @Override
+    public List<CategoryTreeNodeEntity> findNodeAll() {
+        String exeSQL = "select " + attrMapper + " from wx_tab_category";
+        List<CategoryTreeNodeEntity> userEntities = jdbcTemplate.query(exeSQL,new BeanPropertyRowMapper<>(CategoryTreeNodeEntity.class));
+        return userEntities;
+    }
 }

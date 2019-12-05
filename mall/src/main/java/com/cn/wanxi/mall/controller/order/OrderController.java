@@ -2,10 +2,17 @@ package com.cn.wanxi.mall.controller.order;
 
 
 import com.cn.wanxi.entity.order.OrderEntity;
+import com.cn.wanxi.entity.order.OrderItemEntity;
 import com.cn.wanxi.entity.order.PageMap;
+import com.cn.wanxi.service.order.IOrderItemService;
 import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.order.IOrderService;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import io.swagger.models.auth.In;
+import net.minidev.json.JSONUtil;
+import net.minidev.json.parser.JSONParser;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -13,10 +20,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.spring.web.json.Json;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
@@ -25,6 +34,8 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 public class OrderController {
     @Autowired
     private IOrderService iOrderService;
+    @Autowired
+    private IOrderItemService iOrderItemService;
 
 
     /**
@@ -34,34 +45,77 @@ public class OrderController {
      * @return
      */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
-    public Msg add(@RequestBody OrderEntity orderEntity) {
-        Msg msg=null;
-        if (null != orderEntity.getUsername() && orderEntity.getUsername().trim() != "") {
+    public Map<String, Object> add(@RequestBody OrderEntity orderEntity) {
+        Msg msg = null;
+        List<OrderItemEntity> sublist = orderEntity.getSublist();
+        if (null != orderEntity.getUsername() && orderEntity.getUsername().trim() != ""
+
+        ) {
             int result = iOrderService.add(orderEntity);
-            if (0 != result) {
-                msg = Msg.success().messageData(orderEntity);
+            int result2 = iOrderItemService.add(sublist);
+            if (result >= 1 && result2 >= 1) {
+                msg = Msg.success();
             }
         } else {
             msg = Msg.fail().messageData("名字不能为空");
         }
-        return msg;
+        Map<String, Object> map = new TreeMap<>();
+        map.put("code", msg.getCode());
+        map.put("message", msg.getMsg());
+        return map;
     }
 
     @PostMapping(value = "/findPage", produces = "application/json;charset=UTF-8")
-    public Msg list(@RequestBody Map<String, Integer> param, HttpServletResponse response) {
+    public Map<String,Object> list(@RequestBody Map<String, Object> param, HttpServletResponse response) {
         Msg msg = null;
-        int page = param.get("page");
-        int size = param.get("size");
-        PageMap pageMap = new PageMap();
-        //处理int类型的变量为空时
-        if (page == 0) {
-            page = 1;
+        OrderEntity orderEntity = new OrderEntity();
+        Map<String,Object> map = new TreeMap<>();
+        if (param.get("page") == null && param.get("size") == null) {
+            msg = Msg.fail().messageData("请输入正确的page或者size");
         }
-        if (size == 0) {
-            page = 30;
+        int page = Integer.parseInt(String.valueOf(param.get("page")));
+        int size = Integer.parseInt(String.valueOf(param.get("size")));
+
+
+//        if (param.get("bgdate")!=null){
+//            String bgDate = String.valueOf(param.get("bgdate"));
+//            OrderEntity orderEntity =new OrderEntity();
+//            orderEntity.setCreateTime(bgDate);
+//        }if (param.get("eddate")!=null){
+//            String edDate = String.valueOf(param.get("eddate"));
+//        }
+//        String edDate = String.valueOf(param.get("eddate"));
+        if (param.get("username") != null) {
+            String username = param.get("username").toString();
+            orderEntity.setUsername(username);
+        }
+        if (param.get("orderStatus") != null) {
+            String orderStatus = String.valueOf(param.get("orderStatus"));
+            orderEntity.setOrderStatus(orderStatus);
+        }
+        if (param.get("bgDate") != null && param.get("edDate") != null) {
+            String bgDate = String.valueOf(param.get("bgDate"));
+            orderEntity.setCreateTime(bgDate);
+            String edDate = String.valueOf(param.get("edDate"));
+            orderEntity.setEndTime(edDate);
+        }
+        if (param.get("bgDate") != null) {
+            String bgDate = String.valueOf(param.get("bgDate"));
+            orderEntity.setCreateTime(bgDate);
+
+        }
+        if (param.get("edDate") != null) {
+            String edDate = String.valueOf(param.get("edDate"));
+            orderEntity.setEndTime(edDate);
+
         }
 
-        Map<String, Object> list = iOrderService.list(page, size);
+
+        PageMap pageMap = new PageMap();
+
+
+        Map<String, Object> list = iOrderService.list(page, size, orderEntity);
+
         //把查询出来的对象封装在分页实体类中
         pageMap.setMap(list);
         if (null == list && list.isEmpty()) {
@@ -77,15 +131,18 @@ public class OrderController {
             //查询出来的总行数封装在分页实体类中
             pageMap.setTotalRows(TotalRows);
             msg = getPages(size, pageMap, TotalRows);
+//            map.put("total",list.size());
+            list.put("total",TotalRows);
+
         }
-        return msg;
+        return list;
     }
 
     @PostMapping(value = "/batchFindAll", produces = "application/json;charset=UTF-8")
     public Msg list2(@RequestBody Map<String, String> param) {
         Msg msg = null;
         String ids = param.get("ids");
-        if("".equals(ids)){
+        if ("".equals(ids)) {
             msg = Msg.fail().messageData("格式不对");
         } else {
             Map<String, Object> list = iOrderService.batchlist(ids);
@@ -101,31 +158,52 @@ public class OrderController {
         return msg;
     }
 
-    @PostMapping(value = "/batchSendSubmit", produces = "application/json;charset=UTF-8")
-    public Msg batchSendSubmit(@RequestBody Map<String, String> param) {
-        Msg msg = null;
+    /**
+     * 批量发货提交
+     *
+     * @param orderEntitiestr
+     * @return
+     */
 
-        Object shippingName = param.get("shippingName");
-        Object shippingCode = param.get("shippingCode");
-        Object orderId = param.get("orderId");
-        int id = Integer.parseInt(String.valueOf(orderId));
-        if (id > 0) {
-            //根据id查询数据
-            OrderEntity byId = iOrderService.findById(id);
-            //判断是否查询到该品牌信息
-            if (!ObjectUtils.isEmpty(byId)) {
-                int result = iOrderService.batchSendSubmit(id, orderId, shippingName, shippingCode);
-                if (result > 0) {
-                    msg = Msg.success();
+    @PostMapping(value = "/batchSendSubmit", produces = "application/json;charset=UTF-8")
+    public Map<String, Object> batchSendSubmit(@RequestBody String orderEntitiestr) {
+        Msg msg = null;
+        int id = 0;
+        int orderId = 0;
+        String shippingName;
+        String shippingCode;
+
+        // 转化为json格式
+        JSONObject jsonObject = JSONObject.fromObject(orderEntitiestr);
+        // 拿到json对象的属性
+        JSONArray jsonArray = jsonObject.getJSONArray("orderEntities");
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
+            id = jsonObject1.getInt("id");
+            orderId = jsonObject1.getInt("id");
+            shippingName = jsonObject1.getString("shippingName");
+            shippingCode = jsonObject1.getString("shippingCode");
+            if (id > 0) {
+                //根据id查询数据
+                OrderEntity byId = iOrderService.findById(id);
+                //判断是否查询到该品牌信息
+                if (!ObjectUtils.isEmpty(byId)) {
+                    int result = iOrderService.batchSendSubmit(id, orderId, shippingName, shippingCode);
+                    if (result > 0) {
+                        msg = Msg.success();
+                    }
+                } else {
+                    msg = Msg.fail().messageData("该订单不存在");
                 }
             } else {
-                msg = Msg.fail().messageData("该订单不存在");
+                msg = Msg.fail().messageData("输入格式有误");
             }
-        } else {
-            msg = Msg.fail().messageData("输入格式有误");
         }
-        return msg;
+        Map<String, Object> map = new TreeMap<>();
+        map.put("code", msg.getCode());
+        map.put("message", msg.getMsg());
 
+        return map;
     }
 //    @PostMapping("/findbyorderid")
 //    public Msg findByOrderId(int orderId) {
@@ -224,6 +302,22 @@ public class OrderController {
         pageMap.setPages(pages);
         msg = Msg.success().messageData(pageMap);
         return msg;
+    }
+
+    /**
+     * 【test】
+     *
+     * @param list
+     * @return
+     */
+    @PostMapping(value = "/test", produces = "application/json;charset=UTF-8")
+    public Msg test(@RequestBody List<Map<String,String>> list) {
+
+
+
+        int a = 10;
+
+        return new Msg();
     }
 
 //    @PostMapping(value = "/test", produces = "application/json;charset=UTF-8")

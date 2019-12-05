@@ -1,14 +1,12 @@
 package com.cn.wanxi.entity.category;
 
-import com.cn.wanxi.entity.Universal;
-
 import java.util.Date;
 
 /**
  * @author LeesonWong
  * @date 2019/11/26 23:09
  */
-public class TestEntity implements Universal {
+public class TestEntity {
     private Integer id;
     private String name;
     private Date updateTimer;
