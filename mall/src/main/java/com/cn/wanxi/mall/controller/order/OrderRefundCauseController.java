@@ -53,7 +53,7 @@ public class OrderRefundCauseController {
                 page = 30;
             }
             List<Map<String, Object>> list = iRefundCauseService.findAll(page, size, type);
-            pageList.setList(list);
+            pageList.setRows(list);
 
             //把查询出来的对象封装在分页实体类中
             if (null == list && list.isEmpty()) {
