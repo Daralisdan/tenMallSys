@@ -1,8 +1,13 @@
 package com.cn.wanxi.mall;
 
+import com.cn.wanxi.mall.controller.menu.MenuController;
+import com.cn.wanxi.mall.controller.menu.Timer;
+import com.cn.wanxi.service.menu.IMenuService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
@@ -10,13 +15,17 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.TimerTask;
+
 
 @EnableSwagger2
+@EnableScheduling
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.cn.wanxi"})
 public class MallApplication extends WebMvcConfigurationSupport {
     public static void main(String[] args) {
-
         SpringApplication.run(MallApplication.class, args);
         System.out.println("Springboot项目启动入口");
         System.out.println("master");
@@ -79,6 +88,5 @@ public class MallApplication extends WebMvcConfigurationSupport {
                 // 跨域允许时间
                 .maxAge(3600);
     }
-
 
 }

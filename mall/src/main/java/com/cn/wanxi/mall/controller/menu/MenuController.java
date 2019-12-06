@@ -1,17 +1,26 @@
 package com.cn.wanxi.mall.controller.menu;
 
+import com.cn.wanxi.dao.menu.IMenuDao;
 import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.brand.ByPage;
 import com.cn.wanxi.entity.brand.PageList;
 import com.cn.wanxi.entity.menu.MenuEntity;
 import com.cn.wanxi.service.menu.IMenuService;
 import com.cn.wanxi.utils.utils.Msg;
+import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +32,7 @@ import static org.springframework.util.ObjectUtils.isEmpty;
  *
  * 2019/11/18,Create by zhoushiling
  */
+@Component
 @RestController
 @RequestMapping("/menu")
 public class MenuController {
@@ -55,11 +65,9 @@ public class MenuController {
      */
 
     @PostMapping("/findAll")
-    public Msg findAll(HttpServletResponse response) {
-        response.setHeader("Access-Control-Allow-Origin", "*");
+    public Msg findAll() {
         Msg msg = null;
-        List<Map<String, Object>> list = iMenuService.findAll();
-        //判断集合是否有数据，如果没有数据返回失败
+        List<Map<String, Object>> list = iMenuService.findAll();        //判断集合是否有数据，如果没有数据返回失败
         if (list.isEmpty()) {
             msg = Msg.fail().messageData("数据库没有数据");
         } else {
@@ -67,6 +75,7 @@ public class MenuController {
         }
         return msg;
     }
+
     /**
      * 【通过id查询菜品信息】
      *
@@ -141,8 +150,7 @@ public class MenuController {
      * @return
      */
     @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
-    public Msg deleteById(@RequestBody Map<String, Integer> param,HttpServletResponse response) {
-        response.setHeader("Access-Control-Allow-Origin", "*");
+    public Msg deleteById(@RequestBody Map<String, Integer> param) {
         Msg msg = null;
         int id = param.get("id");
         if (id > 0) {

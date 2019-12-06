@@ -83,6 +83,12 @@
             <classifier>jdk15</classifier>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.12</version>
+        </dependency>
+
 
         <!--<dependency>-->
         <!--<groupId>com.vaadin.external.google</groupId>-->
