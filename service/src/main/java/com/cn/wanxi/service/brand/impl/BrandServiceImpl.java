@@ -5,14 +5,12 @@ import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.brand.ByPage;
 import com.cn.wanxi.service.brand.IBrandService;
 import com.cn.wanxi.utils.utils.Msg;
-import com.cn.wanxi.utils.utils.MsgData;
 import com.cn.wanxi.utils.utils.PageList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -65,8 +63,7 @@ public class BrandServiceImpl implements IBrandService {
         //判断集合是否有数据，如果没有数据返回失败
         //对List进行判空时，需要使用两个条件：先使用 list == null判断list是否初始化后，再使用 list .size == 0判断是否为空。
         if (null != maps && maps.size() > 0) {
-//            msg = new Msg(0, maps);
-            msg = new Msg(0, "查询成功", new MsgData(maps, maps.size()));
+            msg = new Msg(0, "查询成功", maps);
         } else {
             msg = new Msg(1, "数据库中没有数据");
         }
@@ -83,12 +80,10 @@ public class BrandServiceImpl implements IBrandService {
     public Msg findById(Integer id) {
         Msg msg;
         if (!StringUtils.isEmpty(id) && id > 0) {
-            BrandEntity brand = brandDao.findById(id);
             //判断是否有返回的数据
-            List<BrandEntity> list = new ArrayList<>();
-            list.add(brand);
+            BrandEntity brand = brandDao.findById(id);
             if (!ObjectUtils.isEmpty(brand)) {
-                msg = new Msg(0, "查询成功", new MsgData(list, list.size()));
+                msg = new Msg(0, "查询成功", brand);
             } else {
                 msg = new Msg(1, "未查询到数据,该品牌不存在");
             }
@@ -176,7 +171,7 @@ public class BrandServiceImpl implements IBrandService {
         Msg msg;
         List<Map<String, Object>> list = brandDao.findList(brandEntity);
         if (null != list && list.size() > 0) {
-            msg = new Msg(0, "查询成功", new MsgData(list, list.size()));
+            msg = new Msg(0, "查询成功", list);
         } else {
             msg = new Msg(1, "该品牌信息不存在");
         }
@@ -254,7 +249,7 @@ public class BrandServiceImpl implements IBrandService {
         //判断集合是否有数据，如果没有数据返回失败
         //对List进行判空时，需要使用两个条件：先使用 list == null判断list是否初始化后，再使用 list .size == 0判断是否为空。
         if (null != list && list.size() > 0) {
-            msg = new Msg(0, "查询成功", new MsgData(list, list.size()));
+            msg = new Msg(0, "查询成功", list);
         } else {
             msg = new Msg(1, "数据库中没有数据");
         }
@@ -275,7 +270,7 @@ public class BrandServiceImpl implements IBrandService {
         Msg msg;
         if (null != list && list.size() > 0) {
             //把查询出来的对象封装在分页实体类中
-            pageList.setList(list);
+            pageList.setRows(list);
             //统计所有数据的总行数
             int totalRows = brandDao.countAll();
 
@@ -294,9 +289,8 @@ public class BrandServiceImpl implements IBrandService {
             System.out.println("目前分页的总页数是" + pages);
             //总页数
             pageList.setPages(pages);
-            List<PageList> map = new ArrayList<>();
-            map.add(pageList);
-            msg = new Msg(0, new MsgData(map, map.size()));
+
+            msg = new Msg(0, "查询成功", pageList);
         } else {
             msg = new Msg(1, "未查询到相关品牌的信息");
         }

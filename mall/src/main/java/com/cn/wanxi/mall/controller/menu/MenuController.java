@@ -185,7 +185,7 @@ public class MenuController {
         //根据页数，每页记录数查询
         List<Map<String, Object>> list = iMenuService.findListAndPage(menuEntity, i, j);
         //把查询出来的对象封装在分页实体类中
-        pageList.setList(list);
+        pageList.setRows(list);
         //统计所有数据的总行数
         int TotalRows = iMenuService.countAll();
         //把页数封装在分页实体类中
