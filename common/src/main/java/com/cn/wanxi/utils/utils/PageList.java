@@ -1,4 +1,4 @@
-package com.cn.wanxi.entity.brand;
+package com.cn.wanxi.utils.utils;
 
 import lombok.Data;
 
@@ -21,5 +21,5 @@ public class PageList {
     //总记录数
     private int totalRows;
 
-    private List list = new ArrayList();
+    private List rows = new ArrayList();
 }

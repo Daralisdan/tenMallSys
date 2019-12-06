@@ -16,11 +16,11 @@ public class FileUploadUtils {
 
     public Msg uploadUtil(MultipartFile file, String path, String imageFileName) {
         if (file == null) {
-            return Msg.fail().messageData("空");
+            return new Msg(1, "文件为空");
         }
 
         if (file.isEmpty()) {
-            return Msg.fail().messageData("文件不存在");
+            return new Msg(1, "文件不存在");
         }
         Msg msg;
         if (!file.isEmpty()) {
@@ -29,13 +29,13 @@ public class FileUploadUtils {
 
             boolean upload = upload(file, path + realName);
             if (upload) {
-                msg = Msg.success().messageData(realName);
+                msg = new Msg(0, realName);
 
             } else {
-                msg = Msg.fail().messageData("IO错误");
+                msg = new Msg(1, "IO错误");
             }
         } else {
-            msg = Msg.fail().messageData("图片错误！");
+            msg = new Msg(1, "图片错误！");
         }
         return msg;
     }

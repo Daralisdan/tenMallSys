@@ -5,12 +5,8 @@ import com.cn.wanxi.entity.order.OrderEntity;
 import com.cn.wanxi.entity.order.OrderItemEntity;
 import com.cn.wanxi.entity.order.PageMap;
 import com.cn.wanxi.service.order.IOrderItemService;
-import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.order.IOrderService;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import io.swagger.models.auth.In;
-import net.minidev.json.JSONUtil;
-import net.minidev.json.parser.JSONParser;
+import com.cn.wanxi.utils.utils.Msg;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.spring.web.json.Json;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
-import static org.springframework.util.ObjectUtils.isEmpty;
 
 @RestController
 @RequestMapping("/order")
@@ -304,21 +297,21 @@ public class OrderController {
         return msg;
     }
 
-    /**
-     * 【test】
-     *
-     * @param list
-     * @return
-     */
-    @PostMapping(value = "/test", produces = "application/json;charset=UTF-8")
-    public Msg test(@RequestBody List<Map<String,String>> list) {
-
-
-
-        int a = 10;
-
-        return new Msg();
-    }
+//    /**
+//     * 【test】
+//     *
+//     * @param list
+//     * @return
+//     */
+//    @PostMapping(value = "/test", produces = "application/json;charset=UTF-8")
+//    public Msg test(@RequestBody List<Map<String,String>> list) {
+//
+//
+//
+//        int a = 10;
+//
+//        return new Msg();
+//    }
 
 //    @PostMapping(value = "/test", produces = "application/json;charset=UTF-8")
 //    public Map<String, Object> test(@RequestBody Map<String, String> param) {
