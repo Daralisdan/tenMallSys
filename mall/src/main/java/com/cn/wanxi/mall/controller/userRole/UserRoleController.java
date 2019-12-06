@@ -12,7 +12,6 @@ package com.cn.wanxi.mall.controller.userRole;
 
 import com.cn.wanxi.service.userRole.IUserRoleService;
 import com.cn.wanxi.utils.utils.Msg;
-import com.cn.wanxi.utils.utils.MsgData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -74,7 +73,7 @@ public class UserRoleController {
             return m;
         }
         ArrayList<String> menuNames = iUserRoleService.getMenuName(username);
-        m = new Msg(0, new MsgData(menuNames, menuNames.size()));
+        m = new Msg(0, "查询成功", menuNames);
         return m;
     }
 }
