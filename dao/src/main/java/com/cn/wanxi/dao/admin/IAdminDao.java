@@ -3,7 +3,6 @@ package com.cn.wanxi.dao.admin;
 import com.cn.wanxi.entity.admin.AdminEntity;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 【登陆认证】
