@@ -168,12 +168,13 @@ public class SpuDaoImpl implements ISpuDao {
         for (Map<String, Object> sss : listzhu) {
             String sql2 = "select id, sn, name, price, num, alert_num as alertNum, image, images, weight, create_time as createTime, update_time as updateTime, spu_id as spuId, category_id as categoryId, category_name as categoryName, brand_name as barndName, spec, sale_num as saleNum, comment_num commentNum, status from wx_tab_sku where spu_id = " +sss.get("id");
             List<Map<String, Object>> list = jdbcTemplate.queryForList(sql2);
-            sss.put("sublist", list);
+            sss.put("skuList", list);
             listss.add(sss);
         }
-        map.put("row",listss);
+        map.put("rows",listss);
         return map;
     }
+    @Override
     public List<Map<String, Object>> fe1nye(int page, int size) {
         String exeSQL = "select id, sn, name, caption, brand_id as brandId, category1_id as category1Id, category2_id as category2Id, category3_id as category3Id, template_id as templateId, freight_id as freightId, image, images, sale_service as saleService, introduction, spec_items as specItems, para_items as paraItms, sale_num as saleNum, comment_num as commentNum, is_marketable as isMakeTable, is_enable_pec as isEnablePec, is_delete as isDelete, status from wx_tab_spu limit "+(page-1)*size+","+size;
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
@@ -213,7 +214,6 @@ public class SpuDaoImpl implements ISpuDao {
     @Override
     public int piliangxiajia(String id) {
         String sql = "update  wx_tab_spu set is_marketable='2' where id in "+"("+id+")";
-
         int temp = jdbcTemplate.update(sql);
         return temp;
     }
