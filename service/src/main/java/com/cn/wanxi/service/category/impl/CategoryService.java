@@ -1,11 +1,15 @@
 package com.cn.wanxi.service.category.impl;
 
+import com.cn.wanxi.dao.category.ICategoryDao;
 import com.cn.wanxi.entity.category.CategoryEntity;
+import com.cn.wanxi.entity.category.CategoryTreeNodeEntity;
 import com.cn.wanxi.service.category.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.beans.BeanMap;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -19,7 +23,7 @@ import java.util.List;
 public class CategoryService implements ICategoryService {
 
     @Autowired
-    private com.cn.wanxi.dao.category.ICategoryDao iCategoryDao;
+    private ICategoryDao iCategoryDao;
 
 
     @Override
@@ -45,5 +49,36 @@ public class CategoryService implements ICategoryService {
     @Override
     public boolean delete(int id) {
         return iCategoryDao.deleteById(id);
+    }
+
+    @Override
+    public ArrayList<CategoryTreeNodeEntity> getCategoryTree() {
+        List<CategoryTreeNodeEntity> all = iCategoryDao.findNodeAll();
+
+        //一级菜单
+        ArrayList<CategoryTreeNodeEntity> result = getSubList(all,0);
+        //二级菜单
+        for(int i = 0;i < result.size();++i){
+            CategoryTreeNodeEntity temp = result.get(i);
+            ArrayList<CategoryTreeNodeEntity> tempList = getSubList(all,temp.getId());
+            //三级菜单
+            for(int j = 0;j < tempList.size();++j){
+                CategoryTreeNodeEntity tempInner = tempList.get(j);
+                ArrayList<CategoryTreeNodeEntity> tempInnerList = getSubList(all,tempInner.getId());
+                tempInner.setList(tempInnerList);
+            }
+            temp.setList(tempList);
+        }
+        return result;
+    }
+
+    private ArrayList<CategoryTreeNodeEntity> getSubList(List<CategoryTreeNodeEntity> target,int id){
+        ArrayList<CategoryTreeNodeEntity> result = new ArrayList<>();
+        for(CategoryTreeNodeEntity iter : target){
+            if(id == iter.getParentId()){
+                result.add(iter);
+            }
+        }
+        return result;
     }
 }

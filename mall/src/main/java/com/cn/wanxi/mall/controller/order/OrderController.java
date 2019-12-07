@@ -5,12 +5,8 @@ import com.cn.wanxi.entity.order.OrderEntity;
 import com.cn.wanxi.entity.order.OrderItemEntity;
 import com.cn.wanxi.entity.order.PageMap;
 import com.cn.wanxi.service.order.IOrderItemService;
-import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.order.IOrderService;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import io.swagger.models.auth.In;
-import net.minidev.json.JSONUtil;
-import net.minidev.json.parser.JSONParser;
+import com.cn.wanxi.utils.utils.Msg;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.spring.web.json.Json;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
-import static org.springframework.util.ObjectUtils.isEmpty;
 
 @RestController
 @RequestMapping("/order")
@@ -66,9 +59,10 @@ public class OrderController {
     }
 
     @PostMapping(value = "/findPage", produces = "application/json;charset=UTF-8")
-    public Msg list(@RequestBody Map<String, Object> param, HttpServletResponse response) {
+    public Map<String,Object> list(@RequestBody Map<String, Object> param, HttpServletResponse response) {
         Msg msg = null;
         OrderEntity orderEntity = new OrderEntity();
+        Map<String,Object> map = new TreeMap<>();
         if (param.get("page") == null && param.get("size") == null) {
             msg = Msg.fail().messageData("请输入正确的page或者size");
         }
@@ -114,6 +108,7 @@ public class OrderController {
 
 
         Map<String, Object> list = iOrderService.list(page, size, orderEntity);
+
         //把查询出来的对象封装在分页实体类中
         pageMap.setMap(list);
         if (null == list && list.isEmpty()) {
@@ -129,8 +124,11 @@ public class OrderController {
             //查询出来的总行数封装在分页实体类中
             pageMap.setTotalRows(TotalRows);
             msg = getPages(size, pageMap, TotalRows);
+//            map.put("total",list.size());
+            list.put("total",TotalRows);
+
         }
-        return msg;
+        return list;
     }
 
     @PostMapping(value = "/batchFindAll", produces = "application/json;charset=UTF-8")
@@ -167,6 +165,7 @@ public class OrderController {
         int orderId = 0;
         String shippingName;
         String shippingCode;
+
         // 转化为json格式
         JSONObject jsonObject = JSONObject.fromObject(orderEntitiestr);
         // 拿到json对象的属性
@@ -196,6 +195,7 @@ public class OrderController {
         Map<String, Object> map = new TreeMap<>();
         map.put("code", msg.getCode());
         map.put("message", msg.getMsg());
+
         return map;
     }
 //    @PostMapping("/findbyorderid")
@@ -296,6 +296,22 @@ public class OrderController {
         msg = Msg.success().messageData(pageMap);
         return msg;
     }
+
+//    /**
+//     * 【test】
+//     *
+//     * @param list
+//     * @return
+//     */
+//    @PostMapping(value = "/test", produces = "application/json;charset=UTF-8")
+//    public Msg test(@RequestBody List<Map<String,String>> list) {
+//
+//
+//
+//        int a = 10;
+//
+//        return new Msg();
+//    }
 
 //    @PostMapping(value = "/test", produces = "application/json;charset=UTF-8")
 //    public Map<String, Object> test(@RequestBody Map<String, String> param) {

@@ -57,8 +57,8 @@ public class AdvertisinDaoImp implements IAdvertisinDao {
 
     @Override
     public boolean add(String position, String name, String startTime, String endTime, String status, String image, String url, String remarks) {
-        String exeSQL = "insert into wx_tab_advertisin(position,name,start_time,end_time,status,image,url,remarks) values(?,?,?,?,?,?,?)";
-        Object[] args = {position, name, startTime, endTime, image, url, remarks};
+        String exeSQL = "insert into wx_tab_advertisin(position,name,start_time,end_time,status,image,url,remarks) values(?,?,?,?,?,?,?,?)";
+        Object[] args = {position, name, startTime, endTime,status, image, url, remarks};
         int temp = jdbcTemplate.update(exeSQL, args);
         return 0 < temp;
     }

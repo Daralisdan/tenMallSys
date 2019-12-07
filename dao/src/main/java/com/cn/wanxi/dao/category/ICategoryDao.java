@@ -1,6 +1,7 @@
 package com.cn.wanxi.dao.category;
 
 import com.cn.wanxi.entity.category.CategoryEntity;
+import com.cn.wanxi.entity.category.CategoryTreeNodeEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,4 +25,6 @@ public interface ICategoryDao {
     boolean update(CategoryEntity categoryEntity);
 
     boolean deleteById(int id);
+
+    public List<CategoryTreeNodeEntity> findNodeAll();
 }

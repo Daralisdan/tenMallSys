@@ -2,6 +2,7 @@ package com.cn.wanxi.dao.menu.impl;
 
 import com.cn.wanxi.dao.menu.IMenuDao;
 import com.cn.wanxi.entity.menu.MenuEntity;
+import com.cn.wanxi.entity.menu.MenuTreeNodeEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -72,6 +73,13 @@ public class MenuDaoImpl implements IMenuDao {
         String exeSQL = "SELECT s.name   FROM wx_tab_menu  s  JOIN  wx_tab_roleMenu b ON s.id =  b.menu_id  JOIN wx_tab_role c on b.role_id= c.id  JOIN wx_tab_userRole d on c.id =d.role_id    where username=?";
         List<Map<String,Object>> list = jdbcTemplate.queryForList(exeSQL,username);
         return list;
+    }
+
+    public List<MenuEntity> findAllByParentId(int parentId) {
+        String exeSQL = "select id,name,icon,url,parent_id as parentId from wx_tab_menu where parent_id = ?";
+        Object[] args = {parentId};
+        List<MenuEntity> userEntities = jdbcTemplate.query(exeSQL,args,new BeanPropertyRowMapper<>(MenuEntity.class));
+        return userEntities;
     }
 
 
@@ -153,5 +161,20 @@ public class MenuDaoImpl implements IMenuDao {
             sql.append("    AND parentId=" + menuEntity.getParentId());
         }
         return sql;
+    }
+
+    @Override
+    public List<MenuTreeNodeEntity> findNodeAll() {
+        String exeSQL = "select id,name,icon,url,parent_id from wx_tab_menu";
+        List<MenuTreeNodeEntity> userEntities = jdbcTemplate.query(exeSQL,new BeanPropertyRowMapper<>(MenuTreeNodeEntity.class));
+        return userEntities;
+    }
+
+    @Override
+    public List<Integer> findMenuByRoleId(int roleId) {
+        String exeSQL = "select menu_id from wx_tab_rolemenu where role_id=?";
+        Object[] args = {roleId};
+        List<Integer> idList = jdbcTemplate.queryForList(exeSQL,args,Integer.class);
+        return idList;
     }
 }

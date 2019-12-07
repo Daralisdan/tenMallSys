@@ -1,13 +1,12 @@
 package com.cn.wanxi.mall.controller.order;
 
 
-import com.cn.wanxi.entity.brand.PageList;
-import com.cn.wanxi.entity.order.PageMap;
 import com.cn.wanxi.entity.order.RefundCauseEntity;
 import com.cn.wanxi.entity.order.ReturnCauseEntity;
-import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.order.IRefundCauseService;
 import com.cn.wanxi.service.order.IReturnCauseService;
+import com.cn.wanxi.utils.utils.Msg;
+import com.cn.wanxi.utils.utils.PageList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -17,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
-
-import static org.springframework.util.StringUtils.isEmpty;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @RestController
 @RequestMapping("/refund")
@@ -30,11 +29,12 @@ public class OrderRefundCauseController {
     private IReturnCauseService iReturnCauseService;
 
     @PostMapping(value = "/findAll", produces = "application/json;charset=UTF-8")
-    public Msg refundList(@RequestBody Map<String, Object> param, HttpServletResponse response) {
+    public Map<String, Object> refundList(@RequestBody Map<String, Object> param) {
         Msg msg = null;
         int page = 0;
         int size = 0;
         String types = null;
+        Map<String, Object> map = new TreeMap<>();
         try {
             page = Integer.parseInt(param.get("page").toString());
             size = Integer.parseInt(param.get("size").toString());
@@ -52,30 +52,37 @@ public class OrderRefundCauseController {
             if (size == 0) {
                 page = 30;
             }
-
             List<Map<String, Object>> list = iRefundCauseService.findAll(page, size, type);
-            //把查询出来的对象封装在分页实体类中
             pageList.setList(list);
+
+            //把查询出来的对象封装在分页实体类中
             if (null == list && list.isEmpty()) {
                 msg = Msg.fail().messageData("订单信息不存在");
             } else {
 
                 //统计所有数据的总行数
-                int TotalRows = iRefundCauseService.countAll();
+                int totalRows = iRefundCauseService.countAll();
 
                 //把页数封装在分页实体类中
                 pageList.setPage(page);
                 pageList.setTotal(list.size());
                 //查询出来的总行数封装在分页实体类中
-                pageList.setTotalRows(TotalRows);
-                msg = getPages(size, pageList, TotalRows);
+                pageList.setTotalRows(totalRows);
+                msg = getPages(size, pageList, totalRows);
+                map.put("code", msg.getCode());
+                map.put("massage", msg.getMsg());
+                map.put("rows", list);
+                map.put("total", list.size());
+//                map.put("",msg);
+
             }
         } else {
-            msg = Msg.fail().messageData("请输入订单类型");
+            map.put("code", "1");
+            map.put("message", "处理失败");
         }
 
 
-        return msg;
+        return map;
 
     }
 
@@ -88,9 +95,9 @@ public class OrderRefundCauseController {
         } else {
             msg = Msg.fail();
         }
-        Map<String,Object> map = new TreeMap<>();
-        map.put("code",msg.getCode());
-        map.put("message",msg.getMsg());
+        Map<String, Object> map = new TreeMap<>();
+        map.put("code", msg.getCode());
+        map.put("message", msg.getMsg());
         return map;
     }
 

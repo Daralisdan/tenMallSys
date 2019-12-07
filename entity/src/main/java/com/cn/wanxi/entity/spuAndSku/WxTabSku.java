@@ -1,7 +1,5 @@
 package com.cn.wanxi.entity.spuAndSku;
 
-import java.sql.Date;
-
 public class WxTabSku {
     private Integer id;
     private String sn;
@@ -12,13 +10,13 @@ public class WxTabSku {
     private String image;
     private String images;
     private Integer weight;
-    private Date createTime;
-    private Date updateTime;
+    private String createTime;
+    private String updateTime;
     private Integer spuId;
     private Integer categoryId;
     private String categoryName;
     private String brandName;
-    private String spec;
+    private Object spec;
     private Integer saleNum;
     private Integer commentNum;
     private String status;
@@ -95,19 +93,19 @@ public class WxTabSku {
         this.weight = weight;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 
@@ -143,11 +141,11 @@ public class WxTabSku {
         this.brandName = brandName;
     }
 
-    public String getSpec() {
+    public Object getSpec() {
         return spec;
     }
 
-    public void setSpec(String spec) {
+    public void setSpec(Object spec) {
         this.spec = spec;
     }
 
@@ -187,13 +185,13 @@ public class WxTabSku {
                 ", image='" + image + '\'' +
                 ", images='" + images + '\'' +
                 ", weight=" + weight +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
+                ", createTime='" + createTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
                 ", spuId=" + spuId +
                 ", categoryId=" + categoryId +
                 ", categoryName='" + categoryName + '\'' +
                 ", brandName='" + brandName + '\'' +
-                ", spec='" + spec + '\'' +
+                ", spec=" + spec +
                 ", saleNum=" + saleNum +
                 ", commentNum=" + commentNum +
                 ", status='" + status + '\'' +
