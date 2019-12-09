@@ -1,9 +1,9 @@
 package com.cn.wanxi.service.order;
 
 import com.cn.wanxi.entity.order.OrderItemEntity;
+import com.cn.wanxi.utils.utils.Msg;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -12,11 +12,11 @@ import java.util.Map;
 public interface IOrderItemService {
     int add(List<OrderItemEntity> orderItemEntityList);
 
-    List<Map<String, Object>> findAll();
+    Msg findAll();
 
-    OrderItemEntity findById(int id);
+    Msg findById(int id);
 
-    int deleteById(int id);
+    Msg deleteById(int id);
 
-    int update(OrderItemEntity orderItemEntity);
+    Msg update(OrderItemEntity orderItemEntity);
 }

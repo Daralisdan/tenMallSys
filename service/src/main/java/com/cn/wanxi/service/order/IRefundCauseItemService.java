@@ -2,18 +2,16 @@ package com.cn.wanxi.service.order;
 
 
 import com.cn.wanxi.entity.order.RefundCauseItemEntity;
-
-import java.util.List;
-import java.util.Map;
+import com.cn.wanxi.utils.utils.Msg;
 
 public interface IRefundCauseItemService {
-    int add(RefundCauseItemEntity refundCauseItemEntity);
+    Msg add(RefundCauseItemEntity refundCauseItemEntity);
 
-    List<Map<String, Object>> findAll();
+    Msg findAll();
 
-    RefundCauseItemEntity findById(int id);
+    Msg findById(int id);
 
-    int deleteById(int id);
+    Msg deleteById(int id);
 
-    int update(RefundCauseItemEntity refundCauseItemEntity);
+    Msg update(RefundCauseItemEntity refundCauseItemEntity);
 }
