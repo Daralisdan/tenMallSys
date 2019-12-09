@@ -52,4 +52,9 @@ public class AdvertisinServiceImp implements IAdvertisinService {
     public boolean delete(int id) {
         return iAdvertisinDao.delete(id);
     }
+
+    @Override
+    public Integer findCondPageSum(String position) {
+        return iAdvertisinDao.findCondPageSum(position);
+    }
 }

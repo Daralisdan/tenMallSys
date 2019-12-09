@@ -8,9 +8,9 @@
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
-package com.cn.wanxi.dao.userRole.impl;
+package com.cn.wanxi.dao.AdminRole.impl;
 
-import com.cn.wanxi.dao.userRole.UserRoleDao;
+import com.cn.wanxi.dao.AdminRole.IAdminRoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -24,20 +24,19 @@ import org.springframework.stereotype.Repository;
  * @since 1.0.0
  */
 @Repository
-public class UserRoleDaoImpl implements UserRoleDao {
+public class AdminRoleDaoImpl implements IAdminRoleDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-
     @Override
-    public int[] batchCarFlowInsert(String username, String roleid) {
+    public int[] batchCarFlowInsert(String adminName, String roleId) {
 //
-        String[] split = roleid.split(",");
+        String[] split = roleId.split(",");
         String sql = null;
         int[] c = null;
         for (String i : split) {
             int roleids = Integer.parseInt(i);
-            sql = " INSERT INTO wx_tab_userRole(username,role_id) VALUES ('" + username + "' , " + roleids + ")";
+            sql = " INSERT INTO wx_tab_adminRole(admin_name,role_id) VALUES ('" + adminName + "' , " + roleids + ")";
             c = jdbcTemplate.batchUpdate(sql);
             System.out.println(c.length);
         }
@@ -45,14 +44,14 @@ public class UserRoleDaoImpl implements UserRoleDao {
     }
 
     @Override
-    public int[] batchCarFlowDelete(String username ,String roleid) {
+    public int[] batchCarFlowDelete(String adminName ,String roleId) {
 //
-        String[] split = roleid.split(",");
+        String[] split = roleId.split(",");
         String sql =null;
         int[] c= null;
         for (String i : split){
             int roleids = Integer.parseInt(i);
-            sql =" delete  from wx_tab_userRole where username= '"+username+"' and role_id= "+roleids+" ";
+            sql =" delete  from wx_tab_adminRole where admin_name= '"+adminName+"' and role_id= "+roleids+" ";
             c = jdbcTemplate.batchUpdate(sql);
             System.out.println(c.length);
         }
@@ -60,9 +59,9 @@ public class UserRoleDaoImpl implements UserRoleDao {
     }
 
     @Override
-    public Integer selectRoleByUsername(String username) {
-        String sql = "select role_id from wx_tab_userRole where username = ?";
-        Object[] args = {username};
+    public Integer selectRoleByUsername(String adminName) {
+        String sql = "select role_id from wx_tab_adminRole where admin_name = ?";
+        Object[] args = {adminName};
         Integer roleId = jdbcTemplate.queryForObject(sql,args,Integer.class);
         return roleId;
     }
