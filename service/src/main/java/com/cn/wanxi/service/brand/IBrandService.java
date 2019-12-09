@@ -1,35 +1,33 @@
 package com.cn.wanxi.service.brand;
 
 import com.cn.wanxi.entity.brand.BrandEntity;
+import com.cn.wanxi.entity.brand.ByPage;
 import com.cn.wanxi.utils.utils.Msg;
 
-import java.util.List;
 import java.util.Map;
 
 /**
  * 2019/11/17,Create by yaodan
  */
 public interface IBrandService {
-    int deleteById(int id);
+    Msg deleteById(Integer id);
 
     Msg add(BrandEntity brandEntity);
 
-    List<Map<String, Object>> findAll();
+    Msg findAll();
 
-    BrandEntity findById(Integer id);
+    Msg findById(Integer id);
 
     Msg update(BrandEntity brandEntity);
 
-    List<Map<String, Object>> findList(BrandEntity brandEntity);
+    Msg findList(BrandEntity brandEntity);
 
-    List<Map<String, Object>> findAllbyPage(int page, int size);
+    Msg findAllbyPage(Map<String, Integer> param);
 
     int countAll();
 
-    List<Map<String, Object>> findListAndPage(BrandEntity brandEntity, int page, int size);
+    Msg findListAndPage(ByPage byPage);
 
-    int adds(Map<String, BrandEntity> brandEntity);
 
-    int fileUpload(String realName);
-
+    Msg findIdAndName();
 }

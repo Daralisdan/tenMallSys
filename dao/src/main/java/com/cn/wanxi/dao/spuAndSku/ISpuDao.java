@@ -26,6 +26,8 @@ public interface ISpuDao{
 
     WxTabSpu findById(int id);
 
+    List<Map<String, Object>> fe1nye(int page, int size);
+
     List<Map<String, Object>> daishenheliebiao(WxTabSpu wxTabSpu, int page,int size );
 
     WxTabSpu findByName(String name);

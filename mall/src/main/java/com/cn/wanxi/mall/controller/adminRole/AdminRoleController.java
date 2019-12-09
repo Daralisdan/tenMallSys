@@ -69,11 +69,11 @@ public class AdminRoleController {
         String username = param.get("username");
         int a = 10;
         if(isEmpty(username) || "".equals(username)){
-            m = new Msg().messageData("查询失败");
+            m = new Msg(1,"查询失败");
             return m;
         }
         ArrayList<String> menuNames = iAdminRoleService.getMenuName(username);
-        m = new Msg().messageData(menuNames);
+        m = new Msg(0,"查询成功",menuNames);
         return m;
     }
 }

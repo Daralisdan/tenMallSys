@@ -55,7 +55,7 @@ public class BrandDaoImpl implements BrandDao {
      * @param
      */
     @Override
-    public BrandEntity findById(int id) {
+    public BrandEntity findById(Integer id) {
         BrandEntity brandEntitiy = null;
         String exeSQL = "select id,name,image,letter,seq from wx_tab_brand where id=?";
         List<BrandEntity> brandEntities = jdbcTemplate.query(exeSQL, new Object[]{id}, new BeanPropertyRowMapper<BrandEntity>(BrandEntity.class));
@@ -88,7 +88,7 @@ public class BrandDaoImpl implements BrandDao {
      * @return
      */
     @Override
-    public int deleteById(int id) {
+    public int deleteById(Integer id) {
         String exeSQL = "DELETE FROM wx_tab_brand WHERE id=?";
         return jdbcTemplate.update(exeSQL, id);
     }
@@ -153,15 +153,10 @@ public class BrandDaoImpl implements BrandDao {
     }
 
     @Override
-    public int adds(Map<String, BrandEntity> brandEntity) {
-//        brandEntity.
-        return 0;
-    }
-
-    @Override
-    public int fileUpload(String realName) {
-
-        return 0;
+    public List<Map<String, Object>> queryNameId() {
+        String exeSQL = "select id,name from wx_tab_brand";
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
+        return list;
     }
 
 
