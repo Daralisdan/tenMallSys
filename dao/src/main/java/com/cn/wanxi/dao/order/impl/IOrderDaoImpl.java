@@ -149,7 +149,7 @@ public class IOrderDaoImpl implements IOrderDao {
 
     @Override
     public void update() {
-        String exeSQL1 = "select * from wx_tab_order where order_status ='0'";
+        String exeSQL1 = "select * from wx_tab_order where order_status ='0' and (now()-create_time)>48 ";
         List<Map<String, Object>> listzhu = jdbcTemplate.queryForList(exeSQL1);
         for (Map<String, Object> sss : listzhu) {
             String exeSQL = "update wx_tab_order set order_status='4' where id="+sss.get("id");
