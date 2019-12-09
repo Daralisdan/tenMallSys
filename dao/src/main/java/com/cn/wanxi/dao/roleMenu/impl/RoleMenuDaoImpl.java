@@ -68,9 +68,9 @@ public class RoleMenuDaoImpl implements RoleMenuDao {
     }
 
     @Override
-    public List<RoleMenuEntity> findEntitiesByRoleId(int roleid) {
+    public List<RoleMenuEntity> findEntitiesByRoleId(int roleId) {
         String exeSQL = "select id, role_id as roleId, menu_id as menuId from wx_tab_roleMenu where role_id=?";
-        List<RoleMenuEntity> roleMenuEntities = jdbcTemplate.query(exeSQL, new Object[]{roleid}, new BeanPropertyRowMapper<RoleMenuEntity>(RoleMenuEntity.class));
+        List<RoleMenuEntity> roleMenuEntities = jdbcTemplate.query(exeSQL, new Object[]{roleId}, new BeanPropertyRowMapper<RoleMenuEntity>(RoleMenuEntity.class));
         return roleMenuEntities;
     }
 

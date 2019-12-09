@@ -1,6 +1,7 @@
 package com.cn.wanxi.dao.menu;
 
 import com.cn.wanxi.entity.menu.MenuEntity;
+import com.cn.wanxi.entity.menu.MenuTreeNodeEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -53,6 +54,9 @@ public interface IMenuDao {
     int countAll();
     int adds(Map<String, MenuEntity> menuEntity);
     List<Map<String,Object>> findByName(String username);
+    List<MenuEntity> findAllByParentId(int parentId);
 
     List<Map<String, Object>> findListAndPage(MenuEntity menuEntity, int page, int size);
+    List<MenuTreeNodeEntity> findNodeAll();
+    List<Integer> findMenuByRoleId(int roleId);
 }

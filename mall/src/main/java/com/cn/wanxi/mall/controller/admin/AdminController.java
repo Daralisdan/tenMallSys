@@ -38,14 +38,14 @@ public class AdminController {
         String username = args.get("username");
         String password = args.get("password");
         Message m = new Message();
-        boolean isSuccess = iAdminService.login(username,password);
-        if(isSuccess){
+        Integer roleId = iAdminService.login(username,password);
+        if(null != roleId){
             m.setCode(0);
             m.setMessage("登录成功");
-            m.setData("登录操作无返回数据");
+            m.setData(roleId);
         } else {
             m.setCode(1);
-            m.setMessage("登录失败");
+            m.setMessage("登录失败测试");
             m.setData("登录操作无返回数据");
         }
         return m;
