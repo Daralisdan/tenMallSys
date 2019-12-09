@@ -9,20 +9,16 @@ import com.cn.wanxi.mall.controller.order.DelayQueue.DelayOrderWorker;
 import com.cn.wanxi.service.order.IOrderItemService;
 import com.cn.wanxi.service.order.IOrderService;
 import com.cn.wanxi.utils.utils.Msg;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 @RestController
