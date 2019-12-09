@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * @Author: SSJ
@@ -22,18 +21,42 @@ public class SepcDaoImpl implements SepcDao {
 
 
     /**
-     * 新增
+     * 新增二级规格名称
      *
      * @param sepcEntity
      * @return
      */
     @Override
-    public int add(SepcEntity sepcEntity) {
-        String exeSQL = "INSERT INTO wx_tab_sepc(name,options,seq,template_id) VALUES(?,?,?,?)";
-        Object args[] = {sepcEntity.getName(), sepcEntity.getOptions(), sepcEntity.getSeq(), sepcEntity.getTemplateId()};
-        int temp = jdbcTemplate.update(exeSQL, args);
-        return temp;
+    public int addSepcName(SepcEntity sepcEntity) {
+        String addSpecNameSQL = "INSERT INTO wx_tab_sepc_name(name,seq,template_id) VALUES(?,?,?)";
+        Object addSpecNameArgs[] = {sepcEntity.getName(), sepcEntity.getSeq(), sepcEntity.getTemplateId()};
+        return jdbcTemplate.update(addSpecNameSQL, addSpecNameArgs);
     }
+
+    /**
+     * 新增三级规格参数
+     *
+     * @param sepcId
+     * @return
+     */
+    @Override
+    public int addSepcOptions(String options, int sepcId) {
+        String addSpecOptionsSQL = "INSERT INTO wx_tab_sepc_value(options,sepc_id) VALUE (?,?)";
+        Object[] object = {options, sepcId};
+        return jdbcTemplate.update(addSpecOptionsSQL, object);
+    }
+
+    /**
+     * 查询二级规格ID
+     *
+     * @return 二级规格ID
+     */
+    @Override
+    public Integer getSepcId() {
+        String getSepcIdSQL = "SELECT id from wx_tab_sepc_name";
+        return jdbcTemplate.queryForObject(getSepcIdSQL, Integer.class);
+    }
+
 
     /**
      * 查找所有
@@ -76,22 +99,29 @@ public class SepcDaoImpl implements SepcDao {
     }
 
     /**
-     * 分页查询
+     * 分页查询（规格）
+     *
      * @param sepcEntity
      * @return
      */
     @Override
-    public Map<String, Object> find(SepcEntity sepcEntity) {
+    public List<SepcEntity> findPageBySepcName(SepcEntity sepcEntity) {
         int page = (sepcEntity.getPage() - 1) * sepcEntity.getSize();
-        int size = sepcEntity.getSize() * sepcEntity.getPage();
-        String exeSQL = "select id,name,options,seq,template_id as templateId from wx_tab_sepc where name = ? and options = ? limit " + page + " , " + size;
-        String totalSQL = "select count(name) where name = ?";
-//        int total = jdbcTemplate.query(totalSQL,);
-        Object[] args = {sepcEntity.getName(), sepcEntity.getOptions()};
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, args);
-        Map<String, Object> map = new TreeMap();
-        map.put("rows", list);
-        map.put("total", list.size());
-        return map;
+        int size = sepcEntity.getSize() * sepcEntity.getSize();
+        String findPageBySepcNameSQL = "select id ,name ,seq,template_id as templateID from wx_tab_sepc_name where name = ? limit " + page + " ," + size;
+        List list = jdbcTemplate.queryForList(findPageBySepcNameSQL, sepcEntity.getName());
+        return list;
+    }
+
+    public int findSepcId(String name) {
+        String findSepcIdSQL = "select id from wx_tab_sepc_name where name = " + name;
+        return jdbcTemplate.queryForObject(findSepcIdSQL, Integer.class);
+    }
+
+    @Override
+    public List findIdBySepcOptions(int id) {
+        String findPageBySepcOptionsSQL = "select options from ex_tab_sepc_options where sepc_id = ?";
+        List list = jdbcTemplate.queryForList(findPageBySepcOptionsSQL);
+        return list;
     }
 }

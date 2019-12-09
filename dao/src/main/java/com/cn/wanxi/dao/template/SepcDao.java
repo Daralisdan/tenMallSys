@@ -11,10 +11,15 @@ import java.util.Map;
  */
 public interface SepcDao {
 
-    int add(SepcEntity sepcEntity);
+    int addSepcName(SepcEntity sepcEntity);
 
+    int addSepcOptions(String Options, int sepcId);
 
-    Map<String, Object> find(SepcEntity sepcEntity);
+    Integer getSepcId();
+
+    List findPageBySepcName(SepcEntity sepcEntity);
+
+    List findIdBySepcOptions(int id);
 
 
     List<Map<String, Object>> findAll();
@@ -24,4 +29,6 @@ public interface SepcDao {
 
 
     int delete(SepcEntity sepcEntity);
+
+    int findSepcId(String name);
 }

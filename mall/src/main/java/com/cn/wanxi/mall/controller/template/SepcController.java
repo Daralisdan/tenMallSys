@@ -39,7 +39,7 @@ public class SepcController {
     public Map<String, Object> add(@RequestBody SepcEntity sepcEntity) {
         Msg m;
         int result = iSepcService.add(sepcEntity);
-        if (!isEmpty(result)) {
+        if (result >= 2) {
             m = Msg.success().messageData(sepcEntity);
         } else {
             m = Msg.fail();
@@ -64,7 +64,7 @@ public class SepcController {
 
     @PostMapping(value = "/findCondPage", produces = "application/json;charset=UTF-8")
     public Map<String, Object> find(@RequestBody SepcEntity sepcEntity) {
-        Map<String, Object> map = iSepcService.find(sepcEntity);
+        Map<String, Object> map = iSepcService.findCondPage(sepcEntity);
         return map;
     }
 
@@ -96,7 +96,7 @@ public class SepcController {
      * @return
      */
     @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
-    public Map<String,Object> delete(@RequestBody SepcEntity sepcEntity) {
+    public Map<String, Object> delete(@RequestBody SepcEntity sepcEntity) {
         Msg msg;
         int i = iSepcService.deleteById(sepcEntity);
         if (i > 0) {
@@ -104,9 +104,9 @@ public class SepcController {
         } else {
             msg = Msg.fail();
         }
-        Map<String,Object> map = new TreeMap<>();
-        map.put("code",msg.getCode());
-        map.put("message",msg.getMsg());
+        Map<String, Object> map = new TreeMap<>();
+        map.put("code", msg.getCode());
+        map.put("message", msg.getMsg());
         return map;
     }
 

@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @Author: SSJ
@@ -32,18 +34,36 @@ public class SepcServiceImpl implements ISepcService {
         return sepcDao.findAll();
     }
 
-    @Override
-    public int add(SepcEntity sepcEntity) {
-        return sepcDao.add(sepcEntity);
-    }
 
     @Override
     public int update(SepcEntity sepcEntity) {
         return sepcDao.update(sepcEntity);
     }
 
+    /**
+     * 新增规格
+     *
+     * @param sepcEntity
+     * @return
+     */
     @Override
-    public Map<String, Object> find(SepcEntity sepcEntity) {
-        return sepcDao.find(sepcEntity);
+    public int add(SepcEntity sepcEntity) {
+        int tempAddSepcName = sepcDao.addSepcName(sepcEntity);
+        int sepcId = sepcDao.getSepcId();
+        int tempAddSepcOptions = sepcDao.addSepcOptions(sepcEntity.getOptions(), sepcId);
+        return tempAddSepcOptions + tempAddSepcName;
+    }
+
+    @Override
+    public Map<String, Object>  findCondPage(SepcEntity sepcEntity) {
+        List name = sepcDao.findPageBySepcName(sepcEntity);
+        int sepcId = sepcDao.findSepcId(sepcEntity.getName());
+        List options= sepcDao.findIdBySepcOptions(sepcId);
+        Map<String, Object> map = null;
+        map.put("options", options);
+        map.put("rows", name);
+        return map;
+
+
     }
 }

@@ -17,8 +17,10 @@ public interface ISepcService {
 
     List<Map<String, Object>> findAll();
 
-    Map<String, Object> find(SepcEntity sepcEntity);
+    Map<String, Object> findCondPage(SepcEntity sepcEntity);
 
     int update(SepcEntity sepcEntity);
+
+
 
 }
