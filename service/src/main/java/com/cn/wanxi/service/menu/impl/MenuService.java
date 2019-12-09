@@ -179,7 +179,7 @@ public class MenuService implements IMenuService {
             withList.put("id",iter.get("id"));
             withList.put("name",iter.get("name"));
             withList.put("url",iter.get("url"));
-            withList.put("list",subList);
+            withList.put("children",subList);
             resultList.add(withList);
         }
 

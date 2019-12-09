@@ -70,7 +70,7 @@ public class MenuDaoImpl implements IMenuDao {
 
     @Override
     public List<Map<String,Object>> findByName(String username) {
-        String exeSQL = "SELECT s.name   FROM wx_tab_menu  s  JOIN  wx_tab_roleMenu b ON s.id =  b.menu_id  JOIN wx_tab_role c on b.role_id= c.id  JOIN wx_tab_userRole d on c.id =d.role_id    where username=?";
+        String exeSQL = "SELECT s.name   FROM wx_tab_menu  s  JOIN  wx_tab_roleMenu b ON s.id =  b.menu_id  JOIN wx_tab_role c on b.role_id= c.id  JOIN wx_tab_adminrole d on c.id =d.role_id    where admin_name=?";
         List<Map<String,Object>> list = jdbcTemplate.queryForList(exeSQL,username);
         return list;
     }

@@ -4,7 +4,9 @@ import com.cn.wanxi.dao.menu.IMenuDao;
 import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.brand.ByPage;
 import com.cn.wanxi.entity.menu.MenuEntity;
+import com.cn.wanxi.entity.menu.MenuTreeNodeEntity;
 import com.cn.wanxi.service.menu.IMenuService;
+import com.cn.wanxi.utils.Message;
 import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.utils.utils.PageList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -92,7 +95,7 @@ public class MenuController {
             if (!ObjectUtils.isEmpty(byId)) {
                 msg = Msg.success().messageData(byId);
             } else {
-                msg = Msg.fail().messageData("该品牌不存在");
+                msg = Msg.fail().messageData("该菜单不存在");
             }
         }
         return msg;
@@ -106,14 +109,35 @@ public class MenuController {
     @RequestMapping(value = "/findAuthMenu", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public Msg findByName(@RequestBody Map<String,String> param) {
         Msg msg = null;
-        String username = param.get("username");
-        List<Map<String,Object>>  byName = iMenuService.findByName(username);
+        String adminname = param.get("adminname");
+        List<Map<String,Object>>  byName = iMenuService.findByName(adminname);
         if (byName != null) {
             msg = Msg.success().messageData(byName);
         } else {
             msg = Msg.fail().messageData("请输入正确的名字");
         }
         return msg;
+    }
+
+    /**
+     * 【固定条件查询所有，固定parent_id】
+     *
+     * @return
+     */
+    @PostMapping(value = "/listSub",produces = "application/json;charset=UTF-8")
+    public Message listSub(@RequestBody Map<String,String> args){
+        Integer parentId = Integer.parseInt(args.get("parentId"));
+        Message m = new Message();
+        List<MenuEntity> result = iMenuService.findAllByParentId(parentId);
+        if(!isEmpty(result)){
+            m.setCode(0);
+            m.setMessage("根据parentId查询菜单");
+            m.setData(result);
+        } else {
+            m.setCode(1);
+            m.setMessage("查询失败或数据库中数据条数为0");
+        }
+        return m;
     }
 
     /**
@@ -224,4 +248,47 @@ public class MenuController {
         msg = Msg.success().messageData(pageList);
         return msg;
     }
+
+    /**
+     * 【菜单树】
+     *
+     * @return
+     */
+    @PostMapping(value = "/menuListT",produces = "application/json;charset=UTF-8")
+    public Message menuListT(){
+        Message m = new Message();
+        ArrayList<MenuTreeNodeEntity> result = iMenuService.getMenuTree();
+        if (0 < result.size()) {
+            m.setCode(0);
+            m.setMessage("查询成功");
+            m.setData(result);
+        } else {
+            m.setCode(1);
+            m.setMessage("查询失败");
+        }
+        return m;
+    }
+
+    /**
+     * 【】
+     *
+     * @return
+     */
+    @PostMapping(value = "/findmenuByRoleId",produces = "application/json;charset=UTF-8")
+    public Message findmenuByRoleId(@RequestBody Map<String,Integer> args){
+        int roleId =args.get("roleId");
+        Message m = new Message();
+        ArrayList<LinkedHashMap<String,Object>> result = iMenuService.getMenuByRole(roleId);
+        if (0 < result.size()) {
+            m.setCode(0);
+            m.setMessage("查询成功");
+            m.setData(result);
+        } else {
+            m.setCode(1);
+            m.setMessage("查询失败");
+        }
+        return m;
+    }
+
+
 }
