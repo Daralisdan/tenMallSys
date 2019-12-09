@@ -23,76 +23,44 @@ import static org.springframework.util.StringUtils.isEmpty;
 public class OrderReturnCauseController {
     @Autowired
     private IReturnCauseService iReturnCauseService;
-    @PostMapping (value = "/casue" , produces = "application/json;charset=UTF-8")
+
+    @PostMapping(value = "/casue", produces = "application/json;charset=UTF-8")
     public Msg casue(@RequestBody ReturnCauseEntity returnCauseEntity) {
-        Msg msg = null;
-        int up = iReturnCauseService.update(returnCauseEntity);
-        if (up > 0) {
-            msg = Msg.success().messageData(returnCauseEntity);
-        } else {
-            msg = Msg.fail();
-        }
-        return msg;
+        return iReturnCauseService.update(returnCauseEntity);
     }
+
     /**
      * 添加退货退款申请明细
+     *
      * @param returnCauseEntity
      * @return
      */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
-    public Map<String,Object> add(@RequestBody ReturnCauseEntity returnCauseEntity) {
-        Msg msg=null;
-        if (null != returnCauseEntity.getCause() && returnCauseEntity.getCause() .trim() != "") {
-            int result = iReturnCauseService.add(returnCauseEntity);
-            if (0 != result) {
-                msg = Msg.success();
-            }
-        } else {
-            msg = Msg.fail().messageData("原因不能为空");
-        }
-        Map<String,Object> map = new TreeMap<>();
-        map.put("code",msg.getCode());
-        map.put("message",msg.getMsg());
-        return map;
+    public Msg add(@RequestBody ReturnCauseEntity returnCauseEntity) {
+        return iReturnCauseService.add(returnCauseEntity);
     }
 
     /**
      * 查找所有的退货退款申请明细
+     *
      * @return
      */
     @PostMapping("/findAll")
     public Msg findAll() {
-        Msg msg;
-        List<Map<String, Object>> list = iReturnCauseService.findAll();
-        //判断集合是否有数据，如果没有数据返回失败
-        if (list.isEmpty()) {
-            msg = Msg.fail();
-        } else {
-            msg = Msg.success().messageData(list);
-        }
-        return msg;
+        return iReturnCauseService.findAll();
     }
 
     /**
      * 【根据退货退款申请明细id查询信息】
+     *
      * @param param
      * @param response
      * @return
      */
     @PostMapping(value = "/findById", produces = "application/json;charset=UTF-8")
     public Msg findById(@RequestBody Map<String, Integer> param, HttpServletResponse response) {
-        Msg msg = null;
         int id = param.get("id");
-        if (!StringUtils.isEmpty(id) && id > 0) {
-            ReturnCauseEntity byId = iReturnCauseService.findById(id);
-            //判断是否有返回的数据
-            if (!ObjectUtils.isEmpty(byId)) {
-                msg = Msg.success().messageData(byId);
-            } else {
-                msg = Msg.fail().messageData("该原因不存在");
-            }
-        }
-        return msg;
+        return iReturnCauseService.findById(id);
     }
 
     /**
@@ -102,56 +70,22 @@ public class OrderReturnCauseController {
      * @return
      */
     @PostMapping(value = "/update", produces = "application/json;charset=UTF-8")
-    public Map<String, Object> updateInfo(@RequestBody ReturnCauseEntity returnCauseEntity) {
-        Msg msg = null;
-        //先获取id
-        int id = returnCauseEntity.getId();
-        if (id > 0) {
-            //根据id查询数据
-            ReturnCauseEntity byId = iReturnCauseService.findById(id);
-            //判断是否查询到该品牌信息
-            if (!ObjectUtils.isEmpty(byId)) {
-                int result = iReturnCauseService.update(returnCauseEntity);
-                if (result > 0) {
-                    msg = Msg.success().messageData(returnCauseEntity);
-                }
-            } else {
-                msg = Msg.fail().messageData("该原因不存在");
-            }
-        } else {
-            msg = Msg.fail().messageData("请输入id");
-        }
-        Map<String,Object> map = new TreeMap<>();
-        map.put("code",msg.getCode());
-        map.put("message",msg.getMsg());
-        return map;
+    public Msg updateInfo(@RequestBody ReturnCauseEntity returnCauseEntity) {
+        return iReturnCauseService.update(returnCauseEntity);
     }
 
 
     /**
      * 【根据id删除】
+     *
      * @param param
      * @param response
      * @return
      */
     @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
-    public Map<String, Object> deleteById(@RequestBody Map<String, Integer> param, HttpServletResponse response) {
-        Msg msg = null;
+    public Msg deleteById(@RequestBody Map<String, Integer> param, HttpServletResponse response) {
         int id = param.get("id");
-        if (id > 0) {
-            int i = iReturnCauseService.deleteById(id);
-            if (i > 0) {
-                msg = Msg.success().messageData("删除成功");
-            } else {
-                msg = Msg.fail().messageData("删除失败,该原因不存在");
-            }
-        } else {
-            msg = Msg.fail().messageData("请输入id");
-        }
-        Map<String,Object> map = new TreeMap<>();
-        map.put("code",msg.getCode());
-        map.put("message",msg.getMsg());
-        return map;
+        return iReturnCauseService.deleteById(id);
     }
 
 
