@@ -2,10 +2,15 @@ package com.cn.wanxi.service.menu.impl;
 
 import com.cn.wanxi.dao.menu.IMenuDao;
 import com.cn.wanxi.entity.menu.MenuEntity;
+import com.cn.wanxi.entity.menu.MenuTreeNodeEntity;
 import com.cn.wanxi.service.menu.IMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,6 +63,11 @@ public class MenuService implements IMenuService {
         return iMenuDao.findByName(username);
     }
 
+    @Override
+    public List<MenuEntity> findAllByParentId(int parentId) {
+        return iMenuDao.findAllByParentId(parentId);
+    }
+
     /**
      * 【根据id修改】
      *
@@ -101,4 +111,81 @@ public class MenuService implements IMenuService {
     public int countAll() {
         return iMenuDao.countAll();
     }
+
+    @Override
+    public ArrayList<MenuTreeNodeEntity> getMenuTree() {
+        List<MenuTreeNodeEntity> all = iMenuDao.findNodeAll();
+
+        //一级菜单
+        ArrayList<MenuTreeNodeEntity> result = getSubList(all, 0);
+        //二级菜单
+        for (int i = 0; i < result.size(); ++i) {
+            MenuTreeNodeEntity temp = result.get(i);
+            ArrayList<MenuTreeNodeEntity> tempList = getSubList(all, temp.getId());
+            temp.setChildren(tempList);
+        }
+
+        return result;
+    }
+
+
+    private ArrayList<MenuTreeNodeEntity> getSubList(List<MenuTreeNodeEntity> target,int id){
+        ArrayList<MenuTreeNodeEntity> result = new ArrayList<>();
+        for(MenuTreeNodeEntity iter : target){
+            if(id == iter.getParentId()){
+                result.add(iter);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    @SuppressWarnings("all")
+    public ArrayList<LinkedHashMap<String,Object>> getMenuByRole(int roleId) {
+        List<Integer> menuByRoleId = iMenuDao.findMenuByRoleId(roleId);
+        List<Map<String, Object>> list = iMenuDao.queryAll();
+
+        ArrayList<LinkedHashMap<String,Object>> result = new ArrayList<LinkedHashMap<String, Object>>();
+        //一级菜单
+        for(Integer iter : menuByRoleId){
+            for(Map<String,Object> innerIter : list){
+                if(iter.equals(innerIter.get("id"))){
+                    LinkedHashMap<String,Object> temp = new LinkedHashMap<>();
+                    temp.put("id",innerIter.get("id"));
+                    temp.put("name",innerIter.get("name"));
+                    temp.put("url",innerIter.get("url"));
+                    result.add(temp);
+                    break;
+                }
+            }
+        }
+
+        ArrayList<LinkedHashMap<String,Object>> resultList = new ArrayList<LinkedHashMap<String, Object>>();
+        //二级菜单
+        for(LinkedHashMap<String,Object> iter : result){
+            Integer id = (Integer)iter.get("id");
+            ArrayList<LinkedHashMap<String,Object>> subList = new ArrayList<LinkedHashMap<String,Object>>();
+            for(Map<String, Object> innerIter : list){
+                Integer parentId = (Integer)innerIter.get("parentId");
+                if(id.equals(parentId)){
+                    LinkedHashMap<String,Object> sub = new LinkedHashMap<>();
+                    sub.put("id",innerIter.get("id"));
+                    sub.put("name",innerIter.get("name"));
+                    sub.put("url",innerIter.get("url"));
+                    subList.add(sub);
+                }
+            }
+            LinkedHashMap<String,Object> withList = new LinkedHashMap<>();
+            withList.put("id",iter.get("id"));
+            withList.put("name",iter.get("name"));
+            withList.put("url",iter.get("url"));
+            withList.put("children",subList);
+            resultList.add(withList);
+        }
+
+        return resultList;
+    }
+
+
+
 }
