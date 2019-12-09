@@ -33,14 +33,6 @@
 
     <!-- 引入插件 -->
     <build>
-        <plugins>
-            <!-- Compiler 插件, 设定JDK版本 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-        </plugins>
-
         <pluginManagement>
             <plugins>
                 <!-- Compiler 插件, 设定JDK版本 -->
@@ -48,9 +40,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
-                        <showWarnings>true</showWarnings>
-                        <!-- 输出有关编译器正在执行的操作的消息 -->
-                        <!-- <compilerArguments> <verbose /> </compilerArguments> -->
                         <source>${jdk.version}</source>
                         <target>${jdk.version}</target>
                         <encoding>${maven.compiler.encoding}</encoding>
