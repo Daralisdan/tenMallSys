@@ -15,6 +15,8 @@ public interface IOrderService {
 
     Msg batchlist();
 
+    Msg item(int id);
+
     Msg findById(int id);
 
     Msg deleteById(int id);

@@ -184,13 +184,22 @@ public class AdminController {
      */
     @PostMapping(value = "/findCondPage",produces = "application/json;charset=UTF-8")
     public Message findCondPage(@RequestBody Map<String,String> args) {
+        boolean flag = true;
         String adminName = args.get("adminName");
         String status = args.get("status");
-        Integer page = Integer.parseInt(args.get("page"));
-        Integer size = Integer.parseInt(args.get("size"));
+        Integer page = null;
+        Integer size = null;
+        if(null != args.get("page")){
+            flag = false;
+            page = Integer.parseInt(args.get("page"));
+        }
+        if(null != args.get("size")){
+            flag = false;
+            size = Integer.parseInt(args.get("size"));
+        }
         Message m = new Message();
         List<AdminEntity> list = iAdminService.findCondPage(adminName,status,page,size);
-        if(0 < list.size()){
+        if(0 < list.size() || flag){
             int total = iAdminService.count(adminName,status);
             LinkedHashMap<String,Object> result = new LinkedHashMap<>();
             result.put("rows",list);

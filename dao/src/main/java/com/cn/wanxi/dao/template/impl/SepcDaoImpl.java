@@ -28,24 +28,24 @@ public class SepcDaoImpl implements SepcDao {
      * @return
      */
     @Override
-    public int addSepcName(String name, int seq, int templateId) {
-        String addSpecNameSQL = "INSERT INTO wx_tab_sepc_name(name,seq,template_id) VALUES(?,?,?)";
-        Object addSpecNameArgs[] = {name, seq, templateId};
+    public int addSepcName(String name, int templateId) {
+        String addSpecNameSQL = "INSERT INTO wx_tab_sepc_name(name,seq,template_id) VALUES(?,0,?)";
+        Object addSpecNameArgs[] = {name, templateId};
         return jdbcTemplate.update(addSpecNameSQL, addSpecNameArgs);
     }
 
-    /**
-     * 新增三级规格参数
-     *
-     * @param sepcId
-     * @return
-     */
-    @Override
-    public int addSepcOptions(String options, int sepcId) {
-        String addSpecOptionsSQL = "INSERT INTO wx_tab_sepc_options(options,sepc_id) VALUE (?,?)";
-        Object[] object = {options, sepcId};
-        return jdbcTemplate.update(addSpecOptionsSQL, object);
-    }
+//    /**
+//     * 新增三级规格参数
+//     *
+//     * @param sepcId
+//     * @return
+//     */
+//    @Override
+//    public int addSepcOptions(String options, int sepcId) {
+//        String addSpecOptionsSQL = "INSERT INTO wx_tab_sepc_options(options,sepc_id) VALUE (?,?)";
+//        Object[] object = {options, sepcId};
+//        return jdbcTemplate.update(addSpecOptionsSQL, object);
+//    }
 
 
     /**
@@ -66,18 +66,33 @@ public class SepcDaoImpl implements SepcDao {
     }
 
     /**
-     * 修改
+     * 修改二级规格名称
      *
-     * @param sepcEntity
+     * @param id
+     * @param name
+     * @param seq
      * @return
      */
     @Override
-    public int update(SepcEntity sepcEntity) {
-        String exeSQL = "UPDATE wx_tab_para SET name = ?,seq = ?,options = ?,template_id = ?";
-        Object args[] = {sepcEntity.getName(), sepcEntity.getOptions(), sepcEntity.getSeq(), sepcEntity.getTemplateId()};
-        int temp = jdbcTemplate.update(exeSQL, args);
-        return temp;
+    public int updateSepcName(int id, String name, int seq) {
+        String updateSepcNameSQL = "UPDATE wx_tab_sepc_name SET name = ? , seq = ? where id = ?";
+        Object[] objects = {name, seq, id};
+        return jdbcTemplate.update(updateSepcNameSQL, objects);
     }
+
+//    /**
+//     * 修改三级规格数据
+//     *
+//     * @param options
+//     * @param sepcId
+//     * @return
+//     */
+//    @Override
+//    public int updateSepcOptions(String options, int sepcId) {
+//        String updateSepcOptions = "UPDATE wx_tab_sepc_options SET options = ? where id = ? ";
+//        Object[] objects = {options, sepcId};
+//        return jdbcTemplate.update(updateSepcOptions, objects);
+//    }
 
     /**
      * 按照规格ID删除
@@ -95,17 +110,15 @@ public class SepcDaoImpl implements SepcDao {
     }
 
     /**
-     * 分页查询（规格）
+     * 规格查询
      *
-     * @param sepcEntity
+     * @param name
      * @return
      */
     @Override
-    public List<SepcEntity> findPageBySepcName(SepcEntity sepcEntity) {
-        int page = (sepcEntity.getPage() - 1) * sepcEntity.getSize();
-        int size = sepcEntity.getSize() * sepcEntity.getSize();
-        String findPageBySepcNameSQL = "select id ,name ,seq,template_id as templateID from wx_tab_sepc_name where name = ? limit " + page + " ," + size;
-        List list = jdbcTemplate.queryForList(findPageBySepcNameSQL, sepcEntity.getName());
+    public List<SepcEntity> findPageBySepcName(String name) {
+        String findPageBySepcNameSQL = "select id ,name ,seq,template_id as templateID from wx_tab_sepc_name where name = ?";
+        List list = jdbcTemplate.queryForList(findPageBySepcNameSQL, name);
         return list;
     }
 
