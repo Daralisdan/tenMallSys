@@ -1,6 +1,7 @@
 package com.cn.wanxi.mall;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -10,9 +11,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 /**
  * 过滤器
+ *
  * @author hqc
  * @Date 2019年3月20日
- *
  */
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
@@ -23,8 +24,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
      */
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
-        configurer.setUseSuffixPatternMatch(false)	//设置是否是后缀模式匹配,即:/test.*
-                .setUseTrailingSlashMatch(false);	//设置是否自动后缀路径模式匹配,即：/test/
+        configurer.setUseSuffixPatternMatch(false)    //设置是否是后缀模式匹配,即:/test.*
+                .setUseTrailingSlashMatch(false);    //设置是否自动后缀路径模式匹配,即：/test/
     }
 
     /**
@@ -61,17 +62,25 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
      *
      * @param registry
      */
+    @Value("${spring.resources.static-locations}")
+    private String path;
+    @Value("${spring.mvc.static-path-pattern}")
+    private String imageFileName;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        System.out.println(ResourceUtils.FILE_URL_PREFIX + path + imageFileName);
+
         registry.addResourceHandler("swagger-ui.html")
                 .addResourceLocations("classpath:/META-INF/resources/");
 
 
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
+
         //图片映射
-        registry.addResourceHandler("upload/**")
-                .addResourceLocations(ResourceUtils.FILE_URL_PREFIX + "D://images/upload/");
+        registry.addResourceHandler("/upload/**")
+                .addResourceLocations(ResourceUtils.FILE_URL_PREFIX + path + imageFileName+"/");
         //将所有/static/** 访问都映射到classpath:/static/ 目录下
         registry.addResourceHandler("/static/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/static/");
 
@@ -98,7 +107,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
                 // 跨域允许时间
                 .maxAge(3600);
     }
-
 
 
 }

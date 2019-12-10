@@ -29,7 +29,7 @@ public class FileUploadUtils {
 
             boolean upload = upload(file, path + realName);
             if (upload) {
-                msg = new Msg(0, realName);
+                msg = new Msg(0, "图片上传成功", realName);
 
             } else {
                 msg = new Msg(1, "IO错误");
