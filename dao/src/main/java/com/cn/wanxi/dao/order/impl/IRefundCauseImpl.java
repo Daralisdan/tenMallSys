@@ -28,9 +28,12 @@ public class IRefundCauseImpl implements IRefundCauseDao {
     @Override
     public int updateStatus1(RefundCauseEntity refundCauseEntity) {
         String sql = "update wx_tab_return_order set status=? , dispose_time=? where id=?";
-
+        String sql1 = "update wx_tab_order set pay_status= '2' where id=  'select order_id from wx_tab_return_order where id=" + refundCauseEntity.getId() + "'";
+        String sql2 = "update wx_tab_order_item set is_return= '2' where id=  'select order_id from wx_tab_return_order where id=" + refundCauseEntity.getId() + "'";
         Object args[] = {refundCauseEntity.getStatus(), UtilsHelper.formatDateTimer(new Date()), refundCauseEntity.getId()};
         int temp = jdbcTemplate.update(sql, args);
+        jdbcTemplate.update(sql1);
+        jdbcTemplate.update(sql2);
         return temp;
     }
 
@@ -43,8 +46,10 @@ public class IRefundCauseImpl implements IRefundCauseDao {
     @Override
     public int updateStatus2(RefundCauseEntity refundCauseEntity) {
         String sql = "update wx_tab_return_order set status=? , dispose_time=? , remark=? where id=?";
+        String sql2 = "update wx_tab_order_item set is_return= '0' where id=  'select order_id from wx_tab_return_order where id=" + refundCauseEntity.getId() + "'";
         Object args[] = {refundCauseEntity.getStatus(), UtilsHelper.formatDateTimer(new Date()), "驳回理由：SSS", refundCauseEntity.getId()};
         int temp = jdbcTemplate.update(sql, args);
+        jdbcTemplate.update(sql2);
         return temp;
     }
 
@@ -77,7 +82,7 @@ public class IRefundCauseImpl implements IRefundCauseDao {
      */
     @Override
     public int insert(RefundCauseEntity refundCauseEntity) {
-        String exeSQL = "INSERT INTO wx_tab_return_order(order_id,apply_time,user_id,user_account,linkman,linkman_mobile,type,return_money,is_return_freight,status,dispose_time,return_cause,evidence,description,remark,admin_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String exeSQL = "INSERT INTO wx_tab_return_order(order_id,apply_time,user_id,user_account,linkman,linkman_mobile,type,return_money,is_return_freight,status,dispose_time,return_cause,evidence,description,remark,admin_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         Object args[] = {refundCauseEntity.getOrderId(), UtilsHelper.formatDateTimer(new Date()), refundCauseEntity.getUserId(), refundCauseEntity.getUserAccount(), refundCauseEntity.getLinkman(), refundCauseEntity.getLinkmanMobile(), refundCauseEntity.getType(),
                 refundCauseEntity.getReturnMoney(), refundCauseEntity.getIsReturnFreight(), refundCauseEntity.getStatus(), UtilsHelper.formatDateTimer(new Date()), refundCauseEntity.getReturnCause(), refundCauseEntity.getEvidence(), refundCauseEntity.getDescription(), refundCauseEntity.getRemark(), refundCauseEntity.getAdminId()};
         int temp = jdbcTemplate.update(exeSQL, args);
@@ -86,23 +91,23 @@ public class IRefundCauseImpl implements IRefundCauseDao {
 
     /**
      * 查找所有退货退款申请表
+     *
      * @return
      */
     @Override
-    public List<Map<String, Object>> queryAll(int page,int size,String type) {
+    public List<Map<String, Object>> queryAll(int page, int size, String type) {
 //        Map<String, Object> map = new LinkedHashMap<>();
-        String exeSQL = "select id,  order_id as orderId ,  DATE_FORMAT(apply_time,'%Y-%m-%d %H:%i:%s') as applyTime , user_id as userId, user_account as userAccount ,linkman , linkman_mobile as linkmanMobile ,type, return_money as returnMoney , is_return_freight as isReturnFreight,status,  DATE_FORMAT(dispose_time,'%Y-%m-%d %H:%i:%s')  as disposeTime  ,  return_cause as returnCause ,evidence,description,remark, admin_id as adminId    from wx_tab_return_order where type = "+type+" limit " + (page - 1) * size + " , " + size;
+        String exeSQL = "select id,  order_id as orderId ,  DATE_FORMAT(apply_time,'%Y-%m-%d %H:%i:%s') as applyTime , user_id as userId, user_account as userAccount ,linkman , linkman_mobile as linkmanMobile ,type, return_money as returnMoney , is_return_freight as isReturnFreight,status,  DATE_FORMAT(dispose_time,'%Y-%m-%d %H:%i:%s')  as disposeTime  ,  return_cause as returnCause ,evidence,description,remark, admin_id as adminId    from wx_tab_return_order where type = " + type + " and status='0' limit " + (page - 1) * size + " , " + size;
 //                "limit" + (page - 1) * size + " , " + size;
 //                "limit " + (page - 1) * size + " , " + size;
         List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
 //        map.put("rows",list);
-
-
         return list;
     }
 
     /**
      * 根据id查询退货退款申请表
+     *
      * @param id
      * @return
      */
@@ -120,6 +125,7 @@ public class IRefundCauseImpl implements IRefundCauseDao {
 
     /**
      * 根据id删除退货退款申请表
+     *
      * @param id
      * @return
      */
@@ -131,6 +137,7 @@ public class IRefundCauseImpl implements IRefundCauseDao {
 
     /**
      * 修改退货退款申请表
+     *
      * @param refundCauseEntity
      * @return
      */

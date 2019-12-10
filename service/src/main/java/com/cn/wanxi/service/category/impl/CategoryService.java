@@ -61,6 +61,7 @@ public class CategoryService implements ICategoryService {
         for(int i = 0;i < result.size();++i){
             CategoryTreeNodeEntity temp = result.get(i);
             ArrayList<CategoryTreeNodeEntity> tempList = getSubList(all,temp.getId());
+            //三级菜单
             for(int j = 0;j < tempList.size();++j){
                 CategoryTreeNodeEntity tempInner = tempList.get(j);
                 ArrayList<CategoryTreeNodeEntity> tempInnerList = getSubList(all,tempInner.getId());

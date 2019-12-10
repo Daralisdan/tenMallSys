@@ -3,8 +3,10 @@ package com.cn.wanxi.service.order.impl;
 import com.cn.wanxi.dao.order.IOrderLogDao;
 import com.cn.wanxi.entity.order.OrderLogEntity;
 import com.cn.wanxi.service.order.IOrderLogService;
+import com.cn.wanxi.utils.utils.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -15,39 +17,66 @@ import java.util.Map;
 public class IOrderLogServiceImpl implements IOrderLogService {
     @Autowired
     private IOrderLogDao iOrderLogDao;
+
     /**
      * 添加订单日志列表
+     *
      * @param orderLogEntity
      * @return
      */
     @Override
-    public int add(OrderLogEntity orderLogEntity) {
-        //判断页面传的值中orderid不能为空
-        Integer orderid = orderLogEntity.getOrderId();
-        int result = 0;
-        //不为空时，添加数据
-        if (!StringUtils.isEmpty(orderid)) {
-            result = iOrderLogDao.insert(orderLogEntity);
+    public Msg add(OrderLogEntity orderLogEntity) {
+        Msg msg = null;
+        if (0 != orderLogEntity.getOrderId()) {
+            int result = iOrderLogDao.insert(orderLogEntity);
+            if (0 != result) {
+                msg = new Msg(0, "添加成功");
+            }
+        } else {
+            msg = new Msg(1, "订单id不为空");
         }
-        return result;
+        return msg;
     }
+
     /**
      * 查找所有的日志详细
+     *
      * @return
      */
     @Override
-    public List<Map<String, Object>> findAll() {
-        return iOrderLogDao.queryAll();
+    public Msg findAll() {
+        Msg msg;
+        List<Map<String, Object>> list = iOrderLogDao.queryAll();
+        //判断集合是否有数据，如果没有数据返回失败
+        if (list.isEmpty()) {
+            msg = new Msg(1, "查询失败，数据表中无数据");
+        } else {
+            msg = new Msg(0, "查询成功", list);
+        }
+        return msg;
     }
+
     /**
      * 根据日志详细id 查询
+     *
      * @param id
      * @return
      */
     @Override
-    public OrderLogEntity findById(int id) {
-        return iOrderLogDao.findById(id);
+    public Msg findById(int id) {
+        Msg msg = null;
+        if (!StringUtils.isEmpty(id) && id > 0) {
+            OrderLogEntity byId = iOrderLogDao.findById(id);
+            //判断是否有返回的数据
+            if (!ObjectUtils.isEmpty(byId)) {
+                msg = new Msg(0, "查询成功", byId);
+            } else {
+                msg = new Msg(1, "该订单日志不存在");
+            }
+        }
+        return msg;
     }
+
     /**
      * 【根据id删除】
      *
@@ -55,29 +84,47 @@ public class IOrderLogServiceImpl implements IOrderLogService {
      * @return
      */
     @Override
-    public int deleteById(int id) {
-        return iOrderLogDao.deleteById(id);
+    public Msg deleteById(int id) {
+        Msg msg = null;
+        if (id > 0) {
+            int i = iOrderLogDao.deleteById(id);
+            if (i > 0) {
+                msg = new Msg(0, "删除成功");
+            } else {
+                msg = new Msg(1, "删除失败,该日志不存在");
+            }
+        } else {
+            msg = new Msg(1, "请输入id");
+        }
+        return msg;
     }
 
     /**
      * 根据日志详细id 修改
+     *
      * @param orderLogEntity
      * @return
      */
     @Override
-    public int update(OrderLogEntity orderLogEntity) {
-        int result = 0;
-        //先根据id查询，当前数据是否存在
+    public Msg update(OrderLogEntity orderLogEntity) {
+        Msg msg = null;
         int id = orderLogEntity.getId();
-        OrderLogEntity byId = iOrderLogDao.findById(id);
-        //如果查询当前数据存在，则修改
-        if (byId != null) {
-            int up = iOrderLogDao.update(orderLogEntity);
-            //如果修改成功，返回true
-            if (up > 0) {
-                result = up;
+        //先获取id
+        if (id > 0) {
+            //根据id查询数据
+            OrderLogEntity byId = iOrderLogDao.findById(id);
+            //判断是否查询到该品牌信息
+            if (!ObjectUtils.isEmpty(byId)) {
+                int result = iOrderLogDao.update(orderLogEntity);
+                if (result > 0) {
+                    msg = new Msg(0, "修改成功");
+                }
+            } else {
+                msg = new Msg(1, "该订单日志不存在");
             }
+        } else {
+            msg = new Msg(1, "请输入id");
         }
-        return result;
+        return msg;
     }
 }

@@ -12,7 +12,7 @@ import java.util.Map;
  * 2019/11/18,Create by yaodan
  */
 public interface IAdminService {
-    boolean login(String username,String password);
+    Integer login(String username,String password);
     boolean logout(String login_name);
 
     boolean addAdmin(AdminEntity entity);
