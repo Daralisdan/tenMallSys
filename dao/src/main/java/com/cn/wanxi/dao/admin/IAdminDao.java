@@ -2,6 +2,8 @@ package com.cn.wanxi.dao.admin;
 
 import com.cn.wanxi.entity.admin.AdminEntity;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -14,7 +16,7 @@ public interface IAdminDao {
     String findPasswordByName(String username);
     boolean checkByName(String username);
 
-    boolean insert(AdminEntity entity);
+    boolean insert(String adminName,String password,Integer roleId);
 
     AdminEntity findByName(String username);
 
@@ -29,4 +31,6 @@ public interface IAdminDao {
     AdminEntity findById(Integer id);
 
     List<AdminEntity> findAll();
+
+    ArrayList<LinkedHashMap<String, Object>> findAdminAllWithRoleName();
 }

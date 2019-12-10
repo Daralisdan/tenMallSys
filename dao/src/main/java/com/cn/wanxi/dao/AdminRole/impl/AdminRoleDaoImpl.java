@@ -12,6 +12,7 @@ package com.cn.wanxi.dao.AdminRole.impl;
 
 import com.cn.wanxi.dao.AdminRole.IAdminRoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -62,7 +63,13 @@ public class AdminRoleDaoImpl implements IAdminRoleDao {
     public Integer selectRoleByUsername(String adminName) {
         String sql = "select role_id from wx_tab_adminRole where admin_name = ?";
         Object[] args = {adminName};
-        Integer roleId = jdbcTemplate.queryForObject(sql,args,Integer.class);
+        // roleId为1默认得到所有权限
+        Integer roleId = 1;
+        try{
+            roleId = jdbcTemplate.queryForObject(sql,args,Integer.class);
+        } catch (EmptyResultDataAccessException e){
+            System.out.println("没有角色Id默认返回全部权限");
+        }
         return roleId;
     }
 }
