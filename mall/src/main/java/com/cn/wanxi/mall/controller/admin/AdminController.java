@@ -221,6 +221,9 @@ public class AdminController {
      */
     @PostMapping(value = "/findById",produces = "application/json;charset=UTF-8")
     public Message findById(@RequestBody Map<String,String> args) {
+        if(null == args.get("id")){
+            return new Message(1,"查询失败，未获取到id参数",null);
+        }
         Integer id = Integer.parseInt(args.get("id"));
         Message m = new Message();
         AdminEntity entity;
