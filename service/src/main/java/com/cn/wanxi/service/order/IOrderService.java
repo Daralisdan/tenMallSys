@@ -29,5 +29,5 @@ public interface IOrderService {
 
     Map<String, Object> list(Map<String, Object> param);
 
-    Msg batchSendSubmit(String orderEntitiestr);
+    Msg batchSendSubmit(Map<String, Object> param);
 }

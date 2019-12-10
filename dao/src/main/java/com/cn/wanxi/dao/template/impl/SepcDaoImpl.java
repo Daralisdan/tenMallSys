@@ -29,7 +29,7 @@ public class SepcDaoImpl implements SepcDao {
      */
     @Override
     public int addSepcName(String name, int templateId) {
-        String addSpecNameSQL = "INSERT INTO wx_tab_sepc_name(name,seq,template_id) VALUES(?,0,?)";
+        String addSpecNameSQL = "INSERT INTO wx_tab_sepc_name(name,seq,template_id) VALUES(?,1,?)";
         Object addSpecNameArgs[] = {name, templateId};
         return jdbcTemplate.update(addSpecNameSQL, addSpecNameArgs);
     }
@@ -70,13 +70,12 @@ public class SepcDaoImpl implements SepcDao {
      *
      * @param id
      * @param name
-     * @param seq
      * @return
      */
     @Override
-    public int updateSepcName(int id, String name, int seq) {
-        String updateSepcNameSQL = "UPDATE wx_tab_sepc_name SET name = ? , seq = ? where id = ?";
-        Object[] objects = {name, seq, id};
+    public int updateSepcName(int id, String name) {
+        String updateSepcNameSQL = "UPDATE wx_tab_sepc_name SET name = ?  where id = ?";
+        Object[] objects = {name, id};
         return jdbcTemplate.update(updateSepcNameSQL, objects);
     }
 

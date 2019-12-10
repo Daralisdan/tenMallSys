@@ -36,7 +36,7 @@ public class AdminController {
      */
     @PostMapping(value = "/login",produces = "application/json;charset=UTF-8")
     public Message login(@RequestBody Map<String,String> args) {
-        String adminName = args.get("username");
+        String adminName = args.get("adminName");
         String password = args.get("password");
         Message m = new Message();
         Integer roleId = iAdminService.login(adminName,password);
@@ -59,7 +59,7 @@ public class AdminController {
      */
     @PostMapping(value = "/logout",produces = "application/json;charset=UTF-8")
     public Message logout(@RequestBody Map<String,String> args){
-        String adminName = args.get("username");
+        String adminName = args.get("adminName");
         Message m = new Message();
         boolean isSuccess = iAdminService.logout(adminName);
         if(isSuccess){
@@ -221,6 +221,9 @@ public class AdminController {
      */
     @PostMapping(value = "/findById",produces = "application/json;charset=UTF-8")
     public Message findById(@RequestBody Map<String,String> args) {
+        if(null == args.get("id")){
+            return new Message(1,"查询失败，未获取到id参数",null);
+        }
         Integer id = Integer.parseInt(args.get("id"));
         Message m = new Message();
         AdminEntity entity;

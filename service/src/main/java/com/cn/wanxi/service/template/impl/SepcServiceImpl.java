@@ -51,8 +51,8 @@ public class SepcServiceImpl implements ISepcService {
 
 
     @Override
-    public boolean update(int id, String name, String options, int seq) {
-        int resultUpdateName = sepcDao.updateSepcName(id, name, seq);
+    public boolean update(int id, String name) {
+        int resultUpdateName = sepcDao.updateSepcName(id, name);
         return resultUpdateName  > 0;
     }
 
@@ -65,11 +65,9 @@ public class SepcServiceImpl implements ISepcService {
      */
     @Override
     public boolean add(String name, int templateId) {
-        int sepcId = sepcDao.findIdBySepcName(name);
-        int addNameOptionsResult = 0;
-        if (sepcDao.isNameExist(name).size() == 0) {
-            addNameOptionsResult = sepcDao.addSepcName(name, templateId);
-        }
+
+        int addNameOptionsResult = sepcDao.addSepcName(name,templateId);
+
         if ((addNameOptionsResult) >= 1) {
             return true;
         } else {

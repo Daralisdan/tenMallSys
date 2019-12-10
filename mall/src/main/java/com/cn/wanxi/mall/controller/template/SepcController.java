@@ -1,6 +1,5 @@
 package com.cn.wanxi.mall.controller.template;
 
-import com.cn.wanxi.entity.template.SepcEntity;
 import com.cn.wanxi.service.template.ISepcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,7 +69,7 @@ public class SepcController {
     /**
      * 【展示所有规格信息】
      *
-     * @return
+     * @return list
      */
     @PostMapping("/findAll")
     public List<Map<String, Object>> findAll() {
@@ -81,6 +80,7 @@ public class SepcController {
 
     /**
      * 按照名称查询
+     *
      * @param map
      * @return
      */
@@ -99,12 +99,10 @@ public class SepcController {
      */
     @PostMapping(value = "/update", produces = "application/json;charset=UTF-8")
     public Map<String, Object> update(@RequestBody Map<String, Object> map) {
-        int id = Integer.parseInt(map.get("id").toString());
         String name = map.get("name").toString();
-        String options = map.get("options").toString();
-        int seq = Integer.parseInt(map.get("seq").toString());
+        int id = Integer.parseInt(map.get("id").toString());
         Map<String, Object> resultMap = new TreeMap<>();
-        if (iSepcService.update(id, name, options, seq)) {
+        if (iSepcService.update(id, name)) {
             resultMap.put("code", "1");
             resultMap.put("message", "修改成功");
         } else {

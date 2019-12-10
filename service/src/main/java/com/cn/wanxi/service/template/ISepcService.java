@@ -19,7 +19,7 @@ public interface ISepcService {
 
     Map<String, Object> findCondPage(String name);
 
-    boolean update(int id, String name, String options, int seq);
+    boolean update(int id, String name);
 
     boolean isNameExist(String name);
 

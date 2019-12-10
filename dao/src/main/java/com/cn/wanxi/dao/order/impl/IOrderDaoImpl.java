@@ -171,12 +171,13 @@ public class IOrderDaoImpl implements IOrderDao {
     public int batchSendSubmit(int id, Object orderId, Object shippingName, Object shippingCode) {
         String exeSQL2 = "update wx_tab_order set shipping_name=? ,shipping_code=?,order_status=?,consign_status=? where id=?";
         String exeSQL = "INSERT INTO wx_tab_order_log (operate,operate_time,order_id,order_status,pay_status,consign_status,remarks) values(?,?,?,?,?,?,?)";
-        Object args[] = {"1", UtilsHelper.formatDateTimer(new Date()), orderId, "1", "1", "1", "aaa"};
-        int temp = jdbcTemplate.update(exeSQL, args);
+//        Object args[] = {"1", UtilsHelper.formatDateTimer(new Date()), orderId, "1", "1", "1", "aaa"};
+        Object args[] = {"1",UtilsHelper.formatDateTimer(new Date()), orderId, "1", "1", "1", "aaa"};
+        int tempX = jdbcTemplate.update(exeSQL, args);
 
         Object args2[] = {shippingName, shippingCode, "2", "1", id};
 //        jdbcTemplate.update(exeSQL2);
-        jdbcTemplate.update(exeSQL2, args2);
+        int temp =jdbcTemplate.update(exeSQL2, args2);
         return temp;
     }
 
