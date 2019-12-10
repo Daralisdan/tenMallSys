@@ -17,7 +17,7 @@ public interface IOrderDao {
     Map<String, Object> list(int page, int size, OrderEntity orderEntity);
 
     Map<String, Object> batchlist();
-
+    Map<String, Object> item(int id);
     OrderEntity findById(int id);
 
     int deleteById(int id);
