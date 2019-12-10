@@ -76,14 +76,13 @@ public class OrderController {
 
     /**
      * 批量发货提交
-     *
-     * @param orderEntitiestr
+     * @param param
      * @return
      */
 
     @PostMapping(value = "/batchSendSubmit", produces = "application/json;charset=UTF-8")
-    public Msg batchSendSubmit(@RequestBody String orderEntitiestr) {
-        return iOrderService.batchSendSubmit(orderEntitiestr);
+    public Msg batchSendSubmit(@RequestBody Map<String, Object> param) {
+        return iOrderService.batchSendSubmit(param);
     }
 
 
@@ -95,7 +94,6 @@ public class OrderController {
      */
     @PostMapping(value = "/findbyid", produces = "application/json;charset=UTF-8")
     public Msg findById(@RequestBody Map<String, Integer> param) {
-
         int id = param.get("id");
         return iOrderService.findById(id);
     }
