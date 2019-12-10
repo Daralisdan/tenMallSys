@@ -23,7 +23,7 @@ public interface SepcDao {
 
     Map<String, Object> findAll();
 
-    int updateSepcName(int id, String name, int seq);
+    int updateSepcName(int id, String name);
 
 //    int updateSepcOptions(String options, int sepcId);
 

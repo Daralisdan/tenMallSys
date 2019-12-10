@@ -51,8 +51,8 @@ public class SepcServiceImpl implements ISepcService {
 
 
     @Override
-    public boolean update(int id, String name, String options, int seq) {
-        int resultUpdateName = sepcDao.updateSepcName(id, name, seq);
+    public boolean update(int id, String name) {
+        int resultUpdateName = sepcDao.updateSepcName(id, name);
         return resultUpdateName  > 0;
     }
 
