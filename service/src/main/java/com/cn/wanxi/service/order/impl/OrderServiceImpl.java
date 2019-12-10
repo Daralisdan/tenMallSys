@@ -71,6 +71,20 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
+    public Msg item(int id) {
+        Msg msg = null;
+        Map<String, Object> list = iOrderDao.item(id);
+
+        //判断集合是否有数据，如果没有数据返回失败
+        if (!ObjectUtils.isEmpty(list)) {
+            msg = new Msg(0, "查询成功", list);
+        } else {
+            msg = new Msg(1, "不存在");
+        }
+        return msg;
+    }
+
+    @Override
     public Msg findById(int id) {
         Msg msg = null;
         if (!StringUtils.isEmpty(id) && id > 0) {

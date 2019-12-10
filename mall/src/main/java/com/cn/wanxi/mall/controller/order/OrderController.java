@@ -68,6 +68,17 @@ public class OrderController {
     }
 
     /**
+     * 批量发货查询
+     *
+     * @return
+     */
+    @PostMapping(value = "/item", produces = "application/json;charset=UTF-8")
+    public Msg list3(@RequestBody Map<String, Integer> param) {
+        int id = param.get("id");
+        return iOrderService.item(id);
+    }
+
+    /**
      * 批量发货提交
      *
      * @param orderEntitiestr
@@ -115,6 +126,7 @@ public class OrderController {
     public Msg findAll() {
         return iOrderService.findAll();
     }
+
     /**
      * 查找所有的订单详细
      *
