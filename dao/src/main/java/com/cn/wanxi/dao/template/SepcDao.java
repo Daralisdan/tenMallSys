@@ -13,10 +13,9 @@ public interface SepcDao {
 
     int addSepcName(String name, int seq, int templateId);
 
-    int addSepcOptions(String Options, int sepcId);
+    int addSepcOptions(String options, int sepcId);
 
     int findIdBySepcName(String name);
-
 
     List findPageBySepcName(SepcEntity sepcEntity);
 
@@ -24,11 +23,11 @@ public interface SepcDao {
 
     Map<String, Object> findAll();
 
-    int update(SepcEntity sepcEntity);
+    int updateSepcName(int id, String name, int seq);
 
+    int updateSepcOptions(String options, int sepcId);
 
     int delete(int id);
-
 
     List isNameExist(String name);
 }

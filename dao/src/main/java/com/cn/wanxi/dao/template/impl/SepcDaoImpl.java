@@ -66,17 +66,32 @@ public class SepcDaoImpl implements SepcDao {
     }
 
     /**
-     * 修改
+     * 修改二级规格名称
      *
-     * @param sepcEntity
+     * @param id
+     * @param name
+     * @param seq
      * @return
      */
     @Override
-    public int update(SepcEntity sepcEntity) {
-        String exeSQL = "UPDATE wx_tab_para SET name = ?,seq = ?,options = ?,template_id = ?";
-        Object args[] = {sepcEntity.getName(), sepcEntity.getOptions(), sepcEntity.getSeq(), sepcEntity.getTemplateId()};
-        int temp = jdbcTemplate.update(exeSQL, args);
-        return temp;
+    public int updateSepcName(int id, String name, int seq) {
+        String updateSepcNameSQL = "UPDATE wx_tab_sepc_name SET name = ? , seq = ? where id = ?";
+        Object[] objects = {name, seq, id};
+        return jdbcTemplate.update(updateSepcNameSQL, objects);
+    }
+
+    /**
+     * 修改二级规格数据
+     *
+     * @param options
+     * @param sepcId
+     * @return
+     */
+    @Override
+    public int updateSepcOptions(String options, int sepcId) {
+        String updateSepcOptions = "UPDATE wx_tab_sepc_options SET options = ? where id = ? ";
+        Object[] objects = {options, sepcId};
+        return jdbcTemplate.update(updateSepcOptions, objects);
     }
 
     /**

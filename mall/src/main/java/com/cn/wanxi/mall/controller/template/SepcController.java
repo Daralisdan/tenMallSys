@@ -76,22 +76,24 @@ public class SepcController {
     /**
      * 【修改规格信息】
      *
-     * @param sepcEntity
-     * @return
+     * @param map
+     * @return map
      */
     @PostMapping(value = "/update", produces = "application/json;charset=UTF-8")
-    public Map<String, Object> update(@RequestBody SepcEntity sepcEntity) {
-        Msg msg;
-        int up = iSepcService.update(sepcEntity);
-        if (up > 0) {
-            msg = Msg.success().messageData(sepcEntity);
+    public Map<String, Object> update(@RequestBody Map<String, Object> map) {
+        int id = Integer.parseInt(map.get("id").toString());
+        String name = map.get("name").toString();
+        String options = map.get("options").toString();
+        int seq = Integer.parseInt(map.get("seq").toString());
+        Map<String, Object> resultMap = new TreeMap<>();
+        if (iSepcService.update(id, name, options, seq)) {
+            resultMap.put("code", "1");
+            resultMap.put("message", "修改成功");
         } else {
-            msg = Msg.fail();
+            resultMap.put("code", "0");
+            resultMap.put("message", "修改失败");
         }
-        Map<String, Object> map = new TreeMap<>();
-        map.put("code", msg.getCode());
-        map.put("message", msg.getMsg());
-        return map;
+        return resultMap;
     }
 
     /**
@@ -103,7 +105,7 @@ public class SepcController {
     @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
     public Map<String, Object> delete(@RequestBody Map<String, Object> map) {
         Map<String, Object> resultMap = new TreeMap<>();
-        if (iSepcService.deleteById(Integer.valueOf(map.get("id").toString()))) {
+        if (iSepcService.deleteById(Integer.parseInt(map.get("id").toString()))) {
             resultMap.put("code", "0");
             resultMap.put("message", " 删除成功");
         } else {
