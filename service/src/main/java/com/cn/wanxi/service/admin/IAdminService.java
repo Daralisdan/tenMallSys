@@ -19,7 +19,7 @@ public interface IAdminService {
 
     public boolean addAdmin(String adminName,String password,Integer roleId);
 
-    boolean modifyPassword(String username, String password, String odpassword);
+    boolean modifyPassword(String username, String password, String odpassword,Integer roleId);
 
     boolean deleteUserById(Integer id);
 
