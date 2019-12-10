@@ -1,6 +1,6 @@
 /**
  * Copyright (C), 2015-2019, XXX有限公司
- * FileName: UserRoleController
+ * FileName: AdminRoleController
  * Author:   Administrator
  * Date:     2019/11/27 9:52
  * Description:
@@ -21,7 +21,7 @@ import java.util.Map;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 /**
- * 〈一句话功能简述〉<br> 
+ * 〈一句话功能简述〉<br>
  * 〈〉
  *
  * @author Administrator
@@ -38,9 +38,9 @@ public class AdminRoleController {
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
     public Msg add(@RequestBody Map<String,String> param) {
         Msg m;
-        String username=param.get("adminName");
+        String adminName=param.get("adminName");
         String roleId=param.get("roleId");
-        int[] result = iAdminRoleService.batchCarFlowInsert(username,roleId);
+        int[] result = iAdminRoleService.batchCarFlowInsert(adminName,roleId);
         if (!isEmpty(result)) {
             m = Msg.success();
         } else {
@@ -52,9 +52,9 @@ public class AdminRoleController {
     @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
     public Msg cancel(@RequestBody Map<String,String> param){
         Msg m;
-        String username=param.get("username");
+        String adminName=param.get("adminName");
         String roleId=param.get("roleId");
-        int[] result = iAdminRoleService.batchCarFlowDelete(username,roleId);
+        int[] result = iAdminRoleService.batchCarFlowDelete(adminName,roleId);
         if (!isEmpty(result)) {
             m = Msg.success();
         } else {
@@ -63,16 +63,15 @@ public class AdminRoleController {
         return m;
     }
 
-    @PostMapping(value = "/userToMenuName", produces = "application/json;charset=UTF-8")
-    public Msg userToMenuName(@RequestBody Map<String,String> param) {
+    @PostMapping(value = "/adminToMenuName", produces = "application/json;charset=UTF-8")
+    public Msg adminToMenuName(@RequestBody Map<String,String> param) {
         Msg m;
-        String username = param.get("username");
-        int a = 10;
-        if(isEmpty(username) || "".equals(username)){
+        String adminName = param.get("adminName");
+        if(isEmpty(adminName) || "".equals(adminName)){
             m = new Msg(1,"查询失败");
             return m;
         }
-        ArrayList<String> menuNames = iAdminRoleService.getMenuName(username);
+        ArrayList<String> menuNames = iAdminRoleService.getMenuName(adminName);
         m = new Msg(0,"查询成功",menuNames);
         return m;
     }
