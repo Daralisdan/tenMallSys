@@ -34,7 +34,7 @@ public class SepcServiceImpl implements ISepcService {
 
     @Override
     public boolean deleteById(int id) {
-        if (sepcDao.delete(id) >= 2) {
+        if (sepcDao.delete(id) >= 1) {
             return true;
         } else {
             return false;
@@ -53,28 +53,24 @@ public class SepcServiceImpl implements ISepcService {
     @Override
     public boolean update(int id, String name, String options, int seq) {
         int resultUpdateName = sepcDao.updateSepcName(id, name, seq);
-        int resultUpdateOptions = sepcDao.addSepcOptions(options, id);
-        return resultUpdateName + resultUpdateOptions > 0;
+        return resultUpdateName  > 0;
     }
 
 
     /**
      * 列表中有name字段的添加
      *
-     * @param options
-     * @param seq
      * @param templateId
      * @return
      */
     @Override
-    public boolean add(String name, String options, int seq, int templateId) {
+    public boolean add(String name, int templateId) {
         int sepcId = sepcDao.findIdBySepcName(name);
         int addNameOptionsResult = 0;
-        int addOptionsResult = sepcDao.addSepcOptions(options, sepcId);
         if (sepcDao.isNameExist(name).size() == 0) {
-            addNameOptionsResult = sepcDao.addSepcName(name, seq, templateId);
+            addNameOptionsResult = sepcDao.addSepcName(name, templateId);
         }
-        if ((addOptionsResult + addNameOptionsResult) >= 1) {
+        if ((addNameOptionsResult) >= 1) {
             return true;
         } else {
             return false;

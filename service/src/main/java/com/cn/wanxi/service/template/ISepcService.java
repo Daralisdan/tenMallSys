@@ -13,7 +13,7 @@ public interface ISepcService {
 
     boolean deleteById(int id);
 
-    boolean add(String name, String options, int seq, int templateId);
+    boolean add(String name, int templateId);
 
     List<Map<String, Object>> findAll();
 

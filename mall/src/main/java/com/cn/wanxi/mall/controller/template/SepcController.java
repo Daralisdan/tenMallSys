@@ -27,20 +27,35 @@ public class SepcController {
     @Autowired
     private ISepcService iSepcService;
 
-    /**
-     * 添加规格选项
-     *
-     * @param map
-     * @return
-     */
-    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
+//    /**
+//     * 添加规格选项(舍弃版本)
+//     *
+//     * @param map
+//     * @return
+//     */
+//    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
+//    public Map<String, String> add(@RequestBody Map<String, Object> map) {
+//        String name = map.get("name").toString();
+//        String options = map.get("options").toString();
+//        int seq = Integer.parseInt(map.get("seq").toString());
+//        int templateId = Integer.parseInt(map.get("template_id").toString());
+//        Map<String, String> resultMap = new TreeMap<>();
+//        if (iSepcService.isNameExist(name) && iSepcService.add(name, options, seq, templateId)) {//添加失败
+//            resultMap.put("code", "0");
+//            resultMap.put("message", " 新增成功");
+//            return resultMap;
+//        } else {//添加成功
+//            resultMap.put("code", "1");
+//            resultMap.put("message", " 新增失败");
+//            return resultMap;
+//        }
+//    }
+
     public Map<String, String> add(@RequestBody Map<String, Object> map) {
         String name = map.get("name").toString();
-        String options = map.get("options").toString();
-        int seq = Integer.parseInt(map.get("seq").toString());
         int templateId = Integer.parseInt(map.get("template_id").toString());
         Map<String, String> resultMap = new TreeMap<>();
-        if (iSepcService.isNameExist(name) && iSepcService.add(name, options, seq, templateId)) {//添加失败
+        if (iSepcService.add(name, templateId)) {
             resultMap.put("code", "0");
             resultMap.put("message", " 新增成功");
             return resultMap;
@@ -49,7 +64,6 @@ public class SepcController {
             resultMap.put("message", " 新增失败");
             return resultMap;
         }
-
     }
 
     /**
@@ -64,11 +78,16 @@ public class SepcController {
     }
 
 
+    /**
+     * 按照名称查询
+     * @param map
+     * @return
+     */
     @PostMapping(value = "/findCondPage", produces = "application/json;charset=UTF-8")
     public Map<String, Object> find(@RequestBody Map<String, Object> map) {
         String name = map.get("name").toString();
         Map<String, Object> resultMap = iSepcService.findCondPage(name);
-        return map;
+        return resultMap;
     }
 
     /**

@@ -28,24 +28,24 @@ public class SepcDaoImpl implements SepcDao {
      * @return
      */
     @Override
-    public int addSepcName(String name, int seq, int templateId) {
-        String addSpecNameSQL = "INSERT INTO wx_tab_sepc_name(name,seq,template_id) VALUES(?,?,?)";
-        Object addSpecNameArgs[] = {name, seq, templateId};
+    public int addSepcName(String name, int templateId) {
+        String addSpecNameSQL = "INSERT INTO wx_tab_sepc_name(name,seq,template_id) VALUES(?,0,?)";
+        Object addSpecNameArgs[] = {name, templateId};
         return jdbcTemplate.update(addSpecNameSQL, addSpecNameArgs);
     }
 
-    /**
-     * 新增三级规格参数
-     *
-     * @param sepcId
-     * @return
-     */
-    @Override
-    public int addSepcOptions(String options, int sepcId) {
-        String addSpecOptionsSQL = "INSERT INTO wx_tab_sepc_options(options,sepc_id) VALUE (?,?)";
-        Object[] object = {options, sepcId};
-        return jdbcTemplate.update(addSpecOptionsSQL, object);
-    }
+//    /**
+//     * 新增三级规格参数
+//     *
+//     * @param sepcId
+//     * @return
+//     */
+//    @Override
+//    public int addSepcOptions(String options, int sepcId) {
+//        String addSpecOptionsSQL = "INSERT INTO wx_tab_sepc_options(options,sepc_id) VALUE (?,?)";
+//        Object[] object = {options, sepcId};
+//        return jdbcTemplate.update(addSpecOptionsSQL, object);
+//    }
 
 
     /**
@@ -80,19 +80,19 @@ public class SepcDaoImpl implements SepcDao {
         return jdbcTemplate.update(updateSepcNameSQL, objects);
     }
 
-    /**
-     * 修改二级规格数据
-     *
-     * @param options
-     * @param sepcId
-     * @return
-     */
-    @Override
-    public int updateSepcOptions(String options, int sepcId) {
-        String updateSepcOptions = "UPDATE wx_tab_sepc_options SET options = ? where id = ? ";
-        Object[] objects = {options, sepcId};
-        return jdbcTemplate.update(updateSepcOptions, objects);
-    }
+//    /**
+//     * 修改三级规格数据
+//     *
+//     * @param options
+//     * @param sepcId
+//     * @return
+//     */
+//    @Override
+//    public int updateSepcOptions(String options, int sepcId) {
+//        String updateSepcOptions = "UPDATE wx_tab_sepc_options SET options = ? where id = ? ";
+//        Object[] objects = {options, sepcId};
+//        return jdbcTemplate.update(updateSepcOptions, objects);
+//    }
 
     /**
      * 按照规格ID删除
