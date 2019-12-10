@@ -152,7 +152,7 @@ public class IOrderDaoImpl implements IOrderDao {
         String exeSQL1 = "select * from wx_tab_order where order_status ='0' and (now()-create_time)>48 ";
         List<Map<String, Object>> listzhu = jdbcTemplate.queryForList(exeSQL1);
         for (Map<String, Object> sss : listzhu) {
-            String exeSQL = "update wx_tab_order set order_status='4' where id="+sss.get("id");
+            String exeSQL = "update wx_tab_order set order_status='4' where id=" + sss.get("id");
             jdbcTemplate.update(exeSQL);
         }
 
@@ -178,6 +178,36 @@ public class IOrderDaoImpl implements IOrderDao {
 //        jdbcTemplate.update(exeSQL2);
         jdbcTemplate.update(exeSQL2, args2);
         return temp;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public Map<String, Object> item(int id) {
+//        Map<String, Object> map;
+        String sql = "select id, total_num as totalNum , total_money as totalMoney ,  pre_money as preMoney,  post_fee as postFee, pay_money as payMoney, pay_type as payType," +
+                "                DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%s') as createTime,  DATE_FORMAT(update_time,'%Y-%m-%d %H:%i:%s') as updateTime,  DATE_FORMAT(pay_time,'%Y-%m-%d %H:%i:%s') as payTime,   " +
+                "                DATE_FORMAT(consign_time,'%Y-%m-%d %H:%i:%s') as consignTime , DATE_FORMAT(end_time,'%Y-%m-%d %H:%i:%s')  as endTime  ,DATE_FORMAT(close_time,'%Y-%m-%d %H:%i:%s')  as closeTime , shipping_name as  shippingName," +
+                "                shipping_code as shippingCode ,username, buyer_message as  buyerMessage,  buyer_rate as buyerRate , receiver_contact as  receiverContact," +
+                "                receiver_mobile as receiverMobile  ,  receiver_address as receiverAddress ,  source_type as sourceType ,  transaction_id as transactionId ," +
+                "                order_status as orderStatus ,  pay_status as  payStatus, consign_status as consignStatus , is_delete as isDelete from wx_tab_order where id="+id;
+//        String exeSQL = "select * from wx_tab_order limit " + (page - 1) * size + " , " + size;
+        List<Map<String, Object>> listzhu = jdbcTemplate.queryForList(sql);
+        List<Map<String, Object>> listss = new ArrayList();
+        Map<String, Object> map = new LinkedHashMap<>();
+//        List<Map<String, Object>> listsss = new ArrayList();
+        for (Map<String, Object> sss : listzhu) {
+
+            String sql2 = "select id, category_id1 as categoryId1 , category_id2 as categoryId2, category_id3 as categoryId3 , spu_id as spuId , sku_id as skuId , order_id as orderId, name ,price, num, money, pay_money as payMoney,image,weight, post_fee as postFee , is_return as isReturn from wx_tab_order_item where order_id = " + sss.get("id");
+            List<Map<String, Object>> list = jdbcTemplate.queryForList(sql2);
+
+            sss.put("sublist", list);
+            listss.add(sss);
+        }
+
+        map.put("rows", listss);
+        return map;
     }
 
     /**

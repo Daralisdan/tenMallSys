@@ -85,7 +85,9 @@ public class AdvertisinController {
         LinkedHashMap<String,Object> result = new LinkedHashMap<>();
         AdvertisinEntity entity = iAdvertisinService.findById(id);
         ArrayList<AdvertisinEntity> list = new ArrayList<>();
-        list.add(entity);
+        if(null != entity){
+            list.add(entity);
+        }
         result.put("rows",list);
         result.put("total",list.size());
         if (null != entity) {
