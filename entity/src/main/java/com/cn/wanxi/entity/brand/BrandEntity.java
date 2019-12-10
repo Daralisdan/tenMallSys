@@ -1,7 +1,6 @@
 package com.cn.wanxi.entity.brand;
 
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 2019/11/15,Create by yaodan

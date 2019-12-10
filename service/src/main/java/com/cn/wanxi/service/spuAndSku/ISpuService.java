@@ -1,42 +1,46 @@
 package com.cn.wanxi.service.spuAndSku;
 
 import com.cn.wanxi.entity.spuAndSku.WxTabSpu;
+import com.cn.wanxi.utils.utils.Msg;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public interface ISpuService {
 
-    int insert(WxTabSpu wxTabSpu);
+    Msg insert(WxTabSpu wxTabSpu);
 
     List<Map<String, Object>> queryAll();
 
-    WxTabSpu findById(int id);
+    LinkedHashMap findById(Integer id);
 
     WxTabSpu findByName(String name);
 
-    int update(WxTabSpu wxTabSpu);
+    Msg update(WxTabSpu wxTabSpu);
 
-    int deleteById(int id);
+    Msg deleteById(Integer id);
 
-    List<Map<String, Object>> daishenheliebiao(WxTabSpu wxTabSpu, int page, int size);
+    Msg daishenheliebiao(Map<String, Object> param);
 
-    int tijiaoshenhe(WxTabSpu wxTabSpu);
+    Msg tijiaoshenhe(WxTabSpu wxTabSpu);
 
-    int shenhechenggong(int id);
+    Msg shenhechenggong( Map<String,Integer> page);
 
-    List<Map<String, Object>> fenye(WxTabSpu wxTabSpu, int page, int size);
+    Msg fenye(Map<String, Object> param);
 
     int zong();
 
-    Map<String, Object> list(int page, int size);
+    Msg list(Map<String,Integer> param);
 
-    int xiajia( WxTabSpu wxTabSpu);
+    Msg xiajia( WxTabSpu wxTabSpu);
 
-    int shangjia(int id);
+    Msg shangjia(Integer id);
 
-    int piliangshangjia(String id);
+    Msg piliangshangjia(String id);
 
-    int piliangxiajia(String id);
+    Msg piliangxiajia(String id);
+
+    Msg fenyeye(Map<String, Integer> param);
 
 }

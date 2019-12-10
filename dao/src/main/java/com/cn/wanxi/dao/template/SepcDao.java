@@ -11,17 +11,24 @@ import java.util.Map;
  */
 public interface SepcDao {
 
-    int add(SepcEntity sepcEntity);
+    int addSepcName(String name, int seq, int templateId);
+
+    int addSepcOptions(String Options, int sepcId);
+
+    int findIdBySepcName(String name);
 
 
-    Map<String, Object> find(SepcEntity sepcEntity);
+    List findPageBySepcName(SepcEntity sepcEntity);
 
+    List findIdBySepcOptions(int id);
 
-    List<Map<String, Object>> findAll();
-
+    Map<String, Object> findAll();
 
     int update(SepcEntity sepcEntity);
 
 
-    int delete(SepcEntity sepcEntity);
+    int delete(int id);
+
+
+    List isNameExist(String name);
 }

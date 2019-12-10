@@ -2,7 +2,9 @@ package com.cn.wanxi.service.order.impl;
 
 import com.cn.wanxi.dao.order.IOrderDao;
 import com.cn.wanxi.dao.order.IOrderItemDao;
-import com.cn.wanxi.entity.order.*;
+import com.cn.wanxi.entity.order.OrderEntity;
+import com.cn.wanxi.entity.order.OrderItemEntity;
+import com.cn.wanxi.entity.order.PageMap;
 import com.cn.wanxi.service.order.IOrderService;
 import com.cn.wanxi.utils.utils.Msg;
 import net.sf.json.JSONArray;
@@ -15,6 +17,7 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
 
 /**
  * 2019/11/18,Create by yaodan
@@ -51,7 +54,7 @@ public class OrderServiceImpl implements IOrderService {
     public Msg update() {
         Msg msg = null;
         iOrderDao.update();
-        msg=new Msg(0, "修改成功");
+        msg = new Msg(0, "修改成功");
         return msg;
     }
 
@@ -124,6 +127,7 @@ public class OrderServiceImpl implements IOrderService {
 
     /**
      * 查询所有
+     *
      * @return
      */
     @Override
@@ -239,13 +243,13 @@ public class OrderServiceImpl implements IOrderService {
                 if (!ObjectUtils.isEmpty(byId)) {
                     int result = iOrderDao.batchSendSubmit(id, orderId, shippingName, shippingCode);
                     if (result > 0) {
-                        msg =new Msg(0,"批量发货成功");
+                        msg = new Msg(0, "批量发货成功");
                     }
                 } else {
-                    msg =new Msg(1,"该订单不存在");
+                    msg = new Msg(1, "该订单不存在");
                 }
             } else {
-                msg =new Msg(1,"输入格式有误");
+                msg = new Msg(1, "输入格式有误");
             }
         }
 //        Map<String, Object> map = new TreeMap<>();
@@ -264,6 +268,7 @@ public class OrderServiceImpl implements IOrderService {
     public int countAll() {
         return iOrderDao.countAll();
     }
+
     /**
      * 提取公共方法
      *
@@ -283,7 +288,7 @@ public class OrderServiceImpl implements IOrderService {
         System.out.println("目前分页的总页数是" + pages);
         //总页数
         pageMap.setPages(pages);
-        msg = Msg.success().messageData(pageMap);
+        msg = new Msg(0, "查询成功", pageMap);
         return msg;
     }
 }

@@ -5,18 +5,14 @@ import com.cn.wanxi.entity.order.RefundCauseItemEntity;
 import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.order.IRefundCauseItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Map;
 
-import static org.springframework.util.StringUtils.isEmpty;
 
 @RestController
 @RequestMapping("/refundItem")

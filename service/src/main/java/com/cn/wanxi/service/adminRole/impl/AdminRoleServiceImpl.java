@@ -8,14 +8,14 @@
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
-package com.cn.wanxi.service.userRole.impl;
+package com.cn.wanxi.service.adminRole.impl;
 
+import com.cn.wanxi.dao.AdminRole.IAdminRoleDao;
 import com.cn.wanxi.dao.menu.IMenuDao;
 import com.cn.wanxi.dao.roleMenu.RoleMenuDao;
-import com.cn.wanxi.dao.userRole.UserRoleDao;
 import com.cn.wanxi.entity.menu.MenuEntity;
 import com.cn.wanxi.entity.roleMenu.RoleMenuEntity;
-import com.cn.wanxi.service.userRole.IUserRoleService;
+import com.cn.wanxi.service.adminRole.IAdminRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +31,9 @@ import java.util.List;
  * @since 1.0.0
  */
 @Service
-public class UserRoleServiceImpl implements IUserRoleService {
+public class AdminRoleServiceImpl implements IAdminRoleService {
     @Autowired
-    private UserRoleDao userRoleDao;
+    private IAdminRoleDao iAdminRoleDao;
 
     @Autowired
     private RoleMenuDao roleMenuDao;
@@ -42,20 +42,18 @@ public class UserRoleServiceImpl implements IUserRoleService {
     private IMenuDao iMenuDao;
 
     @Override
-    public int[] batchCarFlowInsert(String username , String roleid){
-
-        return userRoleDao.batchCarFlowInsert(username,roleid);
-
+    public int[] batchCarFlowInsert(String adminName , String roleId){
+        return iAdminRoleDao.batchCarFlowInsert(adminName,roleId);
     }
 
     @Override
-    public int[] batchCarFlowDelete(String username ,String roleid){
-        return userRoleDao.batchCarFlowDelete(username,roleid);
+    public int[] batchCarFlowDelete(String adminName ,String roleId){
+        return iAdminRoleDao.batchCarFlowDelete(adminName,roleId);
     }
 
     @Override
-    public ArrayList<String> getMenuName(String username) {
-        Integer roleId = userRoleDao.selectRoleByUsername(username);
+    public ArrayList<String> getMenuName(String adminName) {
+        Integer roleId = iAdminRoleDao.selectRoleByUsername(adminName);
         List<RoleMenuEntity> byRoleId = roleMenuDao.findEntitiesByRoleId(roleId);
 
         ArrayList<String> menuNameList = new ArrayList<>();

@@ -31,5 +31,5 @@ public interface RoleMenuDao {
 
     int[] batchCarFlowDelete(int ids, String menid);
 
-    List<RoleMenuEntity> findEntitiesByRoleId(int roleid);
+    List<RoleMenuEntity> findEntitiesByRoleId(int roleId);
 }

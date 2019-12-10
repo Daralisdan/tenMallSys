@@ -100,7 +100,7 @@ public class IRefundCauseServiceImpl implements IRefundCauseService {
 
             //把查询出来的对象封装在分页实体类中
             if (null == list && list.isEmpty()) {
-                msg = Msg.fail().messageData("订单信息不存在");
+                msg = new Msg(1, "订单信息不存在");
             } else {
 
                 //统计所有数据的总行数
@@ -231,7 +231,7 @@ public class IRefundCauseServiceImpl implements IRefundCauseService {
         System.out.println("目前分页的总页数是" + pages);
         //总页数
         pageList.setPages(pages);
-        msg = Msg.success().messageData(pageList);
+        msg = new Msg(0,"查询成功",pageList);
         return msg;
     }
 }
