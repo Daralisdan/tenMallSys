@@ -70,7 +70,7 @@ public class SepcController {
     /**
      * 【展示所有规格信息】
      *
-     * @return
+     * @return list
      */
     @PostMapping("/findAll")
     public List<Map<String, Object>> findAll() {
