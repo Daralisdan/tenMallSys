@@ -1,8 +1,6 @@
 package com.cn.wanxi.mall.controller.template;
 
-
 import com.cn.wanxi.entity.template.SepcEntity;
-import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.template.ISepcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static org.springframework.util.ObjectUtils.isEmpty;
 
 /**
  * wx_tab_sepc （参数表）
@@ -68,8 +65,9 @@ public class SepcController {
 
 
     @PostMapping(value = "/findCondPage", produces = "application/json;charset=UTF-8")
-    public Map<String, Object> find(@RequestBody SepcEntity sepcEntity) {
-        Map<String, Object> map = iSepcService.findCondPage(sepcEntity);
+    public Map<String, Object> find(@RequestBody Map<String, Object> map) {
+        String name = map.get("name").toString();
+        Map<String, Object> resultMap = iSepcService.findCondPage(name);
         return map;
     }
 

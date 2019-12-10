@@ -110,17 +110,15 @@ public class SepcDaoImpl implements SepcDao {
     }
 
     /**
-     * 分页查询（规格）
+     * 规格查询
      *
-     * @param sepcEntity
+     * @param name
      * @return
      */
     @Override
-    public List<SepcEntity> findPageBySepcName(SepcEntity sepcEntity) {
-        int page = (sepcEntity.getPage() - 1) * sepcEntity.getSize();
-        int size = sepcEntity.getSize() * sepcEntity.getSize();
-        String findPageBySepcNameSQL = "select id ,name ,seq,template_id as templateID from wx_tab_sepc_name where name = ? limit " + page + " ," + size;
-        List list = jdbcTemplate.queryForList(findPageBySepcNameSQL, sepcEntity.getName());
+    public List<SepcEntity> findPageBySepcName(String name) {
+        String findPageBySepcNameSQL = "select id ,name ,seq,template_id as templateID from wx_tab_sepc_name where name = ?";
+        List list = jdbcTemplate.queryForList(findPageBySepcNameSQL, name);
         return list;
     }
 

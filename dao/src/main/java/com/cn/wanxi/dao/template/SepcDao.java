@@ -17,7 +17,7 @@ public interface SepcDao {
 
     int findIdBySepcName(String name);
 
-    List findPageBySepcName(SepcEntity sepcEntity);
+    List findPageBySepcName(String name);
 
     List findIdBySepcOptions(int id);
 

@@ -21,13 +21,13 @@ public class SepcServiceImpl implements ISepcService {
 
 
     @Override
-    public Map<String, Object> findCondPage(SepcEntity sepcEntity) {
-        List name = sepcDao.findPageBySepcName(sepcEntity);
-        int sepcId = sepcDao.findIdBySepcName(sepcEntity.getName());
-        List options = sepcDao.findIdBySepcOptions(sepcId);
-        Map<String, Object> map = null;
-        map.put("options", options);
-        map.put("rows", name);
+    public Map<String, Object> findCondPage(String name) {
+        List sepcNameList = sepcDao.findPageBySepcName(name);
+        int sepcId = sepcDao.findIdBySepcName(name);
+        List sepcOptionsList = sepcDao.findIdBySepcOptions(sepcId);
+        Map<String, Object> map = new TreeMap<>();
+        map.put("options", sepcOptionsList);
+        map.put("rows", sepcNameList);
         return map;
     }
 
