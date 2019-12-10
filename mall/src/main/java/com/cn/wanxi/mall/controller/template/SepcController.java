@@ -31,23 +31,28 @@ public class SepcController {
     private ISepcService iSepcService;
 
     /**
-     * 【添加规格信息】
+     * 添加规格选项
      *
+     * @param map
      * @return
      */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
-    public Map<String, Object> add(@RequestBody SepcEntity sepcEntity) {
-        Msg m;
-        int result = iSepcService.add(sepcEntity);
-        if (!isEmpty(result)) {
-            m = Msg.success().messageData(sepcEntity);
-        } else {
-            m = Msg.fail();
+    public Map<String, String> add(@RequestBody Map<String, Object> map) {
+        String name = map.get("name").toString();
+        String options = map.get("options").toString();
+        int seq = Integer.parseInt(map.get("seq").toString());
+        int templateId = Integer.parseInt(map.get("template_id").toString());
+        Map<String, String> resultMap = new TreeMap<>();
+        if (iSepcService.isNameExist(name) && iSepcService.add(name, options, seq, templateId)) {//添加失败
+            resultMap.put("code", "0");
+            resultMap.put("message", " 新增成功");
+            return resultMap;
+        } else {//添加成功
+            resultMap.put("code", "1");
+            resultMap.put("message", " 新增失败");
+            return resultMap;
         }
-        Map<String, Object> map = new TreeMap<>();
-        map.put("code", m.getCode());
-        map.put("message", m.getMsg());
-        return map;
+
     }
 
     /**
@@ -64,7 +69,7 @@ public class SepcController {
 
     @PostMapping(value = "/findCondPage", produces = "application/json;charset=UTF-8")
     public Map<String, Object> find(@RequestBody SepcEntity sepcEntity) {
-        Map<String, Object> map = iSepcService.find(sepcEntity);
+        Map<String, Object> map = iSepcService.findCondPage(sepcEntity);
         return map;
     }
 
@@ -92,22 +97,20 @@ public class SepcController {
     /**
      * 【根据id删除】
      *
-     * @param sepcEntity
+     * @param map
      * @return
      */
     @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
-    public Map<String,Object> delete(@RequestBody SepcEntity sepcEntity) {
-        Msg msg;
-        int i = iSepcService.deleteById(sepcEntity);
-        if (i > 0) {
-            msg = Msg.success();
+    public Map<String, Object> delete(@RequestBody Map<String, Object> map) {
+        Map<String, Object> resultMap = new TreeMap<>();
+        if (iSepcService.deleteById(Integer.valueOf(map.get("id").toString()))) {
+            resultMap.put("code", "0");
+            resultMap.put("message", " 删除成功");
         } else {
-            msg = Msg.fail();
+            resultMap.put("code", "1");
+            resultMap.put("message", " 删除失败");
         }
-        Map<String,Object> map = new TreeMap<>();
-        map.put("code",msg.getCode());
-        map.put("message",msg.getMsg());
-        return map;
+        return resultMap;
     }
 
 }

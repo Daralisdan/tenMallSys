@@ -48,4 +48,9 @@ public class TemplateServiceImpl implements ITemplateService {
     public Map<String, Object> findSpecsById(TemplateEntity templateEntity) {
         return templateDao.findSpecsById(templateEntity);
     }
+
+    @Override
+    public int findIdByName(String name) {
+        return templateDao.findIdByName(name);
+    }
 }

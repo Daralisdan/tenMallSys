@@ -22,4 +22,5 @@ public interface ITemplateService {
 
     Map<String,Object> findSpecsById(TemplateEntity templateEntity);
 
+    int findIdByName(String name);
 }
