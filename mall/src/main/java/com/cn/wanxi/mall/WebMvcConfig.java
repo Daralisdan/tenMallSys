@@ -69,7 +69,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        System.out.println(ResourceUtils.FILE_URL_PREFIX + path + imageFileName);
+        System.out.println("图片上传路径：" + ResourceUtils.FILE_URL_PREFIX + path + imageFileName);
 
         registry.addResourceHandler("swagger-ui.html")
                 .addResourceLocations("classpath:/META-INF/resources/");
@@ -80,7 +80,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
         //图片映射
         registry.addResourceHandler("/upload/**")
-                .addResourceLocations(ResourceUtils.FILE_URL_PREFIX + path + imageFileName+"/");
+                .addResourceLocations(ResourceUtils.FILE_URL_PREFIX + path + imageFileName + "/");
         //将所有/static/** 访问都映射到classpath:/static/ 目录下
         registry.addResourceHandler("/static/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/static/");
 
