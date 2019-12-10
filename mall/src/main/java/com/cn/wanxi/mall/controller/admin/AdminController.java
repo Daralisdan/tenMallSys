@@ -36,7 +36,7 @@ public class AdminController {
      */
     @PostMapping(value = "/login",produces = "application/json;charset=UTF-8")
     public Message login(@RequestBody Map<String,String> args) {
-        String adminName = args.get("username");
+        String adminName = args.get("adminName");
         String password = args.get("password");
         Message m = new Message();
         Integer roleId = iAdminService.login(adminName,password);
@@ -59,7 +59,7 @@ public class AdminController {
      */
     @PostMapping(value = "/logout",produces = "application/json;charset=UTF-8")
     public Message logout(@RequestBody Map<String,String> args){
-        String adminName = args.get("username");
+        String adminName = args.get("adminName");
         Message m = new Message();
         boolean isSuccess = iAdminService.logout(adminName);
         if(isSuccess){
@@ -82,7 +82,7 @@ public class AdminController {
     @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
     public Message add(@RequestBody Map<String,String> args){
         Message m = new Message();
-        String adminName = args.get("username");
+        String adminName = args.get("adminName");
         String password = args.get("password");
         Integer roleId = Integer.parseInt(args.get("roleId"));
         boolean isSuccess = iAdminService.addAdmin(adminName,password,roleId);
@@ -106,11 +106,17 @@ public class AdminController {
      */
     @PostMapping(value = "/update",produces = "application/json;charset=UTF-8")
     public Message update(@RequestBody Map<String,String> args){
-        String adminName = args.get("username");
+        boolean formatFlag = false;
+        String adminName = args.get("adminName");
         String password = args.get("password");
         String odpassword = args.get("odpassword");
+        Integer roleId = null;
+        if(null != args.get("roleId")){
+            roleId = Integer.parseInt(args.get("roleId"));
+        }
+
         Message m = new Message();
-        boolean isSuccess = iAdminService.modifyPassword(adminName,password,odpassword);
+        boolean isSuccess = iAdminService.modifyPassword(adminName,password,odpassword,roleId);
         if(isSuccess){
             m.setCode(0);
             m.setMessage("密码修改成功");
@@ -130,6 +136,9 @@ public class AdminController {
      */
     @PostMapping(value = "/deleteById",produces = "application/json;charset=UTF-8")
     public Message delete(@RequestBody Map<String,String> args) {
+        if(null == args.get("id")){
+            return new Message(1,"用户删除失败,为接收到id","用户删除操作无返回数据");
+        }
         Integer id = Integer.parseInt(args.get("id"));
         Message m = new Message();
         boolean isSuccess = iAdminService.deleteUserById(id);
@@ -175,13 +184,22 @@ public class AdminController {
      */
     @PostMapping(value = "/findCondPage",produces = "application/json;charset=UTF-8")
     public Message findCondPage(@RequestBody Map<String,String> args) {
+        boolean flag = true;
         String adminName = args.get("adminName");
         String status = args.get("status");
-        Integer page = Integer.parseInt(args.get("page"));
-        Integer size = Integer.parseInt(args.get("size"));
+        Integer page = null;
+        Integer size = null;
+        if(null != args.get("page")){
+            flag = false;
+            page = Integer.parseInt(args.get("page"));
+        }
+        if(null != args.get("size")){
+            flag = false;
+            size = Integer.parseInt(args.get("size"));
+        }
         Message m = new Message();
         List<AdminEntity> list = iAdminService.findCondPage(adminName,status,page,size);
-        if(0 < list.size()){
+        if(0 < list.size() || flag){
             int total = iAdminService.count(adminName,status);
             LinkedHashMap<String,Object> result = new LinkedHashMap<>();
             result.put("rows",list);
@@ -203,6 +221,9 @@ public class AdminController {
      */
     @PostMapping(value = "/findById",produces = "application/json;charset=UTF-8")
     public Message findById(@RequestBody Map<String,String> args) {
+        if(null == args.get("id")){
+            return new Message(1,"查询失败，未获取到id参数",null);
+        }
         Integer id = Integer.parseInt(args.get("id"));
         Message m = new Message();
         AdminEntity entity;

@@ -21,20 +21,20 @@ public class SepcServiceImpl implements ISepcService {
 
 
     @Override
-    public Map<String, Object> findCondPage(SepcEntity sepcEntity) {
-        List name = sepcDao.findPageBySepcName(sepcEntity);
-        int sepcId = sepcDao.findIdBySepcName(sepcEntity.getName());
-        List options = sepcDao.findIdBySepcOptions(sepcId);
-        Map<String, Object> map = null;
-        map.put("options", options);
-        map.put("rows", name);
+    public Map<String, Object> findCondPage(String name) {
+        List sepcNameList = sepcDao.findPageBySepcName(name);
+        int sepcId = sepcDao.findIdBySepcName(name);
+        List sepcOptionsList = sepcDao.findIdBySepcOptions(sepcId);
+        Map<String, Object> map = new TreeMap<>();
+        map.put("options", sepcOptionsList);
+        map.put("rows", sepcNameList);
         return map;
     }
 
 
     @Override
     public boolean deleteById(int id) {
-        if (sepcDao.delete(id) >= 2) {
+        if (sepcDao.delete(id) >= 1) {
             return true;
         } else {
             return false;
@@ -51,28 +51,24 @@ public class SepcServiceImpl implements ISepcService {
 
 
     @Override
-    public int update(SepcEntity sepcEntity) {
-        return sepcDao.update(sepcEntity);
+    public boolean update(int id, String name) {
+        int resultUpdateName = sepcDao.updateSepcName(id, name);
+        return resultUpdateName  > 0;
     }
 
 
     /**
      * 列表中有name字段的添加
      *
-     * @param options
-     * @param seq
      * @param templateId
      * @return
      */
     @Override
-    public boolean add(String name, String options, int seq, int templateId) {
-        int sepcId = sepcDao.findIdBySepcName(name);
-        int addNameOptionsResult = 0;
-        int addOptionsResult = sepcDao.addSepcOptions(options, sepcId);
-        if (sepcDao.isNameExist(name).size() == 0) {
-            addNameOptionsResult = sepcDao.addSepcName(name, seq, templateId);
-        }
-        if ((addOptionsResult + addNameOptionsResult) >= 1) {
+    public boolean add(String name, int templateId) {
+
+        int addNameOptionsResult = sepcDao.addSepcName(name,templateId);
+
+        if ((addNameOptionsResult) >= 1) {
             return true;
         } else {
             return false;
