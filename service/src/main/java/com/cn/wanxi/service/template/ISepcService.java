@@ -11,14 +11,17 @@ import java.util.Map;
  */
 public interface ISepcService {
 
-    int deleteById(SepcEntity sepcEntity);
+    boolean deleteById(int id);
 
-    int add(SepcEntity sepcEntity);
+
+    boolean add(String name, String options, int seq, int templateId);
 
     List<Map<String, Object>> findAll();
 
-    Map<String, Object> find(SepcEntity sepcEntity);
+    Map<String, Object> findCondPage(SepcEntity sepcEntity);
 
     int update(SepcEntity sepcEntity);
+
+    boolean isNameExist(String name);
 
 }

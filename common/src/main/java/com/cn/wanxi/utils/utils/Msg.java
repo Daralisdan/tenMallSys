@@ -19,7 +19,7 @@ public class Msg {
     /**
      * 用户要返回给浏览器的数据
      */
-    private Object data;
+    private Object rows;
 
 
     private Msg() {
@@ -36,11 +36,10 @@ public class Msg {
         this.msg = msg;
     }
 
-
-    public Msg(Integer code, String msg, Object data) {
+    public Msg(Integer code, String msg, Object rows) {
         this.code = code;
         this.msg = msg;
-        this.data = data;
+        this.rows = rows;
     }
 
     /**
@@ -72,8 +71,8 @@ public class Msg {
     /**
      * 状态信息跟数据一起返回给用户
      */
-    public Msg messageData(Object data) {
-        this.data = data;
+    public Msg messageData(Object rows) {
+        this.rows = rows;
         return this;
     }
 
