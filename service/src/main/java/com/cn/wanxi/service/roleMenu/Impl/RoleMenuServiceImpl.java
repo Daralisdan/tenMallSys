@@ -16,6 +16,8 @@ import com.cn.wanxi.service.roleMenu.IRoleMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 〈一句话功能简述〉<br>
  * 〈〉
@@ -44,6 +46,11 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
     @Override
     public int[] batchCarFlowDelete(int ids, String menid) {
         return roleMenuDao.batchCarFlowDelete(ids, menid);
+    }
+
+    @Override
+    public List<RoleMenuEntity> findEntitiesByRoleId(int roleId) {
+        return roleMenuDao.findEntitiesByRoleId(roleId);
     }
 
 

@@ -1,11 +1,14 @@
 package com.cn.wanxi.service.admin.impl;
 
+import com.cn.wanxi.dao.AdminRole.IAdminRoleDao;
 import com.cn.wanxi.dao.admin.IAdminDao;
 import com.cn.wanxi.entity.admin.AdminEntity;
 import com.cn.wanxi.service.admin.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,10 +24,18 @@ public class AdminServiceImp implements IAdminService {
     @Autowired
     private IAdminDao iAdminDao;
 
+    @Autowired
+    private IAdminRoleDao iAdminRoleDao;
+
     @Override
-    public boolean login(String username,String password) {
+    public Integer login(String username,String password) {
+        Integer roleId = null;
         String backPassword = iAdminDao.findPasswordByName(username);
-        return password.equals(backPassword);
+        if(password.equals(backPassword)){
+            return roleId = iAdminRoleDao.selectRoleByUsername(username);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -33,8 +44,8 @@ public class AdminServiceImp implements IAdminService {
     }
 
     @Override
-    public boolean addAdmin(AdminEntity entity) {
-        return iAdminDao.insert(entity);
+    public boolean addAdmin(String adminName,String password,Integer roleId) {
+        return iAdminDao.insert(adminName,password,roleId);
     }
 
     @Override
@@ -75,5 +86,10 @@ public class AdminServiceImp implements IAdminService {
     @Override
     public List<AdminEntity> findUserAll() {
         return iAdminDao.findAll();
+    }
+
+    @Override
+    public ArrayList<LinkedHashMap<String, Object>> findAdminAllWithRoleName() {
+        return iAdminDao.findAdminAllWithRoleName();
     }
 }

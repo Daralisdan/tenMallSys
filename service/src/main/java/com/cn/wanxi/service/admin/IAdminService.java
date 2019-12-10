@@ -2,6 +2,8 @@ package com.cn.wanxi.service.admin;
 
 import com.cn.wanxi.entity.admin.AdminEntity;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,10 +14,10 @@ import java.util.Map;
  * 2019/11/18,Create by yaodan
  */
 public interface IAdminService {
-    boolean login(String username,String password);
+    Integer login(String username,String password);
     boolean logout(String login_name);
 
-    boolean addAdmin(AdminEntity entity);
+    public boolean addAdmin(String adminName,String password,Integer roleId);
 
     boolean modifyPassword(String username, String password, String odpassword);
 
@@ -30,4 +32,6 @@ public interface IAdminService {
     AdminEntity findUserById(Integer id);
 
     List<AdminEntity> findUserAll();
+
+    ArrayList<LinkedHashMap<String, Object>> findAdminAllWithRoleName();
 }

@@ -1,19 +1,32 @@
 package com.cn.wanxi.mall.controller.menu;
 
-
+import com.cn.wanxi.dao.menu.IMenuDao;
+import com.cn.wanxi.entity.brand.BrandEntity;
+import com.cn.wanxi.entity.brand.ByPage;
 import com.cn.wanxi.entity.menu.MenuEntity;
+import com.cn.wanxi.entity.menu.MenuTreeNodeEntity;
 import com.cn.wanxi.service.menu.IMenuService;
+import com.cn.wanxi.utils.Message;
 import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.utils.utils.PageList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.springframework.util.ObjectUtils.isEmpty;
 
 /**
  * 【菜单管理】 菜单为三级菜单
@@ -21,6 +34,7 @@ import java.util.Map;
  *
  * 2019/11/18,Create by zhoushiling
  */
+@Component
 @RestController
 @RequestMapping("/menu")
 public class MenuController {
@@ -53,11 +67,9 @@ public class MenuController {
      */
 
     @PostMapping("/findAll")
-    public Msg findAll(HttpServletResponse response) {
-        response.setHeader("Access-Control-Allow-Origin", "*");
+    public Msg findAll() {
         Msg msg = null;
-        List<Map<String, Object>> list = iMenuService.findAll();
-        //判断集合是否有数据，如果没有数据返回失败
+        List<Map<String, Object>> list = iMenuService.findAll();        //判断集合是否有数据，如果没有数据返回失败
         if (list.isEmpty()) {
             msg = Msg.fail().messageData("数据库没有数据");
         } else {
@@ -65,6 +77,7 @@ public class MenuController {
         }
         return msg;
     }
+
     /**
      * 【通过id查询菜品信息】
      *
@@ -82,7 +95,7 @@ public class MenuController {
             if (!ObjectUtils.isEmpty(byId)) {
                 msg = Msg.success().messageData(byId);
             } else {
-                msg = Msg.fail().messageData("该品牌不存在");
+                msg = Msg.fail().messageData("该菜单不存在");
             }
         }
         return msg;
@@ -96,14 +109,35 @@ public class MenuController {
     @RequestMapping(value = "/findAuthMenu", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public Msg findByName(@RequestBody Map<String,String> param) {
         Msg msg = null;
-        String username = param.get("username");
-        List<Map<String,Object>>  byName = iMenuService.findByName(username);
+        String adminname = param.get("adminname");
+        List<Map<String,Object>>  byName = iMenuService.findByName(adminname);
         if (byName != null) {
             msg = Msg.success().messageData(byName);
         } else {
             msg = Msg.fail().messageData("请输入正确的名字");
         }
         return msg;
+    }
+
+    /**
+     * 【固定条件查询所有，固定parent_id】
+     *
+     * @return
+     */
+    @PostMapping(value = "/listSub",produces = "application/json;charset=UTF-8")
+    public Message listSub(@RequestBody Map<String,String> args){
+        Integer parentId = Integer.parseInt(args.get("parentId"));
+        Message m = new Message();
+        List<MenuEntity> result = iMenuService.findAllByParentId(parentId);
+        if(!isEmpty(result)){
+            m.setCode(0);
+            m.setMessage("根据parentId查询菜单");
+            m.setData(result);
+        } else {
+            m.setCode(1);
+            m.setMessage("查询失败或数据库中数据条数为0");
+        }
+        return m;
     }
 
     /**
@@ -139,8 +173,7 @@ public class MenuController {
      * @return
      */
     @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
-    public Msg deleteById(@RequestBody Map<String, Integer> param,HttpServletResponse response) {
-        response.setHeader("Access-Control-Allow-Origin", "*");
+    public Msg deleteById(@RequestBody Map<String, Integer> param) {
         Msg msg = null;
         int id = param.get("id");
         if (id > 0) {
@@ -181,7 +214,7 @@ public class MenuController {
         }
 
         //实例化 分页实体类
-       PageList pageList = new PageList();
+        PageList pageList = new PageList();
         //根据页数，每页记录数查询
         List<Map<String, Object>> list = iMenuService.findListAndPage(menuEntity, i, j);
         //把查询出来的对象封装在分页实体类中
@@ -214,5 +247,46 @@ public class MenuController {
         pageList.setPages(pages);
         msg = Msg.success().messageData(pageList);
         return msg;
+    }
+
+    /**
+     * 【菜单树】
+     *
+     * @return
+     */
+    @PostMapping(value = "/menuListT",produces = "application/json;charset=UTF-8")
+    public Message menuListT(){
+        Message m = new Message();
+        ArrayList<MenuTreeNodeEntity> result = iMenuService.getMenuTree();
+        if (0 < result.size()) {
+            m.setCode(0);
+            m.setMessage("查询成功");
+            m.setData(result);
+        } else {
+            m.setCode(1);
+            m.setMessage("查询失败");
+        }
+        return m;
+    }
+
+    /**
+     * 【】
+     *
+     * @return
+     */
+    @PostMapping(value = "/findMenuByRoleId",produces = "application/json;charset=UTF-8")
+    public Message findmenuByRoleId(@RequestBody Map<String,Integer> args){
+        int roleId =args.get("roleId");
+        Message m = new Message();
+        ArrayList<LinkedHashMap<String,Object>> result = iMenuService.getMenuByRole(roleId);
+        if (0 < result.size()) {
+            m.setCode(0);
+            m.setMessage("查询成功");
+            m.setData(result);
+        } else {
+            m.setCode(1);
+            m.setMessage("查询失败");
+        }
+        return m;
     }
 }

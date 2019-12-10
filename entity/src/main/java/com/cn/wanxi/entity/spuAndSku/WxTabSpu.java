@@ -17,8 +17,6 @@ public class WxTabSpu {
     private String images;
     private String saleService;
     private String introduction;
-    private String specItems;
-    private String paraItems;
     private Integer saleNum;
     private Integer commentNum;
     private String isMarkeTable;
@@ -139,22 +137,6 @@ public class WxTabSpu {
         this.introduction = introduction;
     }
 
-    public String getSpecItems() {
-        return specItems;
-    }
-
-    public void setSpecItems(String specItems) {
-        this.specItems = specItems;
-    }
-
-    public String getParaItems() {
-        return paraItems;
-    }
-
-    public void setParaItems(String paraItems) {
-        this.paraItems = paraItems;
-    }
-
     public Integer getSaleNum() {
         return saleNum;
     }
@@ -228,8 +210,6 @@ public class WxTabSpu {
                 ", images='" + images + '\'' +
                 ", saleService='" + saleService + '\'' +
                 ", introduction='" + introduction + '\'' +
-                ", specItems='" + specItems + '\'' +
-                ", paraItems='" + paraItems + '\'' +
                 ", saleNum=" + saleNum +
                 ", commentNum=" + commentNum +
                 ", isMarkeTable='" + isMarkeTable + '\'' +
