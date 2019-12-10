@@ -49,10 +49,10 @@ public class AdminServiceImp implements IAdminService {
     }
 
     @Override
-    public boolean modifyPassword(String username, String password, String odpassword) {
+    public boolean modifyPassword(String username, String password, String odpassword,Integer roleId) {
         AdminEntity byName = iAdminDao.findByName(username);
         if(odpassword.equals(byName.getPassword())){
-            return iAdminDao.updatePasswordByUsername(username,password);
+            return iAdminDao.updatePasswordByUsername(username,password,roleId);
         } else {
             return false;
         }
@@ -65,7 +65,7 @@ public class AdminServiceImp implements IAdminService {
 
     @Override
     public boolean resetUserPassword(String username, String password) {
-        return iAdminDao.updatePasswordByUsername(username,password);
+        return iAdminDao.resetPasswordByUsername(username,password);
     }
 
     @Override
