@@ -51,6 +51,7 @@ public class SepcController {
 //        }
 //    }
 
+    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
     public Map<String, String> add(@RequestBody Map<String, Object> map) {
         String name = map.get("name").toString();
         int templateId = Integer.parseInt(map.get("template_id").toString());
