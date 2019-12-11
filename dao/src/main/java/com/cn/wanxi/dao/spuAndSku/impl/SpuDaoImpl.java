@@ -33,7 +33,7 @@ public class SpuDaoImpl implements ISpuDao {
     @Override
     public int insert(WxTabSpu wxTabSpu) {
         String exeSQL = "INSERT INTO wx_tab_spu(sn,name,caption,brand_id,category1_id,category2_id,category3_id,template_id,freight_id," +
-                "image,images,sale_service,introduction,sale_num,comment_num,is_marketable,is_enable_pec,is_delete,status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                "image,images,sale_service,introduction,sale_num,comment_num,is_marketable,is_enable_pec,is_delete,status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         Object args[] = {wxTabSpu.getSn(),wxTabSpu.getName(),wxTabSpu.getCaption(),wxTabSpu.getBrandId(),wxTabSpu.getCategory1Id(),wxTabSpu.getCategory2Id(),wxTabSpu.getCategory3Id(),
                 wxTabSpu.getTemplateId(),wxTabSpu.getFreightId(),wxTabSpu.getImage(),wxTabSpu.getImages(),wxTabSpu.getSaleService(),wxTabSpu.getIntroduction(),wxTabSpu.getSaleNum(),
                 wxTabSpu.getCommentNum(),wxTabSpu.getIsMarkeTable(),wxTabSpu.getIsEnablePec(),wxTabSpu.getIsDelete(),wxTabSpu.getStatus()};
