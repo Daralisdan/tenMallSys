@@ -1,7 +1,6 @@
 package com.cn.wanxi.dao.spuAndSku.impl;
 
 import com.cn.wanxi.dao.spuAndSku.ISpuDao;
-import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.spuAndSku.WxTabSpu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -105,7 +104,7 @@ public class SpuDaoImpl implements ISpuDao {
     }
     private StringBuffer getQuerySqll(WxTabSpu wxTabSpu) {
         StringBuffer sql = new StringBuffer();
-        sql.append("select id, sn, name, caption, brand_id as brandId, category1_id as category1Id, category2_id as category2Id, category3_id as category3Id, template_id as templateId, freight_id as freightId, image, images, sale_service as saleService, introduction, sale_num as saleNum, comment_num as commentNum, is_marketable as isMakeTable, is_enable_pec as isEnablePec, is_delete as isDelete, status from wx_tab_spu where 1=1 and where is_marketable='0'");
+        sql.append("select id, sn, name, caption, brand_id as brandId, category1_id as category1Id, category2_id as category2Id, category3_id as category3Id, template_id as templateId, freight_id as freightId, image, images, sale_service as saleService, introduction, sale_num as saleNum, comment_num as commentNum, is_marketable as isMakeTable, is_enable_pec as isEnablePec, is_delete as isDelete, status from wx_tab_spu where 1=1 and is_marketable='0'");
         if (!StringUtils.isEmpty(wxTabSpu.getId()) && wxTabSpu.getId() != 0) {
             sql.append("    AND id=" + wxTabSpu.getId());
         }
