@@ -7,6 +7,7 @@ import com.cn.wanxi.entity.order.OrderItemEntity;
 import com.cn.wanxi.entity.order.PageMap;
 import com.cn.wanxi.service.order.IOrderService;
 import com.cn.wanxi.utils.utils.Msg;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -218,46 +219,94 @@ public class OrderServiceImpl implements IOrderService {
 
     }
 
-    @Override
-    public Msg batchSendSubmit(String orderEntitiestr) {
+    //    @Override
+//    public Msg batchSendSubmit(String orderEntitiestr) {
+//        Msg msg = null;
+//        int id = 0;
+//        int orderId = 0;
+//        String shippingName;
+//        String shippingCode;
+//
+//        // 转化为json格式
+//        JSONObject jsonObject = JSONObject.fromObject(orderEntitiestr);
+//        // 拿到json对象的属性
+//        JSONArray jsonArray = jsonObject.getJSONArray("orderEntities");
+//
+//
+//        for (int i = 0; i < jsonArray.size(); i++) {
+//            JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
+//            id = jsonObject1.getInt("id");
+//            orderId = jsonObject1.getInt("id");
+//            shippingName = jsonObject1.getString("shippingName");
+//            shippingCode = jsonObject1.getString("shippingCode");
+//            if (id > 0) {
+//                //根据id查询数据
+//                OrderEntity byId = iOrderDao.findById(id);
+//                //判断是否查询到该订单信息
+//                if (!ObjectUtils.isEmpty(byId)) {
+//                    int result = iOrderDao.batchSendSubmit(id, orderId, shippingName, shippingCode);
+//                    if (result > 0) {
+//                        msg = new Msg(0, "批量发货成功");
+//                    }
+//                } else {
+//                    msg = new Msg(1, "该订单不存在");
+//                }
+//            } else {
+//                msg = new Msg(1, "输入格式有误");
+//            }
+//        }
+////        Map<String, Object> map = new TreeMap<>();
+////        map.put("code", msg.getCode());
+////        map.put("message", msg.getMsg());
+//
+//        return msg;
+//    }
+    public Msg batchSendSubmit(Map<String, Object> param) {
         Msg msg = null;
-        int id = 0;
-        int orderId = 0;
-        String shippingName;
-        String shippingCode;
-
-        // 转化为json格式
-        JSONObject jsonObject = JSONObject.fromObject(orderEntitiestr);
-        // 拿到json对象的属性
-        JSONArray jsonArray = jsonObject.getJSONArray("orderEntities");
-        for (int i = 0; i < jsonArray.size(); i++) {
-            JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
-            id = jsonObject1.getInt("id");
-            orderId = jsonObject1.getInt("id");
-            shippingName = jsonObject1.getString("shippingName");
-            shippingCode = jsonObject1.getString("shippingCode");
-            if (id > 0) {
-                //根据id查询数据
-                OrderEntity byId = iOrderDao.findById(id);
-                //判断是否查询到该订单信息
-                if (!ObjectUtils.isEmpty(byId)) {
-                    int result = iOrderDao.batchSendSubmit(id, orderId, shippingName, shippingCode);
-                    if (result > 0) {
-                        msg = new Msg(0, "批量发货成功");
-                    }
-                } else {
-                    msg = new Msg(1, "该订单不存在");
+        if (param.get("id") == null) {
+            return new Msg(1, "请输入正确的id");
+        }
+        int id = Integer.parseInt(String.valueOf(param.get("id")));
+        int orderId = Integer.parseInt(String.valueOf(param.get("id")));
+        String shippingName = param.get("shippingName").toString();
+        String shippingCode = param.get("shippingCode").toString();
+        if (id > 0) {
+            //根据id查询数据
+            OrderEntity byId = iOrderDao.findById(id);
+            //判断是否查询到该订单信息
+            if (!ObjectUtils.isEmpty(byId)) {
+                int result = iOrderDao.batchSendSubmit(id, orderId, shippingName, shippingCode);
+                if (result > 0) {
+                    msg = new Msg(0, "批量发货成功");
                 }
             } else {
-                msg = new Msg(1, "输入格式有误");
+                msg = new Msg(1, "该订单不存在");
             }
+        } else {
+            msg = new Msg(1, "输入格式有误");
         }
+        return msg;
+    }
+
+
+    // 转化为json格式
+//        JSONObject jsonObject = JSONObject.fromObject(orderEntitiestr);
+//        // 拿到json对象的属性
+//        JSONArray jsonArray = jsonObject.getJSONArray("orderEntities");
+//
+//
+//        for (int i = 0; i < jsonArray.size(); i++) {
+//            JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
+//            id = jsonObject1.getInt("id");
+//            orderId = jsonObject1.getInt("id");
+//            shippingName = jsonObject1.getString("shippingName");
+//            shippingCode = jsonObject1.getString("shippingCode");
+
+
 //        Map<String, Object> map = new TreeMap<>();
 //        map.put("code", msg.getCode());
 //        map.put("message", msg.getMsg());
 
-        return msg;
-    }
 
     /**
      * 统计所有数据

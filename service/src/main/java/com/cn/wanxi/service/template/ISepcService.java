@@ -13,14 +13,13 @@ public interface ISepcService {
 
     boolean deleteById(int id);
 
-
-    boolean add(String name, String options, int seq, int templateId);
+    boolean add(String name, int templateId);
 
     List<Map<String, Object>> findAll();
 
-    Map<String, Object> findCondPage(SepcEntity sepcEntity);
+    Map<String, Object> findCondPage(String name);
 
-    int update(SepcEntity sepcEntity);
+    boolean update(int id, String name);
 
     boolean isNameExist(String name);
 

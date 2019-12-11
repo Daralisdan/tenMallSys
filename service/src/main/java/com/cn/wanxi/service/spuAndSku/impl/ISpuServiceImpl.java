@@ -2,7 +2,6 @@ package com.cn.wanxi.service.spuAndSku.impl;
 
 import com.cn.wanxi.dao.spuAndSku.ISkuDao;
 import com.cn.wanxi.dao.spuAndSku.ISpuDao;
-import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.spuAndSku.WxTabSku;
 import com.cn.wanxi.entity.spuAndSku.WxTabSpu;
 import com.cn.wanxi.service.spuAndSku.ISpuService;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
-import java.lang.reflect.Array;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -192,7 +190,7 @@ public class ISpuServiceImpl implements ISpuService {
             wxTabSpu.setName(name.toString());
         }
         PageList pageList = new PageList();
-        List<Map<String, Object>> list = iSpuDao.daishenheliebiao(wxTabSpu, i, b);
+        List<Map<String, Object>> list = iSpuDao.fenye(wxTabSpu, i, b);
 
         return getMsg(i, b, pageList, list);
     }

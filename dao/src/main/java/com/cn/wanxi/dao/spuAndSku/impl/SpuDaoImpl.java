@@ -103,7 +103,26 @@ public class SpuDaoImpl implements ISpuDao {
         }
         return sql;
     }
-
+    private StringBuffer getQuerySqll(WxTabSpu wxTabSpu) {
+        StringBuffer sql = new StringBuffer();
+        sql.append("select id, sn, name, caption, brand_id as brandId, category1_id as category1Id, category2_id as category2Id, category3_id as category3Id, template_id as templateId, freight_id as freightId, image, images, sale_service as saleService, introduction, sale_num as saleNum, comment_num as commentNum, is_marketable as isMakeTable, is_enable_pec as isEnablePec, is_delete as isDelete, status from wx_tab_spu where 1=1 and where is_marketable='0'");
+        if (!StringUtils.isEmpty(wxTabSpu.getId()) && wxTabSpu.getId() != 0) {
+            sql.append("    AND id=" + wxTabSpu.getId());
+        }
+        if (!StringUtils.isEmpty(wxTabSpu.getStatus())) {
+            sql.append("    AND status='" + wxTabSpu.getStatus() + "'");
+        }
+        if (!StringUtils.isEmpty(wxTabSpu.getName())) {
+            sql.append("    AND name='" + wxTabSpu.getName() + "'");
+        }
+        if (!StringUtils.isEmpty(wxTabSpu.getCaption())) {
+            sql.append("    AND caption='" + wxTabSpu.getCaption() + "'");
+        }
+        if (!StringUtils.isEmpty(wxTabSpu.getBrandId())) {
+            sql.append("    AND brandId='" + wxTabSpu.getBrandId() + "'");
+        }
+        return sql;
+    }
     @Override
     public WxTabSpu findByName(String name) {
         WxTabSpu wxTabSpu = null;
@@ -151,7 +170,7 @@ public class SpuDaoImpl implements ISpuDao {
     @Override
     public List<Map<String, Object>> fenye(WxTabSpu wxTabSpu, int page, int size) {
         int starter = (page - 1) * size;
-        StringBuffer sql = getQuerySql(wxTabSpu);
+        StringBuffer sql = getQuerySqll(wxTabSpu);
         sql.append("   ORDER BY id ASC LIMIT  " + starter + " , " + size);
         String exeSQL = sql.toString();
         System.out.println("执行的SQL:" + exeSQL);

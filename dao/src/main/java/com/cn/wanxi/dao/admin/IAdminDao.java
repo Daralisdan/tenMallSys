@@ -20,7 +20,7 @@ public interface IAdminDao {
 
     AdminEntity findByName(String username);
 
-    boolean updatePasswordByUsername(String username, String password);
+    boolean updatePasswordByUsername(String username, String password,Integer roleId);
 
     boolean deleteById(Integer id);
 
@@ -33,4 +33,6 @@ public interface IAdminDao {
     List<AdminEntity> findAll();
 
     ArrayList<LinkedHashMap<String, Object>> findAdminAllWithRoleName();
+
+    boolean resetPasswordByUsername(String username, String password);
 }
