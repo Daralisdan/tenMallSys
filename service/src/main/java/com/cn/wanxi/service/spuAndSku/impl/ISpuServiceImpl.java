@@ -171,7 +171,6 @@ public class ISpuServiceImpl implements ISpuService {
         }
         return msg ;
     }
-
     @Override
     public Msg fenye(Map<String, Object> param) {
 
@@ -321,7 +320,7 @@ public class ISpuServiceImpl implements ISpuService {
 
             msg = new Msg(0, "查询成功", pageList);
         } else {
-            msg = new Msg(1, "未查询到相关品牌的信息");
+            msg = new Msg(1, "未查询到相关商品的信息");
         }
         return msg;
     }
