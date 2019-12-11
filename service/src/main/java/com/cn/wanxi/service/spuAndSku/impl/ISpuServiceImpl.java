@@ -2,6 +2,7 @@ package com.cn.wanxi.service.spuAndSku.impl;
 
 import com.cn.wanxi.dao.spuAndSku.ISkuDao;
 import com.cn.wanxi.dao.spuAndSku.ISpuDao;
+import com.cn.wanxi.entity.brand.BrandEntity;
 import com.cn.wanxi.entity.spuAndSku.WxTabSku;
 import com.cn.wanxi.entity.spuAndSku.WxTabSpu;
 import com.cn.wanxi.service.spuAndSku.ISpuService;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
+import java.lang.reflect.Array;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -171,6 +173,7 @@ public class ISpuServiceImpl implements ISpuService {
         }
         return msg ;
     }
+
     @Override
     public Msg fenye(Map<String, Object> param) {
 

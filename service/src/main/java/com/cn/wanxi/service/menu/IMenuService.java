@@ -1,10 +1,7 @@
 package com.cn.wanxi.service.menu;
 
 import com.cn.wanxi.entity.menu.MenuEntity;
-import com.cn.wanxi.entity.menu.MenuTreeNodeEntity;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,11 +20,8 @@ public interface IMenuService {
 
     MenuEntity findById(int id);
     List<Map<String,Object>> findByName(String username);
-    List<MenuEntity> findAllByParentId(int parentId);
 
     int update(MenuEntity menuEntity);
     List<Map<String, Object>> findListAndPage(MenuEntity menuEntity, int page, int size);
     int countAll();
-    ArrayList<MenuTreeNodeEntity> getMenuTree();
-    ArrayList<LinkedHashMap<String,Object>> getMenuByRole(int roleId);
 }

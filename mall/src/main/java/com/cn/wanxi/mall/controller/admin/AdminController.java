@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,17 +35,17 @@ public class AdminController {
      */
     @PostMapping(value = "/login",produces = "application/json;charset=UTF-8")
     public Message login(@RequestBody Map<String,String> args) {
-        String adminName = args.get("adminName");
+        String username = args.get("username");
         String password = args.get("password");
         Message m = new Message();
-        Integer roleId = iAdminService.login(adminName,password);
-        if(null != roleId){
+        boolean isSuccess = iAdminService.login(username,password);
+        if(isSuccess){
             m.setCode(0);
             m.setMessage("登录成功");
-            m.setData(roleId);
+            m.setData("登录操作无返回数据");
         } else {
             m.setCode(1);
-            m.setMessage("登录失败测试");
+            m.setMessage("登录失败");
             m.setData("登录操作无返回数据");
         }
         return m;
@@ -59,9 +58,9 @@ public class AdminController {
      */
     @PostMapping(value = "/logout",produces = "application/json;charset=UTF-8")
     public Message logout(@RequestBody Map<String,String> args){
-        String adminName = args.get("adminName");
+        String username = args.get("username");
         Message m = new Message();
-        boolean isSuccess = iAdminService.logout(adminName);
+        boolean isSuccess = iAdminService.logout(username);
         if(isSuccess){
             m.setCode(0);
             m.setMessage("退出成功");
@@ -80,12 +79,9 @@ public class AdminController {
      * @return
      */
     @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
-    public Message add(@RequestBody Map<String,String> args){
+    public Message add(@RequestBody AdminEntity entity){
         Message m = new Message();
-        String adminName = args.get("adminName");
-        String password = args.get("password");
-        Integer roleId = Integer.parseInt(args.get("roleId"));
-        boolean isSuccess = iAdminService.addAdmin(adminName,password,roleId);
+        boolean isSuccess = iAdminService.addAdmin(entity);
         if(isSuccess){
             m.setCode(0);
             m.setMessage("添加成功");
@@ -98,7 +94,6 @@ public class AdminController {
         return m;
     }
 
-
     /**
      * 【管理员更新】
      *
@@ -106,17 +101,11 @@ public class AdminController {
      */
     @PostMapping(value = "/update",produces = "application/json;charset=UTF-8")
     public Message update(@RequestBody Map<String,String> args){
-        boolean formatFlag = false;
-        String adminName = args.get("adminName");
+        String username = args.get("username");
         String password = args.get("password");
         String odpassword = args.get("odpassword");
-        Integer roleId = null;
-        if(null != args.get("roleId")){
-            roleId = Integer.parseInt(args.get("roleId"));
-        }
-
         Message m = new Message();
-        boolean isSuccess = iAdminService.modifyPassword(adminName,password,odpassword,roleId);
+        boolean isSuccess = iAdminService.modifyPassword(username,password,odpassword);
         if(isSuccess){
             m.setCode(0);
             m.setMessage("密码修改成功");
@@ -136,9 +125,6 @@ public class AdminController {
      */
     @PostMapping(value = "/deleteById",produces = "application/json;charset=UTF-8")
     public Message delete(@RequestBody Map<String,String> args) {
-        if(null == args.get("id")){
-            return new Message(1,"用户删除失败,为接收到id","用户删除操作无返回数据");
-        }
         Integer id = Integer.parseInt(args.get("id"));
         Message m = new Message();
         boolean isSuccess = iAdminService.deleteUserById(id);
@@ -161,10 +147,10 @@ public class AdminController {
      */
     @PostMapping(value = "/reset",produces = "application/json;charset=UTF-8")
     public Message reset(@RequestBody Map<String,String> args) {
-        String adminName = args.get("adminName");
+        String username = args.get("username");
         String password = args.get("password");
         Message m = new Message();
-        boolean isSuccess = iAdminService.resetUserPassword(adminName,password);
+        boolean isSuccess = iAdminService.resetUserPassword(username,password);
         if(isSuccess){
             m.setCode(0);
             m.setMessage("重置密码成功");
@@ -184,23 +170,14 @@ public class AdminController {
      */
     @PostMapping(value = "/findCondPage",produces = "application/json;charset=UTF-8")
     public Message findCondPage(@RequestBody Map<String,String> args) {
-        boolean flag = true;
-        String adminName = args.get("adminName");
+        String username = args.get("username");
         String status = args.get("status");
-        Integer page = null;
-        Integer size = null;
-        if(null != args.get("page")){
-            flag = false;
-            page = Integer.parseInt(args.get("page"));
-        }
-        if(null != args.get("size")){
-            flag = false;
-            size = Integer.parseInt(args.get("size"));
-        }
+        Integer page = Integer.parseInt(args.get("page"));
+        Integer size = Integer.parseInt(args.get("size"));
         Message m = new Message();
-        List<AdminEntity> list = iAdminService.findCondPage(adminName,status,page,size);
-        if(0 < list.size() || flag){
-            int total = iAdminService.count(adminName,status);
+        List<AdminEntity> list = iAdminService.findCondPage(username,status,page,size);
+        if(0 < list.size()){
+            int total = iAdminService.count(username,status);
             LinkedHashMap<String,Object> result = new LinkedHashMap<>();
             result.put("rows",list);
             result.put("total",total);
@@ -221,9 +198,6 @@ public class AdminController {
      */
     @PostMapping(value = "/findById",produces = "application/json;charset=UTF-8")
     public Message findById(@RequestBody Map<String,String> args) {
-        if(null == args.get("id")){
-            return new Message(1,"查询失败，未获取到id参数",null);
-        }
         Integer id = Integer.parseInt(args.get("id"));
         Message m = new Message();
         AdminEntity entity;
@@ -244,10 +218,10 @@ public class AdminController {
      *
      * @return
      */
-    @PostMapping(value = "/listAll",produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "/findAll",produces = "application/json;charset=UTF-8")
     public Message findAll() {
         Message m = new Message();
-        ArrayList<LinkedHashMap<String, Object>> list =  iAdminService.findAdminAllWithRoleName();
+        List<AdminEntity> list =  iAdminService.findUserAll();
         if(0 < list.size()){
             m.setCode(0);
             m.setMessage("共查找到" + list.size() +"条数据");

@@ -35,7 +35,6 @@ public class Swagger2 {
 
     /**
      * api文档初始化
-     *
      * @return
      */
     private ApiInfo testApiInfo() {

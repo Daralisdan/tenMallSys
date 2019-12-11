@@ -39,14 +39,14 @@ public class TemplateController {
         int result = iTemplateService.add(templateEntity);
         if (!isEmpty(result) && result != 0) {
             m = Msg.success();
-            map.put("msg", m.getMsg());
+            map.put("msg",m.getMsg());
         } else if (result == 0) {
             m = Msg.fail().messageData("该模板已存在");
         } else {
             m = Msg.fail();
-            map.put("msg", m.getMsg());
+            map.put("msg",m.getMsg());
         }
-        map.put("coda", m.getCode());
+        map.put("coda",m.getCode());
         return map;
     }
 
@@ -115,16 +115,8 @@ public class TemplateController {
             Map<String, Object> map = iTemplateService.findSpecsById(templateEntity);
             return map;
         }
+
+
         return null;
-    }
-
-    @PostMapping(value = "findIdByName", produces = "application/json;charset=UTF-8")
-    public int findIdByName(@RequestBody TemplateEntity templateEntity) {
-        if (templateEntity.getName() != null) {
-            return iTemplateService.findIdByName(templateEntity.getName());
-        } else {
-            return -1;
-        }
-
     }
 }

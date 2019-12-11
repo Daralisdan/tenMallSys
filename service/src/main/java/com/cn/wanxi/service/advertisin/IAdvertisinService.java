@@ -22,6 +22,4 @@ public interface IAdvertisinService {
     boolean update(String position, String name, String startTime, String endTime, String image,String status, String url, String remarks, int id);
 
     boolean delete(int id);
-
-    Integer findCondPageSum(String position);
 }

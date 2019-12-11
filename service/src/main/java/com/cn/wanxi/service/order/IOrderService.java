@@ -1,33 +1,31 @@
 package com.cn.wanxi.service.order;
 
 import com.cn.wanxi.entity.order.OrderEntity;
-import com.cn.wanxi.utils.utils.Msg;
+import com.cn.wanxi.entity.order.OrderLogEntity;
+import com.cn.wanxi.entity.order.RefundCauseEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
  * 2019/11/18,Create by yaodan
  */
 public interface IOrderService {
-    Msg add(OrderEntity orderEntity);
+    int add(OrderEntity orderEntity);
 
-    Msg update();
+    Map<String, Object> batchlist(String ids);
 
-    Msg batchlist();
+    OrderEntity findById(int id);
 
-    Msg item(int id);
+    int deleteById(int id);
 
-    Msg findById(int id);
+    //    int update(RefundCauseEntity refundCauseEntity);
+    List<Map<String, Object>> findAll();
 
-    Msg deleteById(int id);
-
-
-    Msg findAll();
-
+    //    int batchSendSubmit( orderId,String shippingName,String shippingCode);
     int countAll();
 
+    int batchSendSubmit(int id, Object orderId, Object shippingName, Object shippingCode);
 
-    Map<String, Object> list(Map<String, Object> param);
-
-    Msg batchSendSubmit(Map<String, Object> param);
+    Map<String, Object> list(int page, int size, OrderEntity orderEntity);
 }

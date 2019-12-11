@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: SSJ
@@ -21,74 +22,28 @@ public class SepcServiceImpl implements ISepcService {
 
 
     @Override
-    public Map<String, Object> findCondPage(String name) {
-        List sepcNameList = sepcDao.findPageBySepcName(name);
-        int sepcId = sepcDao.findIdBySepcName(name);
-        List sepcOptionsList = sepcDao.findIdBySepcOptions(sepcId);
-        Map<String, Object> map = new TreeMap<>();
-        map.put("options", sepcOptionsList);
-        map.put("rows", sepcNameList);
-        return map;
-    }
-
-
-    @Override
-    public boolean deleteById(int id) {
-        if (sepcDao.delete(id) >= 1) {
-            return true;
-        } else {
-            return false;
-        }
+    public int deleteById(SepcEntity sepcEntity) {
+        return sepcDao.delete(sepcEntity);
     }
 
 
     @Override
     public List<Map<String, Object>> findAll() {
-        List<Map<String, Object>> list = new ArrayList<>();
-        list.add(sepcDao.findAll());
-        return list;
+        return sepcDao.findAll();
     }
 
-
     @Override
-    public boolean update(int id, String name) {
-        int resultUpdateName = sepcDao.updateSepcName(id, name);
-        return resultUpdateName  > 0;
+    public int add(SepcEntity sepcEntity) {
+        return sepcDao.add(sepcEntity);
     }
 
-
-    /**
-     * 列表中有name字段的添加
-     *
-     * @param templateId
-     * @return
-     */
     @Override
-    public boolean add(String name, int templateId) {
-
-        int addNameOptionsResult = sepcDao.addSepcName(name,templateId);
-
-        if ((addNameOptionsResult) >= 1) {
-            return true;
-        } else {
-            return false;
-        }
+    public int update(SepcEntity sepcEntity) {
+        return sepcDao.update(sepcEntity);
     }
 
-
-    /**
-     * 判断输入的name是否存在
-     *
-     * @param name
-     * @return
-     */
     @Override
-    public boolean isNameExist(String name) {
-        List list = sepcDao.isNameExist(name);
-        if (list.size() == 0) {
-            return false; //数据库中没有此name
-        } else {
-            return true;//数据库中有此name
-        }
+    public Map<String, Object> find(SepcEntity sepcEntity) {
+        return sepcDao.find(sepcEntity);
     }
 }

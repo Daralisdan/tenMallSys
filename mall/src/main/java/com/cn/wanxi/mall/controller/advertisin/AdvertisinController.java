@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,18 +31,14 @@ public class AdvertisinController {
     @PostMapping(value = "/findAll", produces = "application/json;charset=UTF-8")
     public Message findAll() {
         Message m = new Message();
-        LinkedHashMap<String,Object> result = new LinkedHashMap<>();
         List<AdvertisinEntity> list = iAdvertisinService.findAdvertisinAll();
-        result.put("rows",list);
-        result.put("total",list.size());
         if (0 < list.size()) {
             m.setCode(0);
-            m.setMessage("查询成功");
-            m.setData(result);
+            m.setMessage("查询成功，共查询出" + list.size() + "条数据");
+            m.setData(list);
         } else {
             m.setCode(1);
             m.setMessage("查询失败");
-            m.setData(result);
         }
         return m;
     }
@@ -57,18 +52,14 @@ public class AdvertisinController {
     public Message findTypeAll(@RequestBody Map<String,String> args) {
         String position = args.get("position");
         Message m = new Message();
-        LinkedHashMap<String,Object> result = new LinkedHashMap<>();
         List<AdvertisinEntity> list = iAdvertisinService.findByPosition(position);
-        result.put("rows",list);
-        result.put("total",list.size());
         if (0 < list.size()) {
             m.setCode(0);
-            m.setMessage("查询成功");
-            m.setData(result);
+            m.setMessage("查询成功，共查询出" + list.size() + "条数据");
+            m.setData(list);
         } else {
             m.setCode(1);
             m.setMessage("查询失败");
-            m.setData(result);
         }
         return m;
     }
@@ -82,22 +73,16 @@ public class AdvertisinController {
     public Message findById(@RequestBody Map<String,String> args) {
         Integer id = Integer.parseInt(args.get("id"));
         Message m = new Message();
-        LinkedHashMap<String,Object> result = new LinkedHashMap<>();
         AdvertisinEntity entity = iAdvertisinService.findById(id);
         ArrayList<AdvertisinEntity> list = new ArrayList<>();
-        if(null != entity){
-            list.add(entity);
-        }
-        result.put("rows",list);
-        result.put("total",list.size());
+        list.add(entity);
         if (null != entity) {
             m.setCode(0);
             m.setMessage("查询成功");
-            m.setData(result);
+            m.setData(list);
         } else {
             m.setCode(1);
             m.setMessage("查询失败");
-            m.setData(result);
         }
         return m;
     }
@@ -113,18 +98,14 @@ public class AdvertisinController {
         Integer size = Integer.parseInt(args.get("size"));
         String position = args.get("position");
         Message m = new Message();
-        LinkedHashMap<String,Object> result = new LinkedHashMap<>();
         List<AdvertisinEntity> list = iAdvertisinService.findCondPage(page, size, position);
-        result.put("rows",list);
-        result.put("total",iAdvertisinService.findCondPageSum(position));
         if (0 < list.size()) {
             m.setCode(0);
             m.setMessage("查询成功");
-            m.setData(result);
+            m.setData(list);
         } else {
             m.setCode(1);
             m.setMessage("查询失败");
-            m.setData(result);
         }
         return m;
     }

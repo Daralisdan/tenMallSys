@@ -3,10 +3,8 @@ package com.cn.wanxi.service.order.impl;
 import com.cn.wanxi.dao.order.IOrderItemDao;
 import com.cn.wanxi.entity.order.OrderItemEntity;
 import com.cn.wanxi.service.order.IOrderItemService;
-import com.cn.wanxi.utils.utils.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -36,16 +34,8 @@ public class IOrderItemServiceImpl implements IOrderItemService {
      * @return
      */
     @Override
-    public Msg findAll() {
-        Msg msg;
-        List<Map<String, Object>> list = iOrderItemDao.queryAll();
-        //判断集合是否有数据，如果没有数据返回失败
-        if (list.isEmpty()) {
-            msg = new Msg(1,"查询失败");
-        } else {
-            msg = new Msg(0,"查询成功",list);
-        }
-        return msg;
+    public List<Map<String, Object>> findAll() {
+        return iOrderItemDao.queryAll();
     }
 
     /**
@@ -54,18 +44,8 @@ public class IOrderItemServiceImpl implements IOrderItemService {
      * @return
      */
     @Override
-    public Msg findById(int id) {
-        Msg msg = null;
-        if (!StringUtils.isEmpty(id) && id > 0) {
-            OrderItemEntity byId = iOrderItemDao.findById(id);
-            //判断是否有返回的数据
-            if (!ObjectUtils.isEmpty(byId)) {
-                msg = new Msg(0,"查询成功",byId);
-            } else {
-                msg = new Msg(1,"该订单详情不存在");
-            }
-        }
-        return msg;
+    public OrderItemEntity findById(int id) {
+        return iOrderItemDao.findById(id);
     }
 
     /**
@@ -75,19 +55,8 @@ public class IOrderItemServiceImpl implements IOrderItemService {
      * @return
      */
     @Override
-    public Msg deleteById(int id) {
-        Msg msg = null;
-        if (id > 0) {
-            int i = iOrderItemDao.deleteById(id);
-            if (i > 0) {
-                msg = new Msg(0,"删除成功");
-            } else {
-                msg = new Msg(1,"删除失败,该订单详细不存在");
-            }
-        } else {
-            msg =new Msg(1,"请输入id");
-        }
-        return msg;
+    public int deleteById(int id) {
+        return iOrderItemDao.deleteById(id);
     }
 
     /**
@@ -96,26 +65,20 @@ public class IOrderItemServiceImpl implements IOrderItemService {
      * @return
      */
     @Override
-    public Msg update(OrderItemEntity orderItemEntity) {
+    public int update(OrderItemEntity orderItemEntity) {
+        int result = 0;
+        //先根据id查询，当前数据是否存在
         int id = orderItemEntity.getId();
-        Msg msg = null;
-        //先获取id
-        if (id > 0) {
-            //根据id查询数据
-            OrderItemEntity byId = iOrderItemDao.findById(id);
-            //判断是否查询到该品牌信息
-            if (!ObjectUtils.isEmpty(byId)) {
-                int result = iOrderItemDao.update(orderItemEntity);
-                if (result > 0) {
-                    msg = new Msg(0,"修改成功");
-                }
-            } else {
-                msg = new Msg(1,"该订单详情不存在");
+        OrderItemEntity byId = iOrderItemDao.findById(id);
+        //如果查询当前数据存在，则修改
+        if (byId != null) {
+            int up = iOrderItemDao.update(orderItemEntity);
+            //如果修改成功，返回true
+            if (up > 0) {
+                result = up;
             }
-        } else {
-            msg = new Msg(1,"请输入id");
         }
-        return msg;
+        return result;
     }
 
 

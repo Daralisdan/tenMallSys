@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,30 +22,18 @@ public class SepcDaoImpl implements SepcDao {
 
 
     /**
-     * 新增二级规格名称
+     * 新增
      *
+     * @param sepcEntity
      * @return
      */
     @Override
-    public int addSepcName(String name, int templateId) {
-        String addSpecNameSQL = "INSERT INTO wx_tab_sepc_name(name,seq,template_id) VALUES(?,1,?)";
-        Object addSpecNameArgs[] = {name, templateId};
-        return jdbcTemplate.update(addSpecNameSQL, addSpecNameArgs);
+    public int add(SepcEntity sepcEntity) {
+        String exeSQL = "INSERT INTO wx_tab_sepc(name,options,seq,template_id) VALUES(?,?,?,?)";
+        Object args[] = {sepcEntity.getName(), sepcEntity.getOptions(), sepcEntity.getSeq(), sepcEntity.getTemplateId()};
+        int temp = jdbcTemplate.update(exeSQL, args);
+        return temp;
     }
-
-//    /**
-//     * 新增三级规格参数
-//     *
-//     * @param sepcId
-//     * @return
-//     */
-//    @Override
-//    public int addSepcOptions(String options, int sepcId) {
-//        String addSpecOptionsSQL = "INSERT INTO wx_tab_sepc_options(options,sepc_id) VALUE (?,?)";
-//        Object[] object = {options, sepcId};
-//        return jdbcTemplate.update(addSpecOptionsSQL, object);
-//    }
-
 
     /**
      * 查找所有
@@ -54,111 +41,56 @@ public class SepcDaoImpl implements SepcDao {
      * @return
      */
     @Override
-    public Map<String, Object> findAll() {
-        String findSepcNoOptionsSQL = "select id,name,seq,template_id as templateId from wx_tab_sepc_name";
-        String findSepcOptionsSQL = "select options,sepc_id as sepcId from wx_tab_sepc_options";
-        List findSepcNoOptionsList = jdbcTemplate.queryForList(findSepcNoOptionsSQL);
-        List findSepcOptionsList = jdbcTemplate.queryForList(findSepcOptionsSQL);
-        Map<String, Object> map = new TreeMap<>();
-        map.put("options", findSepcOptionsList);
-        map.put("rows", findSepcNoOptionsList);
+    public List<Map<String, Object>> findAll() {
+        String exeSQL = "select id,name,options,seq,template_id as templateId from wx_tab_sepc";
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL);
+        return list;
+    }
+
+    /**
+     * 修改
+     *
+     * @param sepcEntity
+     * @return
+     */
+    @Override
+    public int update(SepcEntity sepcEntity) {
+        String exeSQL = "UPDATE wx_tab_para SET name = ?,seq = ?,options = ?,template_id = ?";
+        Object args[] = {sepcEntity.getName(), sepcEntity.getOptions(), sepcEntity.getSeq(), sepcEntity.getTemplateId()};
+        int temp = jdbcTemplate.update(exeSQL, args);
+        return temp;
+    }
+
+    /**
+     * 删除
+     *
+     * @param sepcEntity
+     * @return
+     */
+    @Override
+    public int delete(SepcEntity sepcEntity) {
+        String exeSQL = "DELETE FROM wx_tab_sepc WHERE id = ?";
+        Object arg = sepcEntity.getId();
+        int temp = jdbcTemplate.update(exeSQL, arg);
+        return temp;
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param sepcEntity
+     * @return
+     */
+    @Override
+    public Map<String, Object> find(SepcEntity sepcEntity) {
+        int page = (sepcEntity.getPage() - 1) * sepcEntity.getSize();
+        int size = sepcEntity.getSize() * sepcEntity.getPage();
+        String exeSQL = "select id,name,options,seq,template_id as templateId from wx_tab_sepc where name = ? limit " + page + " , " + size;
+        System.out.println(sepcEntity.getName());
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, sepcEntity.getName());
+        Map<String, Object> map = new TreeMap();
+        map.put("rows", list);
+        map.put("total", list.size());
         return map;
     }
-
-    /**
-     * 修改二级规格名称
-     *
-     * @param id
-     * @param name
-     * @return
-     */
-    @Override
-    public int updateSepcName(int id, String name) {
-        String updateSepcNameSQL = "UPDATE wx_tab_sepc_name SET name = ?  where id = ?";
-        Object[] objects = {name, id};
-        return jdbcTemplate.update(updateSepcNameSQL, objects);
-    }
-
-//    /**
-//     * 修改三级规格数据
-//     *
-//     * @param options
-//     * @param sepcId
-//     * @return
-//     */
-//    @Override
-//    public int updateSepcOptions(String options, int sepcId) {
-//        String updateSepcOptions = "UPDATE wx_tab_sepc_options SET options = ? where id = ? ";
-//        Object[] objects = {options, sepcId};
-//        return jdbcTemplate.update(updateSepcOptions, objects);
-//    }
-
-    /**
-     * 按照规格ID删除
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public int delete(int id) {
-        String deleteNameByIdSQL = "DELETE FROM wx_tab_sepc_name WHERE id = ?";
-        String deleteOptionsByIdSQL = "DELETE FROM wx_tab_sepc_options where sepc_id = ?";
-        int deleteNameByIdTemp = jdbcTemplate.update(deleteNameByIdSQL, id);
-        int deleteOptionsByIdTemp = jdbcTemplate.update(deleteOptionsByIdSQL, id);
-        return deleteNameByIdTemp + deleteOptionsByIdTemp;
-    }
-
-    /**
-     * 规格查询
-     *
-     * @param name
-     * @return
-     */
-    @Override
-    public List<SepcEntity> findPageBySepcName(String name) {
-        String findPageBySepcNameSQL = "select id ,name ,seq,template_id as templateID from wx_tab_sepc_name where name = ?";
-        List list = jdbcTemplate.queryForList(findPageBySepcNameSQL, name);
-        return list;
-    }
-
-
-    /**
-     * 通过规格ID查询规格参数
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public List findIdBySepcOptions(int id) {
-        String findPageBySepcOptionsSQL = "select options from ex_tab_sepc_options where sepc_id = ?";
-        List list = jdbcTemplate.queryForList(findPageBySepcOptionsSQL);
-        return list;
-    }
-
-    /**
-     * 判断输入的name是否存在
-     *
-     * @param name
-     * @return
-     */
-    @Override
-    public List isNameExist(String name) {
-        String isNameExistSQL = "select * from wx_tab_sepc_name where name = ?";
-        List list = jdbcTemplate.queryForList(isNameExistSQL, name);
-        return list;
-    }
-
-    /**
-     * 通过新插入规格名字查询规格id
-     *
-     * @param name
-     * @return
-     */
-    @Override
-    public int findIdBySepcName(String name) {
-        String findIdBySepcNameSQL = "select id from wx_tab_sepc_name where name =  '" + name + "'";
-        return jdbcTemplate.queryForObject(findIdBySepcNameSQL, Integer.class);
-    }
-
-
 }

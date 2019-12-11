@@ -15,10 +15,6 @@ public class PageList {
     private int totalRows;
     //总页数
     private int pages;
-    private int total;
-
-
-
     private List list = new ArrayList();
 
     public int getPage() {
@@ -54,12 +50,5 @@ public class PageList {
 
     public void setTotalRows(int totalRows) {
         this.totalRows = totalRows;
-    }
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
     }
 }

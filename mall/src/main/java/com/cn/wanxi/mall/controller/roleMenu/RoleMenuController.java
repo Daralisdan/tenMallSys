@@ -11,16 +11,12 @@
 package com.cn.wanxi.mall.controller.roleMenu;
 
 import com.cn.wanxi.entity.roleMenu.ById;
-import com.cn.wanxi.entity.roleMenu.RoleMenuEntity;
 import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.roleMenu.IRoleMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-
-import java.util.List;
-import java.util.Map;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
 
@@ -69,18 +65,5 @@ public class RoleMenuController {
             m = Msg.fail();
         }
         return m;
-    }
-
-    @RequestMapping(value = "/findByRoleId", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public Msg findById(@RequestBody Map<String,Integer> param) {
-        Msg msg = null;
-        int roleId =param.get("roleId");
-        List<RoleMenuEntity> byRoleId = iRoleMenuService.findEntitiesByRoleId(roleId);
-        if (byRoleId != null) {
-            msg = Msg.success().messageData(byRoleId);
-        } else {
-            msg = Msg.fail().messageData("请输入正确的id");
-        }
-        return msg;
     }
 }

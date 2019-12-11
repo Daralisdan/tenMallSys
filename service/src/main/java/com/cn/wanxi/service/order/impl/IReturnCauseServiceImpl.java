@@ -3,15 +3,12 @@ package com.cn.wanxi.service.order.impl;
 import com.cn.wanxi.dao.order.IReturnCauseDao;
 import com.cn.wanxi.entity.order.ReturnCauseEntity;
 import com.cn.wanxi.service.order.IReturnCauseService;
-import com.cn.wanxi.utils.utils.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 @Service
 public class IReturnCauseServiceImpl implements IReturnCauseService {
@@ -26,29 +23,20 @@ public class IReturnCauseServiceImpl implements IReturnCauseService {
      * @return
      */
     @Override
-    public Msg update(ReturnCauseEntity returnCauseEntity) {
-        Msg msg = null;
-        //先获取id
+    public int update(ReturnCauseEntity returnCauseEntity) {
+        int result = 0;
+        //先根据id查询，当前数据是否存在
         int id = returnCauseEntity.getId();
-        if (id > 0) {
-            //根据id查询数据
-            ReturnCauseEntity byId = iReturnCauseDao.findById(id);
-            //判断是否查询到该品牌信息
-            if (!ObjectUtils.isEmpty(byId)) {
-                int result = iReturnCauseDao.update(returnCauseEntity);
-                if (result > 0) {
-                    msg = new Msg(0,"修改成功");
-                }
-            } else {
-                msg = new Msg(1,"该原因不存在");
+        ReturnCauseEntity byId = iReturnCauseDao.findById(id);
+        //如果查询当前数据存在，则修改
+        if (byId != null) {
+            int up = iReturnCauseDao.update(returnCauseEntity);
+            //如果修改成功，返回true
+            if (up > 0) {
+                result = up;
             }
-        } else {
-            msg = new Msg(1,"请输入id");
         }
-//        Map<String, Object> map = new TreeMap<>();
-//        map.put("code", msg.getCode());
-//        map.put("message", msg.getMsg());
-        return msg;
+        return result;
     }
 
 
@@ -59,67 +47,29 @@ public class IReturnCauseServiceImpl implements IReturnCauseService {
      * @return
      */
     @Override
-    public Msg findById(int id) {
-        Msg msg = null;
-        if (!StringUtils.isEmpty(id) && id > 0) {
-            ReturnCauseEntity byId = iReturnCauseDao.findById(id);
-            //判断是否有返回的数据
-            if (!ObjectUtils.isEmpty(byId)) {
-                msg = new Msg(0, "查询成功");
-            } else {
-                msg = new Msg(1, "该原因不存在");
-            }
-        }
-        return msg;
-
+    public ReturnCauseEntity findById(int id) {
+        return iReturnCauseDao.findById(id);
     }
 
     @Override
-    public Msg add(ReturnCauseEntity returnCauseEntity) {
-        Msg msg=null;
-        if (null != returnCauseEntity.getCause() && returnCauseEntity.getCause() .trim() != "") {
-            int result = iReturnCauseDao.insert(returnCauseEntity);
-            if (0 != result) {
-                msg =new Msg(0,"添加成功");
-            }
-        } else {
-            msg =new Msg(1,"原因不能为空");
+    public int add(ReturnCauseEntity returnCauseEntity) {
+        //判断页面传的值中名字不能为空
+        String name = returnCauseEntity.getStatus().trim();
+        int result = 0;
+        //不为空时，添加数据
+        if (!StringUtils.isEmpty(name)) {
+            result = iReturnCauseDao.insert(returnCauseEntity);
         }
-//        Map<String,Object> map = new TreeMap<>();
-//        map.put("code",msg.getCode());
-//        map.put("message",msg.getMsg());
-        return msg;
+        return result;
     }
 
     @Override
-    public Msg findAll() {
-        Msg msg;
-        List<Map<String, Object>> list = iReturnCauseDao.queryAll();
-        //判断集合是否有数据，如果没有数据返回失败
-        if (list.isEmpty()) {
-            msg = new Msg(1, "没有数据");
-        } else {
-            msg = new Msg(0, "查询成功", list);
-        }
-        return msg;
+    public List<Map<String, Object>> findAll() {
+        return iReturnCauseDao.queryAll();
     }
 
     @Override
-    public Msg deleteById(int id) {
-        Msg msg = null;
-        if (id > 0) {
-            int i = iReturnCauseDao.deleteById(id);
-            if (i > 0) {
-                msg=new Msg(0,"删除成功");
-            } else {
-                msg=new Msg(1,"删除失败,该原因不存在");
-            }
-        } else {
-            msg=new Msg(1,"请输入id");
-        }
-//        Map<String, Object> map = new TreeMap<>();
-//        map.put("code", msg.getCode());
-//        map.put("message", msg.getMsg());
-        return msg;
+    public int deleteById(int id) {
+        return iReturnCauseDao.deleteById(id);
     }
 }

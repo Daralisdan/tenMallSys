@@ -1,19 +1,21 @@
 package com.cn.wanxi.service.order;
 
 import com.cn.wanxi.entity.order.ReturnCauseEntity;
-import com.cn.wanxi.utils.utils.Msg;
+
+import java.util.List;
+import java.util.Map;
 
 public interface IReturnCauseService {
-    Msg update(ReturnCauseEntity returnCauseEntity);
+    int update(ReturnCauseEntity returnCauseEntity);
 
-    Msg findById(int id);
+    ReturnCauseEntity findById(int id);
 
-    Msg add(ReturnCauseEntity returnCauseEntity);
+    int add(ReturnCauseEntity returnCauseEntity);
 
-    Msg findAll();
+    List<Map<String, Object>> findAll();
 
 
-    Msg deleteById(int id);
+    int deleteById(int id);
 
 
 }

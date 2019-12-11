@@ -1,25 +1,26 @@
 package com.cn.wanxi.service.order;
 
 import com.cn.wanxi.entity.order.RefundCauseEntity;
-import com.cn.wanxi.utils.utils.Msg;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 
 public interface IRefundCauseService {
-    Msg updateStatus(RefundCauseEntity refundCauseEntity);
+    int updateStatus(RefundCauseEntity refundCauseEntity);
 
 //    Map<String, Object> refundList(int page, int size);
 
-    Msg add(RefundCauseEntity refundCauseEntity);
+    int add(RefundCauseEntity refundCauseEntity);
 
-    Map<String, Object> findAll(Map<String, Object> param);
+    List<Map<String, Object>> findAll(int page, int size,String type);
 
-    Msg findById(int id);
+    RefundCauseEntity findById(int id);
 
-    Msg deleteById(int id);
+    int deleteById(int id);
 
-    Msg update(RefundCauseEntity refundCauseEntity);
+    int update(RefundCauseEntity refundCauseEntity);
     int countAll();
 
 }

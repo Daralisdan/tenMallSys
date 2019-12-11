@@ -1,16 +1,18 @@
 package com.cn.wanxi.service.order;
 
 import com.cn.wanxi.entity.order.OrderLogEntity;
-import com.cn.wanxi.utils.utils.Msg;
+
+import java.util.List;
+import java.util.Map;
 
 public interface IOrderLogService {
-    Msg add(OrderLogEntity orderLogEntity);
+    int add(OrderLogEntity orderLogEntity);
 
-    Msg findAll();
+    List<Map<String, Object>> findAll();
 
-    Msg findById(int id);
+    OrderLogEntity findById(int id);
 
-    Msg deleteById(int id);
+    int deleteById(int id);
 
-    Msg update(OrderLogEntity orderLogEntity);
+    int update(OrderLogEntity orderLogEntity);
 }

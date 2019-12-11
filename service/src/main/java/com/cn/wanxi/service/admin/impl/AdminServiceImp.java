@@ -1,14 +1,11 @@
 package com.cn.wanxi.service.admin.impl;
 
-import com.cn.wanxi.dao.AdminRole.IAdminRoleDao;
 import com.cn.wanxi.dao.admin.IAdminDao;
 import com.cn.wanxi.entity.admin.AdminEntity;
 import com.cn.wanxi.service.admin.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,18 +21,10 @@ public class AdminServiceImp implements IAdminService {
     @Autowired
     private IAdminDao iAdminDao;
 
-    @Autowired
-    private IAdminRoleDao iAdminRoleDao;
-
     @Override
-    public Integer login(String username,String password) {
-        Integer roleId = null;
+    public boolean login(String username,String password) {
         String backPassword = iAdminDao.findPasswordByName(username);
-        if(password.equals(backPassword)){
-            return roleId = iAdminRoleDao.selectRoleByUsername(username);
-        } else {
-            return null;
-        }
+        return password.equals(backPassword);
     }
 
     @Override
@@ -44,15 +33,15 @@ public class AdminServiceImp implements IAdminService {
     }
 
     @Override
-    public boolean addAdmin(String adminName,String password,Integer roleId) {
-        return iAdminDao.insert(adminName,password,roleId);
+    public boolean addAdmin(AdminEntity entity) {
+        return iAdminDao.insert(entity);
     }
 
     @Override
-    public boolean modifyPassword(String username, String password, String odpassword,Integer roleId) {
+    public boolean modifyPassword(String username, String password, String odpassword) {
         AdminEntity byName = iAdminDao.findByName(username);
         if(odpassword.equals(byName.getPassword())){
-            return iAdminDao.updatePasswordByUsername(username,password,roleId);
+            return iAdminDao.updatePasswordByUsername(username,password);
         } else {
             return false;
         }
@@ -65,7 +54,7 @@ public class AdminServiceImp implements IAdminService {
 
     @Override
     public boolean resetUserPassword(String username, String password) {
-        return iAdminDao.resetPasswordByUsername(username,password);
+        return iAdminDao.updatePasswordByUsername(username,password);
     }
 
     @Override
@@ -86,10 +75,5 @@ public class AdminServiceImp implements IAdminService {
     @Override
     public List<AdminEntity> findUserAll() {
         return iAdminDao.findAll();
-    }
-
-    @Override
-    public ArrayList<LinkedHashMap<String, Object>> findAdminAllWithRoleName() {
-        return iAdminDao.findAdminAllWithRoleName();
     }
 }

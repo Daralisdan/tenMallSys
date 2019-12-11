@@ -1,5 +1,8 @@
 package com.cn.wanxi.mall.controller.template;
 
+
+import com.cn.wanxi.entity.template.SepcEntity;
+import com.cn.wanxi.utils.utils.Msg;
 import com.cn.wanxi.service.template.ISepcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import static org.springframework.util.ObjectUtils.isEmpty;
 
 /**
  * wx_tab_sepc （参数表）
@@ -26,50 +30,30 @@ public class SepcController {
     @Autowired
     private ISepcService iSepcService;
 
-//    /**
-//     * 添加规格选项(舍弃版本)
-//     *
-//     * @param map
-//     * @return
-//     */
-//    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
-//    public Map<String, String> add(@RequestBody Map<String, Object> map) {
-//        String name = map.get("name").toString();
-//        String options = map.get("options").toString();
-//        int seq = Integer.parseInt(map.get("seq").toString());
-//        int templateId = Integer.parseInt(map.get("template_id").toString());
-//        Map<String, String> resultMap = new TreeMap<>();
-//        if (iSepcService.isNameExist(name) && iSepcService.add(name, options, seq, templateId)) {//添加失败
-//            resultMap.put("code", "0");
-//            resultMap.put("message", " 新增成功");
-//            return resultMap;
-//        } else {//添加成功
-//            resultMap.put("code", "1");
-//            resultMap.put("message", " 新增失败");
-//            return resultMap;
-//        }
-//    }
-
+    /**
+     * 【添加规格信息】
+     *
+     * @return
+     */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
-    public Map<String, String> add(@RequestBody Map<String, Object> map) {
-        String name = map.get("name").toString();
-        int templateId = Integer.parseInt(map.get("template_id").toString());
-        Map<String, String> resultMap = new TreeMap<>();
-        if (iSepcService.add(name, templateId)) {
-            resultMap.put("code", "0");
-            resultMap.put("message", " 新增成功");
-            return resultMap;
-        } else {//添加成功
-            resultMap.put("code", "1");
-            resultMap.put("message", " 新增失败");
-            return resultMap;
+    public Map<String, Object> add(@RequestBody SepcEntity sepcEntity) {
+        Msg m;
+        int result = iSepcService.add(sepcEntity);
+        if (!isEmpty(result)) {
+            m = Msg.success().messageData(sepcEntity);
+        } else {
+            m = Msg.fail();
         }
+        Map<String, Object> map = new TreeMap<>();
+        map.put("code", m.getCode());
+        map.put("message", m.getMsg());
+        return map;
     }
 
     /**
      * 【展示所有规格信息】
      *
-     * @return list
+     * @return
      */
     @PostMapping("/findAll")
     public List<Map<String, Object>> findAll() {
@@ -78,57 +62,52 @@ public class SepcController {
     }
 
 
-    /**
-     * 按照名称查询
-     *
-     * @param map
-     * @return
-     */
     @PostMapping(value = "/findCondPage", produces = "application/json;charset=UTF-8")
-    public Map<String, Object> find(@RequestBody Map<String, Object> map) {
-        String name = map.get("name").toString();
-        Map<String, Object> resultMap = iSepcService.findCondPage(name);
-        return resultMap;
+    public Map<String, Object> find(@RequestBody SepcEntity sepcEntity) {
+        Map<String, Object> map = iSepcService.find(sepcEntity);
+        return map;
     }
 
     /**
      * 【修改规格信息】
      *
-     * @param map
-     * @return map
+     * @param sepcEntity
+     * @return
      */
     @PostMapping(value = "/update", produces = "application/json;charset=UTF-8")
-    public Map<String, Object> update(@RequestBody Map<String, Object> map) {
-        String name = map.get("name").toString();
-        int id = Integer.parseInt(map.get("id").toString());
-        Map<String, Object> resultMap = new TreeMap<>();
-        if (iSepcService.update(id, name)) {
-            resultMap.put("code", "1");
-            resultMap.put("message", "修改成功");
+    public Map<String, Object> update(@RequestBody SepcEntity sepcEntity) {
+        Msg msg;
+        int up = iSepcService.update(sepcEntity);
+        if (up > 0) {
+            msg = Msg.success().messageData(sepcEntity);
         } else {
-            resultMap.put("code", "0");
-            resultMap.put("message", "修改失败");
+            msg = Msg.fail();
         }
-        return resultMap;
+        Map<String, Object> map = new TreeMap<>();
+        map.put("code", msg.getCode());
+        map.put("message", msg.getMsg());
+        return map;
     }
 
     /**
      * 【根据id删除】
      *
-     * @param map
+     * @param sepcEntity
      * @return
      */
     @PostMapping(value = "/delete", produces = "application/json;charset=UTF-8")
-    public Map<String, Object> delete(@RequestBody Map<String, Object> map) {
-        Map<String, Object> resultMap = new TreeMap<>();
-        if (iSepcService.deleteById(Integer.parseInt(map.get("id").toString()))) {
-            resultMap.put("code", "0");
-            resultMap.put("message", " 删除成功");
+    public Map<String,Object> delete(@RequestBody SepcEntity sepcEntity) {
+        Msg msg;
+        int i = iSepcService.deleteById(sepcEntity);
+        if (i > 0) {
+            msg = Msg.success();
         } else {
-            resultMap.put("code", "1");
-            resultMap.put("message", " 删除失败");
+            msg = Msg.fail();
         }
-        return resultMap;
+        Map<String,Object> map = new TreeMap<>();
+        map.put("code",msg.getCode());
+        map.put("message",msg.getMsg());
+        return map;
     }
 
 }

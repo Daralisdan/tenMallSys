@@ -12,8 +12,6 @@ package com.cn.wanxi.service.roleMenu;
 
 import com.cn.wanxi.entity.roleMenu.RoleMenuEntity;
 
-import java.util.List;
-
 /**
  * 〈一句话功能简述〉<br>
  * 〈〉
@@ -29,5 +27,4 @@ public interface IRoleMenuService {
     RoleMenuEntity findByRoleId(int roleid);
 
     int[] batchCarFlowDelete(int ids, String menid);
-    List<RoleMenuEntity> findEntitiesByRoleId(int roleid);
 }

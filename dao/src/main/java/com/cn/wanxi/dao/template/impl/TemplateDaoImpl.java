@@ -29,7 +29,7 @@ public class TemplateDaoImpl implements TemplateDao {
     public int add(TemplateEntity templateEntity) {
         String exeSQL = "INSERT INTO wx_tab_template (name) VALUES (?)";
         String templateNameSql = "select name from wx_tab_template where name = ?";
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(templateNameSql, templateEntity.getName());
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(templateNameSql,templateEntity.getName());
         if (list.size() == 0) {
             int temp = jdbcTemplate.update(exeSQL, templateEntity.getName());
             return temp;
@@ -89,13 +89,13 @@ public class TemplateDaoImpl implements TemplateDao {
         int page = (templateEntity.getPage() - 1) * templateEntity.getSize();
         int size = templateEntity.getSize() * templateEntity.getPage();
         String exeSQL = "select id , name , spec_num as specNum , para_num as paraNum from wx_tab_template where name = ? limit " + page + "," + size;
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, templateEntity.getName());
+        Object arg = templateEntity.getName();
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(exeSQL, arg);
         Map<String, Object> map = new TreeMap();
         map.put("rows", list);
         map.put("total", list.size());
         return map;
     }
-
 
     @Override
     public Map<String, Object> findSpecsById(TemplateEntity templateEntity) {
@@ -109,18 +109,6 @@ public class TemplateDaoImpl implements TemplateDao {
         map.put("specs", sepcList);
         map.put("paras", paraList);
         return map;
-    }
 
-    /**
-     * 根据名称查询模板ID
-     *
-     * @param name
-     * @return
-     */
-    @Override
-    public int findIdByName(String name) {
-        String selectIdByNameSQL = "SELECT ID FORM wx_tab_template where name = ?";
-        Integer id = jdbcTemplate.queryForObject(selectIdByNameSQL, Integer.class);
-        return id;
     }
 }

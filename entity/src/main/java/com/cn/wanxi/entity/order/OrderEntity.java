@@ -31,7 +31,7 @@ public class OrderEntity {
     private String receiverMobile;
     private String receiverAddress;
     private String sourceType;
-    private String transactionId;
+    private Integer transactionId;
     private String orderStatus;
     private String payStatus;
     private String consignStatus;

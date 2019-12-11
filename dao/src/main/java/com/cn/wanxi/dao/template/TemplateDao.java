@@ -28,6 +28,4 @@ public interface TemplateDao {
     int delete(TemplateEntity templateEntity);
 
     Map<String,Object> findSpecsById(TemplateEntity templateEntity);
-
-    int findIdByName(String name);
 }
